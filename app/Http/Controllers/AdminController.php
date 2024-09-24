@@ -7,9 +7,10 @@ use Illuminate\Support\Facades\Auth; // <-- For accessing the authenticated user
 use Illuminate\Support\Facades\Hash; // <-- For password hashing
 use App\Models\User; // <-- Import the User model
 use App\Models\McApplication;
+use App\Models\Announcement;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\Storage;
 
 
 class AdminController extends Controller
@@ -31,12 +32,12 @@ class AdminController extends Controller
     ->where('status', 'pending')  // Only fetch those not yet approved
     ->get();
 
-
+        $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
         $totalMcApplications = McApplication::count();
         $acceptedMcApplications = McApplication::where('status', 'approved')->count();
         $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
 
-        return view('admin', compact('directAdminApplications','totalUsers', 'users', 'applications', 'totalMcApplications', 'acceptedMcApplications', 'rejectedMcApplications'));
+        return view('admin', compact('directAdminApplications','totalUsers', 'users', 'applications', 'totalMcApplications', 'acceptedMcApplications', 'rejectedMcApplications','announcements'));
     }
 
     // Method to show the edit form
@@ -57,20 +58,63 @@ class AdminController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email,' . $id,
             'ic' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:255',
-            'role' => 'required|string'
+            'role' => 'required|string',
+            'address' => 'nullable|string|max:255',
+            'city' => 'nullable|string|max:255',
+            'postcode' => 'nullable|string|max:10',
+            'state' => 'nullable|string|max:255',
+            'mc_days' => 'required|integer|min:0', // Validate mc_days input
         ]);
 
         // Update user information
         $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'ic' => $request->ic,
-            'phone_number' => $request->phone_number,
-            'role' => $request->role
+        'name' => $request->name,
+        'email' => $request->email,
+        'ic' => $request->ic,
+        'phone_number' => $request->phone_number,
+        'role' => $request->role,
+        'address' => $request->address,
+        'city' => $request->city,
+        'postcode' => $request->postcode,
+        'state' => $request->state,
+        'total_mc_days' => $request->mc_days, // Update total_mc_days with the new input
         ]);
 
         return redirect()->route('admin')->with('success', 'User updated successfully!');
     }
+
+    public function updateAnnouncement(Request $request, $id)
+    {
+        $announcement = Announcement::findOrFail($id);
+
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $announcement->title = $request->title;
+        $announcement->content = $request->content;
+
+        if ($request->hasFile('image_path')) {
+            // Delete old image if it exists
+            if ($announcement->image_path && Storage::exists('public/' . $announcement->image_path)) {
+                Storage::delete('public/' . $announcement->image_path);
+            }
+
+            // Store new image
+            $imageName = time() . '.' . $request->image_path->extension();
+            $request->image_path->storeAs('public/announcements', $imageName);
+            $announcement->image_path = 'announcements/' . $imageName; // Store the relative path
+        }
+
+        $announcement->save();
+
+        return redirect()->route('admin')->with('success', 'Announcement updated successfully!');
+    }
+
+
+
 
     // Method to delete a user
     public function deleteUser($id)
@@ -80,6 +124,24 @@ class AdminController extends Controller
 
         return redirect()->route('admin')->with('success', 'User deleted successfully!');
     }
+
+    // Method to delete an announcement
+public function deleteAnnouncement($id)
+{
+    // Find the announcement by ID or fail
+    $announcement = Announcement::findOrFail($id);
+
+    // Delete image if it exists
+    if ($announcement->image && Storage::exists('public/announcements/' . $announcement->image)) {
+        Storage::delete('public/announcements/' . $announcement->image);
+    }
+
+    // Delete the announcement
+    $announcement->delete();
+
+    // Redirect back with success message
+    return redirect()->route('admin')->with('success', 'Announcement deleted successfully!');
+}
 
     public function storeUser(Request $request)
     {
@@ -91,6 +153,11 @@ class AdminController extends Controller
             'ic' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:255',
             'role' => 'required|string',
+            'address' => 'nullable|string|max:255',
+        'city' => 'nullable|string|max:255',
+        'postcode' => 'nullable|string|max:10',
+        'state' => 'nullable|string|max:255',
+        'mc_days' => 'required|integer|min:1', // Validate mc_days input
         ]);
 
         // Create the new user
@@ -101,7 +168,11 @@ class AdminController extends Controller
             'phone_number' => $request->phone_number,
             'role' => $request->role,
             'password' => bcrypt($request->password),  // Encrypt the password
-            'total_mc_days' => 0,  // Default value if applicable
+            'total_mc_days' => $request->mc_days, // Set the mc_days input value
+            'address' => $request->address,
+            'city' => $request->city,
+            'postcode' => $request->poscode,
+            'state' => $request->state,
         ]);
 
         // Redirect back to admin with a success message
@@ -183,6 +254,10 @@ class AdminController extends Controller
             'ic' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:255',
             'password' => 'nullable|string|min:8|confirmed', // password confirmation validation
+            'address' => 'nullable|string|max:255',
+            'city' => 'nullable|string|max:255',
+            'postcode' => 'nullable|string|max:10',
+            'state' => 'nullable|string|max:255',
         ]);
 
         // Update user details
@@ -190,6 +265,10 @@ class AdminController extends Controller
         $user->email = $request->email;
         $user->ic = $request->ic;
         $user->phone_number = $request->phone_number;
+        $user->address = $request->address;
+        $user->city = $request->city;
+        $user->postcode = $request->postcode;
+        $user->state = $request->state;
 
         // Update password only if a new password is provided
         if ($request->filled('password')) {
@@ -202,5 +281,28 @@ class AdminController extends Controller
         // Redirect with success message
         return redirect()->route('admin')->with('success', 'Your details have been updated successfully!');
     }
+    public function storeAnnouncement(Request $request)
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'content' => 'required|string',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image
+    ]);
+
+    // Store image if uploaded
+    $imagePath = null;
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('announcements', 'public'); // Store in public/announcements
+    }
+
+    // Create announcement
+    Announcement::create([
+        'title' => $request->title,
+        'content' => $request->content,
+        'image_path' => $imagePath,
+    ]);
+
+    return redirect()->route('admin', ['section' => 'Annouce'])->with('success', 'Announcement created successfully.');
+}
 
 }

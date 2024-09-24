@@ -12,6 +12,7 @@
       section.style.display = 'none';
     });
 
+
     // Handle navigation link clicks
     document.querySelectorAll('.nav-link').forEach(link => {
       link.addEventListener('click', function(event) {
@@ -157,6 +158,21 @@ function updateDateTime() {
   // Initialize date and time on page load
   updateDateTime();
 
+  document.addEventListener('DOMContentLoaded', function () {
+    // Check if there's a 'section' query parameter in the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const section = urlParams.get('section');
+
+    // If the section is 'Annouce', display the Announcement section
+    if (section === 'Annouce') {
+        document.getElementById('Annouce').style.display = 'block';
+    } else {
+        // Optionally, you can set other sections to be displayed by default
+        // For example:
+        // document.getElementById('Dashboard').style.display = 'block';
+    }
+});
+
 //Officer JS /////////////////////////////////////////////////////////////////////////////////////////////////////
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -219,14 +235,18 @@ function updateDateTime() {
   }
   function updateDateTime() {
     const now = new Date();
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
-    document.getElementById('date-time').textContent = now.toLocaleDateString('en-US', options);
-  }
+    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
 
-  // Update date and time every second
-  setInterval(updateDateTime, 1000);
+    document.getElementById('current-date').textContent = now.toLocaleDateString('en-US', dateOptions);
+    document.getElementById('current-time').textContent = now.toLocaleTimeString('en-US', timeOptions);
+}
 
-  // Initialize date and time on page load
-  updateDateTime();
+// Update date and time every second
+setInterval(updateDateTime, 1000);
+
+// Initialize date and time on page load
+updateDateTime();
+
 
 

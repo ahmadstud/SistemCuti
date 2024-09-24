@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\McApplication;
 use App\Models\User;
+use App\Models\Announcement;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash; // <-- For password hashing
@@ -65,7 +66,8 @@ class StaffController extends Controller
         // Fetch all MC applications for the logged-in user
         $mcApplications = McApplication::where('user_id', Auth::id())->get();
         $officers = User::where('role', 'officer')->get(); // Fetch officers
-        return view('staff', compact('mcApplications', 'officers'));
+        $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
+        return view('staff', compact('mcApplications', 'officers','announcements'));
     }
 
     public function updateOwnDetails2(Request $request)

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash; // <-- For password hashing
 use App\Models\McApplication;
+use App\Models\Announcement;
 
 class OfficerController extends Controller
 {
@@ -15,9 +16,10 @@ class OfficerController extends Controller
         $applications = McApplication::where('status', 'pending')
         ->where('direct_admin_approval', false)  // Only fetch those not yet approved
         ->get();
+        $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
 
         // Pass the applications data to the view
-        return view('officer', compact('applications'));
+        return view('officer', compact('applications','announcements'));
     }
 
     public function updateStatus(Request $request, $id)
