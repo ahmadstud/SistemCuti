@@ -113,9 +113,6 @@ class AdminController extends Controller
         return redirect()->route('admin')->with('success', 'Announcement updated successfully!');
     }
 
-
-
-
     // Method to delete a user
     public function deleteUser($id)
     {

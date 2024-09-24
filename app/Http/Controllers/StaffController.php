@@ -81,6 +81,11 @@ class StaffController extends Controller
             'ic' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:255',
             'password' => 'nullable|string|min:8|confirmed', // password confirmation validation
+            'address' => 'nullable|string|max:255',
+            'city' => 'nullable|string|max:255',
+            'postcode' => 'nullable|string|max:10',
+            'state' => 'nullable|string|max:255',
+
         ]);
 
         // Update user details
@@ -88,6 +93,11 @@ class StaffController extends Controller
         $user->email = $request->email;
         $user->ic = $request->ic;
         $user->phone_number = $request->phone_number;
+        $user->address = $request->address;
+        $user->postcode = $request->postcode;
+        $user->state = $request->state;
+        $user->city = $request->city;
+
 
         // Update password only if a new password is provided
         if ($request->filled('password')) {

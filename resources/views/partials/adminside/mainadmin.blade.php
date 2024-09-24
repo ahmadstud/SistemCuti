@@ -44,121 +44,122 @@
 </div>
 
 <!-- Announcement Section -->
-<div id="Annouce" class="content-section" style="display: none;">
-   <!-- List of Announcements -->
-<div class="card mt-4">
-    <div class="card-header pb-0 p-3">
-        <div class="d-flex justify-content-between">
-            <h6 class="mb-2">Announcements</h6>
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createAnnouncementModal">Create Announcement</button>
+<div id="announce-section" class="content-section" style="display: none;">
+    <!-- List of Announcements -->
+    <div class="card mt-4">
+        <div class="card-header pb-0 p-3">
+            <div class="d-flex justify-content-between">
+                <h6 class="mb-2">Announcements</h6>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createAnnouncementModal">Create Announcement</button>
+            </div>
         </div>
-    </div>
-    <div class="card-body">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Content</th>
-                    <th>Image</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($announcements as $announcement)
+        <div class="card-body">
+            <table class="table">
+                <thead>
                     <tr>
-                        <td>{{ $announcement->title }}</td>
-                        <td>{{ $announcement->content }}</td>
-                        <td>
-                            @if($announcement->image_path)
-                            <img src="{{ asset('storage/' . $announcement->image_path) }}" class="d-block w-5" alt="{{ $announcement->title }}">
-                        @else
-                            No Image
-                        @endif
-                        </td>
-                        <td>
-                            <!-- Edit Button -->
-                            <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editAnnouncementModal{{ $announcement->id }}">Edit</button>
-                            <!-- Delete button for announcement -->
-<form action="{{ route('deleteAnnouncement', $announcement->id) }}" method="POST" style="display:inline;">
-    @csrf
-    @method('DELETE')
-    <button type="submit" class="btn btn-sm btn-danger" title="Delete">
-        <i class="fas fa-trash-alt"></i> <!-- Delete symbol -->
-    </button>
-</form>
-
-                        </td>
+                        <th>Title</th>
+                        <th>Content</th>
+                        <th>Image</th>
+                        <th>Actions</th>
                     </tr>
+                </thead>
+                <tbody>
+                    @foreach($announcements as $announcement)
+                        <tr>
+                            <td>{{ $announcement->title }}</td>
+                            <td>{{ $announcement->content }}</td>
+                            <td>
+                                @if($announcement->image_path)
+                                    <img src="{{ asset('storage/' . $announcement->image_path) }}" class="d-block w-25" alt="{{ $announcement->title }}">
+                                @else
+                                    No Image
+                                @endif
+                            </td>
+                            <td>
+                                <!-- Edit Button -->
+                                <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editAnnouncementModal{{ $announcement->id }}">Edit</button>
+                                <!-- Delete button for announcement -->
+                                <form action="{{ route('deleteAnnouncement', $announcement->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger" title="Delete">
+                                        <i class="fas fa-trash-alt"></i> <!-- Delete symbol -->
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
 
-                    <!-- Edit Announcement Modal -->
-                    <div class="modal fade" id="editAnnouncementModal{{ $announcement->id }}" tabindex="-1" aria-labelledby="editAnnouncementLabel{{ $announcement->id }}" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="editAnnouncementLabel{{ $announcement->id }}">Edit Announcement</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="{{ route('updateAnnouncement', $announcement->id) }}" method="POST" enctype="multipart/form-data">
-                                        @csrf
-                                        @method('PUT')
-                                        <div class="mb-3">
-                                            <label for="title{{ $announcement->id }}" class="form-label">Title</label>
-                                            <input type="text" class="form-control" id="title{{ $announcement->id }}" name="title" value="{{ $announcement->title }}" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="content{{ $announcement->id }}" class="form-label">Content</label>
-                                            <textarea class="form-control" id="content{{ $announcement->id }}" name="content" rows="4" required>{{ $announcement->content }}</textarea>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="image{{ $announcement->image_path }}" class="form-label">Image (optional)</label>
-                                            <input type="file" class="form-control" id="image{{ $announcement->id }}" name="image_path" accept="image/*">                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-primary">Update</button>
-                                        </div>
-                                    </form>
+                        <!-- Edit Announcement Modal -->
+                        <div class="modal fade" id="editAnnouncementModal{{ $announcement->id }}" tabindex="-1" aria-labelledby="editAnnouncementLabel{{ $announcement->id }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editAnnouncementLabel{{ $announcement->id }}">Edit Announcement</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ route('updateAnnouncement', $announcement->id) }}" method="POST" enctype="multipart/form-data">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="mb-3">
+                                                <label for="title{{ $announcement->id }}" class="form-label">Title</label>
+                                                <input type="text" class="form-control" id="title{{ $announcement->id }}" name="title" value="{{ $announcement->title }}" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="content{{ $announcement->id }}" class="form-label">Content</label>
+                                                <textarea class="form-control" id="content{{ $announcement->id }}" name="content" rows="4" required>{{ $announcement->content }}</textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="image{{ $announcement->id }}" class="form-label">Image (optional)</label>
+                                                <input type="file" class="form-control" id="image{{ $announcement->id }}" name="image_path" accept="image/*">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary">Update</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
-            </tbody>
-        </table>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
-<!-- Create Announcement Modal -->
-<div class="modal fade" id="createAnnouncementModal" tabindex="-1" aria-labelledby="createAnnouncementLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="createAnnouncementLabel">Create Announcement</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('admin.storeAnnouncement') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="mb-3">
-                        <label for="title" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="title" name="title" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="image" class="form-label">Image</label>
-                        <input type="file" class="form-control" id="image" name="image" accept="image/*">
-                    </div>
-                    <div class="mb-3">
-                        <label for="content" class="form-label">Content</label>
-                        <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Create</button>
-                    </div>
-                </form>
+
+    <!-- Create Announcement Modal -->
+    <div class="modal fade" id="createAnnouncementModal" tabindex="-1" aria-labelledby="createAnnouncementLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createAnnouncementLabel">Create Announcement</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('admin.storeAnnouncement') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="title" name="title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Image</label>
+                            <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                        </div>
+                        <div class="mb-3">
+                            <label for="content" class="form-label">Content</label>
+                            <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Create</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-</div>
 
                    <!-- Senarai Pengguna section -->
 <div id="users-section" class="content-section" style="display: none;">
@@ -174,6 +175,7 @@
                         </button>
                     </div>
                 </div>
+
                 <!-- Add Staff/Officer Modal -->
                 <div class="modal fade" id="addStaffModal" tabindex="-1" aria-labelledby="addStaffModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -284,100 +286,94 @@
                             </tr>
 
                             <!-- Edit User Modal -->
-<div class="modal fade" id="editModal{{ $user->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $user->id }}" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel{{ $user->id }}">Edit User - {{ $user->name }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="{{ route('updateUser', $user->id) }}" method="POST">
-                @csrf
-                <div class="modal-body">
-                    <div class="row g-3">
-                        <!-- Name -->
-                        <div class="col-md-6 mb-3">
-                            <label for="name{{ $user->id }}" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="name{{ $user->id }}" name="name" value="{{ $user->name }}" required>
-                        </div>
+                            <div class="modal fade" id="editModal{{ $user->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $user->id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editModalLabel{{ $user->id }}">Edit User - {{ $user->name }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <form action="{{ route('updateUser', $user->id) }}" method="POST">
+                                            @csrf
+                                            <div class="modal-body">
+                                                <div class="row g-3">
+                                                    <!-- Name -->
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="name{{ $user->id }}" class="form-label">Name</label>
+                                                        <input type="text" class="form-control" id="name{{ $user->id }}" name="name" value="{{ $user->name }}" required>
+                                                    </div>
 
-                        <!-- Email -->
-                        <div class="col-md-6 mb-3">
-                            <label for="email{{ $user->id }}" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email{{ $user->id }}" name="email" value="{{ $user->email }}" required>
-                        </div>
+                                                    <!-- Email -->
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="email{{ $user->id }}" class="form-label">Email</label>
+                                                        <input type="email" class="form-control" id="email{{ $user->id }}" name="email" value="{{ $user->email }}" required>
+                                                    </div>
 
-                        <!-- IC -->
-                        <div class="col-md-6 mb-3">
-                            <label for="ic{{ $user->id }}" class="form-label">IC</label>
-                            <input type="text" class="form-control" id="ic{{ $user->id }}" name="ic" value="{{ $user->ic }}">
-                        </div>
+                                                    <!-- IC -->
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="ic{{ $user->id }}" class="form-label">IC</label>
+                                                        <input type="text" class="form-control" id="ic{{ $user->id }}" name="ic" value="{{ $user->ic }}">
+                                                    </div>
 
-                        <!-- Phone Number -->
-                        <div class="col-md-6 mb-3">
-                            <label for="phone_number{{ $user->id }}" class="form-label">Phone Number</label>
-                            <input type="text" class="form-control" id="phone_number{{ $user->id }}" name="phone_number" value="{{ $user->phone_number }}">
-                        </div>
+                                                    <!-- Phone Number -->
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="phone_number{{ $user->id }}" class="form-label">Phone Number</label>
+                                                        <input type="text" class="form-control" id="phone_number{{ $user->id }}" name="phone_number" value="{{ $user->phone_number }}">
+                                                    </div>
 
-                        <!-- Role -->
-                        <div class="col-md-6 mb-3">
-                            <label for="role{{ $user->id }}" class="form-label">Role</label>
-                            <select class="form-select" id="role{{ $user->id }}" name="role">
-                                <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
-                                <option value="officer" {{ $user->role == 'officer' ? 'selected' : '' }}>Officer</option>
-                                <option value="staff" {{ $user->role == 'staff' ? 'selected' : '' }}>Staff</option>
-                            </select>
-                        </div>
+                                                    <!-- Role -->
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="role{{ $user->id }}" class="form-label">Role</label>
+                                                        <select class="form-select" id="role{{ $user->id }}" name="role">
+                                                            <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
+                                                            <option value="staff" {{ $user->role == 'staff' ? 'selected' : '' }}>Staff</option>
+                                                            <option value="officer" {{ $user->role == 'officer' ? 'selected' : '' }}>Officer</option>
+                                                        </select>
+                                                    </div>
 
-                        <!-- MC Days -->
-                        <div class="col-md-6 mb-3">
-                            <label for="mc_days{{ $user->id }}" class="form-label">MC Days</label>
-                            <input type="number" class="form-control" id="mc_days{{ $user->id }}" name="mc_days" value="{{ $user->mc_days }}" min="1" required>
-                        </div>
+                                                    <!-- Address -->
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="address{{ $user->id }}" class="form-label">Address</label>
+                                                        <input type="text" class="form-control" id="address{{ $user->id }}" name="address" value="{{ $user->address }}" required>
+                                                    </div>
 
-                        <!-- Address -->
-                        <div class="col-md-6 mb-3">
-                            <label for="address{{ $user->id }}" class="form-label">Address</label>
-                            <input type="text" class="form-control" id="address{{ $user->id }}" name="address" value="{{ $user->address }}">
-                        </div>
+                                                    <!-- City -->
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="city{{ $user->id }}" class="form-label">City</label>
+                                                        <input type="text" class="form-control" id="city{{ $user->id }}" name="city" value="{{ $user->city }}" required>
+                                                    </div>
 
-                        <!-- City -->
-                        <div class="col-md-6 mb-3">
-                            <label for="city{{ $user->id }}" class="form-label">City</label>
-                            <input type="text" class="form-control" id="city{{ $user->id }}" name="city" value="{{ $user->city }}">
-                        </div>
+                                                    <!-- Postcode -->
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="postcode{{ $user->id }}" class="form-label">Postcode</label>
+                                                        <input type="text" class="form-control" id="postcode{{ $user->id }}" name="postcode" value="{{ $user->postcode }}" required>
+                                                    </div>
 
-                        <!-- Postcode -->
-                        <div class="col-md-6 mb-3">
-                            <label for="postcode{{ $user->id }}" class="form-label">Postcode</label>
-                            <input type="text" class="form-control" id="postcode{{ $user->id }}" name="postcode" value="{{ $user->postcode }}">
-                        </div>
-
-                        <!-- State -->
-                        <div class="col-md-6 mb-3">
-                            <label for="state{{ $user->id }}" class="form-label">State</label>
-                            <input type="text" class="form-control" id="state{{ $user->id }}" name="state" value="{{ $user->state }}">
-                        </div>
-                    </div> <!-- End row -->
-                </div> <!-- End modal body -->
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Update</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div> <!-- End Edit User Modal -->
+                                                    <!-- State -->
+                                                    <div class="col-md-6 mb-3">
+                                                        <label for="state{{ $user->id }}" class="form-label">State</label>
+                                                        <input type="text" class="form-control" id="state{{ $user->id }}" name="state" value="{{ $user->state }}" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Update User</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div> <!-- Closing for Edit User Modal -->
 
                             @endforeach
                         </tbody>
                     </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> <!-- Closing for Senarai Pengguna section -->
+                </div> <!-- Closing for card-body -->
+            </div> <!-- Closing for card -->
+        </div> <!-- Closing for col-lg-12 -->
+    </div> <!-- Closing for row -->
+</div> <!-- Closing for users-section -->
+
 
            <!-- Admin Approval Section -->
 <div id="applications-section" class="content-section" style="display: none;">

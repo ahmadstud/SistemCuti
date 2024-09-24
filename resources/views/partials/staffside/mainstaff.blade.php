@@ -249,7 +249,7 @@
                         <div class="carousel-inner">
                             @foreach($announcements as $announcement)
                                 <div class="carousel-item @if($loop->first) active @endif">
-                                    <img src="{{ asset(Storage::url($announcement->image_path)) }}" class="d-block w-100" alt="{{ $announcement->title }}">
+                                    <img src="{{ asset(Storage::url($announcement->image_path)) }}" class="d-block w-50" alt="{{ $announcement->title }}">
                                     <div class="carousel-caption d-none d-md-block">
                                         <h5>{{ $announcement->title }}</h5>
                                         <p>{{ $announcement->content }}</p>
@@ -303,6 +303,26 @@
                                 <label for="phone_number" class="form-label">Phone Number</label>
                                 <p class="form-control" id="phone_number">{{ Auth::user()->phone_number }}</p>
                             </div>
+                            <div class="d-flex justify-content-between">
+                                <h6 class="mb-2">Address Information</h6>
+                            </div>
+                            <!-- New fields -->
+                            <div class="col-md-3">
+                                <label for="address" class="form-label">Address</label>
+                                <p class="form-control" id="address">{{ Auth::user()->address }}</p>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="city" class="form-label">City</label>
+                                <p class="form-control" id="city">{{ Auth::user()->city }}</p>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="postcode" class="form-label">Postcode</label>
+                                <p class="form-control" id="postcode">{{ Auth::user()->postcode }}</p>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="state" class="form-label">State</label>
+                                <p class="form-control" id="state">{{ Auth::user()->state }}</p>
+                            </div>
                         </div>
 
                         <div class="modal-footer">
@@ -331,6 +351,23 @@
                             <div class="col-md-3">
                                 <label for="phone_number" class="form-label">Phone Number</label>
                                 <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ Auth::user()->phone_number }}">
+                            </div>
+                             <!-- New fields -->
+                             <div class="col-md-3">
+                                <label for="address" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="address" name="address" value="{{ Auth::user()->address }}">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="city" class="form-label">City</label>
+                                <input type="text" class="form-control" id="city" name="city" value="{{ Auth::user()->city }}">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="postcode" class="form-label">Postcode</label>
+                                <input type="text" class="form-control" id="postcode" name="postcode" value="{{ Auth::user()->postcode }}">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="state" class="form-label">State</label>
+                                <input type="text" class="form-control" id="state" name="state" value="{{ Auth::user()->state }}">
                             </div>
                         </div>
 
