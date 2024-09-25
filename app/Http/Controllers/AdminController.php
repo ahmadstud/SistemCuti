@@ -48,26 +48,26 @@ class AdminController extends Controller
     }
 
     // Method to update user information
-    public function updateUser(Request $request, $id)
-    {
-        $user = User::findOrFail($id);
+public function updateUser(Request $request, $id)
+{
+    $user = User::findOrFail($id);
 
-        // Validate input fields
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
-            'ic' => 'nullable|string|max:255',
-            'phone_number' => 'nullable|string|max:255',
-            'role' => 'required|string',
-            'address' => 'nullable|string|max:255',
-            'city' => 'nullable|string|max:255',
-            'postcode' => 'nullable|string|max:10',
-            'state' => 'nullable|string|max:255',
-            'mc_days' => 'required|integer|min:0', // Validate mc_days input
-        ]);
+    // Validate input fields
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+        'ic' => 'nullable|string|max:255',
+        'phone_number' => 'nullable|string|max:255',
+        'role' => 'required|string',
+        'address' => 'nullable|string|max:255',
+        'city' => 'nullable|string|max:255',
+        'postcode' => 'nullable|string|max:10',
+        'state' => 'nullable|string|max:255',
+        'total_mc_days' => 'required|integer|min:0', // Validate mc_days input
+    ]);
 
-        // Update user information
-        $user->update([
+    // Update user information
+    $user->update([
         'name' => $request->name,
         'email' => $request->email,
         'ic' => $request->ic,
@@ -77,11 +77,13 @@ class AdminController extends Controller
         'city' => $request->city,
         'postcode' => $request->postcode,
         'state' => $request->state,
-        'total_mc_days' => $request->mc_days, // Update total_mc_days with the new input
-        ]);
+        'total_mc_days' => $request->total_mc_days, // Ensure this matches the input name
+    ]);
 
-        return redirect()->route('admin')->with('success', 'User updated successfully!');
-    }
+    // Redirect with success message
+    return redirect()->route('admin')->with('success', 'User updated successfully!');
+}
+
 
     public function updateAnnouncement(Request $request, $id)
     {

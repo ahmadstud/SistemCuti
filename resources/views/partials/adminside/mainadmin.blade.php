@@ -44,7 +44,7 @@
 </div>
 
 <!-- Announcement Section -->
-<div id="announce-section" class="content-section" style="display: none;">
+<div id="Annouce" class="content-section" style="display: none;">
     <!-- List of Announcements -->
     <div class="card mt-4">
         <div class="card-header pb-0 p-3">
@@ -285,85 +285,93 @@
                                 </td>
                             </tr>
 
-                            <!-- Edit User Modal -->
-                            <div class="modal fade" id="editModal{{ $user->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $user->id }}" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="editModalLabel{{ $user->id }}">Edit User - {{ $user->name }}</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <form action="{{ route('updateUser', $user->id) }}" method="POST">
-                                            @csrf
-                                            <div class="modal-body">
-                                                <div class="row g-3">
-                                                    <!-- Name -->
-                                                    <div class="col-md-6 mb-3">
-                                                        <label for="name{{ $user->id }}" class="form-label">Name</label>
-                                                        <input type="text" class="form-control" id="name{{ $user->id }}" name="name" value="{{ $user->name }}" required>
-                                                    </div>
+                           <!-- Edit User Modal -->
+<div class="modal fade" id="editModal{{ $user->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $user->id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel{{ $user->id }}">Edit User - {{ $user->name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('updateUser', $user->id) }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <!-- Name -->
+                        <div class="col-md-6 mb-3">
+                            <label for="name{{ $user->id }}" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name{{ $user->id }}" name="name" value="{{ $user->name }}" required>
+                        </div>
 
-                                                    <!-- Email -->
-                                                    <div class="col-md-6 mb-3">
-                                                        <label for="email{{ $user->id }}" class="form-label">Email</label>
-                                                        <input type="email" class="form-control" id="email{{ $user->id }}" name="email" value="{{ $user->email }}" required>
-                                                    </div>
+                        <!-- Email -->
+                        <div class="col-md-6 mb-3">
+                            <label for="email{{ $user->id }}" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email{{ $user->id }}" name="email" value="{{ $user->email }}" required>
+                        </div>
 
-                                                    <!-- IC -->
-                                                    <div class="col-md-6 mb-3">
-                                                        <label for="ic{{ $user->id }}" class="form-label">IC</label>
-                                                        <input type="text" class="form-control" id="ic{{ $user->id }}" name="ic" value="{{ $user->ic }}">
-                                                    </div>
+                        <!-- IC -->
+                        <div class="col-md-6 mb-3">
+                            <label for="ic{{ $user->id }}" class="form-label">IC</label>
+                            <input type="text" class="form-control" id="ic{{ $user->id }}" name="ic" value="{{ $user->ic }}">
+                        </div>
 
-                                                    <!-- Phone Number -->
-                                                    <div class="col-md-6 mb-3">
-                                                        <label for="phone_number{{ $user->id }}" class="form-label">Phone Number</label>
-                                                        <input type="text" class="form-control" id="phone_number{{ $user->id }}" name="phone_number" value="{{ $user->phone_number }}">
-                                                    </div>
+                        <!-- Phone Number -->
+                        <div class="col-md-6 mb-3">
+                            <label for="phone_number{{ $user->id }}" class="form-label">Phone Number</label>
+                            <input type="text" class="form-control" id="phone_number{{ $user->id }}" name="phone_number" value="{{ $user->phone_number }}">
+                        </div>
 
-                                                    <!-- Role -->
-                                                    <div class="col-md-6 mb-3">
-                                                        <label for="role{{ $user->id }}" class="form-label">Role</label>
-                                                        <select class="form-select" id="role{{ $user->id }}" name="role">
-                                                            <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
-                                                            <option value="staff" {{ $user->role == 'staff' ? 'selected' : '' }}>Staff</option>
-                                                            <option value="officer" {{ $user->role == 'officer' ? 'selected' : '' }}>Officer</option>
-                                                        </select>
-                                                    </div>
+                        <!-- Role -->
+                        <div class="col-md-6 mb-3">
+                            <label for="role{{ $user->id }}" class="form-label">Role</label>
+                            <select class="form-select" id="role{{ $user->id }}" name="role">
+                                <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
+                                <option value="staff" {{ $user->role == 'staff' ? 'selected' : '' }}>Staff</option>
+                                <option value="officer" {{ $user->role == 'officer' ? 'selected' : '' }}>Officer</option>
+                            </select>
+                        </div>
 
-                                                    <!-- Address -->
-                                                    <div class="col-md-6 mb-3">
-                                                        <label for="address{{ $user->id }}" class="form-label">Address</label>
-                                                        <input type="text" class="form-control" id="address{{ $user->id }}" name="address" value="{{ $user->address }}" required>
-                                                    </div>
+                        <!-- Address -->
+                        <div class="col-md-6 mb-3">
+                            <label for="address{{ $user->id }}" class="form-label">Address</label>
+                            <input type="text" class="form-control" id="address{{ $user->id }}" name="address" value="{{ $user->address }}" required>
+                        </div>
 
-                                                    <!-- City -->
-                                                    <div class="col-md-6 mb-3">
-                                                        <label for="city{{ $user->id }}" class="form-label">City</label>
-                                                        <input type="text" class="form-control" id="city{{ $user->id }}" name="city" value="{{ $user->city }}" required>
-                                                    </div>
+                        <!-- City -->
+                        <div class="col-md-6 mb-3">
+                            <label for="city{{ $user->id }}" class="form-label">City</label>
+                            <input type="text" class="form-control" id="city{{ $user->id }}" name="city" value="{{ $user->city }}" required>
+                        </div>
 
-                                                    <!-- Postcode -->
-                                                    <div class="col-md-6 mb-3">
-                                                        <label for="postcode{{ $user->id }}" class="form-label">Postcode</label>
-                                                        <input type="text" class="form-control" id="postcode{{ $user->id }}" name="postcode" value="{{ $user->postcode }}" required>
-                                                    </div>
+                        <!-- Postcode -->
+                        <div class="col-md-6 mb-3">
+                            <label for="postcode{{ $user->id }}" class="form-label">Postcode</label>
+                            <input type="text" class="form-control" id="postcode{{ $user->id }}" name="postcode" value="{{ $user->postcode }}" required>
+                        </div>
 
-                                                    <!-- State -->
-                                                    <div class="col-md-6 mb-3">
-                                                        <label for="state{{ $user->id }}" class="form-label">State</label>
-                                                        <input type="text" class="form-control" id="state{{ $user->id }}" name="state" value="{{ $user->state }}" required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary">Update User</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div> <!-- Closing for Edit User Modal -->
+                        <!-- State -->
+                        <div class="col-md-6 mb-3">
+                            <label for="state{{ $user->id }}" class="form-label">State</label>
+                            <input type="text" class="form-control" id="state{{ $user->id }}" name="state" value="{{ $user->state }}" required>
+                        </div>
+
+                        <!-- MC Days -->
+                        <div class="col-md-6 mb-3">
+                            <label for="mc_days{{ $user->id }}" class="form-label">MC Days</label>
+                            <!-- Updated name to match the controller field 'total_mc_days' -->
+                            <input type="number" class="form-control" id="mc_days{{ $user->id }}" name="total_mc_days" value="{{ $user->total_mc_days }}" required min="0">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Update User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
                             @endforeach
                         </tbody>

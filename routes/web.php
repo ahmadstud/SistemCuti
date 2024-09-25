@@ -70,3 +70,17 @@ Route::post('/staff/mc-application', [StaffController::class, 'storeMcApplicatio
 Route::post('/admin/approve/{id}', [AdminController::class, 'approve'])->name('admin.approve');
 Route::post('/admin/announcements', [AdminController::class, 'storeAnnouncement'])->name('admin.storeAnnouncement');
 Route::put('/admin/announcements/{id}', [AdminController::class, 'updateAnnouncement'])->name('updateAnnouncement');
+Route::get('/officer/edit-profile', function () {
+    return view('partials.officerside.edit-profile');
+})->name('officer.editProfile');
+
+Route::post('/officer/mc-application', [OfficerController::class, 'storeMcApplication'])
+->name('officer.mcApplication.store');
+
+// Edit the mc application if any changes
+Route::post('/officer/mc-application/edit/{id}', [OfficerController::class, 'editMC'])->name('officer.mc.edit');
+
+// Delete mc application for rejected only
+Route::delete('/officer/mc-application/{id}', [OfficerController::class, 'deleteMC'])->name('officer.deleteMC');
+
+

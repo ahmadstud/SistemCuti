@@ -229,8 +229,6 @@
     </div> <!-- Closing row -->
 </div> <!-- Closing McApply section -->
 
-
-
    <!-- Dashboard Section -->
 <div id="Dashboard" class="content-section" style="display: none;">
     <div class="row mt-4">

@@ -27,7 +27,7 @@ class User extends Authenticatable
         'city',
         'postcode',
         'state',
-        'total_mc_days',
+       'total_mc_days',  // Ensure this is fillable
     ];
 
     /**
