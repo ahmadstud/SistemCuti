@@ -15,6 +15,7 @@ return new class extends Migration
             $table->date('end_date');
             $table->string('reason');
             $table->string('document_path')->nullable();  // Path to uploaded MC document
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');  // Status of the application
             $table->boolean('admin_approved')->default(false);  // Indicates if admin approved
             $table->boolean('officer_approved')->default(false);  // Indicates if officer approved
             $table->unsignedBigInteger('selected_officer_id')->nullable();  // Officer assigned to approve
