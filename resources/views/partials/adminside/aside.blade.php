@@ -1,7 +1,8 @@
 <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4" id="sidenav-main">
-    <div class="sidenav-header">
+  <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand m-0" href="#" target="_blank">
+
         <div style="display: flex; flex-direction: column; align-items: center;">
             <a class="navbar-brand m-0" href="#" target="_blank">
                 <img src="./assets/img/Erawhiz.png" class="navbar-brand-img" alt="main_logo" style="
@@ -14,61 +15,77 @@
             </a>
             <span style="display: block; font-weight: bold; font-size: 1.25rem; margin-top: 0.5rem;">Papan Pemuka Admin</span>
         </div>
+
         <!-- Date and Time Display -->
-      <div id="date-time" class="text-center mt-2 font-weight-bold"></div>
+        <div id="date-time" class="text-center mt-2 font-weight-bold"></div>
 
-      <hr class="horizontal dark mt-0">
-    <div class="collapse navbar-collapse  w-auto" id="sidenav-collapse-main">
-      <ul class="navbar-nav">
-        <!-- Sidebar items -->
-        <li class="nav-item">
-            <a class="nav-link" href="#" data-target="Dashboard">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
-            </div>
-            <span class="nav-link-text ms-1">Dashboard</span>
+        <hr class="horizontal dark mt-0">
 
-          </a>
-        </li>
+        <div class="collapse navbar-collapse  w-auto" id="sidenav-collapse-main">
+          <ul class="navbar-nav">
 
-        <li class="nav-item">
-            <a class="nav-link" href="#" data-target="users-section">
-              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="ni ni-hat-3 text-success text-sm opacity-10"></i>
-              </div>
-              <span class="nav-link-text ms-1">Senarai Pengguna</span>
-            </a>
-          </li>
+            <!-- Sidebar items -->
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="Dashboard">
+                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                  <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
+                </div>
+                <span class="nav-link-text ms-1">Dashboard</span>
 
-          <li class="nav-item">
-            <a class="nav-link" href="#" data-target="applications-section">
-              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
-              </div>
-              <span class="nav-link-text ms-1">Admin Approval</span>
-            </a>
-          </li>
+              </a>
+            </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="#" data-target="admin-approval-section">
-              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
-              </div>
-              <span class="nav-link-text ms-1">Direct Admin Approval</span>
-            </a>
-          </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-target="users-section">
+                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                  <i class="ni ni-hat-3 text-success text-sm opacity-10"></i>
+                </div>
+                <span class="nav-link-text ms-1">Senarai Staff</span>
+              </a>
+            </li>
 
-        <li class="nav-item mt-3">
-          <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#" data-target="Profile">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
-            </div>
-            <span class="nav-link-text ms-1">Profile</span>
-          </a>
-        </li>
-      </ul>
-    </div>
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-target="applications-section">
+                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                  <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
+                </div>
+                <span class="nav-link-text ms-1">Kelulusan Pegawai <br> dan Admin</span>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-target="admin-approval-section">
+                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                  <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
+                </div>
+                <span class="nav-link-text ms-1">Kelulusan Terus <br>oleh Admin</span>
+              </a>
+
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" data-target="management-section">
+                  <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                      <i class="ni ni-collection text-info text-sm opacity-10"></i>
+                  </div>
+                  <span class="nav-link-text ms-1">Pengurusan</span>
+              </a>
+            </li>
+
+            <li class="nav-item mt-3">
+              <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-target="Profile">
+                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                  <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
+                </div>
+                <span class="nav-link-text ms-1">Profile</span>
+              </a>
+            </li>
+
+          </ul>
+        </div>
+  </div>
 </aside>

@@ -37,7 +37,7 @@
           <div class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column mx-lg-0 mx-auto">
             <div class="card card-plain">
               <div class="card-header pb-0 text-start">
-                <h4 class="font-weight-bolder">Sign Ins</h4>
+                <h4 class="font-weight-bolder">Sign In</h4>
                 <p class="mb-0">Enter your username and password to sign in</p>
               </div>
               <div class="card-body">
@@ -59,14 +59,14 @@
                 </form>
 
                 @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
 
               </div>
               <div class="card-footer text-center pt-0 px-lg-2 px-1">

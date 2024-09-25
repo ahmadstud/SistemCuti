@@ -18,18 +18,18 @@ class AdminController extends Controller
     public function dashboard()
     {
         // Fetch total users excluding admins
-    $totalUsers = User::where('role', '!=', 'admin')->count();
-    // Fetch all users excluding admins
-    $users = User::where('role', '!=', 'admin')->get();
-        // Fetch MC applications approved by officers and still pending admin approval
-        $applications = McApplication::where('officer_approved', true)
-        ->get();
+        $totalUsers = User::where('role', '!=', 'admin')->count();
+        // Fetch all users excluding admins
+        $users = User::where('role', '!=', 'admin')->get();
+            // Fetch MC applications approved by officers and still pending admin approval
+            $applications = McApplication::where('officer_approved', true)
+            ->get();
 
-         // Fetch direct admin approval applications
-    $directAdminApplications = McApplication::where('direct_admin_approval', true)
-    ->where('admin_approved', false)  // Only fetch those not yet approved
-    ->where('status', 'pending')  // Only fetch those not yet approved
-    ->get();
+            // Fetch direct admin approval applications
+        $directAdminApplications = McApplication::where('direct_admin_approval', true)
+        ->where('admin_approved', false)  // Only fetch those not yet approved
+        ->where('status', 'pending')  // Only fetch those not yet approved
+        ->get();
 
 
         $totalMcApplications = McApplication::count();
@@ -151,26 +151,26 @@ class AdminController extends Controller
     }
 
     public function reject($id)
-{
-    $application = McApplication::find($id);
+    {
+        $application = McApplication::find($id);
 
-    if (!$application) {
-        return redirect()->back()->with('error', 'Application not found.');
+        if (!$application) {
+            return redirect()->back()->with('error', 'Application not found.');
+        }
+
+        // Optionally, you can check if the application can be rejected
+        // For example, check if it has already been approved
+        if ($application->status === 'approved') {
+            return redirect()->back()->with('error', 'Cannot reject an already approved application.');
+        }
+
+        // Update the application's status to rejected
+        $application->status = 'rejected';
+        $application->admin_approved = false; // Optionally set this to false
+        $application->save();
+
+        return redirect()->back()->with('success', 'MC application rejected by admin.');
     }
-
-    // Optionally, you can check if the application can be rejected
-    // For example, check if it has already been approved
-    if ($application->status === 'approved') {
-        return redirect()->back()->with('error', 'Cannot reject an already approved application.');
-    }
-
-    // Update the application's status to rejected
-    $application->status = 'rejected';
-    $application->admin_approved = false; // Optionally set this to false
-    $application->save();
-
-    return redirect()->back()->with('success', 'MC application rejected by admin.');
-}
 
     public function updateOwnDetails(Request $request)
     {
