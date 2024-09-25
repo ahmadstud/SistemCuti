@@ -1,5 +1,5 @@
 <!-- Card Rows -->
-<div class="row">
+<div class="row justify-content-center">
     <!-- First Card -->
     <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
         <div class="card">
@@ -20,6 +20,4 @@
             </div>
         </div>
     </div>
-
-
 </div>

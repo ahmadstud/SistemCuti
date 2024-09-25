@@ -229,7 +229,7 @@
     </div> <!-- Closing row -->
 </div> <!-- Closing McApply section -->
 
-   <!-- Dashboard Section -->
+  <!-- Dashboard Section -->
 <div id="Dashboard" class="content-section" style="display: none;">
     <div class="row mt-4">
         <div class="col-lg-12 mb-lg-0 mb-4">
@@ -241,13 +241,12 @@
                 </div>
                 <div class="card-body">
                     <p>Welcome to the Dashboard</p>
-
                     <!-- Announcement Carousel -->
                     <div id="announcementCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
                         <div class="carousel-inner">
-                            @foreach($announcements as $announcement)
-                                <div class="carousel-item @if($loop->first) active @endif">
-                                    <img src="{{ asset(Storage::url($announcement->image_path)) }}" class="d-block w-50" alt="{{ $announcement->title }}">
+                            @foreach($announcements as $index => $announcement)
+                                <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                    <img src="{{ asset(Storage::url($announcement->image_path)) }}" class="d-block w-100" alt="{{ $announcement->title }}">
                                     <div class="carousel-caption d-none d-md-block">
                                         <h5>{{ $announcement->title }}</h5>
                                         <p>{{ $announcement->content }}</p>
@@ -255,23 +254,24 @@
                                 </div>
                             @endforeach
                         </div>
-                        <a class="carousel-control-prev" href="#announcementCarousel" role="button" data-slide="prev">
+                        <button class="carousel-control-prev" type="button" data-bs-target="#announcementCarousel" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#announcementCarousel" role="button" data-slide="next">
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#announcementCarousel" data-bs-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
+                            <span class="visually-hidden">Next</span>
+                        </button>
                     </div>
+                    <!-- Add more dashboard content here -->
                 </div>
             </div>
         </div>
     </div>
-</div> <!-- Closing Dashboard section -->
+</div>
 
 
-    <!-- Profile Section -->
+   <!-- Profile Section -->
 <div id="Profile" class="content-section" style="display: none;">
     <div class="row mt-4">
         <div class="col-lg-12 mb-lg-0 mb-4">
@@ -285,104 +285,86 @@
                     <!-- View Profile Section -->
                     <div id="viewProfile">
                         <div class="row">
-                            <div class="col-md-3">
+                            <!-- Profile Information -->
+                            <div class="col-md-6">
                                 <label for="name" class="form-label">Name</label>
                                 <p class="form-control" id="name">{{ Auth::user()->name }}</p>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-6">
                                 <label for="email" class="form-label">Email</label>
                                 <p class="form-control" id="email">{{ Auth::user()->email }}</p>
                             </div>
-                            <div class="col-md-3">
+                        </div>
+
+                        <div class="row mt-3">
+                            <!-- IC and Phone Number -->
+                            <div class="col-md-6">
                                 <label for="ic" class="form-label">IC</label>
                                 <p class="form-control" id="ic">{{ Auth::user()->ic }}</p>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-6">
                                 <label for="phone_number" class="form-label">Phone Number</label>
                                 <p class="form-control" id="phone_number">{{ Auth::user()->phone_number }}</p>
                             </div>
-                            <div class="d-flex justify-content-between">
-                                <h6 class="mb-2">Address Information</h6>
-                            </div>
-                            <!-- New fields -->
-                            <div class="col-md-3">
+                        </div>
+
+                        <h5 class="mt-4">Address Information</h5>
+                        <div class="row mt-3">
+                            <!-- Address -->
+                            <div class="col-md-12">
                                 <label for="address" class="form-label">Address</label>
                                 <p class="form-control" id="address">{{ Auth::user()->address }}</p>
                             </div>
-                            <div class="col-md-3">
-                                <label for="city" class="form-label">City</label>
-                                <p class="form-control" id="city">{{ Auth::user()->city }}</p>
-                            </div>
-                            <div class="col-md-3">
+                        </div>
+
+                        <div class="row mt-3">
+                            <!-- State, City, Postcode -->
+                            <div class="col-md-4">
                                 <label for="postcode" class="form-label">Postcode</label>
                                 <p class="form-control" id="postcode">{{ Auth::user()->postcode }}</p>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <label for="state" class="form-label">State</label>
                                 <p class="form-control" id="state">{{ Auth::user()->state }}</p>
                             </div>
+                            <div class="col-md-4">
+                                <label for="city" class="form-label">City</label>
+                                <p class="form-control" id="city">{{ Auth::user()->city }}</p>
+                            </div>
+                        </div>
+
+                        <h5 class="mt-4">Job Status</h5>
+                        <div class="row mt-3">
+                            <div class="col-md-4">
+                                <label for="role" class="form-label">Role</label>
+                                <p class="form-control" id="role">{{ Auth::user()->role }}</p>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="job_status" class="form-label">Job Status</label>
+                                <p class="form-control" id="role">{{ Auth::user()->job_status }}</p>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="mc_days" class="form-label">Total MC Days</label>
+                                <p class="form-control" id="mc_days">{{ Auth::user()->total_mc_days }}</p>
+                            </div>
+
+
                         </div>
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" onclick="toggleEditProfile()" title="Edit Profile">
+                            <a href="{{ route('staff.editProfile') }}" class="btn btn-primary" title="Edit Profile">
                                 <i class="fas fa-edit"></i> <!-- Edit symbol -->
-                            </button>
+                            </a>
                         </div>
                     </div>
-
-                    <!-- Edit Profile Section (Initially Hidden) -->
-                    <form id="editProfile" action="{{ route('updateOwnDetails2') }}" method="POST" style="display: none;">
-                        @csrf
-                        <div class="row">
-                            <div class="col-md-3">
-                                <label for="name" class="form-label">Name</label>
-                                <input type="text" class="form-control" id="name" name="name" value="{{ Auth::user()->name }}" required>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" value="{{ Auth::user()->email }}" required>
-                            </div>
-                            <div class="col-md-3">
-                                <label for="ic" class="form-label">IC</label>
-                                <input type="text" class="form-control" id="ic" name="ic" value="{{ Auth::user()->ic }}">
-                            </div>
-                            <div class="col-md-3">
-                                <label for="phone_number" class="form-label">Phone Number</label>
-                                <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ Auth::user()->phone_number }}">
-                            </div>
-                             <!-- New fields -->
-                             <div class="col-md-3">
-                                <label for="address" class="form-label">Address</label>
-                                <input type="text" class="form-control" id="address" name="address" value="{{ Auth::user()->address }}">
-                            </div>
-                            <div class="col-md-3">
-                                <label for="city" class="form-label">City</label>
-                                <input type="text" class="form-control" id="city" name="city" value="{{ Auth::user()->city }}">
-                            </div>
-                            <div class="col-md-3">
-                                <label for="postcode" class="form-label">Postcode</label>
-                                <input type="text" class="form-control" id="postcode" name="postcode" value="{{ Auth::user()->postcode }}">
-                            </div>
-                            <div class="col-md-3">
-                                <label for="state" class="form-label">State</label>
-                                <input type="text" class="form-control" id="state" name="state" value="{{ Auth::user()->state }}">
-                            </div>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" title="Update">
-                                <i class="fas fa-save"></i> <!-- Update symbol -->
-                            </button>
-                            <button type="button" class="btn btn-secondary" onclick="toggleViewProfile()" title="Cancel">
-                                <i class="fas fa-times-circle"></i> <!-- Cancel symbol -->
-                            </button>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- Separate Change Password Section -->
 <div id="ChangePassword" class="content-section" style="display: none;">

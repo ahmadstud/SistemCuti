@@ -8,14 +8,16 @@
                  display: block;
                     margin: 0 auto;
                     width: 100%; /* Make image fill the width of its container */
-                    max-height: 150px; /* Adjust height to fit content area */
+                    max-height: 100px; /* Adjust height to fit content area */
                     object-fit: contain; /* Ensure the image maintains its aspect ratio */
                     border-radius: 10px; /* Optional rounded corners */">
             </a>
-            <span style="display: block; font-weight: bold; font-size: 1.25rem; margin-top: 0.5rem;">Papan Pemuka Pegawai</span>
+            <span style="display: block; font-weight: bold; font-size: 1.25rem; margin-top: 0.5rem;">Papan Pemuka Admin</span>
         </div>
-        <!-- Date and Time Display -->
-      <div id="date-time" class="text-center mt-2 font-weight-bold"></div>
+        <div id="date-time" class="text-center mt-2 font-weight-bold">
+            <i class="fas fa-calendar-alt"></i> <span id="current-date"></span> <br>
+            <i class="fas fa-clock"></i> <span id="current-time"></span>
+        </div>
     <hr class="horizontal dark mt-0">
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">

@@ -59,6 +59,7 @@ public function updateUser(Request $request, $id)
         'ic' => 'nullable|string|max:255',
         'phone_number' => 'nullable|string|max:255',
         'role' => 'required|string',
+        'job_status' => 'required|string',
         'address' => 'nullable|string|max:255',
         'city' => 'nullable|string|max:255',
         'postcode' => 'nullable|string|max:10',
@@ -73,6 +74,7 @@ public function updateUser(Request $request, $id)
         'ic' => $request->ic,
         'phone_number' => $request->phone_number,
         'role' => $request->role,
+        'job_status' => $request->job_status,
         'address' => $request->address,
         'city' => $request->city,
         'postcode' => $request->postcode,
@@ -152,6 +154,7 @@ public function deleteAnnouncement($id)
             'ic' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:255',
             'role' => 'required|string',
+            'job_status' => 'required|string',
             'address' => 'nullable|string|max:255',
         'city' => 'nullable|string|max:255',
         'postcode' => 'nullable|string|max:10',
@@ -166,11 +169,12 @@ public function deleteAnnouncement($id)
             'ic' => $request->ic,
             'phone_number' => $request->phone_number,
             'role' => $request->role,
+            'job_status' => $request->job_status,
             'password' => bcrypt($request->password),  // Encrypt the password
             'total_mc_days' => $request->mc_days, // Set the mc_days input value
             'address' => $request->address,
             'city' => $request->city,
-            'postcode' => $request->poscode,
+            'postcode' => $request->postcode,
             'state' => $request->state,
         ]);
 

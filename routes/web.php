@@ -70,6 +70,7 @@ Route::post('/staff/mc-application', [StaffController::class, 'storeMcApplicatio
 Route::post('/admin/approve/{id}', [AdminController::class, 'approve'])->name('admin.approve');
 Route::post('/admin/announcements', [AdminController::class, 'storeAnnouncement'])->name('admin.storeAnnouncement');
 Route::put('/admin/announcements/{id}', [AdminController::class, 'updateAnnouncement'])->name('updateAnnouncement');
+
 Route::get('/officer/edit-profile', function () {
     return view('partials.officerside.edit-profile');
 })->name('officer.editProfile');
@@ -82,5 +83,16 @@ Route::post('/officer/mc-application/edit/{id}', [OfficerController::class, 'edi
 
 // Delete mc application for rejected only
 Route::delete('/officer/mc-application/{id}', [OfficerController::class, 'deleteMC'])->name('officer.deleteMC');
+
+Route::get('/staff/edit-profile', function () {
+    return view('partials.staffside.edit-profile');
+})->name('staff.editProfile');
+
+Route::get('/admin/edit-profile', function () {
+    return view('partials.adminside.edit-profile');
+})->name('admin.editProfile');
+
+Route::get('/admin/dashboard', [AdminController::class, 'showDashboard'])->name('admin.dashboard');
+
 
 

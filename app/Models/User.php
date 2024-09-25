@@ -28,6 +28,7 @@ class User extends Authenticatable
         'postcode',
         'state',
        'total_mc_days',  // Ensure this is fillable
+       'job_status',
     ];
 
     /**
@@ -53,5 +54,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(McApplication::class);
     }
+
 
 }

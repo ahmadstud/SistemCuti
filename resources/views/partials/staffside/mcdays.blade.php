@@ -10,7 +10,6 @@
                 <div class="numbers">
                   <p class="text-sm mb-0 text-uppercase font-weight-bold">Jumlah Cuti yang berbaki</p>
                   <h5 class="font-weight-bolder">{{ Auth::user()->total_mc_days }} Hari</h5>
-                  <p class="mb-0">20 hari untuk staf kontrak</p>
                 </div>
               </div>
               <div class="col-4 text-end">
