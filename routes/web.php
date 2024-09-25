@@ -5,7 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\OfficerController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\PengurusanController;
+
 
 Route::get('/', function () {
     return view('login');
@@ -31,15 +31,20 @@ Route::get('/admin/edit/{id}',                        [AdminController::class, '
 // Route for updating a user (after form submission)
 Route::post('/admin/update/{id}',                     [AdminController::class, 'updateUser'])          ->name('updateUser');
 
+
 // Route for deleting a user
 Route::delete('/admin/delete/{id}',                   [AdminController::class, 'deleteUser'])          ->name('deleteUser');
 Route::post('/admin/store',                           [AdminController::class, 'storeUser'])           ->name('storeUser');
 Route::post('/admin/approve/{id}',                    [AdminController::class, 'approveMcApplication'])->name('admin.approveMcApplication');
+
+
 // Route for updating own details
 Route::post('/admin/update-details',                  [AdminController::class, 'updateOwnDetails'])    ->name('updateOwnDetails');
 
+
 // Route for updating own details
 Route::post('/staff/update-details',                  [StaffController::class, 'updateOwnDetails2'])   ->name('updateOwnDetails2');
+
 
 // Route for updating own details
 Route::post('/officer/update-details',                [OfficerController::class, 'updateOwnDetails3']) ->name('updateOwnDetails3');
@@ -52,13 +57,16 @@ Route::post('/staff/mc-application/edit/{id}',        [StaffController::class, '
 Route::get('/officer',                                [OfficerController::class, 'index'])             ->name('officer');
 Route::post('/officer/update-status/{id}',            [OfficerController::class, 'updateStatus'])      ->name('officer.updateStatus');
 
+
 // Officer approval route
 Route::post('/mc-applications/{id}/officer-approve',  [OfficerController::class, 'approve'])           ->name('officer.approve');
+
 
 // Admin approval route
 Route::post('/mc-applications/{id}/admin-approve',    [AdminController::class, 'approve'])             ->name('admin.approve');
 
 Route::post('/mc-applications/{id}/admin-reject',     [AdminController::class, 'reject'])              ->name('admin.reject');
+
 
 // Route for submitting MC application
 Route::post('/staff/mc-application',                  [StaffController::class, 'storeMcApplication'])  ->name('staff.mc.submit');

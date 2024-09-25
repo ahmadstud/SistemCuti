@@ -62,7 +62,6 @@ class StaffController extends Controller
 
 
 
-
     public function index()
     {
         // Fetch all MC applications for the logged-in user
@@ -70,7 +69,6 @@ class StaffController extends Controller
         $officers = User::where('role', 'officer')->get(); // Fetch officers
         return view('staff', compact('mcApplications', 'officers'));
     }
-
 
 
 
@@ -107,7 +105,6 @@ class StaffController extends Controller
 
 
 
-
     // Method to delete a user
     public function deleteMC($id)
     {
@@ -116,7 +113,6 @@ class StaffController extends Controller
 
         return redirect()->route('staff')->with('success', 'MC Application deleted !');
     }
-
 
 
 
