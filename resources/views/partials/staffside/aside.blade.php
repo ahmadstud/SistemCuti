@@ -12,7 +12,7 @@
                    object-fit: contain; /* Ensure the image maintains its aspect ratio */
                    border-radius: 10px; /* Optional rounded corners */">
            </a>
-           <span style="display: block; font-weight: bold; font-size: 1.25rem; margin-top: 0.5rem;">Papan Pemuka Admin</span>
+           <span style="display: block; font-weight: bold; font-size: 1.25rem; margin-top: 0.5rem;">Papan Pemuka Staf</span>
        </div>
        <div id="date-time" class="text-center mt-2 font-weight-bold">
            <i class="fas fa-calendar-alt"></i> <span id="current-date"></span> <br>

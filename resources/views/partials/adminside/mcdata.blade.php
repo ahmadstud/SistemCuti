@@ -1,8 +1,8 @@
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <div class="card">
-                <div class="card-body p-3">
+          <div class="card"> <!-- Set fixed height and width -->
+            <div class="card-body p-5"> <!-- Apply p-5 for consistent padding -->
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
@@ -16,13 +16,13 @@
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
+          </div>
         </div>
 
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <div class="card">
-                <div class="card-body p-3">
+          <div class="card"> <!-- Set fixed height and width -->
+            <div class="card-body p-5"> <!-- Apply p-5 for consistent padding -->
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
@@ -36,13 +36,13 @@
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
+          </div>
         </div>
 
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <div class="card">
-                <div class="card-body p-3">
+          <div class="card"> <!-- Set fixed height and width -->
+            <div class="card-body p-5"> <!-- Apply p-5 for consistent padding -->
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
@@ -56,13 +56,13 @@
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
+          </div>
         </div>
 
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <div class="card">
-                <div class="card-body p-3">
+          <div class="card" > <!-- Set fixed height and width -->
+            <div class="card-body p-5"> <!-- Apply p-5 for consistent padding -->
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
@@ -76,8 +76,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
+          </div>
         </div>
     </div>
 </div>
