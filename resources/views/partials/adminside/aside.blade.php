@@ -14,8 +14,10 @@
             </a>
             <span style="display: block; font-weight: bold; font-size: 1.25rem; margin-top: 0.5rem;">Papan Pemuka Admin</span>
         </div>
-        <!-- Date and Time Display -->
-      <div id="date-time" class="text-center mt-2 font-weight-bold"></div>
+        <div id="date-time" class="text-center mt-2 font-weight-bold">
+            <i class="fas fa-calendar-alt"></i> <span id="current-date"></span> <br>
+            <i class="fas fa-clock"></i> <span id="current-time"></span>
+        </div>
 
       <hr class="horizontal dark mt-0">
     <div class="collapse navbar-collapse  w-auto" id="sidenav-collapse-main">
@@ -26,35 +28,44 @@
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1">Dashboard</span>
+            <span class="nav-link-text ms-1">Utama</span>
 
           </a>
         </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="#" data-target="Annouce">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-single-copy-04 text-primary text-sm opacity-10"></i>
+              </div>
+              <span class="nav-link-text ms-1">Pengurusan</span>
+            </a>
+          </li>
 
         <li class="nav-item">
             <a class="nav-link" href="#" data-target="users-section">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-hat-3 text-success text-sm opacity-10"></i>
               </div>
-              <span class="nav-link-text ms-1">Senarai Pengguna</span>
+              <span class="nav-link-text ms-1">Senarai Pekerja</span>
             </a>
           </li>
 
           <li class="nav-item">
             <a class="nav-link" href="#" data-target="applications-section">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
+                <i class="ni ni-briefcase-24 text-warning text-sm opacity-10"></i>
               </div>
-              <span class="nav-link-text ms-1">Admin Approval</span>
+              <span class="nav-link-text ms-1">Permohonan Cuti<br>Tapisan Pegawai</span>
             </a>
           </li>
 
           <li class="nav-item">
             <a class="nav-link" href="#" data-target="admin-approval-section">
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
+                <i class="ni ni-check-bold text-info text-sm opacity-10"></i>
               </div>
-              <span class="nav-link-text ms-1">Direct Admin Approval</span>
+              <span class="nav-link-text ms-1">Permohonan Cuti<br>oleh Admin</span>
             </a>
           </li>
 
@@ -66,9 +77,20 @@
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1">Profile</span>
+            <span class="nav-link-text ms-1">Profil Pengguna</span>
           </a>
         </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="#" data-target="ChangePassword">
+              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                <i class="ni ni-lock-circle-open text-danger text-sm opacity-10"></i>
+              </div>
+              <span class="nav-link-text ms-1">Tukar Kata Laluan</span>
+            </a>
+          </li>
+
+
       </ul>
     </div>
 </aside>

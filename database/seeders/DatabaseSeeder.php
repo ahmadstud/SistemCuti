@@ -20,6 +20,12 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
             'ic' => 'A1234567A',
             'phone_number' => '1234567890',
+            'address' => '123 Admin Street',
+            'city' => 'Admin City',
+            'postcode' => '12345',
+            'state' => 'Admin State',
+            'job_status' => 'active',
+            'total_mc_days' => 0,
         ]);
 
         User::create([
@@ -29,6 +35,12 @@ class DatabaseSeeder extends Seeder
             'role' => 'staff',
             'ic' => 'S1234567A',
             'phone_number' => '0987654321',
+            'address' => '456 Staff Avenue',
+            'city' => 'Staff City',
+            'postcode' => '67890',
+            'state' => 'Staff State',
+            'job_status' => 'active',
+            'total_mc_days' => 0,
         ]);
 
         User::create([
@@ -38,7 +50,12 @@ class DatabaseSeeder extends Seeder
             'role' => 'officer',
             'ic' => 'O1234567A',
             'phone_number' => '1122334455',
+            'address' => '789 Officer Boulevard',
+            'city' => 'Officer City',
+            'postcode' => '13579',
+            'state' => 'Officer State',
+            'job_status' => 'active',
+            'total_mc_days' => 0,
         ]);
-
     }
 }

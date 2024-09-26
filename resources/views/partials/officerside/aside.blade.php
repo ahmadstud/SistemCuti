@@ -8,14 +8,16 @@
                  display: block;
                     margin: 0 auto;
                     width: 100%; /* Make image fill the width of its container */
-                    max-height: 150px; /* Adjust height to fit content area */
+                    max-height: 100px; /* Adjust height to fit content area */
                     object-fit: contain; /* Ensure the image maintains its aspect ratio */
                     border-radius: 10px; /* Optional rounded corners */">
             </a>
-            <span style="display: block; font-weight: bold; font-size: 1.25rem; margin-top: 0.5rem;">Papan Pemuka Pegawai</span>
+            <span style="display: block; font-weight: bold; font-size: 1.25rem; margin-top: 0.5rem;">Papan Pemuka Admin</span>
         </div>
-        <!-- Date and Time Display -->
-      <div id="date-time" class="text-center mt-2 font-weight-bold"></div>
+        <div id="date-time" class="text-center mt-2 font-weight-bold">
+            <i class="fas fa-calendar-alt"></i> <span id="current-date"></span> <br>
+            <i class="fas fa-clock"></i> <span id="current-time"></span>
+        </div>
     <hr class="horizontal dark mt-0">
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
@@ -29,13 +31,22 @@
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="#" data-target="McApply">
+              <a class="nav-link" href="#" data-target="McApprove">
                 <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                   <i class="ni ni-briefcase-24 text-primary text-sm opacity-10"></i>
                 </div>
-                <span class="nav-link-text ms-1">Senarai Permohonan</span>
+                <span class="nav-link-text ms-1">Officer Approval</span>
               </a>
             </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="McApply">
+                  <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                    <i class="ni ni-briefcase-24 text-primary text-sm opacity-10"></i>
+                  </div>
+                  <span class="nav-link-text ms-1">Apply MC</span>
+                </a>
+              </li>
 
             <li class="nav-item mt-3">
               <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
@@ -46,6 +57,15 @@
                   <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
                 </div>
                 <span class="nav-link-text ms-1">Profile</span>
+              </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="ChangePassword">
+                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                    <i class="ni ni-lock-circle-open text-danger text-sm opacity-10"></i>
+                </div>
+                <span class="nav-link-text ms-1">Change Password</span>
               </a>
             </li>
           </ul>

@@ -23,6 +23,12 @@ class User extends Authenticatable
         'role',           // Add this
         'ic',             // Add this
         'phone_number',   // Add this
+        'address',
+        'city',
+        'postcode',
+        'state',
+       'total_mc_days',  // Ensure this is fillable
+       'job_status',
     ];
 
     /**
@@ -48,5 +54,6 @@ class User extends Authenticatable
     {
         return $this->hasMany(McApplication::class);
     }
-    
+
+
 }
