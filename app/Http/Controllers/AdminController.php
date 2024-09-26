@@ -19,18 +19,18 @@ class AdminController extends Controller
     public function dashboard()
     {
         // Fetch total users excluding admins
-    $totalUsers = User::where('role', '!=', 'admin')->count();
-    // Fetch all users excluding admins
-    $users = User::where('role', '!=', 'admin')->get();
-        // Fetch MC applications approved by officers and still pending admin approval
-        $applications = McApplication::where('officer_approved', true)
-        ->get();
+        $totalUsers = User::where('role', '!=', 'admin')->count();
+        // Fetch all users excluding admins
+        $users = User::where('role', '!=', 'admin')->get();
+            // Fetch MC applications approved by officers and still pending admin approval
+            $applications = McApplication::where('officer_approved', true)
+            ->get();
 
-         // Fetch direct admin approval applications
-    $directAdminApplications = McApplication::where('direct_admin_approval', true)
-    ->where('admin_approved', false)  // Only fetch those not yet approved
-    ->where('status', 'pending')  // Only fetch those not yet approved
-    ->get();
+            // Fetch direct admin approval applications
+        $directAdminApplications = McApplication::where('direct_admin_approval', true)
+        ->where('admin_approved', false)  // Only fetch those not yet approved
+        ->where('status', 'pending')  // Only fetch those not yet approved
+        ->get();
 
         $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
         $totalMcApplications = McApplication::count();
@@ -40,6 +40,7 @@ class AdminController extends Controller
         return view('admin', compact('directAdminApplications','totalUsers', 'users', 'applications', 'totalMcApplications', 'acceptedMcApplications', 'rejectedMcApplications','announcements'));
     }
 
+
     // Method to show the edit form
     public function editUser($id)
     {
@@ -47,44 +48,45 @@ class AdminController extends Controller
         return view('editUser', compact('user')); // Return view with user data
     }
 
+
     // Method to update user information
-public function updateUser(Request $request, $id)
-{
-    $user = User::findOrFail($id);
+    public function updateUser(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
 
-    // Validate input fields
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|string|email|max:255|unique:users,email,' . $id,
-        'ic' => 'nullable|string|max:255',
-        'phone_number' => 'nullable|string|max:255',
-        'role' => 'required|string',
-        'job_status' => 'required|string',
-        'address' => 'nullable|string|max:255',
-        'city' => 'nullable|string|max:255',
-        'postcode' => 'nullable|string|max:10',
-        'state' => 'nullable|string|max:255',
-        'total_mc_days' => 'required|integer|min:0', // Validate mc_days input
-    ]);
+        // Validate input fields
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            'ic' => 'nullable|string|max:255',
+            'phone_number' => 'nullable|string|max:255',
+            'role' => 'required|string',
+            'job_status' => 'required|string',
+            'address' => 'nullable|string|max:255',
+            'city' => 'nullable|string|max:255',
+            'postcode' => 'nullable|string|max:10',
+            'state' => 'nullable|string|max:255',
+            'total_mc_days' => 'required|integer|min:0', // Validate mc_days input
+        ]);
 
-    // Update user information
-    $user->update([
-        'name' => $request->name,
-        'email' => $request->email,
-        'ic' => $request->ic,
-        'phone_number' => $request->phone_number,
-        'role' => $request->role,
-        'job_status' => $request->job_status,
-        'address' => $request->address,
-        'city' => $request->city,
-        'postcode' => $request->postcode,
-        'state' => $request->state,
-        'total_mc_days' => $request->total_mc_days, // Ensure this matches the input name
-    ]);
+        // Update user information
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'ic' => $request->ic,
+            'phone_number' => $request->phone_number,
+            'role' => $request->role,
+            'job_status' => $request->job_status,
+            'address' => $request->address,
+            'city' => $request->city,
+            'postcode' => $request->postcode,
+            'state' => $request->state,
+            'total_mc_days' => $request->total_mc_days, // Ensure this matches the input name
+        ]);
 
-    // Redirect with success message
-    return redirect()->route('admin')->with('success', 'User updated successfully!');
-}
+        // Redirect with success message
+        return redirect()->route('admin')->with('success', 'User updated successfully!');
+    }
 
 
     public function updateAnnouncement(Request $request, $id)
@@ -127,22 +129,22 @@ public function updateUser(Request $request, $id)
     }
 
     // Method to delete an announcement
-public function deleteAnnouncement($id)
-{
-    // Find the announcement by ID or fail
-    $announcement = Announcement::findOrFail($id);
+    public function deleteAnnouncement($id)
+    {
+        // Find the announcement by ID or fail
+        $announcement = Announcement::findOrFail($id);
 
-    // Delete image if it exists
-    if ($announcement->image && Storage::exists('public/announcements/' . $announcement->image)) {
-        Storage::delete('public/announcements/' . $announcement->image);
+        // Delete image if it exists
+        if ($announcement->image && Storage::exists('public/announcements/' . $announcement->image)) {
+            Storage::delete('public/announcements/' . $announcement->image);
+        }
+
+        // Delete the announcement
+        $announcement->delete();
+
+        // Redirect back with success message
+        return redirect()->route('admin')->with('success', 'Announcement deleted successfully!');
     }
-
-    // Delete the announcement
-    $announcement->delete();
-
-    // Redirect back with success message
-    return redirect()->route('admin')->with('success', 'Announcement deleted successfully!');
-}
 
     public function storeUser(Request $request)
     {
@@ -224,8 +226,9 @@ public function deleteAnnouncement($id)
         return redirect()->back()->with('success', 'MC application approved by admin.');
     }
 
+    
     public function reject($id)
-{
+    {
     $application = McApplication::find($id);
 
     if (!$application) {
@@ -244,7 +247,8 @@ public function deleteAnnouncement($id)
     $application->save();
 
     return redirect()->back()->with('success', 'MC application rejected by admin.');
-}
+    }
+
 
     public function updateOwnDetails(Request $request)
     {
@@ -284,28 +288,30 @@ public function deleteAnnouncement($id)
         // Redirect with success message
         return redirect()->route('admin')->with('success', 'Your details have been updated successfully!');
     }
+
+
     public function storeAnnouncement(Request $request)
-{
-    $request->validate([
-        'title' => 'required|string|max:255',
-        'content' => 'required|string',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image
-    ]);
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image
+        ]);
 
-    // Store image if uploaded
-    $imagePath = null;
-    if ($request->hasFile('image')) {
-        $imagePath = $request->file('image')->store('announcements', 'public'); // Store in public/announcements
+        // Store image if uploaded
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('announcements', 'public'); // Store in public/announcements
+        }
+
+        // Create announcement
+        Announcement::create([
+            'title' => $request->title,
+            'content' => $request->content,
+            'image_path' => $imagePath,
+        ]);
+
+        return redirect()->route('admin', ['section' => 'Annouce'])->with('success', 'Announcement created successfully.');
     }
-
-    // Create announcement
-    Announcement::create([
-        'title' => $request->title,
-        'content' => $request->content,
-        'image_path' => $imagePath,
-    ]);
-
-    return redirect()->route('admin', ['section' => 'Annouce'])->with('success', 'Announcement created successfully.');
-}
 
 }
