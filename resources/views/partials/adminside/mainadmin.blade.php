@@ -12,26 +12,43 @@
                     </nav>
                     <div class="row mt-4">
                         <div class="col-lg-12 mb-lg-0 mb-4">
-                            <div class="card">
-                                <div class="card-body">
 
-                                    <div class="container-fluid py-4">
-                                        <div class="row">
+                            {{-- First Row --}}
+                            <div class="container-fluid py-2">
+                                <div class="row">
+
+                                    {{-- Card Pengumuman --}}
+                                    <div class="col-lg-12 mb-lg-0 mb-4">
+                                        <div class="card z-index-2 h-100">
                                             <div class="card-header pb-0 pt-3 bg-transparent">
-                                                <h6 class="text-capitalize">Purata Ketidakhadiran</h6>
+                                                <h4 class="text-capitalize">PENGUMUMAN</h4>
+                                                <p class="text-sm mb-0">
+                                                    <span class="font-weight-bold">Latest update on (timestamp)</span>
+                                                </p>
+                                            </div>
+                                            
+                                            <div class="card-body p-3">
+
                                                 <!-- Announcement Carousel -->
                                                 <div id="announcementCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
                                                     <div class="carousel-inner">
-                                                            @foreach($announcements as $index => $announcement)
-                                                                <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                                                                    <img src="{{ asset(Storage::url($announcement->image_path)) }}" class="d-block w-100" alt="{{ $announcement->title }}">
-                                                                    <div class="carousel-caption d-none d-md-block">
-                                                                        <h5>{{ $announcement->title }}</h5>
-                                                                        <p>{{ $announcement->content }}</p>
-                                                                    </div>
+                                                        @foreach($announcements as $index => $announcement)
+                                                            <div class="carousel-item {{ $index === 0 ? 'active' : '' }}" data-title="{{ $announcement->title }}" data-content="{{ $announcement->content }}">
+                                                                <div style="width: 100%; height: 0; padding-bottom: 40%; position: relative;"> <!-- Adjusted padding-bottom -->
+                                                                    <img src="{{ asset(Storage::url($announcement->image_path)) }}" 
+                                                                        alt="{{ $announcement->title }}" 
+                                                                        style="position: absolute; top: 50%; left: 50%; width: 100%; height: auto; transform: translate(-50%, -50%); object-fit: cover;">
                                                                 </div>
-                                                            @endforeach
+                                                            </div>
+                                                        @endforeach
                                                     </div>
+
+                                                    <!-- Title and Content Section -->
+                                                    <div class="text-center mt-3">
+                                                        <h2 id="announcementTitle" style="text-transform: uppercase;">{{ $announcements[0]->title }}</h2>
+                                                        <p id="announcementContent">{{ $announcements[0]->content }}</p>
+                                                    </div>
+                                                    
                                                     <button class="carousel-control-prev" type="button" data-bs-target="#announcementCarousel" data-bs-slide="prev">
                                                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                                         <span class="visually-hidden">Previous</span>
@@ -41,107 +58,132 @@
                                                         <span class="visually-hidden">Next</span>
                                                     </button>
                                                 </div>
+
+                                                <!-- JavaScript to Update Title and Content -->
+                                                <script>
+                                                    const carousel = document.getElementById('announcementCarousel');
+                                                    const titleElement = document.getElementById('announcementTitle');
+                                                    const contentElement = document.getElementById('announcementContent');
+
+                                                    carousel.addEventListener('slide.bs.carousel', function (event) {
+                                                        const currentItem = event.relatedTarget; // The currently active carousel item
+                                                        const title = currentItem.getAttribute('data-title');
+                                                        const content = currentItem.getAttribute('data-content');
+
+                                                        titleElement.textContent = title; // Update title
+                                                        contentElement.textContent = content; // Update content
+                                                    });
+                                                </script>
+
                                             </div>
                                         </div>
-
                                     </div>
-                                    <div class="container-fluid py-4">
-                                        <div class="row mt-4">
-                                            <div class="col-lg-7 mb-lg-0 mb-4">
-                                            <div class="card z-index-2 h-100">
-                                                <div class="card-header pb-0 pt-3 bg-transparent">
-                                                <h6 class="text-capitalize">Purata Ketidakhadiran</h6>
-                                                <p class="text-sm mb-0">
-                                                    <i class="fa fa-arrow-up text-success"></i>
-                                                    <span class="font-weight-bold">4% more</span> in 2021
-                                                </p>
-                                                </div>
-                                                <div class="card-body p-3">
+
+                                </div>
+                            </div>
+
+                            {{-- Second Row --}}
+                            <div class="container-fluid py-2">
+                                <div class="row ">
+
+                                    {{-- Card Purata Ketidakhadiran --}}
+                                    <div class="col-lg-7 mb-lg-0 mb-4">
+                                        <div class="card z-index-2 h-100">
+                                            <div class="card-header pb-0 pt-3 bg-transparent">
+                                                <h4 class="text-capitalize">PURATA KETIDAKHADIRAN</h4>
+                                            <p class="text-sm mb-0">
+                                                <i class="fa fa-arrow-up text-success"></i>
+                                                <span class="font-weight-bold">4% more</span> in 2021
+                                            </p>
+                                            </div>
+                                            <div class="card-body p-3">
                                                 <div class="chart">
                                                     <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
                                                 </div>
-                                                </div>
-                                            </div>
-                                            </div>
-                    
-                                            <div class="col-lg-5">
-                                                <div class="card h-100 mb-4">
-                                                    <div class="card-header pb-0 px-3">
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                        <h6 class="mb-0">SENARAI STAFF CUTI HARIAN</h6>
-                                                        </div>
-                                                        <div class="col-md-6 d-flex justify-content-end align-items-center">
-                                                        <i class="far fa-calendar-alt me-2"></i>
-                                                        <small>September</small>
-                                                        </div>
-                                                    </div>
-                                                    </div>
-                    
-                                                    <div class="card-body pt-4 p-3">
-                                                    <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Hari ini</h6>
-                                                    <ul class="list-group">
-                                                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                                        <div class="d-flex align-items-center">
-                                                        <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user1">
-                                                            <div class="d-flex flex-column">
-                                                            <h6 class="mb-0 text-sm">John Michael</h6>
-                                                            <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                                                            01.01.2024 - 03.01.2024
-                                                        </div>
-                                                        </li>
-                                                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                                        <div class="d-flex align-items-center">
-                                                        <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user1">
-                                                            <div class="d-flex flex-column">
-                                                            <h6 class="mb-0 text-sm">John Michael</h6>
-                                                            <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                                                            01.01.2024 - 03.01.2024
-                                                        </div>
-                                                        </li>
-                                                    </ul>
-                    
-                                                    <h6 class="text-uppercase text-body text-xs font-weight-bolder my-3">Esok</h6>
-                                                    <ul class="list-group">
-                                                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                                        <div class="d-flex align-items-center">
-                                                        <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user1">
-                                                            <div class="d-flex flex-column">
-                                                            <h6 class="mb-0 text-sm">John Michael</h6>
-                                                            <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                                                            01.01.2024 - 03.01.2024
-                                                        </div>
-                                                        </li>
-                                                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                                        <div class="d-flex align-items-center">
-                                                        <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user1">
-                                                            <div class="d-flex flex-column">
-                                                            <h6 class="mb-0 text-sm">John Michael</h6>
-                                                            <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                                                            01.01.2024 - 03.01.2024
-                                                        </div>
-                                                        </li>
-                    
-                                                    </ul>
-                                                    </div>
-                                                </div>
+                                                
                                             </div>
                                         </div>
                                     </div>
+            
+                                    {{-- Card Senarai Staff Cuti Harian --}}
+                                    <div class="col-lg-5">
+                                        <div class="card h-100 mb-4">
+                                            <div class="card-header pb-0 px-3">
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <h4 class="text-capitalize">SENARAI STAFF CUTI HARIAN</h4>
+                                                </div>
+                                                <div class="col-md-4 d-flex justify-content-end align-items-center">
+                                                    <i class="far fa-calendar-alt me-2"></i>
+                                                    <small>September</small>
+                                                </div>
+                                            </div>
+                                            </div>
+            
+                                            <div class="card-body pt-4 p-3">
+                                                <h6 class="text-uppercase text-body text-md font-weight-bolder mb-3">Hari ini</h6>
+                                                <ul class="list-group">
+                                                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                                    <div class="d-flex align-items-center">
+                                                    <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user1">
+                                                        <div class="d-flex flex-column">
+                                                        <h6 class="mb-0 text-sm">John Michael</h6>
+                                                        <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
+                                                        01.01.2024 - 03.01.2024
+                                                    </div>
+                                                    </li>
+                                                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                                    <div class="d-flex align-items-center">
+                                                    <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user1">
+                                                        <div class="d-flex flex-column">
+                                                        <h6 class="mb-0 text-sm">John Michael</h6>
+                                                        <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
+                                                        01.01.2024 - 03.01.2024
+                                                    </div>
+                                                    </li>
+                                                </ul>
+                
+                                                <h6 class="text-uppercase text-body text-md font-weight-bolder my-3">Esok</h6>
+                                                <ul class="list-group">
+                                                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                                    <div class="d-flex align-items-center">
+                                                    <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user1">
+                                                        <div class="d-flex flex-column">
+                                                        <h6 class="mb-0 text-sm">John Michael</h6>
+                                                        <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
+                                                        01.01.2024 - 03.01.2024
+                                                    </div>
+                                                    </li>
+                                                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                                    <div class="d-flex align-items-center">
+                                                    <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user1">
+                                                        <div class="d-flex flex-column">
+                                                        <h6 class="mb-0 text-sm">John Michael</h6>
+                                                        <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
+                                                        01.01.2024 - 03.01.2024
+                                                    </div>
+                                                    </li>
+                
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
                                 </div>
                             </div>
+                       
                         </div>
                     </div>
                 </div>
@@ -150,115 +192,148 @@
 
                 <!-- Announcement Section -->
                 <div id="Annouce" class="content-section" style="display: none;">
-                    <!-- List of Announcements -->
-                    <div class="card mt-4">
-                        <div class="card-header pb-0 p-3">
-                            <div class="d-flex justify-content-between">
-                                <h6 class="mb-2">Announcements</h6>
-                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createAnnouncementModal">Create Announcement</button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Title</th>
-                                        <th>Content</th>
-                                        <th>Image</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($announcements as $announcement)
-                                        <tr>
-                                            <td>{{ $announcement->title }}</td>
-                                            <td>{{ $announcement->content }}</td>
-                                            <td>
-                                                @if($announcement->image_path)
-                                                    <img src="{{ asset('storage/' . $announcement->image_path) }}" class="d-block w-25" alt="{{ $announcement->title }}">
-                                                @else
-                                                    No Image
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <!-- Edit Button -->
-                                                <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editAnnouncementModal{{ $announcement->id }}">Edit</button>
-                                                <!-- Delete button for announcement -->
-                                                <form action="{{ route('deleteAnnouncement', $announcement->id) }}" method="POST" style="display:inline;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger" title="Delete">
-                                                        <i class="fas fa-trash-alt"></i> <!-- Delete symbol -->
-                                                    </button>
-                                                </form>
-                                            </td>
-                                        </tr>
+                    <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
+                        <h4><b>PENGURUSAN<b></h4>
+                    </nav>
 
-                                        <!-- Edit Announcement Modal -->
-                                        <div class="modal fade" id="editAnnouncementModal{{ $announcement->id }}" tabindex="-1" aria-labelledby="editAnnouncementLabel{{ $announcement->id }}" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="editAnnouncementLabel{{ $announcement->id }}">Edit Announcement</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form action="{{ route('updateAnnouncement', $announcement->id) }}" method="POST" enctype="multipart/form-data">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <div class="mb-3">
-                                                                <label for="title{{ $announcement->id }}" class="form-label">Title</label>
-                                                                <input type="text" class="form-control" id="title{{ $announcement->id }}" name="title" value="{{ $announcement->title }}" required>
+                    <div class="row mt-4">
+                        <div class="col-lg-12 mb-lg-0 mb-4">
+                            <div class="container-fluid py-2">
+                                <div class="row">
+
+                                    <!-- List of Announcements -->
+                                    <div class="card">
+                                        <div class="card-header pb-0 p-3">
+                                            <div class="d-flex justify-content-between">
+                                                <h4 class="text-capitalize">SENARAI PENGUMUMAN</h4>
+                                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createAnnouncementModal">Create Announcement</button>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div style="overflow-x: auto; position: relative;">
+                                                <table class="table" style="table-layout: fixed; width: 100%;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="width: 3%;">NO</th>
+                                                            <th style="width: 15%;">TAJUK</th>
+                                                            <th style="width: 30%; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ISI KANDUNGAN</th>
+                                                            <th style="width: 15%;">GAMBAR</th>
+                                                            <th style="width: 10%;">TINDAKAN</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($announcements as $announcement)
+                                                            <tr>
+                                                                <td style="position: sticky; left: 0; background: white; z-index: 1;"><p class="text-m text-secondary">{{ $loop->iteration }}</p></td>
+                                                                <td><p class="text-m text-secondary">{{ $announcement->title }}</p></td>
+                                                                <td style="overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <p class="text-m text-secondary">{{ $announcement->content }}</p>
+                                                                </td>
+                                                                <td>
+                                                                    @if($announcement->image_path)
+                                                                        <img src="{{ asset('storage/' . $announcement->image_path) }}" class="d-block w-25" alt="{{ $announcement->title }}">
+                                                                    @else
+                                                                        No Image
+                                                                    @endif
+                                                                </td>
+                                                                <td>
+                                                                    <!-- Edit Button -->
+                                                                    <button class="btn btn-md btn-warning" data-bs-toggle="modal" data-bs-target="#editAnnouncementModal{{ $announcement->id }}">
+                                                                        <i class="fas fa-pencil-alt text-m font-weight-bold me-2"></i>
+                                                                    </button>
+                                                                    <!-- Delete button for announcement -->
+                                                                    <form action="{{ route('deleteAnnouncement', $announcement->id) }}" method="POST" style="display:inline;">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button type="submit" class="btn btn-md btn-danger" title="Delete">
+                                                                            <i class="fas fa-trash-alt"></i> <!-- Delete symbol -->
+                                                                        </button>
+                                                                    </form>
+                                                                </td>
+                                                            </tr>
+                                            
+                                                            <!-- Edit Announcement Modal -->
+                                                            <div class="modal fade" id="editAnnouncementModal{{ $announcement->id }}" tabindex="-1" aria-labelledby="editAnnouncementLabel{{ $announcement->id }}" aria-hidden="true">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title" id="editAnnouncementLabel{{ $announcement->id }}">Edit Announcement</h5>
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <form action="{{ route('updateAnnouncement', $announcement->id) }}" method="POST" enctype="multipart/form-data">
+                                                                                @csrf
+                                                                                @method('PUT')
+                                                                                <div class="mb-3">
+                                                                                    <label for="title{{ $announcement->id }}" class="form-label">Title</label>
+                                                                                    <input type="text" class="form-control" id="title{{ $announcement->id }}" name="title" value="{{ $announcement->title }}" required>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="content{{ $announcement->id }}" class="form-label">Content</label>
+                                                                                    <textarea class="form-control" id="content{{ $announcement->id }}" name="content" rows="4" required>{{ $announcement->content }}</textarea>
+                                                                                </div>
+                                                                                <div class="mb-3">
+                                                                                    <label for="image{{ $announcement->id }}" class="form-label">Image (optional)</label>
+                                                                                    <input type="file" class="form-control" id="image{{ $announcement->id }}" name="image_path" accept="image/*">
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="submit" class="btn btn-primary">Update</button>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="content{{ $announcement->id }}" class="form-label">Content</label>
-                                                                <textarea class="form-control" id="content{{ $announcement->id }}" name="content" rows="4" required>{{ $announcement->content }}</textarea>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="image{{ $announcement->id }}" class="form-label">Image (optional)</label>
-                                                                <input type="file" class="form-control" id="image{{ $announcement->id }}" name="image_path" accept="image/*">
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="submit" class="btn btn-primary">Update</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Create Announcement Modal -->
+                                    <div class="modal fade" id="createAnnouncementModal" tabindex="-1" aria-labelledby="createAnnouncementLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="createAnnouncementLabel">Create Announcement</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{{ route('admin.storeAnnouncement') }}" method="POST" enctype="multipart/form-data">
+                                                        @csrf
+                                                        <div class="mb-3">
+                                                            <label for="title" class="form-label">Title</label>
+                                                            <input type="text" class="form-control" id="title" name="title" required>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="image" class="form-label">Image</label>
+                                                            <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                                                        </div>
+                                                        <p class="text-muted">
+                                                            Please upload images with the following specifications:
+                                                            <br>
+                                                            - Recommended size: **1200 x 675 pixels** (16:9 aspect ratio)
+                                                            <br>
+                                                            - Minimum width: **800 pixels**
+                                                            <br>
+                                                            - File formats: **JPG, PNG**
+                                                            <br>
+                                                            - Maximum file size: **2MB**
+                                                        </p>
+                                                        <div class="mb-3">
+                                                            <label for="content" class="form-label">Content</label>
+                                                            <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-primary">Create</button>
+                                                        </div>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                                    </div>
 
-                    <!-- Create Announcement Modal -->
-                    <div class="modal fade" id="createAnnouncementModal" tabindex="-1" aria-labelledby="createAnnouncementLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="createAnnouncementLabel">Create Announcement</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="{{ route('admin.storeAnnouncement') }}" method="POST" enctype="multipart/form-data">
-                                        @csrf
-                                        <div class="mb-3">
-                                            <label for="title" class="form-label">Title</label>
-                                            <input type="text" class="form-control" id="title" name="title" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="image" class="form-label">Image</label>
-                                            <input type="file" class="form-control" id="image" name="image" accept="image/*">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="content" class="form-label">Content</label>
-                                            <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-primary">Create</button>
-                                        </div>
-                                    </form>
                                 </div>
                             </div>
                         </div>

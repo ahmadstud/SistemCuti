@@ -28,7 +28,7 @@
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1">Dashboard</span>
+            <span class="nav-link-text ms-1">Utama</span>
 
           </a>
         </li>
@@ -38,7 +38,7 @@
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-single-copy-04 text-primary text-sm opacity-10"></i>
               </div>
-              <span class="nav-link-text ms-1">Annoucement</span>
+              <span class="nav-link-text ms-1">Pengurusan</span>
             </a>
           </li>
 
@@ -47,7 +47,7 @@
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-hat-3 text-success text-sm opacity-10"></i>
               </div>
-              <span class="nav-link-text ms-1">User List</span>
+              <span class="nav-link-text ms-1">Senarai Pekerja</span>
             </a>
           </li>
 
@@ -56,7 +56,7 @@
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-briefcase-24 text-warning text-sm opacity-10"></i>
               </div>
-              <span class="nav-link-text ms-1">Admin Approval</span>
+              <span class="nav-link-text ms-1">Permohonan Cuti<br>Tapisan Pegawai</span>
             </a>
           </li>
 
@@ -65,7 +65,7 @@
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-check-bold text-info text-sm opacity-10"></i>
               </div>
-              <span class="nav-link-text ms-1">Direct Admin Approval</span>
+              <span class="nav-link-text ms-1">Permohonan Cuti<br>oleh Admin</span>
             </a>
           </li>
 
@@ -77,7 +77,7 @@
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1">Profile</span>
+            <span class="nav-link-text ms-1">Profil Pengguna</span>
           </a>
         </li>
 
@@ -86,7 +86,7 @@
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-lock-circle-open text-danger text-sm opacity-10"></i>
               </div>
-              <span class="nav-link-text ms-1">Change Password</span>
+              <span class="nav-link-text ms-1">Tukar Kata Laluan</span>
             </a>
           </li>
 
