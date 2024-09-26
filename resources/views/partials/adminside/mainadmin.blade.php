@@ -26,7 +26,7 @@
                                                     <span class="font-weight-bold">Latest update on (timestamp)</span>
                                                 </p>
                                             </div>
-                                            
+
                                             <div class="card-body p-3">
 
                                                 <!-- Announcement Carousel -->
@@ -35,8 +35,8 @@
                                                         @foreach($announcements as $index => $announcement)
                                                             <div class="carousel-item {{ $index === 0 ? 'active' : '' }}" data-title="{{ $announcement->title }}" data-content="{{ $announcement->content }}">
                                                                 <div style="width: 100%; height: 0; padding-bottom: 40%; position: relative;"> <!-- Adjusted padding-bottom -->
-                                                                    <img src="{{ asset(Storage::url($announcement->image_path)) }}" 
-                                                                        alt="{{ $announcement->title }}" 
+                                                                    <img src="{{ asset(Storage::url($announcement->image_path)) }}"
+                                                                        alt="{{ $announcement->title }}"
                                                                         style="position: absolute; top: 50%; left: 50%; width: 100%; height: auto; transform: translate(-50%, -50%); object-fit: cover;">
                                                                 </div>
                                                             </div>
@@ -48,7 +48,7 @@
                                                         <h2 id="announcementTitle" style="text-transform: uppercase;">{{ $announcements[0]->title }}</h2>
                                                         <p id="announcementContent">{{ $announcements[0]->content }}</p>
                                                     </div>
-                                                    
+
                                                     <button class="carousel-control-prev" type="button" data-bs-target="#announcementCarousel" data-bs-slide="prev">
                                                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                                         <span class="visually-hidden">Previous</span>
@@ -100,11 +100,11 @@
                                                 <div class="chart">
                                                     <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                     </div>
-            
+
                                     {{-- Card Senarai Staff Cuti Harian --}}
                                     <div class="col-lg-5">
                                         <div class="card h-100 mb-4">
@@ -119,7 +119,7 @@
                                                 </div>
                                             </div>
                                             </div>
-            
+
                                             <div class="card-body pt-4 p-3">
                                                 <h6 class="text-uppercase text-body text-md font-weight-bolder mb-3">Hari ini</h6>
                                                 <ul class="list-group">
@@ -148,7 +148,7 @@
                                                     </div>
                                                     </li>
                                                 </ul>
-                
+
                                                 <h6 class="text-uppercase text-body text-md font-weight-bolder my-3">Esok</h6>
                                                 <ul class="list-group">
                                                     <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
@@ -175,20 +175,18 @@
                                                         01.01.2024 - 03.01.2024
                                                     </div>
                                                     </li>
-                
+
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                             </div>
-                       
+
                         </div>
                     </div>
                 </div>
-
-
 
                 <!-- Announcement Section -->
                 <div id="Annouce" class="content-section" style="display: none;">
@@ -251,7 +249,7 @@
                                                                     </form>
                                                                 </td>
                                                             </tr>
-                                            
+
                                                             <!-- Edit Announcement Modal -->
                                                             <div class="modal fade" id="editAnnouncementModal{{ $announcement->id }}" tabindex="-1" aria-labelledby="editAnnouncementLabel{{ $announcement->id }}" aria-hidden="true">
                                                                 <div class="modal-dialog">
@@ -340,8 +338,6 @@
                     </div>
                 </div>
 
-
-            
                 <!-- Senarai Pengguna section -->
                 <div id="users-section" class="content-section" style="display: none;">
                     <div class="row mt-4">
@@ -581,10 +577,8 @@
                             </div> <!-- Closing for card -->
                         </div> <!-- Closing for col-lg-12 -->
                     </div> <!-- Closing for row -->
-                </div> 
+                </div>
                 <!-- Closing for users-section -->
-
-
 
                 <!-- Admin Approval Section -->
                 <div id="applications-section" class="content-section" style="display: none;">
@@ -674,8 +668,6 @@
                     </div>
                 </div>
 
-
-
                 <!-- Direct Admin Approval Section -->
                 <div id="admin-approval-section" class="content-section" style="display: none;">
                     <div class="row mt-4">
@@ -763,8 +755,6 @@
                         </div>
                     </div>
                 </div>
-
-
 
                 <!-- Profile Section -->
                 <div id="Profile" class="content-section" style="display: none;">

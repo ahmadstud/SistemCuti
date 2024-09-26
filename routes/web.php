@@ -92,6 +92,10 @@ Route::get('/admin/edit-profile', function () {
     return view('partials.adminside.edit-profile');
 })->name('admin.editProfile');
 
+Route::get('/officer/edit-profile', function () {
+    return view('partials.officerside.edit-profile');
+})->name('officer.editProfile');
+
 Route::get('/admin/dashboard', [AdminController::class, 'showDashboard'])->name('admin.dashboard');
 
 
