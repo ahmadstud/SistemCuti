@@ -35,7 +35,6 @@
     <div class="min-height-300 bg-primary position-absolute w-100"></div>
     @include('partials.officerside.aside')
     @include('partials.officerside.mainofficer')
-    @include('partials.logout')
 
     <!-- Core JS Files -->
     <script src="./assets/js/core/popper.min.js"></script>

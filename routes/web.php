@@ -75,6 +75,10 @@ Route::get('/officer/edit-profile', function () {
     return view('partials.officerside.edit-profile');
 })->name('officer.editProfile');
 
+Route::get('/admin/addstaff', function () {
+    return view('partials.adminside.addstaff');
+})->name('admin.addstaff');
+
 Route::post('/officer/mc-application', [OfficerController::class, 'storeMcApplication'])
 ->name('officer.mcApplication.store');
 

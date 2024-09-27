@@ -36,7 +36,6 @@
 
 @include('partials.adminside.aside')
 @include ('partials.adminside.mainadmin')
-@include('partials.logout')
 
 </body>
 <!--   Core JS Files   -->

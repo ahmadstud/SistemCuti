@@ -36,7 +36,7 @@
 
     @include('partials.staffside.aside')
     @include ('partials.staffside.mainstaff')
-    @include('partials.logout')
+
 
     <!-- Core JS Files -->
     <script src="./assets/js/core/popper.min.js"></script>
