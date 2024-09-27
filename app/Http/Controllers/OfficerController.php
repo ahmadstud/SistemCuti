@@ -26,7 +26,7 @@ class OfficerController extends Controller
         return view('officer', compact('applications','announcements','mcApplications'));
     }
 
-    
+
     public function updateStatus(Request $request, $id)
     {
         $application = McApplication::findOrFail($id);
@@ -184,6 +184,7 @@ class OfficerController extends Controller
         // Redirect back with success message
         return redirect()->route('officer')->with('success', 'Permohonan MC telah berjaya dihapuskan!');
     }
+    
 
 
 }

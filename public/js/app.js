@@ -249,5 +249,9 @@ setInterval(updateDateTime, 1000);
 // Initialize date and time on page load
 updateDateTime();
 
+document.getElementById('iconSidenav').addEventListener('click', function() {
+    document.getElementById('sidenav-main').classList.toggle('d-none');
+});
+
 
 

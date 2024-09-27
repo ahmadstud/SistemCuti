@@ -22,7 +22,6 @@ class StaffController extends Controller
             'end_date' => 'required|date|after_or_equal:start_date',
             'document_path' => 'required|mimes:pdf,jpg,png|max:2048',
             'reason' => 'required|string',
-            'selected_officer_id' => 'nullable|exists:users,id',
             'direct_admin_approval' => 'nullable|boolean',
         ]);
 
@@ -50,7 +49,6 @@ class StaffController extends Controller
                 'status' => 'pending',
                 'direct_admin_approval' => $request->input('direct_admin_approval') == '1' ? true : false,
                 'officer_approved' => false,
-                'selected_officer_id' => $request->selected_officer_id ?: null,
             ]);
 
             return redirect()->back()->with('success', 'MC application submitted successfully!');
@@ -70,7 +68,7 @@ class StaffController extends Controller
         return view('staff', compact('mcApplications', 'officers','announcements'));
     }
 
-    
+
     public function updateOwnDetails2(Request $request)
     {
         $user = Auth::user(); // Get the currently authenticated user

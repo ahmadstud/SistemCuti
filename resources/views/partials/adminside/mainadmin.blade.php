@@ -421,6 +421,15 @@
                                                             <label for="mc_days" class="form-label">MC Days</label>
                                                             <input type="number" class="form-control" id="mc_days" name="mc_days" required min="1">
                                                         </div>
+                                                        <div class="col-md-6 mb-3">
+                                                            <label for="selected_officer_id">Select Officer</label>
+                                                            <select name="selected_officer_id" id="selected_officer_id" class="form-control">
+                                                                <option value="">Select Officer</option>
+                                                                @foreach($officers as $officer)
+                                                                    <option value="{{ $officer->id }}">{{ $officer->name }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -558,6 +567,20 @@
                                                 <!-- Updated name to match the controller field 'total_mc_days' -->
                                                 <input type="number" class="form-control" id="mc_days{{ $user->id }}" name="total_mc_days" value="{{ $user->total_mc_days }}" required min="0">
                                             </div>
+
+                                            <!-- Select Officer -->
+                                            <div class="col-md-6 mb-3">
+                                                <label for="selected_officer_id">Select Officer</label>
+                                                <select name="selected_officer_id" id="selected_officer_id" class="form-control">
+                                                    <option value="">Select Officer</option>
+                                                    @foreach($officers as $officer)
+                                                        <option value="{{ $officer->id }}" {{ $user->selected_officer_id == $officer->id ? 'selected' : '' }}>
+                                                            {{ $officer->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -849,8 +872,6 @@
                         </div>
                     </div>
                 </div>
-
-
 
                 <!-- Separate Change Password Section -->
                 <div id="ChangePassword" class="content-section" style="display: none;">

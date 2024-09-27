@@ -5,7 +5,7 @@
         <div class="col-lg-12 mb-lg-0 mb-4" > <!-- Adjust column to full width -->
           <div class="card">
             <div class="card-header pb-1 p-1">
-                
+
     <!-- MC Application Section -->
 <div id="McApply" class="content-section" style="display: none;">
     <!-- MC Applications Table Section -->
@@ -49,15 +49,19 @@
                                         <label for="reason" class="form-label">Reason</label>
                                         <textarea class="form-control" id="reason" name="reason" rows="3" required></textarea>
                                     </div>
-                                    <div class="mb-3">
-                                        <label>Choose Officer (optional):</label>
-                                        <select name="selected_officer_id" id="officer" class="form-select">
-                                            <option value="">-- None --</option>
-                                            @foreach($officers as $officer)
-                                                <option value="{{ $officer->id }}">{{ $officer->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
+
+
+                    <div class="col-md-6 mb-3">
+                        <label for="selected_officer_id">Officer</label>
+
+                            @foreach($officers as $officer)
+                            <option value="{{ $officer->id }}" {{ Auth::user()->selected_officer_id == $officer->id ? 'selected' : '' }}>
+                                 {{ $officer->name }}
+                            @endforeach
+                        </select>
+                    </div>
+
+
                                     <div class="mb-3">
                                         <label>Submit for Admin Approval:</label><br>
                                         <input type="radio" id="yes" name="direct_admin_approval" value="1">
@@ -174,15 +178,7 @@
                                                                     <label for="reason{{ $mcApplication->id }}" class="form-label">Reason</label>
                                                                     <textarea class="form-control" id="reason{{ $mcApplication->id }}" name="reason" rows="3" required>{{ $mcApplication->reason }}</textarea>
                                                                 </div>
-                                                                <div class="mb-3">
-                                                                    <label>Choose Officer (optional):</label>
-                                                                    <select name="selected_officer_id" class="form-select">
-                                                                        <option value="">-- None --</option>
-                                                                        @foreach($officers as $officer)
-                                                                            <option value="{{ $officer->id }}" {{ $officer->id == $mcApplication->selected_officer_id ? 'selected' : '' }}>{{ $officer->name }}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </div>
+
                                                                 <div class="mb-3">
                                                                     <label>Submit for Admin Approval:</label><br>
                                                                     <input type="radio" id="yes{{ $mcApplication->id }}" name="direct_admin_approval" value="1" {{ $mcApplication->direct_admin_approval ? 'checked' : '' }}>

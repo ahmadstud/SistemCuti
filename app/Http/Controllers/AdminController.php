@@ -31,13 +31,13 @@ class AdminController extends Controller
         ->where('admin_approved', false)  // Only fetch those not yet approved
         ->where('status', 'pending')  // Only fetch those not yet approved
         ->get();
-
+        $officers = User::where('role', 'officer')->get();
         $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
         $totalMcApplications = McApplication::count();
         $acceptedMcApplications = McApplication::where('status', 'approved')->count();
         $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
 
-        return view('admin', compact('directAdminApplications','totalUsers', 'users', 'applications', 'totalMcApplications', 'acceptedMcApplications', 'rejectedMcApplications','announcements'));
+        return view('admin', compact('directAdminApplications','totalUsers', 'users', 'applications', 'totalMcApplications', 'acceptedMcApplications', 'rejectedMcApplications','announcements','officers'));
     }
 
 
@@ -82,6 +82,7 @@ class AdminController extends Controller
             'postcode' => $request->postcode,
             'state' => $request->state,
             'total_mc_days' => $request->total_mc_days, // Ensure this matches the input name
+            'selected_officer_id' => $request->selected_officer_id, // Add this line
         ]);
 
         // Redirect with success message
@@ -178,6 +179,7 @@ class AdminController extends Controller
             'city' => $request->city,
             'postcode' => $request->postcode,
             'state' => $request->state,
+            'selected_officer_id' => $request->selected_officer_id, // Add this line
         ]);
 
         // Redirect back to admin with a success message
@@ -226,7 +228,7 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'MC application approved by admin.');
     }
 
-    
+
     public function reject($id)
     {
     $application = McApplication::find($id);

@@ -86,7 +86,7 @@
                                             </td>
                                             <td class="text-center">
                                                 <!-- Accept or Reject Buttons -->
-                                                <form action="" method="POST">
+                                                <form action="{{ route('officer.approve', $application->id) }}" method="POST">
                                                     @csrf
                                                     <button type="submit" name="status" value="approved_by_officer" class="btn btn-success">
                                                         <i class="fas fa-check"></i> <!-- Right symbol -->

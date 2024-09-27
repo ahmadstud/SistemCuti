@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('postcode')->nullable(); // Add postcode column
             $table->string('state')->nullable(); // Add state column
             $table->string('job_status')->nullable(); // Add job status column
-            $table->unsignedBigInteger('supervisor_id')->nullable(); // Add supervisor_id column (nullable, foreign key if needed)
+            $table->unsignedBigInteger('selected_officer_id')->nullable();  // Officer assigned to approve
             $table->rememberToken();
             $table->timestamps();
 
