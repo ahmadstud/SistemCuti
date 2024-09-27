@@ -18,7 +18,6 @@ return new class extends Migration
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');  // Status of the application
             $table->boolean('admin_approved')->default(false);  // Indicates if admin approved
             $table->boolean('officer_approved')->default(false);  // Indicates if officer approved
-            $table->unsignedBigInteger('selected_officer_id')->nullable();  // Officer assigned to approve
             $table->boolean('direct_admin_approval')->default(false);  // Direct admin approval flag
             $table->timestamps();
 

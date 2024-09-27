@@ -51,15 +51,16 @@
                                     </div>
 
 
-                    <div class="col-md-6 mb-3">
-                        <label for="selected_officer_id">Officer</label>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="selected_officer_id">Officer</label>
+                                        @php
+                                            $assignedOfficer = \App\Models\User::find(Auth::user()->selected_officer_id);
+                                        @endphp
+                                        <p class="form-control">
+                                            {{ $assignedOfficer ? $assignedOfficer->name : 'No officer assigned' }}
+                                        </p>
+                                    </div>
 
-                            @foreach($officers as $officer)
-                            <option value="{{ $officer->id }}" {{ Auth::user()->selected_officer_id == $officer->id ? 'selected' : '' }}>
-                                 {{ $officer->name }}
-                            @endforeach
-                        </select>
-                    </div>
 
 
                                     <div class="mb-3">
@@ -486,6 +487,16 @@
                             <div class="col-md-4">
                                 <label for="mc_days" class="form-label">Total MC Days</label>
                                 <p class="form-control" id="mc_days">{{ Auth::user()->total_mc_days }}</p>
+                            </div>
+
+                            <h5 class="mt-4">Assigned Officer</h5>
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <label for="assigned_officer" class="form-label">Assigned Officer</label>
+                                    <p class="form-control" id="assigned_officer">
+                                        {{ Auth::user()->officer ? Auth::user()->officer->name : 'No Officer Assigned' }}
+                                    </p>
+                                </div>
                             </div>
 
 

@@ -424,7 +424,7 @@
                                                         <div class="col-md-6 mb-3">
                                                             <label for="selected_officer_id">Select Officer</label>
                                                             <select name="selected_officer_id" id="selected_officer_id" class="form-control">
-                                                                <option value="">Select Officer</option>
+                                                                <option value="">Select Officer</option> <!-- This allows for no selection -->
                                                                 @foreach($officers as $officer)
                                                                     <option value="{{ $officer->id }}">{{ $officer->name }}</option>
                                                                 @endforeach
@@ -857,8 +857,6 @@
                                                 <label for="mc_days" class="form-label">Total MC Days</label>
                                                 <p class="form-control" id="mc_days">{{ Auth::user()->total_mc_days }}</p>
                                             </div>
-
-
                                         </div>
 
                                         <div class="modal-footer">

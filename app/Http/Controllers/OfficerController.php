@@ -14,9 +14,14 @@ class OfficerController extends Controller
 {
     public function index()
     {
+        // Get the currently authenticated user
+    $officer = Auth::user();
         // Fetch all pending MC applications
         $applications = McApplication::where('status', 'pending')
-        ->where('direct_admin_approval', false)  // Only fetch those not yet approved
+        ->whereHas('user', function ($query) use ($officer) {
+            // Filter where the selected officer for the staff is the logged-in officer
+            $query->where('selected_officer_id', $officer->id);
+        })
         ->get();
         // Fetch all MC applications for the logged-in user
         $mcApplications = McApplication::where('user_id', Auth::id())->get();
@@ -117,6 +122,7 @@ class OfficerController extends Controller
                 'document_path' => $documentPath,
                 'status' => 'pending',
                 'direct_admin_approval' => true, // Indicate that this application is directly for admin approval
+
             ]);
 
             return redirect()->back()->with('success', 'MC application submitted successfully!');
@@ -184,7 +190,7 @@ class OfficerController extends Controller
         // Redirect back with success message
         return redirect()->route('officer')->with('success', 'Permohonan MC telah berjaya dihapuskan!');
     }
-    
+
 
 
 }

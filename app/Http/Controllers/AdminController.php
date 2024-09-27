@@ -163,6 +163,7 @@ class AdminController extends Controller
         'postcode' => 'nullable|string|max:10',
         'state' => 'nullable|string|max:255',
         'mc_days' => 'required|integer|min:1', // Validate mc_days input
+        'selected_officer_id' => 'nullable|exists:users,id', // Make this optional and validate if it exists
         ]);
 
         // Create the new user

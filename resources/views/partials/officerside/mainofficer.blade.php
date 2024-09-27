@@ -86,7 +86,7 @@
                                             </td>
                                             <td class="text-center">
                                                 <!-- Accept or Reject Buttons -->
-                                                <form action="{{ route('officer.approve', $application->id) }}" method="POST">
+                                                <form action="{{ route('officer.updateStatus', ['id' => $application->id]) }}" method="POST">
                                                     @csrf
                                                     <button type="submit" name="status" value="approved_by_officer" class="btn btn-success">
                                                         <i class="fas fa-check"></i> <!-- Right symbol -->
@@ -545,6 +545,8 @@
                                     <label for="mc_days" class="form-label">Total MC Days</label>
                                     <p class="form-control" id="mc_days">{{ Auth::user()->total_mc_days }}</p>
                                 </div>
+
+                                
 
 
                             </div>

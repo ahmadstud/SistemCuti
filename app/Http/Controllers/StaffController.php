@@ -132,7 +132,6 @@ class StaffController extends Controller
         'end_date' => 'required|date|after_or_equal:start_date',
         'document_path' => 'nullable|mimes:pdf,jpg,png|max:2048', // Make this optional
         'reason' => 'required|string',
-        'selected_officer_id' => 'nullable|exists:users,id',
         'direct_admin_approval' => 'nullable|boolean',
     ]);
 
@@ -151,7 +150,6 @@ class StaffController extends Controller
     $mcApplication->start_date = $request->start_date;
     $mcApplication->end_date = $request->end_date;
     $mcApplication->reason = $request->reason;
-    $mcApplication->selected_officer_id = $request->selected_officer_id ?: null;
     $mcApplication->direct_admin_approval = $request->input('direct_admin_approval') == '1' ? true : false;
 
     // Handle file upload if a new document is provided
