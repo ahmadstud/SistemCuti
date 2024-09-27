@@ -1,6 +1,6 @@
 <div class="container-fluid py-3">
     <div class="row">
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
             <div class="card" style="height: 200px;"> <!-- Set a fixed height -->
                 <div class="card-body p-5">
                     <div class="row">
@@ -20,7 +20,7 @@
             </div>
         </div>
 
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
             <div class="card" style="height: 200px;"> <!-- Set a fixed height -->
                 <div class="card-body p-5">
                     <div class="row">
@@ -33,14 +33,14 @@
                         <div class="col-4 text-end">
                             <div class="icon icon-shape bg-gradient-warning shadow-primary text-center rounded-circle" style="width: 60px; height: 60px;"> <!-- Set fixed size for circle -->
                                 <i class="fas fa-file-alt" style="font-size: 2rem; opacity: 10;" aria-hidden="true"></i> <!-- Larger icon size -->
-                            </div>                            
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
             <div class="card" style="height: 200px;"> <!-- Set a fixed height -->
                 <div class="card-body p-5">
                     <div class="row">
@@ -60,7 +60,7 @@
             </div>
         </div>
 
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
             <div class="card" style="height: 200px;"> <!-- Set a fixed height -->
                 <div class="card-body p-5">
                     <div class="row">

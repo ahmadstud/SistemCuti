@@ -24,13 +24,13 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center" width="10%">ID</th>
-                                        <th class="text-center" width="10%">User ID</th>
-                                        <th class="text-center" width="10%">Start Date</th>
-                                        <th class="text-center" width="10%">End Date</th>
-                                        <th class="text-center" width="10%">Reason</th>
-                                        <th class="text-center" width="10%">Document</th>
+                                        <th class="text-center" width="10%">ID Pengguna</th>
+                                        <th class="text-center" width="10%">Tarikh Mula</th>
+                                        <th class="text-center" width="10%">Tarikh Tamat</th>
+                                        <th class="text-center" width="10%">Sebab</th>
+                                        <th class="text-center" width="10%">Dokumen</th>
                                         <th class="text-center" width="10%">Status</th>
-                                        <th class="text-center" width="10%">Action</th>
+                                        <th class="text-center" width="10%">Tindakan</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -50,7 +50,7 @@
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title" id="reasonModalLabel{{ $application->id }}">Reason for MC Application</h5>
+                                                                <h5 class="modal-title" id="reasonModalLabel{{ $application->id }}">Sebab Permohonan Dibuat</h5>
                                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
                                                             <div class="modal-body">
@@ -73,15 +73,15 @@
                                             </td>
                                             <td class="text-center">
                                                 @if($application->admin_approved && $application->officer_approved)
-                                                    <span class="badge bg-success">Approved</span>
+                                                    <span class="badge bg-success">Diterima</span>
                                                 @elseif($application->admin_approved)
-                                                    <span class="badge bg-info">Direct Admin Approved</span>
+                                                    <span class="badge bg-info">Admin Terima</span>
                                                 @elseif($application->officer_approved)
-                                                    <span class="badge bg-warning text-dark">Half Approved</span>
+                                                    <span class="badge bg-warning text-dark">Separuh Terima</span>
                                                 @elseif($application->status == 'pending')
-                                                    <span class="badge bg-warning">Pending</span>
+                                                    <span class="badge bg-warning">Dalam Proses</span>
                                                 @else
-                                                    <span class="badge bg-danger">Rejected</span>
+                                                    <span class="badge bg-danger">Ditolak</span>
                                                 @endif
                                             </td>
                                             <td class="text-center">
@@ -109,7 +109,7 @@
        <!-- Dashboard Section -->
        <div id="Dashboard" class="content-section" style="display: none;">
         <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
-            <h4><b>DASHBOARD<b></h4>
+            <h4><b>Utama<b></h4>
         </nav>
         <div class="row mt-4">
             <div class="col-lg-12 mb-lg-0 mb-4">
@@ -124,7 +124,7 @@
                                 <div class="card-header pb-0 pt-3 bg-transparent">
                                     <h4 class="text-capitalize">PENGUMUMAN</h4>
                                     <p class="text-sm mb-0">
-                                        <span class="font-weight-bold">Latest update on (timestamp)</span>
+                                        <span class="font-weight-bold">Kemas kini terkini</span>
                                     </p>
                                 </div>
 
@@ -160,22 +160,6 @@
                                         </button>
                                     </div>
 
-                                    <!-- JavaScript to Update Title and Content -->
-                                    <script>
-                                        const carousel = document.getElementById('announcementCarousel');
-                                        const titleElement = document.getElementById('announcementTitle');
-                                        const contentElement = document.getElementById('announcementContent');
-
-                                        carousel.addEventListener('slide.bs.carousel', function (event) {
-                                            const currentItem = event.relatedTarget; // The currently active carousel item
-                                            const title = currentItem.getAttribute('data-title');
-                                            const content = currentItem.getAttribute('data-content');
-
-                                            titleElement.textContent = title; // Update title
-                                            contentElement.textContent = content; // Update content
-                                        });
-                                    </script>
-
                                 </div>
                             </div>
                         </div>
@@ -183,107 +167,6 @@
                     </div>
                 </div>
 
-                {{-- Second Row --}}
-                <div class="container-fluid py-2">
-                    <div class="row ">
-
-                        {{-- Card Purata Ketidakhadiran --}}
-                        <div class="col-lg-7 mb-lg-0 mb-4">
-                            <div class="card z-index-2 h-100">
-                                <div class="card-header pb-0 pt-3 bg-transparent">
-                                    <h4 class="text-capitalize">PURATA KETIDAKHADIRAN</h4>
-                                <p class="text-sm mb-0">
-                                    <i class="fa fa-arrow-up text-success"></i>
-                                    <span class="font-weight-bold">4% more</span> in 2021
-                                </p>
-                                </div>
-                                <div class="card-body p-3">
-                                    <div class="chart">
-                                        <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- Card Senarai Staff Cuti Harian --}}
-                        <div class="col-lg-5">
-                            <div class="card h-100 mb-4">
-                                <div class="card-header pb-0 px-3">
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <h4 class="text-capitalize">SENARAI STAFF CUTI HARIAN</h4>
-                                    </div>
-                                    <div class="col-md-4 d-flex justify-content-end align-items-center">
-                                        <i class="far fa-calendar-alt me-2"></i>
-                                        <small>September</small>
-                                    </div>
-                                </div>
-                                </div>
-
-                                <div class="card-body pt-4 p-3">
-                                    <h6 class="text-uppercase text-body text-md font-weight-bolder mb-3">Hari ini</h6>
-                                    <ul class="list-group">
-                                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                        <div class="d-flex align-items-center">
-                                        <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user1">
-                                            <div class="d-flex flex-column">
-                                            <h6 class="mb-0 text-sm">John Michael</h6>
-                                            <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                                            01.01.2024 - 03.01.2024
-                                        </div>
-                                        </li>
-                                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                        <div class="d-flex align-items-center">
-                                        <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user1">
-                                            <div class="d-flex flex-column">
-                                            <h6 class="mb-0 text-sm">John Michael</h6>
-                                            <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                                            01.01.2024 - 03.01.2024
-                                        </div>
-                                        </li>
-                                    </ul>
-
-                                    <h6 class="text-uppercase text-body text-md font-weight-bolder my-3">Esok</h6>
-                                    <ul class="list-group">
-                                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                        <div class="d-flex align-items-center">
-                                        <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user1">
-                                            <div class="d-flex flex-column">
-                                            <h6 class="mb-0 text-sm">John Michael</h6>
-                                            <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                                            01.01.2024 - 03.01.2024
-                                        </div>
-                                        </li>
-                                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                        <div class="d-flex align-items-center">
-                                        <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user1">
-                                            <div class="d-flex flex-column">
-                                            <h6 class="mb-0 text-sm">John Michael</h6>
-                                            <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                                            01.01.2024 - 03.01.2024
-                                        </div>
-                                        </li>
-
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
 
             </div>
         </div>
@@ -353,7 +236,7 @@
                                 <th class="text-center" width="10%">Sebab</th>
                                 <th class="text-center" width="10%">Dokumen</th>
                                 <th class="text-center" width="10%">Status</th>
-                                <th class="text-center" width="10%">Aksi</th>
+                                <th class="text-center" width="10%">Tindakan</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -396,9 +279,9 @@
                                     </td>
                                     <td class="text-center">
                                         @if($mcApplication->admin_approved)
-                                            <span class="badge bg-success">Diluluskan</span>
+                                            <span class="badge bg-success">Diterima</span>
                                         @elseif($mcApplication->status == 'pending')
-                                            <span class="badge bg-warning text-dark">Menunggu</span>
+                                            <span class="badge bg-warning text-dark">Dalam Proses</span>
                                         @else
                                             <span class="badge bg-danger">Ditolak</span>
                                         @endif
@@ -413,7 +296,7 @@
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="editMcModalLabel{{ $mcApplication->id }}">Edit Permohonan MC</h5>
+                                                            <h5 class="modal-title" id="editMcModalLabel{{ $mcApplication->id }}">Kemas kini Permohonan</h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <form action="{{ route('officer.mc.edit', $mcApplication->id) }}" method="POST" enctype="multipart/form-data">
@@ -474,7 +357,7 @@
                 <div class="card">
                     <div class="card-header pb-0 p-3">
                         <div class="d-flex justify-content-between">
-                            <h6 class="mb-2">Profile</h6>
+                            <h6 class="mb-2">Akaun</h6>
                         </div>
                     </div>
                     <div class="card-body">
@@ -483,7 +366,7 @@
                             <div class="row">
                                 <!-- Profile Information -->
                                 <div class="col-md-6">
-                                    <label for="name" class="form-label">Name</label>
+                                    <label for="name" class="form-label">Nama</label>
                                     <p class="form-control" id="name">{{ Auth::user()->name }}</p>
                                 </div>
                                 <div class="col-md-6">
@@ -499,16 +382,16 @@
                                     <p class="form-control" id="ic">{{ Auth::user()->ic }}</p>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="phone_number" class="form-label">Phone Number</label>
+                                    <label for="phone_number" class="form-label">Nombor Telefon</label>
                                     <p class="form-control" id="phone_number">{{ Auth::user()->phone_number }}</p>
                                 </div>
                             </div>
 
-                            <h5 class="mt-4">Address Information</h5>
+                            <h5 class="mt-4">Maklumat Alamat</h5>
                             <div class="row mt-3">
                                 <!-- Address -->
                                 <div class="col-md-12">
-                                    <label for="address" class="form-label">Address</label>
+                                    <label for="address" class="form-label">Alamat</label>
                                     <p class="form-control" id="address">{{ Auth::user()->address }}</p>
                                 </div>
                             </div>
@@ -516,38 +399,35 @@
                             <div class="row mt-3">
                                 <!-- State, City, Postcode -->
                                 <div class="col-md-4">
-                                    <label for="postcode" class="form-label">Postcode</label>
+                                    <label for="postcode" class="form-label">Poskod</label>
                                     <p class="form-control" id="postcode">{{ Auth::user()->postcode }}</p>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="state" class="form-label">State</label>
+                                    <label for="state" class="form-label">Negeri</label>
                                     <p class="form-control" id="state">{{ Auth::user()->state }}</p>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="city" class="form-label">City</label>
+                                    <label for="city" class="form-label">Bandar</label>
                                     <p class="form-control" id="city">{{ Auth::user()->city }}</p>
                                 </div>
                             </div>
 
-                            <h5 class="mt-4">Job Status</h5>
+                            <h5 class="mt-4">Status Pekerjaan</h5>
                             <div class="row mt-3">
                                 <div class="col-md-4">
-                                    <label for="role" class="form-label">Role</label>
+                                    <label for="role" class="form-label">Peranan</label>
                                     <p class="form-control" id="role">{{ Auth::user()->role }}</p>
                                 </div>
 
                                 <div class="col-md-4">
-                                    <label for="job_status" class="form-label">Job Status</label>
+                                    <label for="job_status" class="form-label">Status Kerja</label>
                                     <p class="form-control" id="role">{{ Auth::user()->job_status }}</p>
                                 </div>
 
                                 <div class="col-md-4">
-                                    <label for="mc_days" class="form-label">Total MC Days</label>
+                                    <label for="mc_days" class="form-label">Baki Cuti</label>
                                     <p class="form-control" id="mc_days">{{ Auth::user()->total_mc_days }}</p>
                                 </div>
-
-                                
-
 
                             </div>
 
@@ -570,18 +450,18 @@
             <div class="card">
                 <div class="card-header pb-0 p-3">
                     <div class="d-flex justify-content-between">
-                        <h6 class="mb-2">Change Password</h6>
+                        <h6 class="mb-2">Tukar Kata Laluan</h6>
                     </div>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('updateOwnDetails3') }}" method="POST">
                         @csrf
                         <div class="mb-3">
-                            <label for="password" class="form-label">New Password</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Leave blank if not changing">
+                            <label for="password" class="form-label">Kata Laluan lama</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Biar kosong jika tiada perubahan kata laluan">
                         </div>
                         <div class="mb-3">
-                            <label for="password_confirmation" class="form-label">Confirm New Password</label>
+                            <label for="password_confirmation" class="form-label">Kata Laluan baru</label>
                             <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
                         </div>
 

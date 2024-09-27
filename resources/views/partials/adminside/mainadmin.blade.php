@@ -204,7 +204,7 @@
                                         <div class="card-header pb-0 p-3">
                                             <div class="d-flex justify-content-between">
                                                 <h4 class="text-capitalize">SENARAI PENGUMUMAN</h4>
-                                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createAnnouncementModal">Create Announcement</button>
+                                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createAnnouncementModal">Cipta Pengumuman</button>
                                             </div>
                                         </div>
                                         <div class="card-body">
@@ -348,7 +348,7 @@
                                         <h6 class="mb-2">Senarai Pengguna</h6>
                                         <!-- Add Staff/Officer Button -->
                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStaffModal">
-                                            Add Staff/Officer
+                                            Tambah Penyelia/Staf
                                         </button>
                                     </div>
                                 </div>
