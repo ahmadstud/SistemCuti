@@ -97,10 +97,14 @@ class AdminController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
         ]);
 
         $announcement->title = $request->title;
         $announcement->content = $request->content;
+        $announcement->start_date = $request->start_date;
+        $announcement->end_date = $request->end_date;
 
         if ($request->hasFile('image_path')) {
             // Delete old image if it exists

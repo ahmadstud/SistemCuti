@@ -47,6 +47,7 @@
                                                     <div class="text-center mt-3">
                                                         <h2 id="announcementTitle" style="text-transform: uppercase;">{{ $announcements[0]->title }}</h2>
                                                         <p id="announcementContent">{{ $announcements[0]->content }}</p>
+                                                        <p id="announcementContent">tarikh mula - tarikh akhir</p>
                                                     </div>
                                                     
                                                     <button class="carousel-control-prev" type="button" data-bs-target="#announcementCarousel" data-bs-slide="prev">
@@ -206,87 +207,114 @@
                                         <div class="card-header pb-0 p-3">
                                             <div class="d-flex justify-content-between">
                                                 <h4 class="text-capitalize">SENARAI PENGUMUMAN</h4>
+                                                <!-- Add Pengumuman Button -->
                                                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createAnnouncementModal">
                                                     Tambah Pengumuman
                                                 </button>
                                             </div>
-                                        </div>
 
-                                        <!-- Create Announcement Modal -->
-                                        <div class="modal fade" id="createAnnouncementModal" tabindex="-1" aria-labelledby="createAnnouncementLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="createAnnouncementLabel">Tambah Pengumuman</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form action="{{ route('admin.storeAnnouncement') }}" method="POST" enctype="multipart/form-data">
-                                                            @csrf
-                                                            <div class="mb-3">
-                                                                <label for="title" class="form-label">Tajuk</label>
-                                                                <input type="text" class="form-control" id="title" name="title" required>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="image" class="form-label">Gambar</label>
-                                                                <input type="file" class="form-control" id="image" name="image" accept="image/*">
-                                                            </div>
-                                                            <p class="text-muted">
-                                                                Please upload images with the following specifications:
-                                                                <br>
-                                                                - Recommended size: **1200 x 675 pixels** (16:9 aspect ratio)
-                                                                <br>
-                                                                - Minimum width: **800 pixels**
-                                                                <br>
-                                                                - File formats: **JPG, PNG**
-                                                                <br>
-                                                                - Maximum file size: **2MB**
-                                                            </p>
-                                                            <div class="mb-3">
-                                                                <label for="content-create" class="form-label">Isi Kandungan</label>
-                                                                <textarea class="form-control" id="content-create" name="content" rows="4" required></textarea>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="submit" class="btn btn-success">Simpan</button>
-                                                            </div>
-                                                        </form>
+                                            <!-- Add Announcement Modal -->
+                                            <div class="modal fade" id="createAnnouncementModal" tabindex="-1" aria-labelledby="createAnnouncementLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header" style="background-color: #f0f0f0;">
+                                                            <h5 class="modal-title" id="createAnnouncementLabel">Tambah Pengumuman</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form action="{{ route('admin.storeAnnouncement') }}" method="POST" enctype="multipart/form-data">
+                                                                @csrf
+                                                                <div class="mb-3">
+                                                                    <label for="title" class="form-label">Tajuk<span class="text-danger">*</span></label>
+                                                                    <input type="text" class="form-control" id="title" name="title" required>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="content" class="form-label">Isi Kandungan<span class="text-danger">*</span></label>
+                                                                    <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
+                                                                </div>
+                                                                <div class="row mb-3">
+                                                                    <div class="col-md-6">
+                                                                        <label for="announcementStartDate" class="form-label">Tarikh Mula<span class="text-danger">*</span></label>
+                                                                        <input type="date" class="form-control" id="announcementStartDate" name="start_date" required>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <label for="announcementEndDate" class="form-label">Tarikh Akhir<span class="text-danger">*</span></label>
+                                                                        <input type="date" class="form-control" id="announcementEndDate" name="end_date" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="image" class="form-label">Gambar<span class="text-danger">*</span></label>
+                                                                    <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                                                                </div>
+                                                                <p class="text-muted">
+                                                                    Please upload images with the following specifications:
+                                                                    <br>
+                                                                    - Recommended size: **1200 x 675 pixels** (16:9 aspect ratio)
+                                                                    <br>
+                                                                    - Minimum width: **800 pixels**
+                                                                    <br>
+                                                                    - File formats: **JPG, PNG**
+                                                                    <br>
+                                                                    - Maximum file size: **2MB**
+                                                                </p>
+
+                                                                <div class="modal-footer">
+                                                                    <button type="submit" class="btn btn-success">Simpan</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+
                                         </div>
 
+                                        {{-- List of Announcements --}}
                                         <div class="card-body">
                                             <div style="overflow-x: auto; position: relative;">
                                                 <table class="table" style="table-layout: fixed; width: 100%;">
                                                     <thead style="background-color: #f0f0f0;">
                                                         <tr>
-                                                            <th style="width: 3%;">BIL</th>
-                                                            <th style="width: 15%;">TAJUK</th>
-                                                            <th style="width: 30%; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ISI KANDUNGAN</th>
-                                                            <th style="width: 20%;">GAMBAR</th>
-                                                            <th style="width: 10%;">TINDAKAN</th>
+                                                            <th style="width: 3%; position: sticky; left: 0; z-index: 1; padding: 8px;">BIL</th>
+                                                            <th style="width: 15%; padding: 8px;">TAJUK</th>
+                                                            <th style="width: 30%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ISI KANDUNGAN</th>
+                                                            <th style="width: 10%; padding: 8px;">TARIKH MULA</th>
+                                                            <th style="width: 10%; padding: 8px;">TARIKH AKHIR</th>
+                                                            <th style="width: 20%; padding: 8px;">GAMBAR</th>
+                                                            <th style="width: 10%; padding: 8px;">TINDAKAN</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         @foreach($announcements as $announcement)
                                                             <tr>
-                                                                <td style="position: sticky; left: 0; background: white; z-index: 1;"><p class="text-m text-secondary">{{ $loop->iteration }}</p></td>
-                                                                <td><p class="text-m text-secondary">{{ $announcement->title }}</p></td>
-                                                                <td style="overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <p class="text-m text-secondary">{{ $loop->iteration }}</p>
+                                                                </td>
+                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <p class="text-m text-secondary">{{ $announcement->title }}</p>
+                                                                </td>
+                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap; break-word; word-wrap: break-word; white-space: normal;">
                                                                     <p class="text-m text-secondary">{{ $announcement->content }}</p>
                                                                 </td>
-                                                                <td>
+                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <p class="text-m text-secondary">{{ $announcement->title }}</p>
+                                                                </td>
+                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <p class="text-m text-secondary">{{ $announcement->title }}</p>
+                                                                </td>
+                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                     @if($announcement->image_path)
                                                                         <img src="{{ asset('storage/' . $announcement->image_path) }}" class="d-block w-25" alt="{{ $announcement->title }}">
                                                                     @else
                                                                         No Image
                                                                     @endif
                                                                 </td>
-                                                                <td>
+                                                                <td style="border: 1px solid #dee2e6; padding: 8px;">
                                                                     <!-- Edit Button -->
-                                                                    <button class="btn btn-md btn-warning" data-bs-toggle="modal" data-bs-target="#editAnnouncementModal{{ $announcement->id }}">
+                                                                    <button class="btn btn-md btn-primary" data-bs-toggle="modal" data-bs-target="#editAnnouncementModal{{ $announcement->id }}">
                                                                         <i class="fas fa-pencil-alt"></i>
                                                                     </button>
+
                                                                     <!-- Delete button for announcement -->
                                                                     <form action="{{ route('deleteAnnouncement', $announcement->id) }}" method="POST" style="display:inline;">
                                                                         @csrf
@@ -302,7 +330,7 @@
                                                             <div class="modal fade" id="editAnnouncementModal{{ $announcement->id }}" tabindex="-1" aria-labelledby="editAnnouncementLabel{{ $announcement->id }}" aria-hidden="true">
                                                                 <div class="modal-dialog">
                                                                     <div class="modal-content">
-                                                                        <div class="modal-header">
+                                                                        <div class="modal-header" style="background-color: #f0f0f0;">
                                                                             <h5 class="modal-title" id="editAnnouncementLabel{{ $announcement->id }}">Kemaskini Pengumuman</h5>
                                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                         </div>
@@ -318,18 +346,40 @@
                                                                                     <label for="content{{ $announcement->id }}" class="form-label">Isi Kandungan</label>
                                                                                     <textarea class="form-control" id="content{{ $announcement->id }}" name="content" rows="4" required>{{ $announcement->content }}</textarea>
                                                                                 </div>
+                                                                                <div class="row mb-3">
+                                                                                    <div class="col-md-6">
+                                                                                        <label for="announcementStartDate" class="form-label">Tarikh Mula Pengumuman</label>
+                                                                                        <input type="date" class="form-control" id="announcementStartDate" name="pm_tarikhmula">
+                                                                                    </div>
+                                                                                    <div class="col-md-6">
+                                                                                        <label for="announcementEndDate" class="form-label">Tarikh Akhir Pengumuman</label>
+                                                                                        <input type="date" class="form-control" id="announcementEndDate" name="pm_tarikhakhir">
+                                                                                    </div>
+                                                                                </div>
                                                                                 <div class="mb-3">
                                                                                     <label for="image{{ $announcement->id }}" class="form-label">Gambar (pilihan)</label>
                                                                                     <input type="file" class="form-control" id="image{{ $announcement->id }}" name="image_path" accept="image/*">
                                                                                 </div>
+                                                                                <p class="text-muted">
+                                                                                    Please upload images with the following specifications:
+                                                                                    <br>
+                                                                                    - Recommended size: **1200 x 675 pixels** (16:9 aspect ratio)
+                                                                                    <br>
+                                                                                    - Minimum width: **800 pixels**
+                                                                                    <br>
+                                                                                    - File formats: **JPG, PNG**
+                                                                                    <br>
+                                                                                    - Maximum file size: **2MB**
+                                                                                </p>
                                                                                 <div class="modal-footer">
-                                                                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                                                                    <button type="submit" class="btn btn-success">Simpan</button>
                                                                                 </div>
                                                                             </form>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
+                                                            </div>                                                      
+
                                                         @endforeach
                                                     </tbody>
                                                 </table>
@@ -355,6 +405,7 @@
                             <div class="container-fluid py-2">
                                 <div class="row">
 
+                                    <!-- List of Staff -->
                                     <div class="card">
                                         <div class="card-header pb-0 p-3">
                                             <div class="d-flex justify-content-between">
@@ -370,83 +421,107 @@
                                         <div class="modal fade" id="addStaffModal" tabindex="-1" aria-labelledby="addStaffModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="addStaffModalLabel">Add Staff/Officer</h5>
+                                                    <div class="modal-header" style="background-color: #f0f0f0;">
+                                                        <h5 class="modal-title" id="addStaffModalLabel">Tambah Staff / Pegawai</h5>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
-                                                    <form action="{{ route('storeUser') }}" method="POST">
-                                                        @csrf
-                                                        <div class="modal-body">
+                                                    <div class="modal-body">
+                                                        <form action="{{ route('storeUser') }}" method="POST" enctype="multipart/form-data">
+                                                            @csrf
+                                                        
                                                             <div class="row g-3">
-                                                                <div class="col-md-6 mb-3">
-                                                                    <label for="name" class="form-label">Name</label>
+                                                                <div class="col-md-12 mb-3">
+                                                                    <label for="name" class="form-label">Nama<span class="text-danger">*</span></label>
                                                                     <input type="text" class="form-control" id="name" name="name" required>
                                                                 </div>
+                                                            </div>
+                                                            <div class="row g-3">
                                                                 <div class="col-md-6 mb-3">
-                                                                    <label for="email" class="form-label">Email</label>
+                                                                    <label for="email" class="form-label">E-mel<span class="text-danger">*</span></label>
                                                                     <input type="email" class="form-control" id="email" name="email" required>
                                                                 </div>
                                                                 <div class="col-md-6 mb-3">
-                                                                    <label for="password" class="form-label">Password</label>
+                                                                    <label for="password" class="form-label">Kata Kunci<span class="text-danger">*</span></label>
                                                                     <input type="password" class="form-control" id="password" name="password" required>
                                                                 </div>
+                                                            </div>
+                                                            <div class="row g-3">
                                                                 <div class="col-md-6 mb-3">
-                                                                    <label for="ic" class="form-label">IC</label>
+                                                                    <label for="ic" class="form-label">No K/P<span class="text-danger">*</span></label>
                                                                     <input type="text" class="form-control" id="ic" name="ic">
                                                                 </div>
                                                                 <div class="col-md-6 mb-3">
-                                                                    <label for="phone_number" class="form-label">Phone Number</label>
+                                                                    <label for="phone_number" class="form-label">No Telefon<span class="text-danger">*</span></label>
                                                                     <input type="text" class="form-control" id="phone_number" name="phone_number">
                                                                 </div>
+                                                            </div>
+                                                            <div class="row g-3">
                                                                 <div class="col-md-6 mb-3">
-                                                                    <label for="role" class="form-label">Role</label>
+                                                                    <label for="role" class="form-label">Peranan<span class="text-danger">*</span></label>
                                                                     <select class="form-select" id="role" name="role" required>
-                                                                        <option value="staff">Staff</option>
-                                                                        <option value="officer">Officer</option>
+                                                                        <option selected disabled>--- Pilih Peranan ---</option>
+                                                                        <option value="admin">Admin</option>
+                                                                        <option value="staff">Staf</option>
+                                                                        <option value="officer">Pegawai</option>
                                                                     </select>
                                                                 </div>
-
                                                                 <div class="col-md-6 mb-3">
-                                                                    <label for="job_status" class="form-label">Job Status</label>
+                                                                    <label for="job_status" class="form-label">Status Pekerjaan<<span class="text-danger">*</span></label>
                                                                     <select class="form-select" id="job_status" name="job_status" required>
-                                                                        <option value="Permenant">Permenant</option>
-                                                                        <option value="Contract">Contract</option>
+                                                                        <option selected disabled>--- Pilih Status ---</option>
+                                                                        <option value="Permenant">Tetap</option>
+                                                                        <option value="Contract">Kontrak</option>
+                                                                        <option value="Freelance">Berhenti</option>
                                                                     </select>
                                                                 </div>
-
+                                                            </div>
+                                                            <div class="row g-3">
                                                                 <div class="col-md-6 mb-3">
-                                                                    <label for="address" class="form-label">Address</label>
-                                                                    <input type="text" class="form-control" id="address" name="address" required>
+                                                                    <label for="pegawai" class="form-label">Ketua Bahagian/Pegawai <span class="text-danger">*</span></label>
+                                                                    <select class="form-select" id="pegawai" name="pegawai" required>
+                                                                        <option selected disabled>--- Pilih Ketua Bahagian ---</option>
+                                                                        <option value="Ketua 1 / Pegawai 1">Ketua 1 / Pegawai 1</option>
+                                                                        <option value="Ketua 2 / Pegawai 2">Ketua 2 / Pegawai 2</option>
+                                                                        <option value="Tiada Berkenaan">Tiada Berkenaan</option>
+                                                                    </select>
                                                                 </div>
                                                                 <div class="col-md-6 mb-3">
-                                                                    <label for="city" class="form-label">City</label>
-                                                                    <input type="text" class="form-control" id="city" name="city" required>
-                                                                </div>
-                                                                <div class="col-md-6 mb-3">
-                                                                    <label for="postcode" class="form-label">Postcode</label>
-                                                                    <input type="text" class="form-control" id="postcode" name="postcode" required>
-                                                                </div>
-                                                                <div class="col-md-6 mb-3">
-                                                                    <label for="state" class="form-label">State</label>
-                                                                    <input type="text" class="form-control" id="state" name="state" required>
-                                                                </div>
-                                                                <div class="col-md-6 mb-3">
-                                                                    <label for="mc_days" class="form-label">MC Days</label>
+                                                                    <label for="mc_days" class="form-label">Jumlah cuti<span class="text-danger">*</span></label>
                                                                     <input type="number" class="form-control" id="mc_days" name="mc_days" required min="1">
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                            <button type="submit" class="btn btn-primary">Add Staff/Officer</button>
-                                                        </div>
-                                                    </form>
+                                                            <hr>
+                                                            <div class="row g-3">
+                                                                <div class="col-md-12 mb-3">
+                                                                    <label for="address" class="form-label">Alamat<span class="text-danger">*</span></label>
+                                                                    <input type="text" class="form-control" id="address" name="address" required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row g-3">
+                                                                <div class="col-md-6 mb-3">
+                                                                    <label for="city" class="form-label">Bandar<span class="text-danger">*</span></label>
+                                                                    <input type="text" class="form-control" id="city" name="city" required>
+                                                                </div>
+                                                                <div class="col-md-6 mb-3">
+                                                                    <label for="postcode" class="form-label">Poskod<span class="text-danger">*</span></label>
+                                                                    <input type="text" class="form-control" id="postcode" name="postcode" required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row g-3">
+                                                                <div class="col-md-6 mb-3">
+                                                                    <label for="state" class="form-label">Negeri<span class="text-danger">*</span></label>
+                                                                    <input type="text" class="form-control" id="state" name="state" required>
+                                                                </div>
+                                                            </div>
+                                                        
+                                                            <div class="modal-footer">
+                                                                <button type="submit" class="btn btn-success">Simpan</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- Closing for Add Staff/Officer Modal -->
-
-
                                         
                                         {{-- List of staff --}}
                                         <div class="card-body">
@@ -454,152 +529,174 @@
                                                 <table class="table" style="table-layout: fixed; width: 100%;">
                                                     <thead style="background-color: #f0f0f0;">
                                                         <tr>
-                                                            <th style="width: 3%">BIL</th>
-                                                            <th style="width: 15%">NAMA</th>
-                                                            <th style="width: 15%">EMEL</th>
-                                                            <th style="width: 10%">NO K/P</th>
-                                                            <th style="width: 10%">NO TELEFON</th>
-                                                            <th style="width: 20%">PERANAN</th>
-                                                            <th style="width: 10%">TIDAKAN</th>
+                                                            <th style="width: 3%; position: sticky; left: 0; z-index: 1;  padding: 8px;">BIL</th>
+                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
+                                                            <th style="width: 20%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">EMEL</th>
+                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NO K/P</th>
+                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NO TELEFON</th>
+                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">PERANAN</th>
+                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">KETUA BAHAGIAN</th>
+                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS PEKERJAAN</th>
+                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TIDAKAN</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         @foreach ($users as $user)
-                                                        <tr>
-                                                            <td>
-                                                                <p class="text-m text-secondary">{{ $loop->iteration }}</p>
-                                                            </td>
-                                                            <td>
-                                                                <p class="text-m text-secondary">{{ $user->name }}</p>
-                                                            </td>
-                                                            <td>
-                                                                <p class="text-m text-secondary">{{ $user->email }}</p>
-                                                            </td>
-                                                            <td>
-                                                                <p class="text-m text-secondary">{{ $user->ic }}</p>
-                                                            </td>
-                                                            <td>
-                                                                <p class="text-m text-secondary">{{ $user->phone_number }}</p>
-                                                            </td>
-                                                            <td>
-                                                                <p class="text-m text-secondary">{{ $user->role }}</p>
-                                                            </td>
-                                                            <td>
-                                                                <!-- Button trigger modal -->
-                                                                <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#editModal{{ $user->id }}" title="Update">
-                                                                    <i class="fas fa-edit"></i> <!-- Edit symbol -->
-                                                                </button>
+                                                            <tr>
+                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <p class="text-m text-secondary">{{ $loop->iteration }}</p>
+                                                                </td>
+                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <p class="text-m text-secondary">{{ $user->name }}</p>
+                                                                </td>
+                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <p class="text-m text-secondary">{{ $user->email }}</p>
+                                                                </td>
+                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <p class="text-m text-secondary">{{ $user->ic }}</p>
+                                                                </td>
+                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <p class="text-m text-secondary">{{ $user->phone_number }}</p>
+                                                                </td>
+                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    @if($user->role == 'admin')
+                                                                        <span class="badge badge-md bg-gradient-danger">{{ $user->role }}</span>
+                                                                    @elseif($user->role == 'staff')
+                                                                        <span class="badge badge-md bg-gradient-info">{{ $user->role }}</span>
+                                                                    @elseif($user->role == 'officer')
+                                                                        <span class="badge badge-md bg-gradient-warning">{{ $user->role }}</span>
+                                                                    @else
+                                                                        <span class="badge badge-md bg-gradient-secondary">{{ $user->role }}</span>
+                                                                    @endif
+                                                                  </td>     
+                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    @if($user->job_status == 'Permenant')
+                                                                        <span class="badge badge-md bg-gradient-info">{{ $user->job_status }}</span>
+                                                                    @elseif($user->job_status == 'Contract')
+                                                                        <span class="badge badge-md bg-gradient-success">{{ $user->job_status }}</span>
+                                                                    @else
+                                                                        <span class="badge badge-md bg-gradient-secondary">{{ $user->job_status }}</span>
+                                                                    @endif
+                                                                </td>
+                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <p class="text-m text-secondary">{{ $user->job_status }}</p>
+                                                                </td>
+                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
 
-                                                                <!-- Delete button -->
-                                                                <form action="{{ route('deleteUser', $user->id) }}" method="POST" style="display:inline;">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                    <button type="submit" class="btn btn-sm btn-danger" title="Delete">
-                                                                        <i class="fas fa-trash-alt"></i> <!-- Delete symbol -->
+                                                                    <!-- Edit Button -->
+                                                                    <button class="btn btn-md btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $user->id }}">
+                                                                        <i class="fas fa-pencil-alt"></i>
                                                                     </button>
-                                                                </form>
-                                                            </td>
-                                                        </tr>
-
-                                                        <!-- Edit User Modal -->
-                                                        <div class="modal fade" id="editModal{{ $user->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $user->id }}" aria-hidden="true">
-                                                            <div class="modal-dialog">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title" id="editModalLabel{{ $user->id }}">Edit User - {{ $user->name }}</h5>
-                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                    </div>
-                                                                    <form action="{{ route('updateUser', $user->id) }}" method="POST">
+                                                
+                                                                    <!-- Delete button -->
+                                                                    <form action="{{ route('deleteUser', $user->id) }}" method="POST" style="display:inline;">
                                                                         @csrf
-                                                                        <div class="modal-body">
-                                                                            <div class="row g-3">
-                                                                                <!-- Name -->
-                                                                                <div class="col-md-6 mb-3">
-                                                                                    <label for="name{{ $user->id }}" class="form-label">Name</label>
-                                                                                    <input type="text" class="form-control" id="name{{ $user->id }}" name="name" value="{{ $user->name }}" required>
-                                                                                </div>
-
-                                                                                <!-- Email -->
-                                                                                <div class="col-md-6 mb-3">
-                                                                                    <label for="email{{ $user->id }}" class="form-label">Email</label>
-                                                                                    <input type="email" class="form-control" id="email{{ $user->id }}" name="email" value="{{ $user->email }}" required>
-                                                                                </div>
-
-                                                                                <!-- IC -->
-                                                                                <div class="col-md-6 mb-3">
-                                                                                    <label for="ic{{ $user->id }}" class="form-label">IC</label>
-                                                                                    <input type="text" class="form-control" id="ic{{ $user->id }}" name="ic" value="{{ $user->ic }}">
-                                                                                </div>
-
-                                                                                <!-- Phone Number -->
-                                                                                <div class="col-md-6 mb-3">
-                                                                                    <label for="phone_number{{ $user->id }}" class="form-label">Phone Number</label>
-                                                                                    <input type="text" class="form-control" id="phone_number{{ $user->id }}" name="phone_number" value="{{ $user->phone_number }}">
-                                                                                </div>
-
-                                                                                <!-- Role -->
-                                                                                <div class="col-md-6 mb-3">
-                                                                                    <label for="role{{ $user->id }}" class="form-label">Role</label>
-                                                                                    <select class="form-select" id="role{{ $user->id }}" name="role">
-                                                                                        <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
-                                                                                        <option value="staff" {{ $user->role == 'staff' ? 'selected' : '' }}>Staff</option>
-                                                                                        <option value="officer" {{ $user->role == 'officer' ? 'selected' : '' }}>Officer</option>
-                                                                                    </select>
-                                                                                </div>
-
-                                                                                                <!-- Job Status -->
-                                                                            <div class="col-md-6 mb-3">
-                                                                                <label for="job_status{{ $user->id }}" class="form-label">Job Status</label>
-                                                                                <select class="form-select" id="job_status{{ $user->id }}" name="job_status" required>
-                                                                                    <option value="Permenant" {{ $user->job_status == 'Permenant' ? 'selected' : '' }}>Permenant</option>
-                                                                                <option value="Contract" {{ $user->job_status == 'Contract' ? 'selected' : '' }}>Contract</option>
-
-                                                                                </select>
-                                                                            </div>
-
-
-                                                                                <!-- Address -->
-                                                                                <div class="col-md-6 mb-3">
-                                                                                    <label for="address{{ $user->id }}" class="form-label">Address</label>
-                                                                                    <input type="text" class="form-control" id="address{{ $user->id }}" name="address" value="{{ $user->address }}" required>
-                                                                                </div>
-
-                                                                                <!-- City -->
-                                                                                <div class="col-md-6 mb-3">
-                                                                                    <label for="city{{ $user->id }}" class="form-label">City</label>
-                                                                                    <input type="text" class="form-control" id="city{{ $user->id }}" name="city" value="{{ $user->city }}" required>
-                                                                                </div>
-
-                                                                                <!-- Postcode -->
-                                                                                <div class="col-md-6 mb-3">
-                                                                                    <label for="postcode{{ $user->id }}" class="form-label">Postcode</label>
-                                                                                    <input type="text" class="form-control" id="postcode{{ $user->id }}" name="postcode" value="{{ $user->postcode }}" required>
-                                                                                </div>
-
-                                                                                <!-- State -->
-                                                                                <div class="col-md-6 mb-3">
-                                                                                    <label for="state{{ $user->id }}" class="form-label">State</label>
-                                                                                    <input type="text" class="form-control" id="state{{ $user->id }}" name="state" value="{{ $user->state }}" required>
-                                                                                </div>
-
-                                                                                <!-- MC Days -->
-                                                                                <div class="col-md-6 mb-3">
-                                                                                    <label for="mc_days{{ $user->id }}" class="form-label">MC Days</label>
-                                                                                    <!-- Updated name to match the controller field 'total_mc_days' -->
-                                                                                    <input type="number" class="form-control" id="mc_days{{ $user->id }}" name="total_mc_days" value="{{ $user->total_mc_days }}" required min="0">
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                            <button type="submit" class="btn btn-primary">Update User</button>
-                                                                        </div>
+                                                                        @method('DELETE')
+                                                                        <button type="submit" class="btn btn-md btn-danger" title="Delete">
+                                                                            <i class="fas fa-trash-alt"></i> <!-- Delete symbol -->
+                                                                        </button>
                                                                     </form>
+                                                                </td>
+                                                            </tr>                                                 
+
+                                                            <!-- Edit User Modal -->
+                                                            <div class="modal fade" id="editModal{{ $user->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $user->id }}" aria-hidden="true">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header" style="background-color: #f0f0f0;">
+                                                                            <h5 class="modal-title" id="editModalLabel{{ $user->id }}">Edit User - {{ $user->name }}</h5>
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <form action="{{ route('updateUser', $user->id) }}" method="POST">
+                                                                                @csrf
+                                                                            
+                                                                                <div class="row g-3">
+                                                                                    <div class="col-md-12 mb-3">
+                                                                                        <label for="name{{ $user->id }}" class="form-label">Nama</label>
+                                                                                        <input type="text" class="form-control" id="name{{ $user->id }}" name="name" value="{{ $user->name }}" required>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row g-3">
+                                                                                    <div class="col-md-6 mb-3">
+                                                                                        <label for="email{{ $user->id }}" class="form-label">E-mel</label>
+                                                                                        <input type="email" class="form-control" id="email{{ $user->id }}" name="email" value="{{ $user->email }}" required>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row g-3">
+                                                                                    <div class="col-md-6 mb-3">
+                                                                                        <label for="ic{{ $user->id }}" class="form-label">No K/P</label>
+                                                                                        <input type="text" class="form-control" id="ic{{ $user->id }}" name="ic" value="{{ $user->ic }}">
+                                                                                    </div>
+                                                                                    <div class="col-md-6 mb-3">
+                                                                                        <label for="phone_number{{ $user->id }}" class="form-label">No Telefon</label>
+                                                                                        <input type="text" class="form-control" id="phone_number{{ $user->id }}" name="phone_number" value="{{ $user->phone_number }}">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row g-3">
+                                                                                    <div class="col-md-6 mb-3">
+                                                                                        <label for="role{{ $user->id }}" class="form-label">Peranan</label>
+                                                                                        <select class="form-select" id="role{{ $user->id }}" name="role">
+                                                                                            <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
+                                                                                            <option value="staff" {{ $user->role == 'staff' ? 'selected' : '' }}>Staf</option>
+                                                                                            <option value="officer" {{ $user->role == 'officer' ? 'selected' : '' }}>Pegawai</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                    <div class="col-md-6 mb-3">
+                                                                                        <label for="job_status{{ $user->id }}" class="form-label">Status Pekerjaan</label>
+                                                                                        <select class="form-select" id="job_status{{ $user->id }}" name="job_status" required>
+                                                                                            <option value="Permenant" {{ $user->job_status == 'Permenant' ? 'selected' : '' }}>Tetap</option>
+                                                                                            <option value="Contract" {{ $user->job_status == 'Contract' ? 'selected' : '' }}>Kontrak</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row g-3">
+                                                                                    <div class="col-md-6 mb-3">
+                                                                                        <label for="pegawai" class="form-label">Ketua Bahagian/Pegawai</label>
+                                                                                        <select class="form-select" id="pegawai" name="pegawai" required>
+                                                                                            <option selected disabled>--- Pilih Ketua Bahagian ---</option>
+                                                                                            <option value="Ketua 1 / Pegawai 1">Ketua 1 / Pegawai 1</option>
+                                                                                            <option value="Ketua 2 / Pegawai 2">Ketua 2 / Pegawai 2</option>
+                                                                                            <option value="Tiada Berkenaan">Tiada Berkenaan</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                    <div class="col-md-6 mb-3">
+                                                                                        <label for="mc_days{{ $user->id }}" class="form-label">MC Days</label>
+                                                                                        <input type="number" class="form-control" id="mc_days{{ $user->id }}" name="total_mc_days" value="{{ $user->total_mc_days }}" required min="0">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <hr>
+                                                                                <div class="row g-3">
+                                                                                    <div class="col-md-12 mb-3">
+                                                                                        <label for="address{{ $user->id }}" class="form-label">Address</label>
+                                                                                        <input type="text" class="form-control" id="address{{ $user->id }}" name="address" value="{{ $user->address }}" required>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row g-3">
+                                                                                    <div class="col-md-6 mb-3">
+                                                                                        <label for="city{{ $user->id }}" class="form-label">City</label>
+                                                                                        <input type="text" class="form-control" id="city{{ $user->id }}" name="city" value="{{ $user->city }}" required>
+                                                                                    </div>
+                                                                                    <div class="col-md-6 mb-3">
+                                                                                        <label for="postcode{{ $user->id }}" class="form-label">Postcode</label>
+                                                                                        <input type="text" class="form-control" id="postcode{{ $user->id }}" name="postcode" value="{{ $user->postcode }}" required>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row g-3">
+                                                                                    <div class="col-md-6 mb-3">
+                                                                                        <label for="state{{ $user->id }}" class="form-label">State</label>
+                                                                                        <input type="text" class="form-control" id="state{{ $user->id }}" name="state" value="{{ $user->state }}" required>
+                                                                                    </div>
+                                                                                </div>
+                                                                           
+                                                                                <div class="modal-footer">
+                                                                                    <button type="submit" class="btn btn-success">Simpan</button>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-
-
                                                         @endforeach
                                                     </tbody>
                                                 </table>
@@ -612,92 +709,110 @@
                         </div> <!-- Closing for col-lg-12 -->
                     </div> <!-- Closing for row -->
                 </div> 
-                <!-- Closing for users-section -->
 
 
 
                 <!-- Admin Approval Section -->
                 <div id="applications-section" class="content-section" style="display: none;">
+                    <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
+                        <h4><b>KELULUSAN ADMIN UNTUK PERMOHONAN STAF<b></h4>
+                    </nav>
+
                     <div class="row mt-4">
                         <div class="col-lg-12 mb-lg-0 mb-4">
-                            <div class="card">
-                                <div class="card-header pb-0 p-3">
-                                    <div class="d-flex justify-content-between">
-                                        <h6 class="mb-2">Admin Approval for Staff Application</h6>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <!-- View Applications Section -->
-                                    <div id="viewApplications">
-                                        <div class="table-responsive">
-                                            <table class="table align-items-center" style="table-layout: auto;">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="text-center">ID</th>
-                                                        <th class="text-center">User ID</th>
-                                                        <th class="text-center">Start Date</th>
-                                                        <th class="text-center">End Date</th>
-                                                        <th class="text-center">Reason</th>
-                                                        <th class="text-center">Document</th>
-                                                        <th class="text-center">Officer Approved</th>
-                                                        <th class="text-center">Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach($applications as $application)
-                                                        <tr>
-                                                            <td class="text-center">{{ $application->id }}</td>
-                                                            <td class="text-center">{{ $application->user_id }}</td>
-                                                            <td class="text-center">{{ $application->start_date }}</td>
-                                                            <td class="text-center">{{ $application->end_date }}</td>
-                                                            <td class="text-center">
-                                                                <!-- Button to trigger modal to show reason -->
-                                                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#reasonModal{{ $application->id }}">
-                                                                    <i class="fas fa-eye"></i>
-                                                                </button>
+                            <div class="container-fluid py-2">
+                                <div class="row">
 
-                                                                <!-- Modal for showing the reason -->
-                                                                <div class="modal fade" id="reasonModal{{ $application->id }}" tabindex="-1" aria-labelledby="reasonModalLabel{{ $application->id }}" aria-hidden="true">
-                                                                    <div class="modal-dialog">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h5 class="modal-title" id="reasonModalLabel{{ $application->id }}">Reason for MC Application</h5>
-                                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                            </div>
-                                                                            <div class="modal-body" style="word-wrap: break-word; white-space: normal;">
-                                                                                {{ $application->reason }}
-                                                                            </div>
-                                                                            <div class="modal-footer">
-                                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <!-- List of Admin Approval -->
+                                    <div class="card">
+                                        <div class="card-header pb-0 p-3">
+                                            <div class="d-flex justify-content-between">
+                                                <h4 class="mb-2">Kelulusan Admin untuk Permohonan Staf</h4>
+                                            </div>
+                                        </div>
+
+                                        <!-- View Applications Section -->
+                                        <div class="card-body">
+                                            <div style="overflow-x: auto; position: relative;">
+                                                <table class="table" style="table-layout: fixed; width: 100%;">
+                                                    <thead style="background-color: #f0f0f0;">
+                                                        <tr>
+                                                            <th style="width: 3%; position: sticky; left: 0; z-index: 1;  padding: 8px;">ID</th>
+                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAME</th>
+                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
+                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH AKHIR</th>
+                                                            <th style="width: 20%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
+                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN RUJUKAN</th>
+                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DILULUSKAN OLEH</th>
+                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($applications as $application)
+                                                            <tr>
+                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <p class="text-m text-secondary">{{ $application->id }}</p>
+                                                                </td>
+                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <p class="text-m text-secondary">{{ $application->user_id }}</p>
+                                                                </td>
+                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <p class="text-m text-secondary">{{ $application->start_date }}</p>
+                                                                </td>
+                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <p class="text-m text-secondary">{{ $application->end_date }}</p>
+                                                                </td>
+                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    
+                                                                    <!-- View button -->
+                                                                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#reasonModal{{ $application->id }}">
+                                                                        <i class="fas fa-eye"></i>
+                                                                    </button>
+
+                                                                    <!-- Modal for view the reason -->
+                                                                    <div class="modal fade" id="reasonModal{{ $application->id }}" tabindex="-1" aria-labelledby="reasonModalLabel{{ $application->id }}" aria-hidden="true">
+                                                                        <div class="modal-dialog">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                    <h5 class="modal-title" id="reasonModalLabel{{ $application->id }}">Reason for MC Application</h5>
+                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                </div>
+                                                                                <div class="modal-body" style="word-wrap: break-word; white-space: normal;">
+                                                                                    {{ $application->reason }}
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            </td>
-                                                            <td class="text-center">
-                                                                @if($application->document_path)
-                                                                    <a href="{{ Storage::url($application->document_path) }}" target="_blank"><i class="fas fa-file-alt"></i></a>
-                                                                @endif
-                                                            </td>
-                                                            <td class="text-center">
-                                                                {{ $application->officer_approved ? 'Yes' : 'No' }}
-                                                            </td>
-                                                            <td class="text-center">
-                                                                @if($application->officer_approved && !$application->admin_approved)
-                                                                    <form action="{{ route('admin.approve', $application->id) }}" method="POST" style="display:inline;">
-                                                                        @csrf
-                                                                        <button type="submit" class="btn btn-success"><i class="fas fa-check"></i></button>
-                                                                    </form>
-                                                                @else
-                                                                    <button type="button" class="btn btn-secondary" disabled><i class="fas fa-check-double"></i></button>
-                                                                @endif
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
+                                                                </td>
+                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    @if($application->document_path)
+                                                                        <a href="{{ Storage::url($application->document_path) }}" target="_blank"><i class="fas fa-file-alt"></i></a>
+                                                                    @endif
+                                                                </td>
+                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    {{ $application->officer_approved ? 'Yes' : 'No' }}
+                                                                </td>
+                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    @if($application->officer_approved && !$application->admin_approved)
+                                                                        <form action="{{ route('admin.approve', $application->id) }}" method="POST" style="display:inline;">
+                                                                            @csrf
+                                                                            <button type="submit" class="btn btn-success"><i class="fas fa-check"></i></button>
+                                                                        </form>
+                                                                    @else
+                                                                        <button type="button" class="btn btn-secondary" disabled><i class="fas fa-check-double"></i></button>
+                                                                    @endif
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -708,6 +823,10 @@
 
                 <!-- Direct Admin Approval Section -->
                 <div id="admin-approval-section" class="content-section" style="display: none;">
+                    <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
+                        <h4><b>KELULUSAN TERUS ADMIN UNTUK PERMOHONAN STAF<b></h4>
+                    </nav>
+
                     <div class="row mt-4">
                         <div class="col-lg-12 mb-lg-0 mb-4">
                             <div class="card">

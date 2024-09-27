@@ -1,13 +1,14 @@
 <div class="container-fluid py-3">
     <div class="row">
+
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <div class="card" style="height: 200px;"> <!-- Set a fixed height -->
+            <div class="card" style="height: 200px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;"> <!-- Set a fixed height and text wrapping -->
                 <div class="card-body p-5">
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-md mb-0 text-uppercase font-weight-bold">Jumlah Pengguna</p>
-                                <h5 class="font-weight-bolder">{{ $totalUsers }} Orang</h5>
+                                <p class="text-md mb-0 text-uppercase font-weight-bold" style="overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">Jumlah Pengguna</p> <!-- Ensure text wrapping in p element -->
+                                <h5 class="font-weight-bolder" style="overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">{{ $totalUsers }} Orang</h5> <!-- Ensure text wrapping in h5 element -->
                             </div>
                         </div>
                         <div class="col-4 text-end">
@@ -19,15 +20,16 @@
                 </div>
             </div>
         </div>
+        
 
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <div class="card" style="height: 200px;"> <!-- Set a fixed height -->
+            <div class="card" style="height: 200px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;"> <!-- Set a fixed height and text wrapping -->
                 <div class="card-body p-5">
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-md mb-0 text-uppercase font-weight-bold">Jumlah Permohonan</p>
-                                <h5 class="font-weight-bolder">{{ $totalMcApplications }}</h5>
+                                <p class="text-md mb-0 text-uppercase font-weight-bold" style="overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">Jumlah Permohonan</p>
+                                <h5 class="font-weight-bolder" style="overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">{{ $totalMcApplications }}</h5>
                             </div>
                         </div>
                         <div class="col-4 text-end">
@@ -41,13 +43,13 @@
         </div>
 
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <div class="card" style="height: 200px;"> <!-- Set a fixed height -->
+            <div class="card" style="height: 200px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;" > <!-- Set a fixed height -->
                 <div class="card-body p-5">
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-md mb-0 text-uppercase font-weight-bold">Jumlah Permohonan diterima</p>
-                                <h5 class="font-weight-bolder">{{ $acceptedMcApplications }}</h5>
+                                <p class="text-md mb-0 text-uppercase font-weight-bold" style="overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">Jumlah Permohonan diterima</p>
+                                <h5 class="font-weight-bolder" style="overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">{{ $acceptedMcApplications }}</h5>
                             </div>
                         </div>
                         <div class="col-4 text-end">
@@ -61,13 +63,13 @@
         </div>
 
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <div class="card" style="height: 200px;"> <!-- Set a fixed height -->
+            <div class="card" style="height: 200px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;"> <!-- Set a fixed height -->
                 <div class="card-body p-5">
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-md mb-0 text-uppercase font-weight-bold">Jumlah Permohonan ditolak</p>
-                                <h5 class="font-weight-bolder">{{ $rejectedMcApplications }}</h5>
+                                <p class="text-md mb-0 text-uppercase font-weight-bold" style="overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">Jumlah Permohonan ditolak</p>
+                                <h5 class="font-weight-bolder" style="overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">{{ $rejectedMcApplications }}</h5>
                             </div>
                         </div>
                         <div class="col-4 text-end">
