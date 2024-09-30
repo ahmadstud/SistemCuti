@@ -7,7 +7,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="./assets/img/favicon.png">
   <title>
-    Sistem Permohonan Cuti - Pegawai
+    Kemaskini Profil
   </title>
   <!-- Fonts and icons -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -45,14 +45,14 @@
                     <div class="card form-container">
                         <div class="card-header pb-1 p-1">
                             <div class="form-card">
-                                <h2 class="text-center">Edit Profile</h2> <!-- Centered title -->
+                                <h2 class="text-center">Kemaskini Profil</h2> <!-- Centered title -->
                                 <form action="{{ route('updateOwnDetails3') }}" method="POST">
                                     @csrf
-                                    <h5 class="mt-4">Profile Information</h5>
+                                    <h5 class="mt-4">Maklumat Profil</h5>
                                     <div class="row">
                                         <!-- Profile Information -->
                                         <div class="col-md-6">
-                                            <label for="name" class="form-label">Name</label>
+                                            <label for="name" class="form-label">Nama</label>
                                             <input type="text" class="form-control" id="name" name="name" value="{{ Auth::user()->name }}" required>
                                         </div>
                                         <div class="col-md-6">
@@ -68,16 +68,16 @@
                                             <input type="text" class="form-control" id="ic" name="ic" value="{{ Auth::user()->ic }}">
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="phone_number" class="form-label">Phone Number</label>
+                                            <label for="phone_number" class="form-label">Nombor Telefon</label>
                                             <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ Auth::user()->phone_number }}">
                                         </div>
                                     </div>
 
-                                    <h5 class="mt-4">Address Information</h5>
+                                    <h5 class="mt-4">Maklumat Alamat</h5>
                                     <div class="row mt-3">
                                         <!-- Address -->
                                         <div class="col-md-12">
-                                            <label for="address" class="form-label">Address</label>
+                                            <label for="address" class="form-label">Alamat</label>
                                             <input type="text" class="form-control" id="address" name="address" value="{{ Auth::user()->address }}">
                                         </div>
                                     </div>
@@ -85,22 +85,22 @@
                                     <div class="row mt-3">
                                         <!-- Postcode, State, City -->
                                         <div class="col-md-4">
-                                            <label for="postcode" class="form-label">Postcode</label>
+                                            <label for="postcode" class="form-label">Poskod</label>
                                             <input type="text" class="form-control" id="postcode" name="postcode" value="{{ Auth::user()->postcode }}">
                                         </div>
                                         <div class="col-md-4">
-                                            <label for="state" class="form-label">State</label>
+                                            <label for="state" class="form-label">Negeri</label>
                                             <input type="text" class="form-control" id="state" name="state" value="{{ Auth::user()->state }}">
                                         </div>
                                         <div class="col-md-4">
-                                            <label for="city" class="form-label">City</label>
+                                            <label for="city" class="form-label">Bandar</label>
                                             <input type="text" class="form-control" id="city" name="city" value="{{ Auth::user()->city }}">
                                         </div>
                                     </div>
 
                                     <div class="mt-3">
-                                        <button type="submit" class="btn btn-primary">Update</button>
-                                        <a href="{{ route('officer') }}" class="btn btn-secondary">Cancel</a>
+                                        <button type="submit" class="btn btn-primary">Kemaskini</button>
+                                        <a href="{{ route('officer') }}" class="btn btn-secondary">Batal</a>
                                     </div>
                                 </form>
                             </div>
