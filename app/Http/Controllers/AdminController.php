@@ -162,10 +162,10 @@ class AdminController extends Controller
             'role' => 'required|string',
             'job_status' => 'required|string',
             'address' => 'nullable|string|max:255',
-        'city' => 'nullable|string|max:255',
-        'postcode' => 'nullable|string|max:10',
-        'state' => 'nullable|string|max:255',
-        'mc_days' => 'required|integer|min:1', // Validate mc_days input
+            'city' => 'nullable|string|max:255',
+            'postcode' => 'nullable|string|max:10',
+            'state' => 'nullable|string|max:255',
+            'mc_days' => 'required|integer|min:1', // Validate mc_days input
         ]);
 
         // Create the new user

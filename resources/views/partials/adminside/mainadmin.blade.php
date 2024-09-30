@@ -206,7 +206,7 @@
                                     <div class="card">
                                         <div class="card-header pb-0 p-3">
                                             <div class="d-flex justify-content-between">
-                                                <h4 class="text-capitalize">SENARAI PENGUMUMAN</h4>
+                                                <h4 class="text-capitalize"></h4>
                                                 <!-- Add Pengumuman Button -->
                                                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createAnnouncementModal">
                                                     Tambah Pengumuman
@@ -215,7 +215,7 @@
 
                                             <!-- Add Announcement Modal -->
                                             <div class="modal fade" id="createAnnouncementModal" tabindex="-1" aria-labelledby="createAnnouncementLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
+                                                <div class="modal-dialog modal-lg">
                                                     <div class="modal-content">
                                                         <div class="modal-header" style="background-color: #f0f0f0;">
                                                             <h5 class="modal-title" id="createAnnouncementLabel">Tambah Pengumuman</h5>
@@ -328,7 +328,7 @@
                                             
                                                             <!-- Edit Announcement Modal -->
                                                             <div class="modal fade" id="editAnnouncementModal{{ $announcement->id }}" tabindex="-1" aria-labelledby="editAnnouncementLabel{{ $announcement->id }}" aria-hidden="true">
-                                                                <div class="modal-dialog">
+                                                                <div class="modal-dialog modal-lg">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header" style="background-color: #f0f0f0;">
                                                                             <h5 class="modal-title" id="editAnnouncementLabel{{ $announcement->id }}">Kemaskini Pengumuman</h5>
@@ -409,7 +409,7 @@
                                     <div class="card">
                                         <div class="card-header pb-0 p-3">
                                             <div class="d-flex justify-content-between">
-                                                <h4 class="text-capitalize">SENARAI PEKERJA</h4>
+                                                <h4 class="text-capitalize"></h4>
                                                 <!-- Add Staff/Officer Button -->
                                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStaffModal">
                                                     Tambah Staff / Pegawai
@@ -419,7 +419,7 @@
 
                                         <!-- Add Staff/Officer Modal -->
                                         <div class="modal fade" id="addStaffModal" tabindex="-1" aria-labelledby="addStaffModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
+                                            <div class="modal-dialog modal-lg">
                                                 <div class="modal-content">
                                                     <div class="modal-header" style="background-color: #f0f0f0;">
                                                         <h5 class="modal-title" id="addStaffModalLabel">Tambah Staff / Pegawai</h5>
@@ -568,7 +568,10 @@
                                                                     @else
                                                                         <span class="badge badge-md bg-gradient-secondary">{{ $user->role }}</span>
                                                                     @endif
-                                                                  </td>     
+                                                                </td>     
+                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <p class="text-m text-secondary">{{ $user->job_status }}</p>
+                                                                </td>
                                                                 <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                     @if($user->job_status == 'Permenant')
                                                                         <span class="badge badge-md bg-gradient-info">{{ $user->job_status }}</span>
@@ -577,9 +580,6 @@
                                                                     @else
                                                                         <span class="badge badge-md bg-gradient-secondary">{{ $user->job_status }}</span>
                                                                     @endif
-                                                                </td>
-                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">{{ $user->job_status }}</p>
                                                                 </td>
                                                                 <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
 
@@ -601,7 +601,7 @@
 
                                                             <!-- Edit User Modal -->
                                                             <div class="modal fade" id="editModal{{ $user->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $user->id }}" aria-hidden="true">
-                                                                <div class="modal-dialog">
+                                                                <div class="modal-dialog modal-lg">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header" style="background-color: #f0f0f0;">
                                                                             <h5 class="modal-title" id="editModalLabel{{ $user->id }}">Edit User - {{ $user->name }}</h5>
@@ -637,6 +637,7 @@
                                                                                     <div class="col-md-6 mb-3">
                                                                                         <label for="role{{ $user->id }}" class="form-label">Peranan</label>
                                                                                         <select class="form-select" id="role{{ $user->id }}" name="role">
+                                                                                            <option selected disabled>--- Pilih Peranan ---</option>
                                                                                             <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
                                                                                             <option value="staff" {{ $user->role == 'staff' ? 'selected' : '' }}>Staf</option>
                                                                                             <option value="officer" {{ $user->role == 'officer' ? 'selected' : '' }}>Pegawai</option>
@@ -645,6 +646,7 @@
                                                                                     <div class="col-md-6 mb-3">
                                                                                         <label for="job_status{{ $user->id }}" class="form-label">Status Pekerjaan</label>
                                                                                         <select class="form-select" id="job_status{{ $user->id }}" name="job_status" required>
+                                                                                            <option selected disabled>--- Pilih Status Pekerjaan ---</option>
                                                                                             <option value="Permenant" {{ $user->job_status == 'Permenant' ? 'selected' : '' }}>Tetap</option>
                                                                                             <option value="Contract" {{ $user->job_status == 'Contract' ? 'selected' : '' }}>Kontrak</option>
                                                                                         </select>
@@ -711,6 +713,114 @@
                 </div> 
 
 
+                <!-- Senarai All Admin Approval Section -->
+                <div id="all-approval-section" class="content-section" style="display: none;">
+                    <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
+                        <h4><b>SENARAI KESELURUHAN PERMOHONAN<b></h4>
+                    </nav>
+
+                    <div class="row mt-4">
+                        <div class="col-lg-12 mb-lg-0 mb-4">
+                            <div class="container-fluid py-2">
+                                <div class="row">
+
+                                    {{-- List of Direct Admin Approval --}}
+                                    <div class="card">
+                                        <div class="card-header pb-0 p-3">
+                                            <div class="d-flex justify-content-between">
+                                                <h6 class="mb-2"></h6>
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                        <!-- View Applications Section -->
+                                        <div class="card-body">
+                                            <div style="overflow-x: auto; position: relative;">
+                                                <table class="table" style="table-layout: fixed; width: 100%;">
+                                                    <thead style="background-color: #f0f0f0;">
+                                                        <tr>
+                                                            <th style="width: 3%; position: sticky; left: 0; z-index: 1;  padding: 8px;">BIL</th>
+                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAME</th>
+                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
+                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH AKHIR</th>
+                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
+                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN RUJUKAN</th>
+                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TEMPOH BAKI CUTI</th>
+                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">KEPUTUSAN</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($directAdminApplications as $application)
+                                                            <tr>
+                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <p class="text-m text-secondary">{{ $loop->iteration }}</p>
+                                                                </td>
+                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <p class="text-m text-secondary">{{ $application->user->name }}</p>
+                                                                </td>
+                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <p class="text-m text-secondary">{{ $application->start_date }}</p>
+                                                                </td>
+                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <p class="text-m text-secondary">{{ $application->end_date }}</p>
+                                                                </td>
+                                                                {{-- <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    
+                                                                    <!-- Button to trigger modal to show reason -->
+                                                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#directReasonModal{{ $application->id }}" aria-label="View Reason">
+                                                                        <i class="fas fa-eye"></i>
+                                                                    </button>
+
+                                                                    <!-- Modal for showing the reason -->
+                                                                    <div class="modal fade" id="directReasonModal{{ $application->id }}" tabindex="-1" aria-labelledby="directReasonModalLabel{{ $application->id }}" aria-hidden="true">
+                                                                        <div class="modal-dialog">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                    <h5 class="modal-title" id="directReasonModalLabel{{ $application->id }}">Alasan Permohonan MC</h5>
+                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                </div>
+                                                                                <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
+                                                                                    {{ $application->reason }}
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </td> --}}
+                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <p class="text-m text-secondary">{{ $application->reason }}</p>
+                                                                </td>
+                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    @if($application->document_path)
+                                                                        <a href="{{ Storage::url($application->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</a>
+                                                                    @endif
+                                                                </td>
+                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <p class="text-m text-secondary">{{ $application->reason }}</p>
+                                                                </td>
+                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    {{-- @if($status == 'Lulus')
+                                                                    <span class="btn btn-success btn-xs" id="statusLulus">{{ $status }}</span>
+                                                                    @else
+                                                                        <span class="btn btn-danger btn-xs" id="statusGagal">{{ $status }}</span>
+                                                                    @endif --}}
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+
 
                 <!-- Admin Approval Section -->
                 <div id="applications-section" class="content-section" style="display: none;">
@@ -727,7 +837,7 @@
                                     <div class="card">
                                         <div class="card-header pb-0 p-3">
                                             <div class="d-flex justify-content-between">
-                                                <h4 class="mb-2">Kelulusan Admin untuk Permohonan Staf</h4>
+                                                <h4 class="mb-2"></h4>
                                             </div>
                                         </div>
 
@@ -737,7 +847,7 @@
                                                 <table class="table" style="table-layout: fixed; width: 100%;">
                                                     <thead style="background-color: #f0f0f0;">
                                                         <tr>
-                                                            <th style="width: 3%; position: sticky; left: 0; z-index: 1;  padding: 8px;">ID</th>
+                                                            <th style="width: 3%; position: sticky; left: 0; z-index: 1;  padding: 8px;">BIL</th>
                                                             <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAME</th>
                                                             <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
                                                             <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH AKHIR</th>
@@ -774,14 +884,14 @@
                                                                         <div class="modal-dialog">
                                                                             <div class="modal-content">
                                                                                 <div class="modal-header">
-                                                                                    <h5 class="modal-title" id="reasonModalLabel{{ $application->id }}">Reason for MC Application</h5>
+                                                                                    <h5 class="modal-title" id="reasonModalLabel{{ $application->id }}">Alasan Permohonan MC</h5>
                                                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                                 </div>
                                                                                 <div class="modal-body" style="word-wrap: break-word; white-space: normal;">
                                                                                     {{ $application->reason }}
                                                                                 </div>
                                                                                 <div class="modal-footer">
-                                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -829,82 +939,100 @@
 
                     <div class="row mt-4">
                         <div class="col-lg-12 mb-lg-0 mb-4">
-                            <div class="card">
-                                <div class="card-header pb-0 p-3">
-                                    <div class="d-flex justify-content-between">
-                                        <h6 class="mb-2">Direct Admin Approval by Staff Application</h6>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <!-- View Applications Section -->
-                                    <div id="viewApplications">
-                                        <div class="table-responsive">
-                                            <table class="table align-items-center" style="table-layout: auto;">
-                                                <thead class="thead-light">
-                                                    <tr>
-                                                        <th class="text-center">ID</th>
-                                                        <th class="text-center">User</th>
-                                                        <th class="text-center">Start Date</th>
-                                                        <th class="text-center">End Date</th>
-                                                        <th class="text-center">Reason</th>
-                                                        <th class="text-center">Document</th>
-                                                        <th class="text-center">Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($directAdminApplications as $application)
-                                                        <tr>
-                                                            <td class="text-center">{{ $application->id }}</td>
-                                                            <td class="text-center">{{ $application->user->name }}</td>
-                                                            <td class="text-center">{{ $application->start_date }}</td>
-                                                            <td class="text-center">{{ $application->end_date }}</td>
-                                                            <td class="text-center">
-                                                                <!-- Button to trigger modal to show reason -->
-                                                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#directReasonModal{{ $application->id }}" aria-label="View Reason">
-                                                                    <i class="fas fa-eye"></i>
-                                                                </button>
+                            <div class="container-fluid py-2">
+                                <div class="row">
 
-                                                                <!-- Modal for showing the reason -->
-                                                                <div class="modal fade" id="directReasonModal{{ $application->id }}" tabindex="-1" aria-labelledby="directReasonModalLabel{{ $application->id }}" aria-hidden="true">
-                                                                    <div class="modal-dialog">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h5 class="modal-title" id="directReasonModalLabel{{ $application->id }}">Reason for MC Application</h5>
-                                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                            </div>
-                                                                            <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
-                                                                                {{ $application->reason }}
-                                                                            </div>
-                                                                            <div class="modal-footer">
-                                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    {{-- List of Direct Admin Approval --}}
+                                    <div class="card">
+                                        <div class="card-header pb-0 p-3">
+                                            <div class="d-flex justify-content-between">
+                                                <h6 class="mb-2"></h6>
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                        <!-- View Applications Section -->
+                                        <div class="card-body">
+                                            <div style="overflow-x: auto; position: relative;">
+                                                <table class="table" style="table-layout: fixed; width: 100%;">
+                                                    <thead style="background-color: #f0f0f0;">
+                                                        <tr>
+                                                            <th style="width: 3%; position: sticky; left: 0; z-index: 1;  padding: 8px;">BIL</th>
+                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAME</th>
+                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
+                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH AKHIR</th>
+                                                            <th style="width: 20%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
+                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN RUJUKAN</th>
+                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($directAdminApplications as $application)
+                                                            <tr>
+                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <p class="text-m text-secondary">{{ $loop->iteration }}</p>
+                                                                </td>
+                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <p class="text-m text-secondary">{{ $application->user->name }}</p>
+                                                                </td>
+                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <p class="text-m text-secondary">{{ $application->start_date }}</p>
+                                                                </td>
+                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <p class="text-m text-secondary">{{ $application->end_date }}</p>
+                                                                </td>
+                                                                {{-- <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    
+                                                                    <!-- Button to trigger modal to show reason -->
+                                                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#directReasonModal{{ $application->id }}" aria-label="View Reason">
+                                                                        <i class="fas fa-eye"></i>
+                                                                    </button>
+
+                                                                    <!-- Modal for showing the reason -->
+                                                                    <div class="modal fade" id="directReasonModal{{ $application->id }}" tabindex="-1" aria-labelledby="directReasonModalLabel{{ $application->id }}" aria-hidden="true">
+                                                                        <div class="modal-dialog">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                    <h5 class="modal-title" id="directReasonModalLabel{{ $application->id }}">Alasan Permohonan MC</h5>
+                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                </div>
+                                                                                <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
+                                                                                    {{ $application->reason }}
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                            </td>
-                                                            <td class="text-center">
-                                                                @if($application->document_path)
-                                                                    <a href="{{ Storage::url($application->document_path) }}" target="_blank"><i class="fas fa-file-alt"></i></a>
-                                                                @endif
-                                                            </td>
-                                                            <td class="text-center">
-                                                                <form action="{{ route('admin.approve', $application->id) }}" method="POST" style="display:inline;">
-                                                                    @csrf
-                                                                    <button type="submit" class="btn btn-success" aria-label="Approve">
-                                                                        <i class="fas fa-check"></i>
-                                                                    </button>
-                                                                </form>
-                                                                <form action="{{ route('admin.reject', $application->id) }}" method="POST" style="display:inline;">
-                                                                    @csrf
-                                                                    <button type="submit" class="btn btn-danger" aria-label="Reject">
-                                                                        <i class="fas fa-times"></i>
-                                                                    </button>
-                                                                </form>
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
+                                                                </td> --}}
+                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <p class="text-m text-secondary">{{ $application->reason }}</p>
+                                                                </td>
+                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    @if($application->document_path)
+                                                                        <a href="{{ Storage::url($application->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</a>
+                                                                    @endif
+                                                                </td>
+                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <form action="{{ route('admin.approve', $application->id) }}" method="POST" style="display:inline;">
+                                                                        @csrf
+                                                                        <button type="submit" class="btn btn-success" aria-label="Approve">
+                                                                            <i class="fas fa-check"></i>
+                                                                        </button>
+                                                                    </form>
+                                                                    <form action="{{ route('admin.reject', $application->id) }}" method="POST" style="display:inline;">
+                                                                        @csrf
+                                                                        <button type="submit" class="btn btn-danger" aria-label="Reject">
+                                                                            <i class="fas fa-times"></i>
+                                                                        </button>
+                                                                    </form>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -917,90 +1045,213 @@
 
                 <!-- Profile Section -->
                 <div id="Profile" class="content-section" style="display: none;">
+                    <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
+                        <h4><b>PROFIL PEKERJA<b></h4>
+                    </nav>
+
                     <div class="row mt-4">
                         <div class="col-lg-12 mb-lg-0 mb-4">
-                            <div class="card">
-                                <div class="card-header pb-0 p-3">
-                                    <div class="d-flex justify-content-between">
-                                        <h6 class="mb-2">Profile</h6>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <!-- View Profile Section -->
-                                    <div id="viewProfile">
-                                        <div class="row">
+                            <div class="container-fluid py-2">
+                                <div class="row">
+
+                                    <!-- Profile Card -->
+                                    <div class="card">
+                                        <div class="card-header pb-0 p-3">
+                                            <div class="d-flex justify-content-between">
+                                                <h4 class="mb-2"></h4>
+                                                <!-- Edit Profile Button -->
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editStaffProfil">
+                                                    Kemaskini Maklumat
+                                                </button>
+                                                <!-- Edit maklumat -->
+                                                {{-- <a href="{{ route('admin.editProfile') }}" class="btn btn-primary" title="Edit Profile">
+                                                    Kemaskini Maklumat
+                                                </a> --}}
+                                            </div>
+                                        </div>
+
+                                        <!-- Edit Profile Modal -->
+                                        <div class="modal fade" id="editStaffProfil" tabindex="-1" aria-labelledby="editStaffProfilLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header" style="background-color: #f0f0f0;">
+                                                        <h5 class="modal-title" id="editStaffProfilLabel">KEMASKINI MAKLUMAT</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form action="{{ route('updateOwnDetails') }}"  method="POST" enctype="multipart/form-data">
+                                                            @csrf
+                                                        
+                                                            <!-- Profile Information -->
+                                                            <h5 class="mt-4">MAKLUMAT DIRI</h5>
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <label for="name" class="form-label">NAMA</label>
+                                                                    <input type="text" class="form-control" id="name" name="name" value="{{ Auth::user()->name }}">
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label for="email" class="form-label">EMEL</label>
+                                                                    <input type="email" class="form-control" id="email" name="email" value="{{ Auth::user()->email }}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mt-3">
+                                                                <div class="col-md-6">
+                                                                    <label for="ic" class="form-label">NO K/P</label>
+                                                                    <input type="text" class="form-control" id="ic" name="ic" value="{{ Auth::user()->ic }}">
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label for="phone_number" class="form-label">NO TELEFON</label>
+                                                                    <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ Auth::user()->phone_number }}">
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Address -->
+                                                            <h5 class="mt-4">MAKLUMAT TEMPAT TINGGAL</h5>
+                                                            <div class="row mt-3">
+                                                                <div class="col-md-12">
+                                                                    <label for="address" class="form-label">ALAMAT</label>
+                                                                    <input type="text" class="form-control" id="address" name="address" value="{{ Auth::user()->address }}">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mt-3">
+                                                                <div class="col-md-4">
+                                                                    <label for="postcode" class="form-label">POSKOD</label>
+                                                                    <input type="text" class="form-control" id="postcode" name="postcode" value="{{ Auth::user()->postcode }}">
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <label for="city" class="form-label">BANDAR</label>
+                                                                    <input type="text" class="form-control" id="city" name="city" value="{{ Auth::user()->city }}">
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <label for="state" class="form-label">NEGERI</label>
+                                                                    <input type="text" class="form-control" id="state" name="state" value="{{ Auth::user()->state }}">
+                                                                </div>
+                                                            </div>
+
+                                                            {{-- Pekerjaan --}}
+                                                            <h5 class="mt-4">MAKLUMAT PEKERJAAN</h5>
+                                                            <div class="row mt-3">
+                                                                <div class="col-md-4">
+                                                                    {{-- <p class="form-control" id="role">{{ Auth::user()->role }}</p> --}}
+                                                                    <label for="role{{ Auth::user()->role }}" class="form-label">PERANAN</label>
+                                                                    <select class="form-select" id="role{{ Auth::user()->role }}" name="role">
+                                                                        <option selected disabled>--- Pilih Peranan ---</option>
+                                                                        <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
+                                                                        <option value="staff" {{ $user->role == 'staff' ? 'selected' : '' }}>Staf</option>
+                                                                        <option value="officer" {{ $user->role == 'officer' ? 'selected' : '' }}>Pegawai</option>
+                                                                    </select>
+                                                                </div>
+
+
+                                                                <div class="col-md-4">
+                                                                    {{-- <p class="form-control" id="role">{{ Auth::user()->job_status }}</p> --}}
+                                                                    <label for="job_status{{ Auth::user()->job_status }}" class="form-label">Status Pekerjaan</label>
+                                                                    <select class="form-select" id="job_status{{ Auth::user()->job_status }}" name="job_status" required>
+                                                                        <option selected disabled>--- Pilih Pekerjaan ---</option>
+                                                                        <option value="Permenant" {{ $user->job_status == 'Permenant' ? 'selected' : '' }}>Tetap</option>
+                                                                        <option value="Contract" {{ $user->job_status == 'Contract' ? 'selected' : '' }}>Kontrak</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    {{-- <p class="form-control" id="role">{{ Auth::user()->role }}</p> --}}
+                                                                    <label for="pegawai" class="form-label">KETUA BAHAGIAN</label>
+                                                                    <select class="form-select" id="pegawai" name="pegawai" required>
+                                                                        <option selected disabled>--- Pilih Ketua Bahagian ---</option>
+                                                                        <option value="Ketua 1 / Pegawai 1">Ketua 1 / Pegawai 1</option>
+                                                                        <option value="Ketua 2 / Pegawai 2">Ketua 2 / Pegawai 2</option>
+                                                                        <option value="Tiada Berkenaan">Tiada Berkenaan</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mt-3">
+                                                                <div class="col-md-4">
+                                                                    <label for="mc_days" class="form-label">JUMLAH CUTI</label>
+                                                                    <p class="form-control" id="mc_days" required min="1">{{ Auth::user()->total_mc_days }}</p>
+                                                                </div>
+                                                            </div>
+                                                        
+                                                            <div class="modal-footer">
+                                                                <button type="submit" class="btn btn-success">Simpan</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- View Profile Section -->
+                                        <div class="card-body">
+
                                             <!-- Profile Information -->
-                                            <div class="col-md-6">
-                                                <label for="name" class="form-label">Name</label>
-                                                <p class="form-control" id="name">{{ Auth::user()->name }}</p>
+                                            <h5 class="mt-4">MAKLUMAT DIRI</h5>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label for="name" class="form-label">NAMA</label>
+                                                    <p class="form-control" id="name">{{ Auth::user()->name }}</p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="email" class="form-label">EMEL</label>
+                                                    <p class="form-control" id="email">{{ Auth::user()->email }}</p>
+                                                </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <label for="email" class="form-label">Email</label>
-                                                <p class="form-control" id="email">{{ Auth::user()->email }}</p>
+                                            <div class="row mt-3">
+                                                <div class="col-md-6">
+                                                    <label for="ic" class="form-label">NO K/P</label>
+                                                    <p class="form-control" id="ic">{{ Auth::user()->ic }}</p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="phone_number" class="form-label">NO TELEFON</label>
+                                                    <p class="form-control" id="phone_number">{{ Auth::user()->phone_number }}</p>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <div class="row mt-3">
-                                            <!-- IC and Phone Number -->
-                                            <div class="col-md-6">
-                                                <label for="ic" class="form-label">IC</label>
-                                                <p class="form-control" id="ic">{{ Auth::user()->ic }}</p>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <label for="phone_number" class="form-label">Phone Number</label>
-                                                <p class="form-control" id="phone_number">{{ Auth::user()->phone_number }}</p>
-                                            </div>
-                                        </div>
-
-                                        <h5 class="mt-4">Address Information</h5>
-                                        <div class="row mt-3">
                                             <!-- Address -->
-                                            <div class="col-md-12">
-                                                <label for="address" class="form-label">Address</label>
-                                                <p class="form-control" id="address">{{ Auth::user()->address }}</p>
+                                            <h5 class="mt-4">MAKLUMAT TEMPAT TINGGAL</h5>
+                                            <div class="row mt-3">
+                                                <div class="col-md-12">
+                                                    <label for="address" class="form-label">ALAMAT</label>
+                                                    <p class="form-control" id="address">{{ Auth::user()->address }}</p>
+                                                </div>
                                             </div>
-                                        </div>
-
-                                        <div class="row mt-3">
-                                            <!-- State, City, Postcode -->
-                                            <div class="col-md-4">
-                                                <label for="postcode" class="form-label">Postcode</label>
-                                                <p class="form-control" id="postcode">{{ Auth::user()->postcode }}</p>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label for="state" class="form-label">State</label>
-                                                <p class="form-control" id="state">{{ Auth::user()->state }}</p>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label for="city" class="form-label">City</label>
-                                                <p class="form-control" id="city">{{ Auth::user()->city }}</p>
-                                            </div>
-                                        </div>
-
-                                        <h5 class="mt-4">Job Status</h5>
-                                        <div class="row mt-3">
-                                            <div class="col-md-4">
-                                                <label for="role" class="form-label">Role</label>
-                                                <p class="form-control" id="role">{{ Auth::user()->role }}</p>
+                                            <div class="row mt-3">
+                                                <div class="col-md-4">
+                                                    <label for="postcode" class="form-label">POSKOD</label>
+                                                    <p class="form-control" id="postcode">{{ Auth::user()->postcode }}</p>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="city" class="form-label">BANDAR</label>
+                                                    <p class="form-control" id="city">{{ Auth::user()->city }}</p>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="state" class="form-label">NEGERI</label>
+                                                    <p class="form-control" id="state">{{ Auth::user()->state }}</p>
+                                                </div>
                                             </div>
 
-                                            <div class="col-md-4">
-                                                <label for="job_status" class="form-label">Job Status</label>
-                                                <p class="form-control" id="role">{{ Auth::user()->job_status }}</p>
+                                            {{-- Pekerjaan --}}
+                                            <h5 class="mt-4">MAKLUMAT PEKERJAAN</h5>
+                                            <div class="row mt-3">
+                                                <div class="col-md-4">
+                                                    <label for="role" class="form-label">PERANAN</label>
+                                                    <p class="form-control" id="role">{{ Auth::user()->role }}</p>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label for="job_status" class="form-label">STATUS PEKERJAAN</label>
+                                                    <p class="form-control" id="role">{{ Auth::user()->job_status }}</p>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="role" class="form-label">KETUA BAHAGIAN</label>
+                                                    <p class="form-control" id="role">{{ Auth::user()->role }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-md-4">
+                                                    <label for="mc_days" class="form-label">JUMLAH CUTI</label>
+                                                    <p class="form-control" id="mc_days">{{ Auth::user()->total_mc_days }}</p>
+                                                </div>
                                             </div>
 
-                                            <div class="col-md-4">
-                                                <label for="mc_days" class="form-label">Total MC Days</label>
-                                                <p class="form-control" id="mc_days">{{ Auth::user()->total_mc_days }}</p>
-                                            </div>
-
-
-                                        </div>
-
-                                        <div class="modal-footer">
-                                            <a href="{{ route('admin.editProfile') }}" class="btn btn-primary" title="Edit Profile">
-                                                <i class="fas fa-edit"></i> <!-- Edit symbol -->
-                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -1013,32 +1264,44 @@
 
                 <!-- Separate Change Password Section -->
                 <div id="ChangePassword" class="content-section" style="display: none;">
+                    <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
+                        <h4><b>TUKAR KATA LALUAN<b></h4>
+                    </nav>
+
                     <div class="row mt-4">
                         <div class="col-lg-12 mb-lg-0 mb-4">
-                            <div class="card">
-                                <div class="card-header pb-0 p-3">
-                                    <div class="d-flex justify-content-between">
-                                        <h6 class="mb-2">Change Password</h6>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <form action="{{ route('updateOwnDetails') }}" method="POST">
-                                        @csrf
-                                        <div class="mb-3">
-                                            <label for="password" class="form-label">New Password</label>
-                                            <input type="password" class="form-control" id="password" name="password" placeholder="Leave blank if not changing">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="password_confirmation" class="form-label">Confirm New Password</label>
-                                            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
+                            <div class="container-fluid py-2">
+                                <div class="row">
+
+                                    {{-- Tukar kata laluan --}}
+                                    <div class="card">
+                                        <div class="card-header pb-0 p-3">
+                                            <div class="d-flex justify-content-between">
+                                                <h6 class="mb-2"></h6>
+                                            </div>
                                         </div>
 
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-primary">
-                                                <i class="fas fa-save"></i>
-                                            </button>
+                                        <div class="card-body">
+                                            <form action="{{ route('updateOwnDetails') }}" method="POST">
+                                                @csrf
+                                                <div class="mb-3">
+                                                    <label for="password" class="form-label">Kata Laluan Baru<span class="text-danger">*</span></label>
+                                                    <input type="password" class="form-control" id="password" name="password" placeholder="Biarkan kosong jika tidak ingin mengubah">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="password_confirmation" class="form-label">Sahkan Kata Laluan Baru<span class="text-danger">*</span></label>
+                                                    <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary">
+                                                        <i class="fas fa-save"></i>
+                                                    </button>
+                                                </div>
+                                            </form>
                                         </div>
-                                    </form>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
