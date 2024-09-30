@@ -35,11 +35,17 @@ class AdminController extends Controller
             })
             ->get();
 
-        // Fetch MC applications approved by officers and still pending admin approval
-        $applications = McApplication::where('officer_approved', true)->get();
+                // Fetch MC applications approved by officers and still pending admin approval
+            $applications = McApplication::join('users', 'mc_applications.user_id', '=', 'users.id')
+            ->select('mc_applications.*', 'users.name as user_name', 'users.role as user_role') // Get all fields from mc_applications and the user's name and role
+            ->where('officer_approved', true)
+            ->where('admin_approved', false) // Add this condition if you only want pending admin approvals
+            ->get();
 
         // Fetch direct admin approval applications
-        $directAdminApplications = McApplication::where('direct_admin_approval', true)
+        $directAdminApplications = McApplication::join('users', 'mc_applications.user_id', '=', 'users.id')
+        ->select('mc_applications.*', 'users.name as user_name', 'users.role as user_role') // Get all fields from mc_applications and the user's name and role
+            ->where('direct_admin_approval', true)
             ->where('admin_approved', false)  // Only fetch those not yet approved
             ->where('status', 'pending')  // Only fetch those not yet approved
             ->get();
@@ -47,10 +53,14 @@ class AdminController extends Controller
         $officers = User::where('role', 'Penyelia')->get();
         $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
         $totalMcApplications = McApplication::count();
+       // Fetch all MC applications with user names
+       $allMcApplication = McApplication::join('users', 'mc_applications.user_id', '=', 'users.id')
+       ->select('mc_applications.*', 'users.name as user_name', 'users.role as user_role') // Get all fields from mc_applications and the user's name and role
+       ->get();
         $acceptedMcApplications = McApplication::where('status', 'approved')->count();
         $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
 
-        return view('admin', compact('directAdminApplications', 'totalUsers', 'users', 'applications', 'totalMcApplications', 'acceptedMcApplications', 'rejectedMcApplications', 'announcements', 'officers'));
+        return view('admin', compact('allMcApplication','directAdminApplications', 'totalUsers', 'users', 'applications', 'totalMcApplications', 'acceptedMcApplications', 'rejectedMcApplications', 'announcements', 'officers'));
     }
 
 

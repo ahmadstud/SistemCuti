@@ -13,8 +13,8 @@
                 </div>
               </div>
               <div class="col-4 text-end">
-                <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
-                  <i class="ni ni-circle-08 text-lg opacity-10" aria-hidden="true"></i>
+                <div class="icon icon-shape bg-gradient-info shadow-primary text-center rounded-circle" style="width: 60px; height: 60px;">
+                    <i class="fas fa-users" style="font-size: 2rem; opacity: 10;" aria-hidden="true"></i> <!-- User List Icon -->
                 </div>
               </div>
             </div>
@@ -35,8 +35,8 @@
                 </div>
               </div>
               <div class="col-4 text-end">
-                <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
-                  <i class="ni ni-circle-08 text-lg opacity-10" aria-hidden="true"></i>
+                <div class="icon icon-shape bg-gradient-warning shadow-primary text-center rounded-circle" style="width: 60px; height: 60px;"> <!-- Set fixed size for circle -->
+                    <i class="fas fa-file-alt" style="font-size: 2rem; opacity: 10;" aria-hidden="true"></i> <!-- Larger icon size -->
                 </div>
               </div>
             </div>
@@ -57,8 +57,8 @@
                 </div>
               </div>
               <div class="col-4 text-end">
-                <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
-                  <i class="ni ni-circle-08 text-lg opacity-10" aria-hidden="true"></i>
+                <div class="icon icon-shape bg-gradient-success shadow-primary text-center rounded-circle" style="width: 60px; height: 60px;">
+                    <i class="fas fa-check-circle" style="font-size: 2rem; opacity: 10;" aria-hidden="true"></i> <!-- Approved Icon -->
                 </div>
               </div>
             </div>
@@ -79,8 +79,8 @@
                 </div>
               </div>
               <div class="col-4 text-end">
-                <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
-                  <i class="ni ni-circle-08 text-lg opacity-10" aria-hidden="true"></i>
+                <div class="icon icon-shape bg-gradient-danger shadow-primary text-center rounded-circle" style="width: 60px; height: 60px;">
+                    <i class="fas fa-times-circle"  style="font-size: 2rem; opacity: 10;" aria-hidden="true"></i> <!-- Rejected Icon -->
                 </div>
               </div>
             </div>
