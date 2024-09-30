@@ -10,21 +10,15 @@ Route::get('/', function () {
     return view('login');
 });
 
-Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login');
+Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-
-Route::get('/staff', function () {
-    return view('staff');
-})->name('staff');
-
+// Route after login
+Route::get('/staff', [StaffController::class, 'index'])->name('staff');
 Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin');
+Route::get('/officer', [OfficerController::class, 'index'])->name('officer');
 
-Route::get('/officer', function () {
-    return view('officer');
-})->name('officer');
-
-
+//Route for updating a user
 Route::get('/admin/edit/{id}', [AdminController::class, 'editUser'])->name('editUser');
 
 // Route for updating a user (after form submission)
@@ -100,7 +94,7 @@ Route::get('/officer/edit-profile', function () {
     return view('partials.officerside.edit-profile');
 })->name('officer.editProfile');
 
-Route::get('/admin/dashboard', [AdminController::class, 'showDashboard'])->name('admin.dashboard');
+
 
 
 
