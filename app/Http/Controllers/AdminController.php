@@ -31,7 +31,7 @@ class AdminController extends Controller
         ->where('admin_approved', false)  // Only fetch those not yet approved
         ->where('status', 'pending')  // Only fetch those not yet approved
         ->get();
-        $officers = User::where('role', 'officer')->get();
+        $officers = User::where('role', 'Penyelia')->get();
         $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
         $totalMcApplications = McApplication::count();
         $acceptedMcApplications = McApplication::where('status', 'approved')->count();

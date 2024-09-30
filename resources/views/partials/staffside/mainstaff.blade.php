@@ -1,6 +1,38 @@
 <main class="main-content position-relative border-radius-lg">
     <div class="container-fluid py-4">
+          <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
+        <div class="container-fluid py-1 px-3">
+          <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+            <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+            </div>
+            <ul class="navbar-nav  justify-content-end">
+                <li class="nav-item d-flex align-items-center">
+                    <a href="{{ route('logout') }}" class="nav-link text-white font-weight-bold px-0" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <i class="fa fa-sign-out me-sm-1"></i> <!-- Changed icon to signify logout -->
+                        <span class="d-sm-inline d-none">Log Keluar</span> <!-- Updated text to 'Log Keluar' -->
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </li>
+              <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+                <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
+                  <div class="sidenav-toggler-inner">
+                    <i class="sidenav-toggler-line bg-white"></i>
+                    <i class="sidenav-toggler-line bg-white"></i>
+                    <i class="sidenav-toggler-line bg-white"></i>
+                  </div>
+                </a>
+              </li>
+
+            </ul>
+          </div>
+        </div>
+</nav>
+
     @include('partials.staffside.mcdays')
+
     <div class="row mt-4">
         <div class="col-lg-12 mb-lg-0 mb-4" > <!-- Adjust column to full width -->
           <div class="card">
@@ -66,9 +98,9 @@
                                     <div class="mb-3">
                                         <label>Permohonan terus ke Admin:</label><br>
                                         <input type="radio" id="yes" name="direct_admin_approval" value="1">
-                                        <label for="yes">Yes</label><br>
+                                        <label for="yes">Ya</label><br>
                                         <input type="radio" id="no" name="direct_admin_approval" value="0" checked>
-                                        <label for="no">No</label>
+                                        <label for="no">Tidak</label>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -130,7 +162,7 @@
             <i class="fas fa-file-alt"></i> <!-- Document icon -->
         </a>
     @else
-        <span>No Document</span>
+        <span>Tiada Dokumen</span>
     @endif
                                     </td>
                                     <td class="text-center">
@@ -299,7 +331,7 @@
             <div class="card">
                 <div class="card-header pb-0 p-3">
                     <div class="d-flex justify-content-between">
-                        <h6 class="mb-2">Akaun</h6>
+                        <h6 class="mb-2">Profil Pengguna</h6>
                     </div>
                 </div>
                 <div class="card-body">
@@ -402,18 +434,18 @@
             <div class="card">
                 <div class="card-header pb-0 p-3">
                     <div class="d-flex justify-content-between">
-                        <h6 class="mb-2">Change Password</h6>
+                        <h6 class="mb-2">Tukar Kata Laluan</h6>
                     </div>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('updateOwnDetails2') }}" method="POST">
                         @csrf
                         <div class="mb-3">
-                            <label for="password" class="form-label">New Password</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Leave blank if not changing">
+                            <label for="password" class="form-label">Kata Laluan Baru</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Biar kosong jika tiada perubahan">
                         </div>
                         <div class="mb-3">
-                            <label for="password_confirmation" class="form-label">Confirm New Password</label>
+                            <label for="password_confirmation" class="form-label">Pengesahan Kata Laluan Baru</label>
                             <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
                         </div>
 

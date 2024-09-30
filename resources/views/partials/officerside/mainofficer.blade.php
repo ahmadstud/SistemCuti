@@ -1,7 +1,39 @@
 <main class="main-content position-relative border-radius-lg">
 
     <div class="container-fluid py-4">
+          <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
+        <div class="container-fluid py-1 px-3">
+          <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+            <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+            </div>
+            <ul class="navbar-nav  justify-content-end">
+                <li class="nav-item d-flex align-items-center">
+                    <a href="{{ route('logout') }}" class="nav-link text-white font-weight-bold px-0" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <i class="fa fa-sign-out me-sm-1"></i> <!-- Changed icon to signify logout -->
+                        <span class="d-sm-inline d-none">Log Keluar</span> <!-- Updated text to 'Log Keluar' -->
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </li>
+              <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+                <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
+                  <div class="sidenav-toggler-inner">
+                    <i class="sidenav-toggler-line bg-white"></i>
+                    <i class="sidenav-toggler-line bg-white"></i>
+                    <i class="sidenav-toggler-line bg-white"></i>
+                  </div>
+                </a>
+              </li>
+
+            </ul>
+          </div>
+        </div>
+</nav>
+
         @include('partials.officerside.mcdays')
+
         <div class="row mt-4">
             <div class="col-lg-12 mb-lg-0 mb-4" > <!-- Adjust column to full width -->
               <div class="card">
@@ -357,7 +389,7 @@
                 <div class="card">
                     <div class="card-header pb-0 p-3">
                         <div class="d-flex justify-content-between">
-                            <h6 class="mb-2">Akaun</h6>
+                            <h6 class="mb-2">Profile Pengguna</h6>
                         </div>
                     </div>
                     <div class="card-body">
@@ -457,11 +489,11 @@
                     <form action="{{ route('updateOwnDetails3') }}" method="POST">
                         @csrf
                         <div class="mb-3">
-                            <label for="password" class="form-label">Kata Laluan lama</label>
+                            <label for="password" class="form-label">Kata Laluan Baru</label>
                             <input type="password" class="form-control" id="password" name="password" placeholder="Biar kosong jika tiada perubahan kata laluan">
                         </div>
                         <div class="mb-3">
-                            <label for="password_confirmation" class="form-label">Kata Laluan baru</label>
+                            <label for="password_confirmation" class="form-label">Pengesahan Kata Laluan Baru</label>
                             <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
                         </div>
 

@@ -29,7 +29,7 @@
             </ul>
           </div>
         </div>
-      </nav>
+</nav>
 
         @include ('partials.adminside.mcdata')
 
@@ -262,7 +262,7 @@
                                                                     @if($announcement->image_path)
                                                                         <img src="{{ asset('storage/' . $announcement->image_path) }}" class="d-block w-25" alt="{{ $announcement->title }}">
                                                                     @else
-                                                                        No Image
+                                                                        Tiada Gambar
                                                                     @endif
                                                                 </td>
                                                                 <td>
@@ -286,7 +286,7 @@
                                                                 <div class="modal-dialog">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
-                                                                            <h5 class="modal-title" id="editAnnouncementLabel{{ $announcement->id }}">Edit Announcement</h5>
+                                                                            <h5 class="modal-title" id="editAnnouncementLabel{{ $announcement->id }}">Kemas Kini Pengumuman</h5>
                                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                         </div>
                                                                         <div class="modal-body">
@@ -294,19 +294,19 @@
                                                                                 @csrf
                                                                                 @method('PUT')
                                                                                 <div class="mb-3">
-                                                                                    <label for="title{{ $announcement->id }}" class="form-label">Title</label>
+                                                                                    <label for="title{{ $announcement->id }}" class="form-label">Tajuk</label>
                                                                                     <input type="text" class="form-control" id="title{{ $announcement->id }}" name="title" value="{{ $announcement->title }}" required>
                                                                                 </div>
                                                                                 <div class="mb-3">
-                                                                                    <label for="content{{ $announcement->id }}" class="form-label">Content</label>
+                                                                                    <label for="content{{ $announcement->id }}" class="form-label">Isi Pengumuman</label>
                                                                                     <textarea class="form-control" id="content{{ $announcement->id }}" name="content" rows="4" required>{{ $announcement->content }}</textarea>
                                                                                 </div>
                                                                                 <div class="mb-3">
-                                                                                    <label for="image{{ $announcement->id }}" class="form-label">Image (optional)</label>
+                                                                                    <label for="image{{ $announcement->id }}" class="form-label">Gambar (pilihan)</label>
                                                                                     <input type="file" class="form-control" id="image{{ $announcement->id }}" name="image_path" accept="image/*">
                                                                                 </div>
                                                                                 <div class="modal-footer">
-                                                                                    <button type="submit" class="btn btn-primary">Update</button>
+                                                                                    <button type="submit" class="btn btn-primary">Kemaskini</button>
                                                                                 </div>
                                                                             </form>
                                                                         </div>
@@ -397,7 +397,7 @@
                                                 <div class="modal-body">
                                                     <div class="row g-3">
                                                         <div class="col-md-6 mb-3">
-                                                            <label for="name" class="form-label">Name</label>
+                                                            <label for="name" class="form-label">Nama</label>
                                                             <input type="text" class="form-control" id="name" name="name" required>
                                                         </div>
                                                         <div class="col-md-6 mb-3">
@@ -405,7 +405,7 @@
                                                             <input type="email" class="form-control" id="email" name="email" required>
                                                         </div>
                                                         <div class="col-md-6 mb-3">
-                                                            <label for="password" class="form-label">Password</label>
+                                                            <label for="password" class="form-label">Kata Laluan</label>
                                                             <input type="password" class="form-control" id="password" name="password" required>
                                                         </div>
                                                         <div class="col-md-6 mb-3">
@@ -413,49 +413,49 @@
                                                             <input type="text" class="form-control" id="ic" name="ic">
                                                         </div>
                                                         <div class="col-md-6 mb-3">
-                                                            <label for="phone_number" class="form-label">Phone Number</label>
+                                                            <label for="phone_number" class="form-label">Nombor Telefon</label>
                                                             <input type="text" class="form-control" id="phone_number" name="phone_number">
                                                         </div>
                                                         <div class="col-md-6 mb-3">
-                                                            <label for="role" class="form-label">Role</label>
+                                                            <label for="role" class="form-label">Peranan</label>
                                                             <select class="form-select" id="role" name="role" required>
-                                                                <option value="staff">Staff</option>
-                                                                <option value="officer">Officer</option>
+                                                                <option value="Staf">Staf</option>
+                                                                <option value="Penyelia">Penyelia</option>
                                                             </select>
                                                         </div>
 
                                                         <div class="col-md-6 mb-3">
-                                                            <label for="job_status" class="form-label">Job Status</label>
+                                                            <label for="job_status" class="form-label">Status Kerja</label>
                                                             <select class="form-select" id="job_status" name="job_status" required>
-                                                                <option value="Permenant">Permenant</option>
-                                                                <option value="Contract">Contract</option>
+                                                                <option value="Tetap">Tetap</option>
+                                                                <option value="Kontrak">Kontrak</option>
                                                             </select>
                                                         </div>
 
                                                         <div class="col-md-6 mb-3">
-                                                            <label for="address" class="form-label">Address</label>
+                                                            <label for="address" class="form-label">Alamat</label>
                                                             <input type="text" class="form-control" id="address" name="address" required>
                                                         </div>
                                                         <div class="col-md-6 mb-3">
-                                                            <label for="city" class="form-label">City</label>
+                                                            <label for="city" class="form-label">Bandar</label>
                                                             <input type="text" class="form-control" id="city" name="city" required>
                                                         </div>
                                                         <div class="col-md-6 mb-3">
-                                                            <label for="postcode" class="form-label">Postcode</label>
+                                                            <label for="postcode" class="form-label">Poskod</label>
                                                             <input type="text" class="form-control" id="postcode" name="postcode" required>
                                                         </div>
                                                         <div class="col-md-6 mb-3">
-                                                            <label for="state" class="form-label">State</label>
+                                                            <label for="state" class="form-label">Negeri</label>
                                                             <input type="text" class="form-control" id="state" name="state" required>
                                                         </div>
                                                         <div class="col-md-6 mb-3">
-                                                            <label for="mc_days" class="form-label">MC Days</label>
+                                                            <label for="mc_days" class="form-label">Jumlah Cuti</label>
                                                             <input type="number" class="form-control" id="mc_days" name="mc_days" required min="1">
                                                         </div>
                                                         <div class="col-md-6 mb-3">
-                                                            <label for="selected_officer_id">Select Officer</label>
+                                                            <label for="selected_officer_id">Penyelia/Ketua Bahagian</label>
                                                             <select name="selected_officer_id" id="selected_officer_id" class="form-control">
-                                                                <option value="">Select Officer</option> <!-- This allows for no selection -->
+                                                                <option value="">Pilih Ketua Bahagian</option> <!-- This allows for no selection -->
                                                                 @foreach($officers as $officer)
                                                                     <option value="{{ $officer->id }}">{{ $officer->name }}</option>
                                                                 @endforeach
@@ -464,8 +464,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-primary">Add Staff/Officer</button>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                                    <button type="submit" class="btn btn-primary">Tambah Penyelia/Staf</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -516,7 +516,7 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="editModalLabel{{ $user->id }}">Edit User - {{ $user->name }}</h5>
+                                    <h5 class="modal-title" id="editModalLabel{{ $user->id }}">Kemas Kini Maklumat Pengguna - {{ $user->name }}</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <form action="{{ route('updateUser', $user->id) }}" method="POST">
@@ -525,7 +525,7 @@
                                         <div class="row g-3">
                                             <!-- Name -->
                                             <div class="col-md-6 mb-3">
-                                                <label for="name{{ $user->id }}" class="form-label">Name</label>
+                                                <label for="name{{ $user->id }}" class="form-label">Nama</label>
                                                 <input type="text" class="form-control" id="name{{ $user->id }}" name="name" value="{{ $user->name }}" required>
                                             </div>
 
@@ -543,67 +543,66 @@
 
                                             <!-- Phone Number -->
                                             <div class="col-md-6 mb-3">
-                                                <label for="phone_number{{ $user->id }}" class="form-label">Phone Number</label>
+                                                <label for="phone_number{{ $user->id }}" class="form-label">Nombor Telefon</label>
                                                 <input type="text" class="form-control" id="phone_number{{ $user->id }}" name="phone_number" value="{{ $user->phone_number }}">
                                             </div>
 
                                             <!-- Role -->
                                             <div class="col-md-6 mb-3">
-                                                <label for="role{{ $user->id }}" class="form-label">Role</label>
+                                                <label for="role{{ $user->id }}" class="form-label">Peranan</label>
                                                 <select class="form-select" id="role{{ $user->id }}" name="role">
                                                     <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
-                                                    <option value="staff" {{ $user->role == 'staff' ? 'selected' : '' }}>Staff</option>
-                                                    <option value="officer" {{ $user->role == 'officer' ? 'selected' : '' }}>Officer</option>
+                                                    <option value="Staf" {{ $user->role == 'Staf' ? 'selected' : '' }}>Staf</option>
+                                                    <option value="Penyelia" {{ $user->role == 'Penyelia' ? 'selected' : '' }}>Penyelia</option>
                                                 </select>
                                             </div>
 
-                                                            <!-- Job Status -->
+                                            <!-- Job Status -->
                                         <div class="col-md-6 mb-3">
-                                            <label for="job_status{{ $user->id }}" class="form-label">Job Status</label>
+                                            <label for="job_status{{ $user->id }}" class="form-label">Status Kerja </label>
                                             <select class="form-select" id="job_status{{ $user->id }}" name="job_status" required>
-                                                <option value="Permenant" {{ $user->job_status == 'Permenant' ? 'selected' : '' }}>Permenant</option>
-                                            <option value="Contract" {{ $user->job_status == 'Contract' ? 'selected' : '' }}>Contract</option>
-
+                                                <option value="Tetap" {{ $user->job_status == 'Tetap' ? 'selected' : '' }}>Tetap</option>
+                                            <option value="Kontrak" {{ $user->job_status == 'Kontrak' ? 'selected' : '' }}>Kontrak</option>
                                             </select>
                                         </div>
 
 
                                             <!-- Address -->
                                             <div class="col-md-6 mb-3">
-                                                <label for="address{{ $user->id }}" class="form-label">Address</label>
+                                                <label for="address{{ $user->id }}" class="form-label">Alamat</label>
                                                 <input type="text" class="form-control" id="address{{ $user->id }}" name="address" value="{{ $user->address }}" required>
                                             </div>
 
                                             <!-- City -->
                                             <div class="col-md-6 mb-3">
-                                                <label for="city{{ $user->id }}" class="form-label">City</label>
+                                                <label for="city{{ $user->id }}" class="form-label">Bandar</label>
                                                 <input type="text" class="form-control" id="city{{ $user->id }}" name="city" value="{{ $user->city }}" required>
                                             </div>
 
                                             <!-- Postcode -->
                                             <div class="col-md-6 mb-3">
-                                                <label for="postcode{{ $user->id }}" class="form-label">Postcode</label>
+                                                <label for="postcode{{ $user->id }}" class="form-label">Poskod</label>
                                                 <input type="text" class="form-control" id="postcode{{ $user->id }}" name="postcode" value="{{ $user->postcode }}" required>
                                             </div>
 
                                             <!-- State -->
                                             <div class="col-md-6 mb-3">
-                                                <label for="state{{ $user->id }}" class="form-label">State</label>
+                                                <label for="state{{ $user->id }}" class="form-label">Negeri</label>
                                                 <input type="text" class="form-control" id="state{{ $user->id }}" name="state" value="{{ $user->state }}" required>
                                             </div>
 
                                             <!-- MC Days -->
                                             <div class="col-md-6 mb-3">
-                                                <label for="mc_days{{ $user->id }}" class="form-label">MC Days</label>
+                                                <label for="mc_days{{ $user->id }}" class="form-label">Cuti</label>
                                                 <!-- Updated name to match the controller field 'total_mc_days' -->
                                                 <input type="number" class="form-control" id="mc_days{{ $user->id }}" name="total_mc_days" value="{{ $user->total_mc_days }}" required min="0">
                                             </div>
 
                                             <!-- Select Officer -->
                                             <div class="col-md-6 mb-3">
-                                                <label for="selected_officer_id">Select Officer</label>
+                                                <label for="selected_officer_id">Ketua Bahagian/Penyelia</label>
                                                 <select name="selected_officer_id" id="selected_officer_id" class="form-control">
-                                                    <option value="">Select Officer</option>
+                                                    <option value="">Pilih Ketua Bahagian</option>
                                                     @foreach($officers as $officer)
                                                         <option value="{{ $officer->id }}" {{ $user->selected_officer_id == $officer->id ? 'selected' : '' }}>
                                                             {{ $officer->name }}
@@ -615,8 +614,8 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary">Update User</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                        <button type="submit" class="btn btn-primary">Kemas Kini Pengguna</button>
                                     </div>
                                 </form>
                             </div>
@@ -641,7 +640,7 @@
                             <div class="card">
                                 <div class="card-header pb-0 p-3">
                                     <div class="d-flex justify-content-between">
-                                        <h6 class="mb-2">Admin Approval for Staff Application</h6>
+                                        <h6 class="mb-2">Pengesahan kedua permohonan cuti staf selepas ketua bahagian</h6>
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -651,14 +650,14 @@
                                             <table class="table align-items-center" style="table-layout: auto;">
                                                 <thead>
                                                     <tr>
-                                                        <th class="text-center">ID</th>
-                                                        <th class="text-center">User ID</th>
-                                                        <th class="text-center">Start Date</th>
-                                                        <th class="text-center">End Date</th>
-                                                        <th class="text-center">Reason</th>
-                                                        <th class="text-center">Document</th>
-                                                        <th class="text-center">Officer Approved</th>
-                                                        <th class="text-center">Action</th>
+                                                        <th class="text-center">ID Permohonan</th>
+                                                        <th class="text-center">ID Staf</th>
+                                                        <th class="text-center">Tarikh Mula</th>
+                                                        <th class="text-center">Tarikh Tamat</th>
+                                                        <th class="text-center">Sebab</th>
+                                                        <th class="text-center">Dokumen</th>
+                                                        <th class="text-center">Ketua Bahagian</th>
+                                                        <th class="text-center">Tindakan</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -679,14 +678,14 @@
                                                                     <div class="modal-dialog">
                                                                         <div class="modal-content">
                                                                             <div class="modal-header">
-                                                                                <h5 class="modal-title" id="reasonModalLabel{{ $application->id }}">Reason for MC Application</h5>
+                                                                                <h5 class="modal-title" id="reasonModalLabel{{ $application->id }}">Sebab permohonan cuti</h5>
                                                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                             </div>
                                                                             <div class="modal-body" style="word-wrap: break-word; white-space: normal;">
                                                                                 {{ $application->reason }}
                                                                             </div>
                                                                             <div class="modal-footer">
-                                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -729,7 +728,7 @@
                             <div class="card">
                                 <div class="card-header pb-0 p-3">
                                     <div class="d-flex justify-content-between">
-                                        <h6 class="mb-2">Direct Admin Approval by Staff Application</h6>
+                                        <h6 class="mb-2">Permohonan Terus Ketua Bahagian/Staf</h6>
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -740,12 +739,12 @@
                                                 <thead class="thead-light">
                                                     <tr>
                                                         <th class="text-center">ID</th>
-                                                        <th class="text-center">User</th>
-                                                        <th class="text-center">Start Date</th>
-                                                        <th class="text-center">End Date</th>
-                                                        <th class="text-center">Reason</th>
-                                                        <th class="text-center">Document</th>
-                                                        <th class="text-center">Action</th>
+                                                        <th class="text-center">Ketua Bahagian/Staf</th>
+                                                        <th class="text-center">Tarikh Mula</th>
+                                                        <th class="text-center">Tarikh Tamat</th>
+                                                        <th class="text-center">Sebab</th>
+                                                        <th class="text-center">Dokumen</th>
+                                                        <th class="text-center">Tindakan</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -766,7 +765,7 @@
                                                                     <div class="modal-dialog">
                                                                         <div class="modal-content">
                                                                             <div class="modal-header">
-                                                                                <h5 class="modal-title" id="directReasonModalLabel{{ $application->id }}">Reason for MC Application</h5>
+                                                                                <h5 class="modal-title" id="directReasonModalLabel{{ $application->id }}">Sebab permohonan cuti</h5>
                                                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                             </div>
                                                                             <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
@@ -817,7 +816,7 @@
                             <div class="card">
                                 <div class="card-header pb-0 p-3">
                                     <div class="d-flex justify-content-between">
-                                        <h6 class="mb-2">Profile</h6>
+                                        <h6 class="mb-2">Profil</h6>
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -826,7 +825,7 @@
                                         <div class="row">
                                             <!-- Profile Information -->
                                             <div class="col-md-6">
-                                                <label for="name" class="form-label">Name</label>
+                                                <label for="name" class="form-label">Nama</label>
                                                 <p class="form-control" id="name">{{ Auth::user()->name }}</p>
                                             </div>
                                             <div class="col-md-6">
@@ -842,16 +841,16 @@
                                                 <p class="form-control" id="ic">{{ Auth::user()->ic }}</p>
                                             </div>
                                             <div class="col-md-6">
-                                                <label for="phone_number" class="form-label">Phone Number</label>
+                                                <label for="phone_number" class="form-label">Nombor Telefon</label>
                                                 <p class="form-control" id="phone_number">{{ Auth::user()->phone_number }}</p>
                                             </div>
                                         </div>
 
-                                        <h5 class="mt-4">Address Information</h5>
+                                        <h5 class="mt-4">Maklumat Alamat</h5>
                                         <div class="row mt-3">
                                             <!-- Address -->
                                             <div class="col-md-12">
-                                                <label for="address" class="form-label">Address</label>
+                                                <label for="address" class="form-label">Alamat</label>
                                                 <p class="form-control" id="address">{{ Auth::user()->address }}</p>
                                             </div>
                                         </div>
@@ -859,33 +858,33 @@
                                         <div class="row mt-3">
                                             <!-- State, City, Postcode -->
                                             <div class="col-md-4">
-                                                <label for="postcode" class="form-label">Postcode</label>
+                                                <label for="postcode" class="form-label">Poskod</label>
                                                 <p class="form-control" id="postcode">{{ Auth::user()->postcode }}</p>
                                             </div>
                                             <div class="col-md-4">
-                                                <label for="state" class="form-label">State</label>
+                                                <label for="state" class="form-label">Negeri</label>
                                                 <p class="form-control" id="state">{{ Auth::user()->state }}</p>
                                             </div>
                                             <div class="col-md-4">
-                                                <label for="city" class="form-label">City</label>
+                                                <label for="city" class="form-label">Bandar</label>
                                                 <p class="form-control" id="city">{{ Auth::user()->city }}</p>
                                             </div>
                                         </div>
 
-                                        <h5 class="mt-4">Job Status</h5>
+                                        <h5 class="mt-4">Status Pekerjaan</h5>
                                         <div class="row mt-3">
                                             <div class="col-md-4">
-                                                <label for="role" class="form-label">Role</label>
+                                                <label for="role" class="form-label">Peranan</label>
                                                 <p class="form-control" id="role">{{ Auth::user()->role }}</p>
                                             </div>
 
                                             <div class="col-md-4">
-                                                <label for="job_status" class="form-label">Job Status</label>
+                                                <label for="job_status" class="form-label">Status Kerja</label>
                                                 <p class="form-control" id="role">{{ Auth::user()->job_status }}</p>
                                             </div>
 
                                             <div class="col-md-4">
-                                                <label for="mc_days" class="form-label">Total MC Days</label>
+                                                <label for="mc_days" class="form-label">Jumlah cuti berbaki</label>
                                                 <p class="form-control" id="mc_days">{{ Auth::user()->total_mc_days }}</p>
                                             </div>
                                         </div>
@@ -909,18 +908,18 @@
                             <div class="card">
                                 <div class="card-header pb-0 p-3">
                                     <div class="d-flex justify-content-between">
-                                        <h6 class="mb-2">Change Password</h6>
+                                        <h6 class="mb-2">Tukar Kata Laluan</h6>
                                     </div>
                                 </div>
                                 <div class="card-body">
                                     <form action="{{ route('updateOwnDetails') }}" method="POST">
                                         @csrf
                                         <div class="mb-3">
-                                            <label for="password" class="form-label">New Password</label>
+                                            <label for="password" class="form-label">Kata Laluan Baru</label>
                                             <input type="password" class="form-control" id="password" name="password" placeholder="Leave blank if not changing">
                                         </div>
                                         <div class="mb-3">
-                                            <label for="password_confirmation" class="form-label">Confirm New Password</label>
+                                            <label for="password_confirmation" class="form-label">Pengesahan Kata Laluan Baru</label>
                                             <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
                                         </div>
 
