@@ -233,24 +233,24 @@ class AdminController extends Controller
     
     public function reject($id)
     {
-    $application = McApplication::find($id);
+        $application = McApplication::find($id);
 
-    if (!$application) {
-        return redirect()->back()->with('error', 'Application not found.');
-    }
+        if (!$application) {
+            return redirect()->back()->with('error', 'Application not found.');
+        }
 
-    // Optionally, you can check if the application can be rejected
-    // For example, check if it has already been approved
-    if ($application->status === 'approved') {
-        return redirect()->back()->with('error', 'Cannot reject an already approved application.');
-    }
+        // Optionally, you can check if the application can be rejected
+        // For example, check if it has already been approved
+        if ($application->status === 'approved') {
+            return redirect()->back()->with('error', 'Cannot reject an already approved application.');
+        }
 
-    // Update the application's status to rejected
-    $application->status = 'rejected';
-    $application->admin_approved = false; // Optionally set this to false
-    $application->save();
+        // Update the application's status to rejected
+        $application->status = 'rejected';
+        $application->admin_approved = false; // Optionally set this to false
+        $application->save();
 
-    return redirect()->back()->with('success', 'MC application rejected by admin.');
+        return redirect()->back()->with('success', 'MC application rejected by admin.');
     }
 
 

@@ -358,8 +358,11 @@
                                                                                 </div>
                                                                                 <div class="mb-3">
                                                                                     <label for="image{{ $announcement->id }}" class="form-label">Gambar (pilihan)</label>
+                                                                                    @if ($announcement->image_path)
+                                                                                        <img src="{{ asset('storage/' . $announcement->image_path) }}" class="d-block w-25 mb-2" alt="{{ $announcement->title }}">
+                                                                                    @endif
                                                                                     <input type="file" class="form-control" id="image{{ $announcement->id }}" name="image_path" accept="image/*">
-                                                                                </div>
+                                                                                </div>                                                                                
                                                                                 <p class="text-muted">
                                                                                     Please upload images with the following specifications:
                                                                                     <br>
