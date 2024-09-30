@@ -929,7 +929,7 @@
                                         @csrf
                                         <div class="mb-3">
                                             <label for="password" class="form-label">Kata Laluan Baru</label>
-                                            <input type="password" class="form-control" id="password" name="password" placeholder="Leave blank if not changing">
+                                            <input type="password" class="form-control" id="password" name="password" placeholder="Biar kosong jika tiada perubahan">
                                         </div>
                                         <div class="mb-3">
                                             <label for="password_confirmation" class="form-label">Pengesahan Kata Laluan Baru</label>
