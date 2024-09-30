@@ -48,6 +48,7 @@
                         <div class="card-header pb-0 p-3">
                             <div class="d-flex justify-content-between">
                                 <h6 class="mb-2">Senarai Permohonan</h6>
+                                
                             </div>
                         </div>
                         <!-- Applications Table -->

@@ -259,6 +259,27 @@ updateDateTime();
 document.getElementById('iconSidenav').addEventListener('click', function() {
     document.getElementById('sidenav-main').classList.toggle('d-none');
 });
+function searchUsers() {
+    const input = document.getElementById('searchInput');
+    const filter = input.value.toLowerCase();
+    const table = document.getElementById('userTable');
+    const tr = table.getElementsByTagName('tr');
 
+    for (let i = 1; i < tr.length; i++) {
+        const td = tr[i].getElementsByTagName('td');
+        let rowVisible = false;
+
+        for (let j = 1; j < td.length - 1; j++) { // Skip the first and last column (Bil and Tindakan)
+            if (td[j]) {
+                const txtValue = td[j].textContent || td[j].innerText;
+                if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                    rowVisible = true;
+                    break;
+                }
+            }
+        }
+        tr[i].style.display = rowVisible ? "" : "none"; // Show or hide the row based on the search
+    }
+}
 
 

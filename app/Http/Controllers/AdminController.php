@@ -16,28 +16,41 @@ use Illuminate\Support\Facades\Storage;
 class AdminController extends Controller
 {
 
-    public function dashboard()
+    public function dashboard(Request $request) // Add Request parameter here
     {
         // Fetch total users excluding admins
         $totalUsers = User::where('role', '!=', 'admin')->count();
-        // Fetch all users excluding admins
-        $users = User::where('role', '!=', 'admin')->get();
-            // Fetch MC applications approved by officers and still pending admin approval
-            $applications = McApplication::where('officer_approved', true)
+
+        // Handle search functionality
+        $search = $request->get('search');
+        $role = $request->get('role');
+
+        // Fetch all users excluding admins with search functionality
+        $users = User::where('role', '!=', 'admin')
+            ->when($search, function ($query) use ($search) {
+                return $query->where('name', 'like', "%{$search}%");
+            })
+            ->when($role, function ($query) use ($role) {
+                return $query->where('role', $role);
+            })
             ->get();
 
-            // Fetch direct admin approval applications
+        // Fetch MC applications approved by officers and still pending admin approval
+        $applications = McApplication::where('officer_approved', true)->get();
+
+        // Fetch direct admin approval applications
         $directAdminApplications = McApplication::where('direct_admin_approval', true)
-        ->where('admin_approved', false)  // Only fetch those not yet approved
-        ->where('status', 'pending')  // Only fetch those not yet approved
-        ->get();
+            ->where('admin_approved', false)  // Only fetch those not yet approved
+            ->where('status', 'pending')  // Only fetch those not yet approved
+            ->get();
+
         $officers = User::where('role', 'Penyelia')->get();
         $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
         $totalMcApplications = McApplication::count();
         $acceptedMcApplications = McApplication::where('status', 'approved')->count();
         $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
 
-        return view('admin', compact('directAdminApplications','totalUsers', 'users', 'applications', 'totalMcApplications', 'acceptedMcApplications', 'rejectedMcApplications','announcements','officers'));
+        return view('admin', compact('directAdminApplications', 'totalUsers', 'users', 'applications', 'totalMcApplications', 'acceptedMcApplications', 'rejectedMcApplications', 'announcements', 'officers'));
     }
 
 

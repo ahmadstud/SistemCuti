@@ -377,6 +377,18 @@
                                 <div class="card-header pb-0 p-3">
                                     <div class="d-flex justify-content-between">
                                         <h6 class="mb-2">Senarai Pengguna</h6>
+                                         <!-- Search Bar -->
+                                            <form method="GET" action="" class="mb-3">
+                                                <div class="input-group">
+                                                    <input type="text" name="search" class="form-control" placeholder="Cari nama pengguna" value="{{ request()->get('search') }}">
+                                                    <select name="role" class="form-select">
+                                                        <option value="">Pilih Peranan</option>
+                                                        <option value="Staf" {{ request()->get('role') == 'Staf' ? 'selected' : '' }}>Staf</option>
+                                                        <option value="Penyelia" {{ request()->get('role') == 'Penyelia' ? 'selected' : '' }}>Penyelia</option>
+                                                    </select>
+                                                    <button class="btn btn-primary" type="submit">Cari</button>
+                                                </div>
+                                            </form>
                                         <!-- Add Staff/Officer Button -->
                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStaffModal">
                                             Tambah Penyelia/Staf
@@ -453,9 +465,9 @@
                                                             <input type="number" class="form-control" id="mc_days" name="mc_days" required min="1">
                                                         </div>
                                                         <div class="col-md-6 mb-3">
-                                                            <label for="selected_officer_id">Penyelia/Ketua Bahagian</label>
+                                                            <label for="selected_officer_id">Penyelia</label>
                                                             <select name="selected_officer_id" id="selected_officer_id" class="form-control">
-                                                                <option value="">Pilih Ketua Bahagian</option> <!-- This allows for no selection -->
+                                                                <option value="">Pilih Penyelia</option> <!-- This allows for no selection -->
                                                                 @foreach($officers as $officer)
                                                                     <option value="{{ $officer->id }}">{{ $officer->name }}</option>
                                                                 @endforeach
@@ -600,9 +612,9 @@
 
                                             <!-- Select Officer -->
                                             <div class="col-md-6 mb-3">
-                                                <label for="selected_officer_id">Ketua Bahagian/Penyelia</label>
+                                                <label for="selected_officer_id">Penyelia</label>
                                                 <select name="selected_officer_id" id="selected_officer_id" class="form-control">
-                                                    <option value="">Pilih Ketua Bahagian</option>
+                                                    <option value="">Pilih Penyelia</option>
                                                     @foreach($officers as $officer)
                                                         <option value="{{ $officer->id }}" {{ $user->selected_officer_id == $officer->id ? 'selected' : '' }}>
                                                             {{ $officer->name }}
@@ -640,7 +652,7 @@
                             <div class="card">
                                 <div class="card-header pb-0 p-3">
                                     <div class="d-flex justify-content-between">
-                                        <h6 class="mb-2">Pengesahan kedua permohonan cuti staf selepas ketua bahagian</h6>
+                                        <h6 class="mb-2">Permohonan Staf melalui Persetujuan Penyelia</h6>
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -728,7 +740,8 @@
                             <div class="card">
                                 <div class="card-header pb-0 p-3">
                                     <div class="d-flex justify-content-between">
-                                        <h6 class="mb-2">Permohonan Terus Ketua Bahagian/Staf</h6>
+                                        <h6 class="mb-2">Permohonan Terus daripada Penyelia/Staf</h6>
+
                                     </div>
                                 </div>
                                 <div class="card-body">
