@@ -13,8 +13,8 @@ class CreateAnnouncementsTable extends Migration
             $table->string('title');
             $table->text('content');
             $table->string('image_path')->nullable(); // Path to the image
-            $table->date('start_date'); // Start date of the announcement
-            $table->date('end_date');   // End date of the announcement
+            $table->date('start_date')->nullable(); // Start date of the announcement
+            $table->date('end_date')->nullable();    // End date of the announcement
             $table->timestamps();
         });
     }

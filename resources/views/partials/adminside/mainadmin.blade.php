@@ -18,7 +18,7 @@
                                 <div class="row">
 
                                     {{-- Card Pengumuman --}}
-                                    <div class="col-lg-12 mb-lg-0 mb-4">
+                                    <div class="col-lg-7 mb-lg-0 mb-4">
                                         <div class="card z-index-2 h-100">
                                             <div class="card-header pb-0 pt-3 bg-transparent">
                                                 <h4 class="text-capitalize">PENGUMUMAN</h4>
@@ -75,6 +75,27 @@
                                                         contentElement.textContent = content; // Update content
                                                     });
                                                 </script>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{-- Card Calender --}}
+                                    <div class="col-lg-5">
+                                        <div class="card h-100 mb-4">
+                                            <div class="card-header pb-0 px-3">
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <h4 class="text-capitalize">SENARAI STAFF CUTI HARIAN</h4>
+                                                </div>
+                                                <div class="col-md-4 d-flex justify-content-end align-items-center">
+                                                    <i class="far fa-calendar-alt me-2"></i>
+                                                    <small>September</small>
+                                                </div>
+                                            </div>
+                                            </div>
+            
+                                            <div class="card-body pt-4 p-3">
 
                                             </div>
                                         </div>
@@ -234,12 +255,12 @@
                                                                 </div>
                                                                 <div class="row mb-3">
                                                                     <div class="col-md-6">
-                                                                        <label for="announcementStartDate" class="form-label">Tarikh Mula<span class="text-danger">*</span></label>
-                                                                        <input type="date" class="form-control" id="announcementStartDate" name="start_date" required>
+                                                                        <label for="start_date" class="form-label">Tarikh Mula<span class="text-danger">*</span></label>
+                                                                        <input type="date" class="form-control" id="start_date" name="start_date" required>
                                                                     </div>
                                                                     <div class="col-md-6">
-                                                                        <label for="announcementEndDate" class="form-label">Tarikh Akhir<span class="text-danger">*</span></label>
-                                                                        <input type="date" class="form-control" id="announcementEndDate" name="end_date" required>
+                                                                        <label for="end_date" class="form-label">Tarikh Akhir<span class="text-danger">*</span></label>
+                                                                        <input type="date" class="form-control" id="end_date" name="end_date" required>
                                                                     </div>
                                                                 </div>
                                                                 <div class="mb-3">
@@ -297,10 +318,10 @@
                                                                     <p class="text-m text-secondary">{{ $announcement->content }}</p>
                                                                 </td>
                                                                 <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">{{ $announcement->title }}</p>
+                                                                    <p class="text-m text-secondary">{{ $announcement->start_date }}</p>
                                                                 </td>
                                                                 <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">{{ $announcement->title }}</p>
+                                                                    <p class="text-m text-secondary">{{ $announcement->end_date }}</p>
                                                                 </td>
                                                                 <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                     @if($announcement->image_path)

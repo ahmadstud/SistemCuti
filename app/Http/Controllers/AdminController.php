@@ -98,13 +98,13 @@ class AdminController extends Controller
             'content' => 'required|string',
             'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
+            'end_date' => 'required|date|after_or_equal:start_date', // Ensure end_date is after or equal to start_date
         ]);
 
         $announcement->title = $request->title;
         $announcement->content = $request->content;
-        $announcement->start_date = $request->start_date;
-        $announcement->end_date = $request->end_date;
+        $announcement->start_date = $request->start_date;  // Set the start date
+        $announcement->end_date = $request->end_date;  // Set the end date
 
         if ($request->hasFile('image_path')) {
             // Delete old image if it exists
@@ -300,6 +300,9 @@ class AdminController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image
+            'start_date' => 'required|date', // Validate start date
+            'end_date' => 'required|date|after_or_equal:start_date', // Validate end date
+           
         ]);
 
         // Store image if uploaded
@@ -313,6 +316,8 @@ class AdminController extends Controller
             'title' => $request->title,
             'content' => $request->content,
             'image_path' => $imagePath,
+            'start_date' => $request->start_date, // Store start date
+            'end_date' => $request->end_date, // Store end date
         ]);
 
         return redirect()->route('admin', ['section' => 'Annouce'])->with('success', 'Announcement created successfully.');
