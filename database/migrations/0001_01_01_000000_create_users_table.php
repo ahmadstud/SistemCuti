@@ -28,9 +28,6 @@ return new class extends Migration
             $table->unsignedBigInteger('selected_officer_id')->nullable();  // Officer assigned to approve
             $table->rememberToken();
             $table->timestamps();
-
-            // Foreign key constraint for supervisor_id (optional, if supervisor references another user)
-            $table->foreign('supervisor_id')->references('id')->on('users')->onDelete('set null');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

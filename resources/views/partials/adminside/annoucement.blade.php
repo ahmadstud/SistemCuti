@@ -62,7 +62,7 @@
 
                                             <!-- Edit Announcement Modal -->
                                             <div class="modal fade" id="editAnnouncementModal{{ $announcement->id }}" tabindex="-1" aria-labelledby="editAnnouncementLabel{{ $announcement->id }}" aria-hidden="true">
-                                                <div class="modal-dialog">
+                                                <div class="modal-dialog modal-lg">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title" id="editAnnouncementLabel{{ $announcement->id }}">Kemas Kini Pengumuman</h5>
@@ -101,7 +101,7 @@
 
                     <!-- Create Announcement Modal -->
                     <div class="modal fade" id="createAnnouncementModal" tabindex="-1" aria-labelledby="createAnnouncementLabel" aria-hidden="true">
-                        <div class="modal-dialog">
+                        <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="createAnnouncementLabel">Create Announcement</h5>

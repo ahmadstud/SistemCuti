@@ -30,6 +30,7 @@ class User extends Authenticatable
         'total_mc_days',  // Ensure this is fillable
         'job_status',
           'selected_officer_id',
+          'profile_image',
     ];
 
     /**

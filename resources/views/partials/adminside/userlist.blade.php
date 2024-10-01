@@ -27,7 +27,7 @@
 
                 <!-- Add Staff/Officer Modal -->
                 <div class="modal fade" id="addStaffModal" tabindex="-1" aria-labelledby="addStaffModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
+                    <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="addStaffModalLabel">Tambah Penyelia/Staf</h5>
@@ -154,7 +154,7 @@
 
                         <!-- Edit User Modal -->
     <div class="modal fade" id="editModal{{ $user->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $user->id }}" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="editModalLabel{{ $user->id }}">Kemas Kini Maklumat Pengguna - {{ $user->name }}</h5>

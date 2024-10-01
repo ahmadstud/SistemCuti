@@ -64,6 +64,7 @@ class OfficerController extends Controller
             'city' => 'nullable|string|max:255',
             'postcode' => 'nullable|string|max:10',
             'state' => 'nullable|string|max:255',
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation for profile image
         ]);
 
         // Update user details
@@ -76,6 +77,16 @@ class OfficerController extends Controller
         $user->state = $request->state;
         $user->city = $request->city;
 
+         // Handle profile image upload
+         if ($request->hasFile('profile_image')) {
+            $image = $request->file('profile_image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('storage/profile_image'), $imageName);
+
+            // Save the profile image path in the database
+            $user->profile_image = 'storage/profile_image/' . $imageName;
+        }
+        
         // Update password only if a new password is provided
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);

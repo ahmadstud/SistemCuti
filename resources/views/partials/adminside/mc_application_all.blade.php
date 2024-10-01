@@ -1,5 +1,6 @@
+
  <!-- All MC application section -->
- <div id="all-applications-section" class="content-section" style="display: none;">
+<div id="all-applications-section" class="content-section" style="display: none;">
     <!--All MC application Table Section -->
     <div class="row mt-4">
         <div class="col-lg-12 mb-lg-0 mb-4">
@@ -33,30 +34,7 @@
                                     <td class="text-center">{{ $mcApplication->user_role }}</td> <!-- User's role -->
                                     <td class="text-center">{{ $mcApplication->start_date }}</td>
                                     <td class="text-center">{{ $mcApplication->end_date }}</td>
-                                    <td class="text-center">
-                                        <!-- Button to trigger reason modal -->
-                                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#reasonModal{{ $mcApplication->id }}">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-
-                                        <!-- Modal for showing the reason -->
-                                        <div class="modal fade" id="reasonModal{{ $mcApplication->id }}" tabindex="-1" aria-labelledby="reasonModalLabel{{ $mcApplication->id }}" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="reasonModalLabel{{ $mcApplication->id }}">Sebab Permohonan</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        {{ $mcApplication->reason }}
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
+                                    <td class="text-center">{{ $mcApplication->reason }}</td> <!-- Displaying reason directly -->
                                     <td class="text-center">
                                         @if($mcApplication->document_path)
                                             <a href="{{ Storage::url($mcApplication->document_path) }}" target="_blank" class="text-primary">
@@ -89,3 +67,4 @@
         </div> <!-- Closing col-lg-12 -->
     </div> <!-- Closing row -->
 </div> <!-- Closing McApply section -->
+
