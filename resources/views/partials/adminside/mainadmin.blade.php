@@ -590,6 +590,107 @@
                                                                     <button class="btn btn-md btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $user->id }}">
                                                                         <i class="fas fa-pencil-alt"></i>
                                                                     </button>
+
+                                                                    <!-- Edit User Modal -->
+                                                                    <div class="modal fade" id="editModal{{ $user->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $user->id }}" aria-hidden="true">
+                                                                        <div class="modal-dialog modal-lg">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header" style="background-color: #f0f0f0;">
+                                                                                    <h5 class="modal-title" id="editModalLabel{{ $user->id }}">Edit User - {{ $user->name }}</h5>
+                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                </div>
+                                                                                <div class="modal-body">
+                                                                                    <form action="{{ route('updateUser', $user->id) }}" method="POST">
+                                                                                        @csrf
+                                                                                    
+                                                                                        <div class="row g-3">
+                                                                                            <div class="col-md-12 mb-3">
+                                                                                                <label for="name{{ $user->id }}" class="form-label">Nama</label>
+                                                                                                <input type="text" class="form-control" id="name{{ $user->id }}" name="name" value="{{ $user->name }}" required>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="row g-3">
+                                                                                            <div class="col-md-6 mb-3">
+                                                                                                <label for="email{{ $user->id }}" class="form-label">E-mel</label>
+                                                                                                <input type="email" class="form-control" id="email{{ $user->id }}" name="email" value="{{ $user->email }}" required>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="row g-3">
+                                                                                            <div class="col-md-6 mb-3">
+                                                                                                <label for="ic{{ $user->id }}" class="form-label">No K/P</label>
+                                                                                                <input type="text" class="form-control" id="ic{{ $user->id }}" name="ic" value="{{ $user->ic }}">
+                                                                                            </div>
+                                                                                            <div class="col-md-6 mb-3">
+                                                                                                <label for="phone_number{{ $user->id }}" class="form-label">No Telefon</label>
+                                                                                                <input type="text" class="form-control" id="phone_number{{ $user->id }}" name="phone_number" value="{{ $user->phone_number }}">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="row g-3">
+                                                                                            <div class="col-md-6 mb-3">
+                                                                                                <label for="role{{ $user->id }}" class="form-label">Peranan</label>
+                                                                                                <select class="form-select" id="role{{ $user->id }}" name="role">
+                                                                                                    <option selected disabled>--- Pilih Peranan ---</option>
+                                                                                                    <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
+                                                                                                    <option value="staff" {{ $user->role == 'staff' ? 'selected' : '' }}>Staf</option>
+                                                                                                    <option value="officer" {{ $user->role == 'officer' ? 'selected' : '' }}>Pegawai</option>
+                                                                                                </select>
+                                                                                            </div>
+                                                                                            <div class="col-md-6 mb-3">
+                                                                                                <label for="job_status{{ $user->id }}" class="form-label">Status Pekerjaan</label>
+                                                                                                <select class="form-select" id="job_status{{ $user->id }}" name="job_status" required>
+                                                                                                    <option selected disabled>--- Pilih Status Pekerjaan ---</option>
+                                                                                                    <option value="Permenant" {{ $user->job_status == 'Permenant' ? 'selected' : '' }}>Tetap</option>
+                                                                                                    <option value="Contract" {{ $user->job_status == 'Contract' ? 'selected' : '' }}>Kontrak</option>
+                                                                                                </select>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="row g-3">
+                                                                                            <div class="col-md-6 mb-3">
+                                                                                                <label for="pegawai" class="form-label">Ketua Bahagian/Pegawai</label>
+                                                                                                <select class="form-select" id="pegawai" name="pegawai" required>
+                                                                                                    <option selected disabled>--- Pilih Ketua Bahagian ---</option>
+                                                                                                    <option value="Ketua 1 / Pegawai 1">Ketua 1 / Pegawai 1</option>
+                                                                                                    <option value="Ketua 2 / Pegawai 2">Ketua 2 / Pegawai 2</option>
+                                                                                                    <option value="Tiada Berkenaan">Tiada Berkenaan</option>
+                                                                                                </select>
+                                                                                            </div>
+                                                                                            <div class="col-md-6 mb-3">
+                                                                                                <label for="mc_days{{ $user->id }}" class="form-label">MC Days</label>
+                                                                                                <input type="number" class="form-control" id="mc_days{{ $user->id }}" name="total_mc_days" value="{{ $user->total_mc_days }}" required min="0">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <hr>
+                                                                                        <div class="row g-3">
+                                                                                            <div class="col-md-12 mb-3">
+                                                                                                <label for="address{{ $user->id }}" class="form-label">Address</label>
+                                                                                                <input type="text" class="form-control" id="address{{ $user->id }}" name="address" value="{{ $user->address }}" required>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="row g-3">
+                                                                                            <div class="col-md-6 mb-3">
+                                                                                                <label for="city{{ $user->id }}" class="form-label">City</label>
+                                                                                                <input type="text" class="form-control" id="city{{ $user->id }}" name="city" value="{{ $user->city }}" required>
+                                                                                            </div>
+                                                                                            <div class="col-md-6 mb-3">
+                                                                                                <label for="postcode{{ $user->id }}" class="form-label">Postcode</label>
+                                                                                                <input type="text" class="form-control" id="postcode{{ $user->id }}" name="postcode" value="{{ $user->postcode }}" required>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="row g-3">
+                                                                                            <div class="col-md-6 mb-3">
+                                                                                                <label for="state{{ $user->id }}" class="form-label">State</label>
+                                                                                                <input type="text" class="form-control" id="state{{ $user->id }}" name="state" value="{{ $user->state }}" required>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                
+                                                                                        <div class="modal-footer">
+                                                                                            <button type="submit" class="btn btn-success">Simpan</button>
+                                                                                        </div>
+                                                                                    </form>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                 
                                                                     <!-- Delete button -->
                                                                     <form action="{{ route('deleteUser', $user->id) }}" method="POST" style="display:inline;">
@@ -602,106 +703,6 @@
                                                                 </td>
                                                             </tr>                                                 
 
-                                                            <!-- Edit User Modal -->
-                                                            <div class="modal fade" id="editModal{{ $user->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $user->id }}" aria-hidden="true">
-                                                                <div class="modal-dialog modal-lg">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header" style="background-color: #f0f0f0;">
-                                                                            <h5 class="modal-title" id="editModalLabel{{ $user->id }}">Edit User - {{ $user->name }}</h5>
-                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            <form action="{{ route('updateUser', $user->id) }}" method="POST">
-                                                                                @csrf
-                                                                            
-                                                                                <div class="row g-3">
-                                                                                    <div class="col-md-12 mb-3">
-                                                                                        <label for="name{{ $user->id }}" class="form-label">Nama</label>
-                                                                                        <input type="text" class="form-control" id="name{{ $user->id }}" name="name" value="{{ $user->name }}" required>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="row g-3">
-                                                                                    <div class="col-md-6 mb-3">
-                                                                                        <label for="email{{ $user->id }}" class="form-label">E-mel</label>
-                                                                                        <input type="email" class="form-control" id="email{{ $user->id }}" name="email" value="{{ $user->email }}" required>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="row g-3">
-                                                                                    <div class="col-md-6 mb-3">
-                                                                                        <label for="ic{{ $user->id }}" class="form-label">No K/P</label>
-                                                                                        <input type="text" class="form-control" id="ic{{ $user->id }}" name="ic" value="{{ $user->ic }}">
-                                                                                    </div>
-                                                                                    <div class="col-md-6 mb-3">
-                                                                                        <label for="phone_number{{ $user->id }}" class="form-label">No Telefon</label>
-                                                                                        <input type="text" class="form-control" id="phone_number{{ $user->id }}" name="phone_number" value="{{ $user->phone_number }}">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="row g-3">
-                                                                                    <div class="col-md-6 mb-3">
-                                                                                        <label for="role{{ $user->id }}" class="form-label">Peranan</label>
-                                                                                        <select class="form-select" id="role{{ $user->id }}" name="role">
-                                                                                            <option selected disabled>--- Pilih Peranan ---</option>
-                                                                                            <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
-                                                                                            <option value="staff" {{ $user->role == 'staff' ? 'selected' : '' }}>Staf</option>
-                                                                                            <option value="officer" {{ $user->role == 'officer' ? 'selected' : '' }}>Pegawai</option>
-                                                                                        </select>
-                                                                                    </div>
-                                                                                    <div class="col-md-6 mb-3">
-                                                                                        <label for="job_status{{ $user->id }}" class="form-label">Status Pekerjaan</label>
-                                                                                        <select class="form-select" id="job_status{{ $user->id }}" name="job_status" required>
-                                                                                            <option selected disabled>--- Pilih Status Pekerjaan ---</option>
-                                                                                            <option value="Permenant" {{ $user->job_status == 'Permenant' ? 'selected' : '' }}>Tetap</option>
-                                                                                            <option value="Contract" {{ $user->job_status == 'Contract' ? 'selected' : '' }}>Kontrak</option>
-                                                                                        </select>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="row g-3">
-                                                                                    <div class="col-md-6 mb-3">
-                                                                                        <label for="pegawai" class="form-label">Ketua Bahagian/Pegawai</label>
-                                                                                        <select class="form-select" id="pegawai" name="pegawai" required>
-                                                                                            <option selected disabled>--- Pilih Ketua Bahagian ---</option>
-                                                                                            <option value="Ketua 1 / Pegawai 1">Ketua 1 / Pegawai 1</option>
-                                                                                            <option value="Ketua 2 / Pegawai 2">Ketua 2 / Pegawai 2</option>
-                                                                                            <option value="Tiada Berkenaan">Tiada Berkenaan</option>
-                                                                                        </select>
-                                                                                    </div>
-                                                                                    <div class="col-md-6 mb-3">
-                                                                                        <label for="mc_days{{ $user->id }}" class="form-label">MC Days</label>
-                                                                                        <input type="number" class="form-control" id="mc_days{{ $user->id }}" name="total_mc_days" value="{{ $user->total_mc_days }}" required min="0">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <hr>
-                                                                                <div class="row g-3">
-                                                                                    <div class="col-md-12 mb-3">
-                                                                                        <label for="address{{ $user->id }}" class="form-label">Address</label>
-                                                                                        <input type="text" class="form-control" id="address{{ $user->id }}" name="address" value="{{ $user->address }}" required>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="row g-3">
-                                                                                    <div class="col-md-6 mb-3">
-                                                                                        <label for="city{{ $user->id }}" class="form-label">City</label>
-                                                                                        <input type="text" class="form-control" id="city{{ $user->id }}" name="city" value="{{ $user->city }}" required>
-                                                                                    </div>
-                                                                                    <div class="col-md-6 mb-3">
-                                                                                        <label for="postcode{{ $user->id }}" class="form-label">Postcode</label>
-                                                                                        <input type="text" class="form-control" id="postcode{{ $user->id }}" name="postcode" value="{{ $user->postcode }}" required>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="row g-3">
-                                                                                    <div class="col-md-6 mb-3">
-                                                                                        <label for="state{{ $user->id }}" class="form-label">State</label>
-                                                                                        <input type="text" class="form-control" id="state{{ $user->id }}" name="state" value="{{ $user->state }}" required>
-                                                                                    </div>
-                                                                                </div>
-                                                                           
-                                                                                <div class="modal-footer">
-                                                                                    <button type="submit" class="btn btn-success">Simpan</button>
-                                                                                </div>
-                                                                            </form>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
                                                         @endforeach
                                                     </tbody>
                                                 </table>
@@ -1062,6 +1063,7 @@
                                         <div class="card-header pb-0 p-3">
                                             <div class="d-flex justify-content-between">
                                                 <h4 class="mb-2"></h4>
+                                            
                                                 <!-- Edit Profile Button -->
                                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editStaffProfil">
                                                     Kemaskini Maklumat
