@@ -35,8 +35,26 @@
     <div class="min-height-300 bg-primary position-absolute w-100"></div>
 
     @include('partials.staffside.aside')
-    @include ('partials.staffside.mainstaff')
+    <main class="main-content position-relative border-radius-lg">
+        <div class="container-fluid py-4">
+        @include ('logout')
+        @include('partials.staffside.mcdays')
 
+        <div class="row mt-4">
+            <div class="col-lg-12 mb-lg-0 mb-4" > <!-- Adjust column to full width -->
+              <div class="card">
+                <div class="card-header pb-1 p-1">
+            @include('partials.staffside.dashboard')
+            @include('partials.staffside.mc_application')
+            @include('partials.staffside.profile')
+            @include('partials.staffside.password')
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+
+      </main> <!-- Closing main-content -->
 
     <!-- Core JS Files -->
     <script src="./assets/js/core/popper.min.js"></script>
