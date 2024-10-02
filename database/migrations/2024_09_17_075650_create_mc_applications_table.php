@@ -28,7 +28,7 @@ return new class extends Migration
             // Foreign key to reference selected officer (optional, if needed)
             $table->foreign('selected_officer_id')->references('id')->on('users')->onDelete('set null');
         });
-    }
+    }      
 
     public function down(): void
     {

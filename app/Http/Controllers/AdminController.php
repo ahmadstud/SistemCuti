@@ -22,11 +22,16 @@ class AdminController extends Controller
         $totalUsers = User::where('role', '!=', 'admin')->count();
         // Fetch all users excluding admins
         $users = User::where('role', '!=', 'admin')->get();
-            // Fetch MC applications approved by officers and still pending admin approval
-            $applications = McApplication::where('officer_approved', true)
-            ->get();
 
-            // Fetch direct admin approval applications
+         // Fetch all applications along with their status (approved, rejected, or pending)
+        $allApplications = McApplication::with('user') // Fetch associated users
+        ->get(); // Fetch all MC applications
+
+        // Fetch MC applications approved by officers and still pending admin approval
+        $applications = McApplication::where('officer_approved', true)
+        ->get();
+
+        // Fetch direct admin approval applications
         $directAdminApplications = McApplication::where('direct_admin_approval', true)
         ->where('admin_approved', false)  // Only fetch those not yet approved
         ->where('status', 'pending')  // Only fetch those not yet approved
@@ -37,7 +42,7 @@ class AdminController extends Controller
         $acceptedMcApplications = McApplication::where('status', 'approved')->count();
         $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
 
-        return view('admin', compact('directAdminApplications','totalUsers', 'users', 'applications', 'totalMcApplications', 'acceptedMcApplications', 'rejectedMcApplications','announcements'));
+        return view('admin', compact('directAdminApplications','totalUsers', 'users', 'applications', 'totalMcApplications', 'acceptedMcApplications', 'rejectedMcApplications','announcements', 'allApplications'));
     }
 
 
@@ -67,6 +72,7 @@ class AdminController extends Controller
             'postcode' => 'nullable|string|max:10',
             'state' => 'nullable|string|max:255',
             'total_mc_days' => 'required|integer|min:0', // Validate mc_days input
+            'total_al_days' => 'required|integer|min:0', // Validate al_days input
         ]);
 
         // Update user information
@@ -82,6 +88,7 @@ class AdminController extends Controller
             'postcode' => $request->postcode,
             'state' => $request->state,
             'total_mc_days' => $request->total_mc_days, // Ensure this matches the input name
+            'total_al_days' => $request->total_al_days, // Ensure this matches the input name
         ]);
 
         // Redirect with success message
@@ -166,6 +173,7 @@ class AdminController extends Controller
             'postcode' => 'nullable|string|max:10',
             'state' => 'nullable|string|max:255',
             'mc_days' => 'required|integer|min:1', // Validate mc_days input
+            'al_days' => 'required|integer|min:1', // Validate al_days input
         ]);
 
         // Create the new user
@@ -178,6 +186,7 @@ class AdminController extends Controller
             'job_status' => $request->job_status,
             'password' => bcrypt($request->password),  // Encrypt the password
             'total_mc_days' => $request->mc_days, // Set the mc_days input value
+            'total_al_days' => $request->al_days, // Set the al_days input value
             'address' => $request->address,
             'city' => $request->city,
             'postcode' => $request->postcode,

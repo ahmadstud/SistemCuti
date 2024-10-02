@@ -18,7 +18,7 @@
                                 <div class="row">
 
                                     {{-- Card Pengumuman --}}
-                                    <div class="col-lg-7 mb-lg-0 mb-4">
+                                    <div class="col-lg-8 mb-lg-0 mb-4">
                                         <div class="card z-index-2 h-100">
                                             <div class="card-header pb-0 pt-3 bg-transparent">
                                                 <h4 class="text-capitalize">PENGUMUMAN</h4>
@@ -47,7 +47,7 @@
                                                     <div class="text-center mt-3">
                                                         <h2 id="announcementTitle" style="text-transform: uppercase;">{{ $announcements[0]->title }}</h2>
                                                         <p id="announcementContent">{{ $announcements[0]->content }}</p>
-                                                        <p id="announcementContent">tarikh mula - tarikh akhir</p>
+                                                        <p id="announcementContent">{{ $announcements[0]->start_date }} - {{ $announcements[0]->end_date }}</p>
                                                     </div>
                                                     
                                                     <button class="carousel-control-prev" type="button" data-bs-target="#announcementCarousel" data-bs-slide="prev">
@@ -80,23 +80,86 @@
                                         </div>
                                     </div>
 
-                                    {{-- Card Calender --}}
-                                    <div class="col-lg-5">
+                                    {{-- Card Nota --}}
+                                    <div class="col-lg-4">
                                         <div class="card h-100 mb-4">
                                             <div class="card-header pb-0 px-3">
-                                            <div class="row">
-                                                <div class="col-md-8">
-                                                    <h4 class="text-capitalize">SENARAI STAFF CUTI HARIAN</h4>
-                                                </div>
-                                                <div class="col-md-4 d-flex justify-content-end align-items-center">
-                                                    <i class="far fa-calendar-alt me-2"></i>
-                                                    <small>September</small>
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                        <h4 class="text-capitalize">NOTA TAMBAHAN</h4>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            </div>
-            
-                                            <div class="card-body pt-4 p-3">
 
+                                            <div class="card-body pt-4 p-3">
+                                                <div class="accordion" id="accordionExample">
+                                                    <div class="accordion-item" style="border: 1px solid #dee2e6; border-radius: 0.375rem; margin-bottom: 1rem;">
+                                                        <h2 class="accordion-header" id="headingOne">
+                                                            <button class="accordion-button" type="button" style="background-color: #f8f9fa; color: #333; border: none;" 
+                                                                    data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                                <b>1. Cuti Tahunan </b>
+                                                            </button>
+                                                        </h2>
+                                                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="color: #333; border: none;">
+                                                            <div class="accordion-body" style="padding: 1rem;">
+                                                                <ul>
+                                                                    <li><p>Pekerja berhak mendapat sejumlah hari cuti tahunan berbayar sebagai tambahan kepada hari rehat dan cuti berbayar.</p></li>
+                                                                    <li><p>Kelayakan mengikut Seksyen 60E(1) Akta Pekerjaan 1955:</p>
+                                                                        <ul>
+                                                                            <li><p>Kurang dari 2 tahun: Tidak kurang dari 8 hari/tahun</p></li>
+                                                                            <li><p>2-5 tahun: Tidak kurang dari 12 hari/tahun</p></li>
+                                                                            <li><p>Lebih dari 5 tahun: Tidak kurang dari 16 hari/tahun</p></li>
+                                                                        </ul>
+                                                                    </li>
+                                                                    <li><p>Perlu bekerja sekurang-kurangnya 12 bulan untuk layak mendapat cuti tahunan. Jika meninggalkan syarikat sebelum 12 bulan, hari cuti akan dikira secara prorata (0.66 hari/bulan).</p></li>
+                                                                    <li><p>Ketidakhadiran tanpa kebenaran selama lebih dari 10% tahun kerja mengakibatkan kehilangan kelayakan.</p></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="accordion-item" style="border: 1px solid #dee2e6; border-radius: 0.375rem; margin-bottom: 1rem;">
+                                                        <h2 class="accordion-header" id="headingTwo">
+                                                            <button class="accordion-button collapsed" type="button" style="background-color: #f8f9fa; color: #333; border: none;" 
+                                                                    data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                                <b> 2. Cuti Sakit </b>
+                                                            </button>
+                                                        </h2>
+                                                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample" style="color: #333; border: none;">
+                                                            <div class="accordion-body" style="padding: 1rem;">
+                                                                <ul>
+                                                                    <li><p>Kelayakan cuti sakit berbayar berdasarkan tempoh pekerjaan:</p>
+                                                                        <ul>
+                                                                            <li><p>Kurang dari 2 tahun: 14 hari/tahun</p></li>
+                                                                            <li><p>2-5 tahun: 18 hari/tahun</p></li>
+                                                                            <li><p>Lebih dari 5 tahun: 22 hari/tahun</p></li>
+                                                                        </ul>
+                                                                    </li>
+                                                                    <li><p>Seksyen 60F(3) menyatakan pekerja menerima gaji biasa semasa cuti sakit.</p></li>
+                                                                    <li><p>Kelayakan 60 hari cuti sakit berbayar untuk hospitalisasi (Seksyen 60F(1)(bb)).</p></li>
+                                                                    <li><p>Maklumkan kepada majikan dalam masa 48 jam ketidakhadiran; jika tidak, dianggap tidak hadir tanpa kebenaran.</p></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="accordion-item" style="border: 1px solid #dee2e6; border-radius: 0.375rem; margin-bottom: 1rem;">
+                                                        <h2 class="accordion-header" id="headingThree">
+                                                            <button class="accordion-button collapsed" type="button" style="background-color: #f8f9fa; color: #333; border: none;" 
+                                                                    data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                                <b> 3. Cuti Umum </b>
+                                                            </button>
+                                                        </h2>
+                                                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample" style="color: #333; border: none;">
+                                                            <div class="accordion-body" style="padding: 1rem;">
+                                                                <ul>
+                                                                    <li><p>Pekerja berhak mendapat cuti berbayar pada 11 cuti umum yang diwartakan (Seksyen 60D(1)).</p></li>
+                                                                    <li><p>Cuti umum boleh ditetapkan di bawah Seksyen 8 Akta Cuti 1951.</p></li>
+                                                                    <li><p>Majikan boleh meminta pekerja bekerja pada cuti umum dan memberikan hari lain sebagai pengganti.</p></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -268,7 +331,7 @@
                                                                     <input type="file" class="form-control" id="image" name="image" accept="image/*">
                                                                 </div>
                                                                 <p class="text-muted">
-                                                                    Please upload images with the following specifications:
+                                                                    <em>Please upload images with the following specifications:
                                                                     <br>
                                                                     - Recommended size: **1200 x 675 pixels** (16:9 aspect ratio)
                                                                     <br>
@@ -276,7 +339,7 @@
                                                                     <br>
                                                                     - File formats: **JPG, PNG**
                                                                     <br>
-                                                                    - Maximum file size: **2MB**
+                                                                    - Maximum file size: **2MB**</em>
                                                                 </p>
 
                                                                 <div class="modal-footer">
@@ -287,6 +350,19 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <script>
+                                            $('#createAnnouncementModal').on('shown.bs.modal', function () {
+                                                CKEDITOR.replace('content');
+                                            });
+                                            
+                                            // Initialize CKEditor for Edit Announcements when the modal opens
+                                            @foreach($announcements as $announcement)
+                                                $('#editAnnouncementModal{{ $announcement->id }}').on('shown.bs.modal', function () {
+                                                    CKEDITOR.replace('content{{ $announcement->id }}');
+                                                });
+                                            @endforeach
+                                            </script>
 
                                         </div>
 
@@ -361,7 +437,7 @@
                                                                                 @method('PUT')
                                                                                 <div class="mb-3">
                                                                                     <label for="title{{ $announcement->id }}" class="form-label">Tajuk</label>
-                                                                                    <input type="text" class="form-control" id="title{{ $announcement->id }}" name="title" value="{{ $announcement->title }}" required>
+                                                                                    <input type="text" class="form-control" id="title{{ $announcement->id }}" name="title" value="{{ $announcement->title }}">
                                                                                 </div>
                                                                                 <div class="mb-3">
                                                                                     <label for="content{{ $announcement->id }}" class="form-label">Isi Kandungan</label>
@@ -369,12 +445,12 @@
                                                                                 </div>
                                                                                 <div class="row mb-3">
                                                                                     <div class="col-md-6">
-                                                                                        <label for="announcementStartDate" class="form-label">Tarikh Mula Pengumuman</label>
-                                                                                        <input type="date" class="form-control" id="announcementStartDate" name="pm_tarikhmula">
+                                                                                        <label for="start_date" class="form-label">Tarikh Mula Pengumuman</label>
+                                                                                        <input type="date" class="form-control" id="start_date{{ $announcement->id }}" name="start_date" value="{{ $announcement->start_date }}">
                                                                                     </div>
                                                                                     <div class="col-md-6">
-                                                                                        <label for="announcementEndDate" class="form-label">Tarikh Akhir Pengumuman</label>
-                                                                                        <input type="date" class="form-control" id="announcementEndDate" name="pm_tarikhakhir">
+                                                                                        <label for="end_date" class="form-label">Tarikh Akhir Pengumuman</label>
+                                                                                        <input type="date" class="form-control" id="end_date{{ $announcement->id }}" name="end_date" value="{{ $announcement->end_date }}">
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="mb-3">
@@ -385,7 +461,7 @@
                                                                                     <input type="file" class="form-control" id="image{{ $announcement->id }}" name="image_path" accept="image/*">
                                                                                 </div>                                                                                
                                                                                 <p class="text-muted">
-                                                                                    Please upload images with the following specifications:
+                                                                                    <em>Please upload images with the following specifications:
                                                                                     <br>
                                                                                     - Recommended size: **1200 x 675 pixels** (16:9 aspect ratio)
                                                                                     <br>
@@ -393,13 +469,14 @@
                                                                                     <br>
                                                                                     - File formats: **JPG, PNG**
                                                                                     <br>
-                                                                                    - Maximum file size: **2MB**
+                                                                                    - Maximum file size: **2MB**</em>
                                                                                 </p>
                                                                                 <div class="modal-footer">
                                                                                     <button type="submit" class="btn btn-success">Simpan</button>
                                                                                 </div>
                                                                             </form>
                                                                         </div>
+                                                                        
                                                                     </div>
                                                                 </div>
                                                             </div>                                                      
@@ -409,6 +486,17 @@
                                                 </table>
                                             </div>
                                         </div>
+
+                                        <script>
+                                            // Initialize CKEditor for Create Announcement
+                                            CKEDITOR.replace('content');
+                                        
+                                            // Initialize CKEditor for Edit Announcements
+                                            @foreach($announcements as $announcement)
+                                                CKEDITOR.replace('content{{ $announcement->id }}');
+                                            @endforeach
+                                        </script>
+
                                     </div>
                                 </div>
                             </div>
@@ -479,6 +567,8 @@
                                                                     <input type="text" class="form-control" id="phone_number" name="phone_number">
                                                                 </div>
                                                             </div>
+                                                            <hr>
+
                                                             <div class="row g-3">
                                                                 <div class="col-md-6 mb-3">
                                                                     <label for="role" class="form-label">Peranan<span class="text-danger">*</span></label>
@@ -509,12 +599,22 @@
                                                                         <option value="Tiada Berkenaan">Tiada Berkenaan</option>
                                                                     </select>
                                                                 </div>
+                                                            </div>
+                                                            <div class="row g-3">
                                                                 <div class="col-md-6 mb-3">
-                                                                    <label for="mc_days" class="form-label">Jumlah cuti<span class="text-danger">*</span></label>
+                                                                    <label for="al_days" class="form-label">Jumlah Cuti Tahunan<span class="text-danger">*</span></label>
+                                                                    <input type="number" class="form-control" id="al_days" name="al_days" required min="1">
+                                                                </div>
+                                                                <div class="col-md-6 mb-3">
+                                                                    <label for="mc_days" class="form-label">Jumlah Cuti Sakit<span class="text-danger">*</span></label>
                                                                     <input type="number" class="form-control" id="mc_days" name="mc_days" required min="1">
                                                                 </div>
+                                                                <p class="text-muted">
+                                                                    <em>Nota: Cuti sakit dan cuti tahunan adalah berbeza. Cuti sakit memerlukan sijil cuti sakit (MC), manakala cuti tahunan adalah cuti berbayar yang diperoleh setelah bekerja selama 12 bulan.</em>
+                                                                </p>                                                                
                                                             </div>
                                                             <hr>
+
                                                             <div class="row g-3">
                                                                 <div class="col-md-12 mb-3">
                                                                     <label for="address" class="form-label">Alamat<span class="text-danger">*</span></label>
@@ -555,12 +655,12 @@
                                                         <tr>
                                                             <th style="width: 3%; position: sticky; left: 0; z-index: 1;  padding: 8px;">BIL</th>
                                                             <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
-                                                            <th style="width: 20%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">EMEL</th>
-                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NO K/P</th>
+                                                            {{-- <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NO K/P</th> --}}
                                                             <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NO TELEFON</th>
                                                             <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">PERANAN</th>
                                                             <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">KETUA BAHAGIAN</th>
                                                             <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS PEKERJAAN</th>
+                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">BAKI JUMLAH CUTI</th>
                                                             <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TIDAKAN</th>
                                                         </tr>
                                                     </thead>
@@ -572,13 +672,11 @@
                                                                 </td>
                                                                 <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                     <p class="text-m text-secondary">{{ $user->name }}</p>
+                                                                    <p class="text-sm text-secondary">{{ $user->email }}</p>
                                                                 </td>
-                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">{{ $user->email }}</p>
-                                                                </td>
-                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                {{-- <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                     <p class="text-m text-secondary">{{ $user->ic }}</p>
-                                                                </td>
+                                                                </td> --}}
                                                                 <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                     <p class="text-m text-secondary">{{ $user->phone_number }}</p>
                                                                 </td>
@@ -592,18 +690,23 @@
                                                                     @else
                                                                         <span class="badge badge-md bg-gradient-secondary">{{ $user->role }}</span>
                                                                     @endif
-                                                                </td>     
+                                                                </td>   
                                                                 <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">{{ $user->job_status }}</p>
+                                                                    <p class="text-m text-secondary"></p>
+
                                                                 </td>
                                                                 <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                     @if($user->job_status == 'Permenant')
-                                                                        <span class="badge badge-md bg-gradient-info">{{ $user->job_status }}</span>
+                                                                        <span class="text-info">{{ $user->job_status }}</span>
                                                                     @elseif($user->job_status == 'Contract')
-                                                                        <span class="badge badge-md bg-gradient-success">{{ $user->job_status }}</span>
+                                                                        <span class="text-success">{{ $user->job_status }}</span>
                                                                     @else
-                                                                        <span class="badge badge-md bg-gradient-secondary">{{ $user->job_status }}</span>
+                                                                        <span class="text-secondary">{{ $user->job_status }}</span>
                                                                     @endif
+                                                                </td>
+                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <p class="text-m text-secondary">Tahunan: / 15 hari</p>
+                                                                    <p class="text-m text-secondary">Cuti: / 15 hari</p>
                                                                 </td>
                                                                 <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
 
@@ -646,6 +749,7 @@
                                                                                                 <input type="text" class="form-control" id="phone_number{{ $user->id }}" name="phone_number" value="{{ $user->phone_number }}">
                                                                                             </div>
                                                                                         </div>
+                                                                                        <hr>
                                                                                         <div class="row g-3">
                                                                                             <div class="col-md-6 mb-3">
                                                                                                 <label for="role{{ $user->id }}" class="form-label">Peranan</label>
@@ -675,8 +779,14 @@
                                                                                                     <option value="Tiada Berkenaan">Tiada Berkenaan</option>
                                                                                                 </select>
                                                                                             </div>
+                                                                                        </div>
+                                                                                        <div class="row g-3">
                                                                                             <div class="col-md-6 mb-3">
-                                                                                                <label for="mc_days{{ $user->id }}" class="form-label">MC Days</label>
+                                                                                                <label for="mc_days{{ $user->id }}" class="form-label">Jumlah Cuti Tahunan</label>
+                                                                                                <input type="number" class="form-control" id="mc_days{{ $user->id }}" name="total_mc_days" value="{{ $user->total_mc_days }}" required min="0">
+                                                                                            </div>
+                                                                                            <div class="col-md-6 mb-3">
+                                                                                                <label for="mc_days{{ $user->id }}" class="form-label">Jumlah Cuti Sakit</label>
                                                                                                 <input type="number" class="form-control" id="mc_days{{ $user->id }}" name="total_mc_days" value="{{ $user->total_mc_days }}" required min="0">
                                                                                             </div>
                                                                                         </div>
@@ -768,17 +878,16 @@
                                                             <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAME</th>
                                                             <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
                                                             <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH AKHIR</th>
-                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
+                                                            <th style="width: 20%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
                                                             <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN RUJUKAN</th>
-                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TEMPOH BAKI CUTI</th>
                                                             <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">KEPUTUSAN</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @foreach ($directAdminApplications as $application)
+                                                        @foreach($allApplications as $index => $application)
                                                             <tr>
                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">{{ $loop->iteration }}</p>
+                                                                    <p class="text-m text-secondary">{{ $index + 1 }}</p>
                                                                 </td>
                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                     <p class="text-m text-secondary">{{ $application->user->name }}</p>
@@ -789,52 +898,33 @@
                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                     <p class="text-m text-secondary">{{ $application->end_date }}</p>
                                                                 </td>
-                                                                {{-- <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    
-                                                                    <!-- Button to trigger modal to show reason -->
-                                                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#directReasonModal{{ $application->id }}" aria-label="View Reason">
-                                                                        <i class="fas fa-eye"></i>
-                                                                    </button>
-
-                                                                    <!-- Modal for showing the reason -->
-                                                                    <div class="modal fade" id="directReasonModal{{ $application->id }}" tabindex="-1" aria-labelledby="directReasonModalLabel{{ $application->id }}" aria-hidden="true">
-                                                                        <div class="modal-dialog">
-                                                                            <div class="modal-content">
-                                                                                <div class="modal-header">
-                                                                                    <h5 class="modal-title" id="directReasonModalLabel{{ $application->id }}">Alasan Permohonan MC</h5>
-                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                                </div>
-                                                                                <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
-                                                                                    {{ $application->reason }}
-                                                                                </div>
-                                                                                <div class="modal-footer">
-                                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </td> --}}
                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                     <p class="text-m text-secondary">{{ $application->reason }}</p>
                                                                 </td>
                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <p class="text-m text-secondary">
                                                                     @if($application->document_path)
-                                                                        <a href="{{ Storage::url($application->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</a>
-                                                                    @endif
-                                                                </td>
-                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">{{ $application->reason }}</p>
-                                                                </td>
-                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    {{-- @if($status == 'Lulus')
-                                                                    <span class="btn btn-success btn-xs" id="statusLulus">{{ $status }}</span>
+                                                                        <a href="{{ asset($application->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</a>
                                                                     @else
-                                                                        <span class="btn btn-danger btn-xs" id="statusGagal">{{ $status }}</span>
-                                                                    @endif --}}
+                                                                        No Document
+                                                                    @endif
+                                                                    </p>
+                                                                </td>
+                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <p class="text-m text-secondary">
+                                                                    @if($application->status == 'approved')
+                                                                        <span class="badge badge-md bg-gradient-success" id="statusLulus">Lulus</span>
+                                                                    @elseif($application->status == 'rejected')
+                                                                        <span class="badge badge-md bg-gradient-danger" id="statusGagal">Gagal</span>
+                                                                    @else
+                                                                        <span class="badge badge-md bg-gradient-warning" id="statusPending">Pending</span>
+                                                                    @endif
+                                                                    </p>
                                                                 </td>
                                                             </tr>
                                                         @endforeach
                                                     </tbody>
+                                                    
                                                 </table>
                                             </div>
                                         </div>
@@ -983,7 +1073,7 @@
                                                     <thead style="background-color: #f0f0f0;">
                                                         <tr>
                                                             <th style="width: 3%; position: sticky; left: 0; z-index: 1;  padding: 8px;">BIL</th>
-                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAME</th>
+                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
                                                             <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
                                                             <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH AKHIR</th>
                                                             <th style="width: 20%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>

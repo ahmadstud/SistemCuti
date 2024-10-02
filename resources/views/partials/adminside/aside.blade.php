@@ -15,7 +15,7 @@
             <span style="display: block; font-weight: bold; font-size: 1.25rem; margin-top: 0.5rem;">Papan Pemuka Admin</span>
         </div>
         
-        <div id="date-time" class="text-center mt-2 font-weight-bold">
+        <div id="date-time" class="text-center mt-2">
             <i class="fas fa-calendar-alt"></i> <span id="current-date"></span> <br>
             <i class="fas fa-clock"></i> <span id="current-time"></span>
         </div>
