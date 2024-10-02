@@ -47,7 +47,7 @@
               <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-hat-3 text-success text-sm opacity-10"></i>
               </div>
-              <span class="nav-link-text ms-1">Senarai Staf/Penyelia</span>
+              <span class="nav-link-text ms-1">Senarai Pengguna</span>
             </a>
           </li>
 
@@ -98,16 +98,6 @@
               <span class="nav-link-text ms-1">Tukar Kata Laluan</span>
             </a>
           </li>
-
-          <!-- Logout Button -->
-          <li class="nav-item mt-3">
-            <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                @csrf
-                <button type="submit" class="btn btn-danger w-100">
-                    <i class="fa fa-sign-out-alt"></i> Logout
-                </button>
-            </form>
-        </li>
 
 
       </ul>

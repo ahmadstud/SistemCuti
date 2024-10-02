@@ -16,16 +16,17 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('role')->default('staff');  // Add role column
-            $table->string('ic')->nullable();  // Add IC column
-            $table->string('phone_number')->nullable();  // Add phone number column
-            $table->integer('total_mc_days')->default(0); // Add total MC days
-            $table->string('address')->nullable(); // Add address column
-            $table->string('city')->nullable(); // Add city column
-            $table->string('postcode')->nullable(); // Add postcode column
-            $table->string('state')->nullable(); // Add state column
-            $table->string('job_status')->nullable(); // Add job status column
+            $table->string('role')->default('staff');  // User role
+            $table->string('ic')->nullable();  // IC column
+            $table->string('phone_number')->nullable();  // Phone number column
             $table->unsignedBigInteger('selected_officer_id')->nullable();  // Officer assigned to approve
+            $table->integer('total_mc_days')->default(0); // Total MC days
+            $table->string('address')->nullable(); // Address column
+            $table->string('city')->nullable(); // City column
+            $table->string('postcode')->nullable(); // Postcode column
+            $table->string('state')->nullable(); // State column
+            $table->string('job_status')->nullable(); // Job status column
+            $table->string('profile_image')->nullable(); // Profile image column
             $table->rememberToken();
             $table->timestamps();
         });

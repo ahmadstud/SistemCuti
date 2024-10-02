@@ -37,6 +37,7 @@
 @include('partials.adminside.aside')
 <main class="main-content position-relative border-radius-lg">
     <div class="container-fluid py-4">
+        @include ('logout')
         @include ('partials.adminside.mcdata')
         <div class="row mt-4">
             <div class="col-lg-12 mb-lg-0 mb-4" > <!-- Adjust column to full width -->
