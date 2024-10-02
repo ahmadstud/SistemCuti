@@ -13,5 +13,7 @@ class Announcement extends Model
         'title',
         'content',
         'image_path',
+        'start_date',
+        'end_date',
     ];
 }

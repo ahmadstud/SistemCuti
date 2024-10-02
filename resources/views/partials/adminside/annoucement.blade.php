@@ -22,24 +22,32 @@
                                 <table class="table" style="table-layout: fixed; width: 100%;">
                                     <thead>
                                         <tr>
-                                            <th style="width: 3%;">NO</th>
-                                            <th style="width: 15%;">TAJUK</th>
-                                            <th style="width: 30%; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ISI KANDUNGAN</th>
-                                            <th style="width: 15%;">GAMBAR</th>
-                                            <th style="width: 10%;">TINDAKAN</th>
+                                            <th style="width: 10%;">NO</th>
+                                            <th style="width: 30%;">TAJUK</th>
+                                            <th style="width: 30%;">ISI</th>
+                                            <th style="width: 30%;">TARIKH MULA</th>
+                                            <th style="width: 30%;">TARIKH TAMAT</th>
+                                            <th style="width: 30%;">GAMBAR</th>
+                                            <th style="width: 30%;">TINDAKAN</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach($announcements as $announcement)
                                             <tr>
                                                 <td style="position: sticky; left: 0; background: white; z-index: 1;"><p class="text-m text-secondary">{{ $loop->iteration }}</p></td>
-                                                <td><p class="text-m text-secondary">{{ $announcement->title }}</p></td>
+                                                <td style="overflow-wrap: break-word; word-wrap: break-word; white-space: normal;"><p class="text-m text-secondary">{{ $announcement->title }}</p></td>
                                                 <td style="overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                     <p class="text-m text-secondary">{{ $announcement->content }}</p>
                                                 </td>
-                                                <td>
+                                                <td style="overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                    <p class="text-m text-secondary">{{ $announcement->start_date }}</p>
+                                                </td>
+                                                <td style="overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                    <p class="text-m text-secondary">{{ $announcement->end_date }}</p>
+                                                </td>
+                                                <td class="text-center">
                                                     @if($announcement->image_path)
-                                                        <img src="{{ asset('storage/' . $announcement->image_path) }}" class="d-block w-25" alt="{{ $announcement->title }}">
+                                                        <img src="{{ asset('storage/' . $announcement->image_path) }}" class="d-block mx-auto" style="max-width: 100%; height: auto;" alt="{{ $announcement->title }}">
                                                     @else
                                                         Tiada Gambar
                                                     @endif
@@ -83,6 +91,14 @@
                                                                 <div class="mb-3">
                                                                     <label for="image{{ $announcement->id }}" class="form-label">Gambar (pilihan)</label>
                                                                     <input type="file" class="form-control" id="image{{ $announcement->id }}" name="image_path" accept="image/*">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="start_date{{ $announcement->id }}" class="form-label">Tarikh Mula<span class="text-danger">*</span></label>
+                                                                    <input type="date" class="form-control" id="start_date{{ $announcement->id }}" name="start_date" required>
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="end_date{{ $announcement->id }}" class="form-label">Tarikh Akhir<span class="text-danger">*</span></label>
+                                                                        <input type="date" class="form-control" id="end_date{{ $announcement->id }}" name="end_date" required>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="submit" class="btn btn-primary">Kemaskini</button>
@@ -132,6 +148,14 @@
                                         <div class="mb-3">
                                             <label for="content" class="form-label">Content</label>
                                             <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="start_date" class="form-label">Tarikh Mula<span class="text-danger">*</span></label>
+                                            <input type="date" class="form-control" id="start_date" name="start_date" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="end_date" class="form-label">Tarikh Akhir<span class="text-danger">*</span></label>
+                                                <input type="date" class="form-control" id="end_date" name="end_date" required>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="submit" class="btn btn-primary">Create</button>

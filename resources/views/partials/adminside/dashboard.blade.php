@@ -22,51 +22,67 @@
 
                             <div class="card-body p-3">
 
-                                <!-- Announcement Carousel -->
-                                <div id="announcementCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
-                                    <div class="carousel-inner">
-                                        @foreach($announcements as $index => $announcement)
-                                            <div class="carousel-item {{ $index === 0 ? 'active' : '' }}" data-title="{{ $announcement->title }}" data-content="{{ $announcement->content }}">
-                                                <div style="width: 100%; height: 0; padding-bottom: 40%; position: relative;"> <!-- Adjusted padding-bottom -->
-                                                    <img src="{{ asset(Storage::url($announcement->image_path)) }}"
-                                                        alt="{{ $announcement->title }}"
-                                                        style="position: absolute; top: 50%; left: 50%; width: 100%; height: auto; transform: translate(-50%, -50%); object-fit: cover;">
-                                                </div>
-                                            </div>
-                                        @endforeach
+                               <!-- Announcement Carousel -->
+                        <div id="announcementCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                @foreach($announcements as $index => $announcement)
+                                    <div class="carousel-item {{ $index === 0 ? 'active' : '' }}"
+                                        data-title="{{ $announcement->title }}"
+                                        data-content="{{ $announcement->content }}"
+                                        data-start-date="{{ $announcement->start_date }}"
+                                        data-end-date="{{ $announcement->end_date }}">
+                                        <div style="width: 100%; height: 0; padding-bottom: 40%; position: relative;">
+                                            <img src="{{ asset(Storage::url($announcement->image_path)) }}"
+                                                alt="{{ $announcement->title }}"
+                                                style="position: absolute; top: 50%; left: 50%; width: 100%; height: auto; transform: translate(-50%, -50%); object-fit: cover;">
+                                        </div>
                                     </div>
+                                @endforeach
+                            </div>
 
-                                    <!-- Title and Content Section -->
-                                    <div class="text-center mt-3">
-                                        <h2 id="announcementTitle" style="text-transform: uppercase;">{{ $announcements[0]->title }}</h2>
-                                        <p id="announcementContent">{{ $announcements[0]->content }}</p>
-                                    </div>
+                            <!-- Title and Content Section -->
+                            <div class="text-center mt-3">
+                                <h2 id="announcementTitle" style="text-transform: uppercase;">{{ $announcements[0]->title }}</h2>
+                                <p id="announcementContent">{{ $announcements[0]->content }}</p>
+                                <p id="announcementDates">
+                                    Start Date: <strong id="startDate">{{ $announcements[0]->start_date }}</strong><br>
+                                    End Date: <strong id="endDate">{{ $announcements[0]->end_date }}</strong>
+                                </p>
+                            </div>
 
-                                    <button class="carousel-control-prev" type="button" data-bs-target="#announcementCarousel" data-bs-slide="prev">
-                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <span class="visually-hidden">Previous</span>
-                                    </button>
-                                    <button class="carousel-control-next" type="button" data-bs-target="#announcementCarousel" data-bs-slide="next">
-                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                        <span class="visually-hidden">Next</span>
-                                    </button>
-                                </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#announcementCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#announcementCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
 
-                                <!-- JavaScript to Update Title and Content -->
-                                <script>
-                                    const carousel = document.getElementById('announcementCarousel');
-                                    const titleElement = document.getElementById('announcementTitle');
-                                    const contentElement = document.getElementById('announcementContent');
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const carouselElement = document.getElementById('announcementCarousel');
 
-                                    carousel.addEventListener('slide.bs.carousel', function (event) {
-                                        const currentItem = event.relatedTarget; // The currently active carousel item
-                                        const title = currentItem.getAttribute('data-title');
-                                        const content = currentItem.getAttribute('data-content');
+                                carouselElement.addEventListener('slide.bs.carousel', function(event) {
+                                    // Get the new active item
+                                    const nextItem = event.relatedTarget;
 
-                                        titleElement.textContent = title; // Update title
-                                        contentElement.textContent = content; // Update content
-                                    });
-                                </script>
+                                    // Get data attributes
+                                    const title = nextItem.getAttribute('data-title');
+                                    const content = nextItem.getAttribute('data-content');
+                                    const startDate = nextItem.getAttribute('data-start-date');
+                                    const endDate = nextItem.getAttribute('data-end-date');
+
+                                    // Update the content
+                                    document.getElementById('announcementTitle').textContent = title;
+                                    document.getElementById('announcementContent').textContent = content;
+                                    document.getElementById('startDate').textContent = startDate;
+                                    document.getElementById('endDate').textContent = endDate;
+                                });
+                            });
+                            </script>
+
 
                             </div>
                         </div>

@@ -121,6 +121,8 @@ class AdminController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
         ]);
 
         $announcement->title = $request->title;
@@ -136,6 +138,8 @@ class AdminController extends Controller
             $imageName = time() . '.' . $request->image_path->extension();
             $request->image_path->storeAs('public/announcements', $imageName);
             $announcement->image_path = 'announcements/' . $imageName; // Store the relative path
+            $announcement->start_date = $request->start_date;  // Set the start date
+            $announcement->end_date = $request->end_date;  // Set the end date
         }
 
         $announcement->save();
@@ -291,6 +295,7 @@ class AdminController extends Controller
             'city' => 'nullable|string|max:255',
             'postcode' => 'nullable|string|max:10',
             'state' => 'nullable|string|max:255',
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation for profile image
         ]);
 
         // Update user details
@@ -307,6 +312,15 @@ class AdminController extends Controller
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }
+         // Handle profile image upload
+         if ($request->hasFile('profile_image')) {
+            $image = $request->file('profile_image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('storage/profile_image'), $imageName);
+
+            // Save the profile image path in the database
+            $user->profile_image = 'storage/profile_image/' . $imageName;
+        }
 
         // Save changes to the database
         $user->save();
@@ -322,6 +336,8 @@ class AdminController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
         ]);
 
         // Store image if uploaded
@@ -335,6 +351,8 @@ class AdminController extends Controller
             'title' => $request->title,
             'content' => $request->content,
             'image_path' => $imagePath,
+            'start_date' => $request->start_date ,
+            'end_date' => $request->end_date ,
         ]);
 
         return redirect()->route('admin', ['section' => 'Annouce'])->with('success', 'Announcement created successfully.');

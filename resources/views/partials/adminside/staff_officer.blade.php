@@ -33,7 +33,7 @@
                                             <td class="text-center">{{ $application->user_role }}</td>
                                             <td class="text-center">{{ $application->start_date }}</td>
                                             <td class="text-center">{{ $application->end_date }}</td>
-                                            <td class="text-center">{{ $application->reason }}</td> <!-- Displaying reason directly -->
+                                            <td class="text-center" style ="overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">{{ $application->reason }}</td> <!-- Displaying reason directly -->
                                             <td class="text-center">
                                                 @if($application->document_path)
                                                     <a href="{{ Storage::url($application->document_path) }}" target="_blank"><i class="fas fa-file-alt"></i></a>

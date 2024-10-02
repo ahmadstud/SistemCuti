@@ -14,7 +14,7 @@
                         @if(Auth::user()->profile_image)
                             <img src="{{ asset('' . Auth::user()->profile_image) }}" alt="Profile Image" class="rounded-circle" width="150" height="150">
                         @else
-                            <img src="{{ asset('storage/profile_image/default.png') }}" alt="Default Profile Image" class="rounded-circle" width="150" height="150">
+                            <img src="{{ asset('storage/profile_image/default.jpg') }}" alt="Default Profile Image" class="rounded-circle" width="150" height="150">
                         @endif
                     </div>
                 </div>
@@ -86,14 +86,15 @@
                                 <label for="mc_days" class="form-label">Jumlah cuti berbaki</label>
                                 <p class="form-control" id="mc_days">{{ Auth::user()->total_mc_days }}</p>
                             </div>
+                        </div> <!-- Missing closing div for row -->
 
-                            <div class="row mt-3">
-                                <div class="col-md-6">
-                                    <label for="assigned_officer" class="form-label">Penyelia</label>
-                                    <p class="form-control" id="assigned_officer">
-                                        {{ Auth::user()->officer ? Auth::user()->officer->name : 'Tiada Penyelia' }}
-                                    </p>
-                                </div>
+                        <!-- Assigned Officer Section -->
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <label for="assigned_officer" class="form-label">Penyelia</label>
+                                <p class="form-control" id="assigned_officer">
+                                    {{ Auth::user()->officer ? Auth::user()->officer->name : 'Tiada Penyelia' }}
+                                </p>
                             </div>
                         </div>
 
@@ -127,7 +128,7 @@
               @if(Auth::user()->profile_image)
                 <img src="{{ asset('' . Auth::user()->profile_image) }}" alt="Profile Image" class="rounded-circle" width="150" height="150">
               @else
-                <img src="{{ asset('storage/profile_image/default.png') }}" alt="Default Profile Image" class="rounded-circle" width="150" height="150">
+                <img src="{{ asset('storage/profile_image/default.jpg') }}" alt="Default Profile Image" class="rounded-circle" width="150" height="150">
               @endif
             </div>
 
@@ -195,5 +196,6 @@
         </div>
       </div>
     </div>
+</div>
 
 
