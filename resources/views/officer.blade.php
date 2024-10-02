@@ -37,7 +37,6 @@
     <main class="main-content position-relative border-radius-lg">
 
         <div class="container-fluid py-4">
-            @include ('logout')
             @include('partials.officerside.mcdays')
 
             <div class="row mt-4">

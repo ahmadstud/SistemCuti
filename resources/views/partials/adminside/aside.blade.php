@@ -99,6 +99,16 @@
             </a>
           </li>
 
+          <!-- Logout Button -->
+          <li class="nav-item mt-3">
+            <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                @csrf
+                <button type="submit" class="btn btn-danger w-100">
+                    <i class="fa fa-sign-out-alt"></i> Logout
+                </button>
+            </form>
+        </li>
+
 
       </ul>
     </div>

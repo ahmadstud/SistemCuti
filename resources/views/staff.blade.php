@@ -37,7 +37,6 @@
     @include('partials.staffside.aside')
     <main class="main-content position-relative border-radius-lg">
         <div class="container-fluid py-4">
-        @include ('logout')
         @include('partials.staffside.mcdays')
 
         <div class="row mt-4">
