@@ -1,5 +1,6 @@
 <main class="main-content position-relative border-radius-lg">
     <div class="container-fluid py-4">
+        @include('partials.logout')
         @include ('partials.adminside.mcdata')
 
         <div class="row mt-4">
@@ -14,158 +15,88 @@
                         <div class="col-lg-12 mb-lg-0 mb-4">
 
                             {{-- First Row --}}
-                            <div class="container-fluid py-2">
-                                <div class="row">
+            <div class="container-fluid py-2">
+                <div class="row">
 
-                                    {{-- Card Pengumuman --}}
-                                    <div class="col-lg-8 mb-lg-0 mb-4">
-                                        <div class="card z-index-2 h-100">
-                                            <div class="card-header pb-0 pt-3 bg-transparent">
-                                                <h4 class="text-capitalize">PENGUMUMAN</h4>
-                                                <p class="text-sm mb-0">
-                                                    <span class="font-weight-bold">Latest update on (timestamp)</span>
-                                                </p>
-                                            </div>
-                                            
-                                            <div class="card-body p-3">
-
-                                                <!-- Announcement Carousel -->
-                                                <div id="announcementCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
-                                                    <div class="carousel-inner">
-                                                        @foreach($announcements as $index => $announcement)
-                                                            <div class="carousel-item {{ $index === 0 ? 'active' : '' }}" data-title="{{ $announcement->title }}" data-content="{{ $announcement->content }}">
-                                                                <div style="width: 100%; height: 0; padding-bottom: 40%; position: relative;"> <!-- Adjusted padding-bottom -->
-                                                                    <img src="{{ asset(Storage::url($announcement->image_path)) }}" 
-                                                                        alt="{{ $announcement->title }}" 
-                                                                        style="position: absolute; top: 50%; left: 50%; width: 100%; height: auto; transform: translate(-50%, -50%); object-fit: cover;">
-                                                                </div>
-                                                            </div>
-                                                        @endforeach
-                                                    </div>
-
-                                                    <!-- Title and Content Section -->
-                                                    <div class="text-center mt-3">
-                                                        <h2 id="announcementTitle" style="text-transform: uppercase;">{{ $announcements[0]->title }}</h2>
-                                                        <p id="announcementContent">{{ $announcements[0]->content }}</p>
-                                                        <p id="announcementContent">{{ $announcements[0]->start_date }} - {{ $announcements[0]->end_date }}</p>
-                                                    </div>
-                                                    
-                                                    <button class="carousel-control-prev" type="button" data-bs-target="#announcementCarousel" data-bs-slide="prev">
-                                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                        <span class="visually-hidden">Previous</span>
-                                                    </button>
-                                                    <button class="carousel-control-next" type="button" data-bs-target="#announcementCarousel" data-bs-slide="next">
-                                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                        <span class="visually-hidden">Next</span>
-                                                    </button>
-                                                </div>
-
-                                                <!-- JavaScript to Update Title and Content -->
-                                                <script>
-                                                    const carousel = document.getElementById('announcementCarousel');
-                                                    const titleElement = document.getElementById('announcementTitle');
-                                                    const contentElement = document.getElementById('announcementContent');
-
-                                                    carousel.addEventListener('slide.bs.carousel', function (event) {
-                                                        const currentItem = event.relatedTarget; // The currently active carousel item
-                                                        const title = currentItem.getAttribute('data-title');
-                                                        const content = currentItem.getAttribute('data-content');
-
-                                                        titleElement.textContent = title; // Update title
-                                                        contentElement.textContent = content; // Update content
-                                                    });
-                                                </script>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {{-- Card Nota --}}
-                                    <div class="col-lg-4">
-                                        <div class="card h-100 mb-4">
-                                            <div class="card-header pb-0 px-3">
-                                                <div class="row">
-                                                    <div class="col-md-8">
-                                                        <h4 class="text-capitalize">NOTA TAMBAHAN</h4>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="card-body pt-4 p-3">
-                                                <div class="accordion" id="accordionExample">
-                                                    <div class="accordion-item" style="border: 1px solid #dee2e6; border-radius: 0.375rem; margin-bottom: 1rem;">
-                                                        <h2 class="accordion-header" id="headingOne">
-                                                            <button class="accordion-button" type="button" style="background-color: #f8f9fa; color: #333; border: none;" 
-                                                                    data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                                <b>1. Cuti Tahunan </b>
-                                                            </button>
-                                                        </h2>
-                                                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="color: #333; border: none;">
-                                                            <div class="accordion-body" style="padding: 1rem;">
-                                                                <ul>
-                                                                    <li><p>Pekerja berhak mendapat sejumlah hari cuti tahunan berbayar sebagai tambahan kepada hari rehat dan cuti berbayar.</p></li>
-                                                                    <li><p>Kelayakan mengikut Seksyen 60E(1) Akta Pekerjaan 1955:</p>
-                                                                        <ul>
-                                                                            <li><p>Kurang dari 2 tahun: Tidak kurang dari 8 hari/tahun</p></li>
-                                                                            <li><p>2-5 tahun: Tidak kurang dari 12 hari/tahun</p></li>
-                                                                            <li><p>Lebih dari 5 tahun: Tidak kurang dari 16 hari/tahun</p></li>
-                                                                        </ul>
-                                                                    </li>
-                                                                    <li><p>Perlu bekerja sekurang-kurangnya 12 bulan untuk layak mendapat cuti tahunan. Jika meninggalkan syarikat sebelum 12 bulan, hari cuti akan dikira secara prorata (0.66 hari/bulan).</p></li>
-                                                                    <li><p>Ketidakhadiran tanpa kebenaran selama lebih dari 10% tahun kerja mengakibatkan kehilangan kelayakan.</p></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="accordion-item" style="border: 1px solid #dee2e6; border-radius: 0.375rem; margin-bottom: 1rem;">
-                                                        <h2 class="accordion-header" id="headingTwo">
-                                                            <button class="accordion-button collapsed" type="button" style="background-color: #f8f9fa; color: #333; border: none;" 
-                                                                    data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                                <b> 2. Cuti Sakit </b>
-                                                            </button>
-                                                        </h2>
-                                                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample" style="color: #333; border: none;">
-                                                            <div class="accordion-body" style="padding: 1rem;">
-                                                                <ul>
-                                                                    <li><p>Kelayakan cuti sakit berbayar berdasarkan tempoh pekerjaan:</p>
-                                                                        <ul>
-                                                                            <li><p>Kurang dari 2 tahun: 14 hari/tahun</p></li>
-                                                                            <li><p>2-5 tahun: 18 hari/tahun</p></li>
-                                                                            <li><p>Lebih dari 5 tahun: 22 hari/tahun</p></li>
-                                                                        </ul>
-                                                                    </li>
-                                                                    <li><p>Seksyen 60F(3) menyatakan pekerja menerima gaji biasa semasa cuti sakit.</p></li>
-                                                                    <li><p>Kelayakan 60 hari cuti sakit berbayar untuk hospitalisasi (Seksyen 60F(1)(bb)).</p></li>
-                                                                    <li><p>Maklumkan kepada majikan dalam masa 48 jam ketidakhadiran; jika tidak, dianggap tidak hadir tanpa kebenaran.</p></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="accordion-item" style="border: 1px solid #dee2e6; border-radius: 0.375rem; margin-bottom: 1rem;">
-                                                        <h2 class="accordion-header" id="headingThree">
-                                                            <button class="accordion-button collapsed" type="button" style="background-color: #f8f9fa; color: #333; border: none;" 
-                                                                    data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                                                <b> 3. Cuti Umum </b>
-                                                            </button>
-                                                        </h2>
-                                                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample" style="color: #333; border: none;">
-                                                            <div class="accordion-body" style="padding: 1rem;">
-                                                                <ul>
-                                                                    <li><p>Pekerja berhak mendapat cuti berbayar pada 11 cuti umum yang diwartakan (Seksyen 60D(1)).</p></li>
-                                                                    <li><p>Cuti umum boleh ditetapkan di bawah Seksyen 8 Akta Cuti 1951.</p></li>
-                                                                    <li><p>Majikan boleh meminta pekerja bekerja pada cuti umum dan memberikan hari lain sebagai pengganti.</p></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
+                    {{-- Card Pengumuman --}}
+                    <div class="col-lg-12 mb-lg-0 mb-4">
+                        <div class="card z-index-2 h-100">
+                            <div class="card-header pb-0 pt-3 bg-transparent">
+                                <h4 class="text-capitalize">PENGUMUMAN</h4>
+                                <p class="text-sm mb-0">
+                                    <span class="font-weight-bold">Latest update on (timestamp)</span>
+                                </p>
                             </div>
+
+                            <div class="card-body p-3">
+
+                               <!-- Announcement Carousel -->
+                                <div id="announcementCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
+                                    <div class="carousel-inner">
+                                        @foreach($announcements as $index => $announcement)
+                                        <div class="carousel-item {{ $index === 0 ? 'active' : '' }}"
+                                             data-title="{{ $announcement->title }}"
+                                             data-content="{{ $announcement->content }}"
+                                             data-start-date="{{ $announcement->start_date }}"
+                                             data-end-date="{{ $announcement->end_date }}">
+                                            <div style="width: 100%; height: 0; padding-bottom: 40%; position: relative;">
+                                                <img src="{{ asset(Storage::url($announcement->image_path)) }}"
+                                                     alt="{{ $announcement->title }}"
+                                                     style="position: absolute; top: 50%; left: 50%; width: 100%; height: auto; transform: translate(-50%, -50%); object-fit: cover;">
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                    </div>
+
+                                    <!-- Title and Content Section -->
+                                    <div class="text-center mt-3">
+                                        <h2 id="announcementTitle" style="text-transform: uppercase;">{{ $announcements[0]->title }}</h2>
+                                        <p id="announcementContent">{{ $announcements[0]->content }}</p>
+                                        <p id="announcementDates">
+                                            Tarikh Buka:  <strong id="startDate">{{ $announcements[0]->start_date }}</strong><br>
+                                            Tarikh Tutup: <strong id="endDate">{{ $announcements[0]->end_date }}</strong>
+                                        </p>
+                                    </div>
+
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#announcementCarousel" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#announcementCarousel" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                </div>
+
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        const carouselElement = document.getElementById('announcementCarousel');
+
+                                        carouselElement.addEventListener('slide.bs.carousel', function(event) {
+                                            // Get the new active item
+                                            const nextItem = event.relatedTarget;
+
+                                            // Get data attributes
+                                            const title = nextItem.getAttribute('data-title');
+                                            const content = nextItem.getAttribute('data-content');
+                                            const startDate = nextItem.getAttribute('data-start-date');
+                                            const endDate = nextItem.getAttribute('data-end-date');
+
+                                            // Update the content
+                                            document.getElementById('announcementTitle').textContent = title;
+                                            document.getElementById('announcementContent').textContent = content;
+                                            document.getElementById('startDate').textContent = startDate;
+                                            document.getElementById('endDate').textContent = endDate;
+                                        });
+                                    });
+                                </script>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
 
                             {{-- Second Row --}}
                             <div class="container-fluid py-2">
@@ -185,11 +116,11 @@
                                                 <div class="chart">
                                                     <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                     </div>
-            
+
                                     {{-- Card Senarai Staff Cuti Harian --}}
                                     <div class="col-lg-5">
                                         <div class="card h-100 mb-4">
@@ -204,7 +135,7 @@
                                                 </div>
                                             </div>
                                             </div>
-            
+
                                             <div class="card-body pt-4 p-3">
                                                 <h6 class="text-uppercase text-body text-md font-weight-bolder mb-3">Hari ini</h6>
                                                 <ul class="list-group">
@@ -233,7 +164,7 @@
                                                     </div>
                                                     </li>
                                                 </ul>
-                
+
                                                 <h6 class="text-uppercase text-body text-md font-weight-bolder my-3">Esok</h6>
                                                 <ul class="list-group">
                                                     <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
@@ -260,15 +191,15 @@
                                                         01.01.2024 - 03.01.2024
                                                     </div>
                                                     </li>
-                
+
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                             </div>
-                       
+
                         </div>
                     </div>
                 </div>
@@ -355,7 +286,7 @@
                                             $('#createAnnouncementModal').on('shown.bs.modal', function () {
                                                 CKEDITOR.replace('content');
                                             });
-                                            
+
                                             // Initialize CKEditor for Edit Announcements when the modal opens
                                             @foreach($announcements as $announcement)
                                                 $('#editAnnouncementModal{{ $announcement->id }}').on('shown.bs.modal', function () {
@@ -422,7 +353,7 @@
                                                                     </form>
                                                                 </td>
                                                             </tr>
-                                            
+
                                                             <!-- Edit Announcement Modal -->
                                                             <div class="modal fade" id="editAnnouncementModal{{ $announcement->id }}" tabindex="-1" aria-labelledby="editAnnouncementLabel{{ $announcement->id }}" aria-hidden="true">
                                                                 <div class="modal-dialog modal-lg">
@@ -459,7 +390,7 @@
                                                                                         <img src="{{ asset('storage/' . $announcement->image_path) }}" class="d-block w-25 mb-2" alt="{{ $announcement->title }}">
                                                                                     @endif
                                                                                     <input type="file" class="form-control" id="image{{ $announcement->id }}" name="image_path" accept="image/*">
-                                                                                </div>                                                                                
+                                                                                </div>
                                                                                 <p class="text-muted">
                                                                                     <em>Please upload images with the following specifications:
                                                                                     <br>
@@ -476,10 +407,10 @@
                                                                                 </div>
                                                                             </form>
                                                                         </div>
-                                                                        
+
                                                                     </div>
                                                                 </div>
-                                                            </div>                                                      
+                                                            </div>
 
                                                         @endforeach
                                                     </tbody>
@@ -490,7 +421,7 @@
                                         <script>
                                             // Initialize CKEditor for Create Announcement
                                             CKEDITOR.replace('content');
-                                        
+
                                             // Initialize CKEditor for Edit Announcements
                                             @foreach($announcements as $announcement)
                                                 CKEDITOR.replace('content{{ $announcement->id }}');
@@ -505,7 +436,7 @@
                 </div>
 
 
-            
+
                 <!-- Senarai Pengguna section -->
                 <div id="users-section" class="content-section" style="display: none;">
                     <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
@@ -540,7 +471,7 @@
                                                     <div class="modal-body">
                                                         <form action="{{ route('storeUser') }}" method="POST" enctype="multipart/form-data">
                                                             @csrf
-                                                        
+
                                                             <div class="row g-3">
                                                                 <div class="col-md-12 mb-3">
                                                                     <label for="name" class="form-label">Nama<span class="text-danger">*</span></label>
@@ -611,7 +542,7 @@
                                                                 </div>
                                                                 <p class="text-muted">
                                                                     <em>Nota: Cuti sakit dan cuti tahunan adalah berbeza. Cuti sakit memerlukan sijil cuti sakit (MC), manakala cuti tahunan adalah cuti berbayar yang diperoleh setelah bekerja selama 12 bulan.</em>
-                                                                </p>                                                                
+                                                                </p>
                                                             </div>
                                                             <hr>
 
@@ -637,7 +568,7 @@
                                                                     <input type="text" class="form-control" id="state" name="state" required>
                                                                 </div>
                                                             </div>
-                                                        
+
                                                             <div class="modal-footer">
                                                                 <button type="submit" class="btn btn-success">Simpan</button>
                                                             </div>
@@ -646,7 +577,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                         {{-- List of staff --}}
                                         <div class="card-body">
                                             <div style="overflow-x: auto; position: relative;">
@@ -690,7 +621,7 @@
                                                                     @else
                                                                         <span class="badge badge-md bg-gradient-secondary">{{ $user->role }}</span>
                                                                     @endif
-                                                                </td>   
+                                                                </td>
                                                                 <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                     <p class="text-m text-secondary"></p>
 
@@ -726,7 +657,7 @@
                                                                                 <div class="modal-body">
                                                                                     <form action="{{ route('updateUser', $user->id) }}" method="POST">
                                                                                         @csrf
-                                                                                    
+
                                                                                         <div class="row g-3">
                                                                                             <div class="col-md-12 mb-3">
                                                                                                 <label for="name{{ $user->id }}" class="form-label">Nama</label>
@@ -813,7 +744,7 @@
                                                                                                 <input type="text" class="form-control" id="state{{ $user->id }}" name="state" value="{{ $user->state }}" required>
                                                                                             </div>
                                                                                         </div>
-                                                                                
+
                                                                                         <div class="modal-footer">
                                                                                             <button type="submit" class="btn btn-success">Simpan</button>
                                                                                         </div>
@@ -822,7 +753,7 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                
+
                                                                     <!-- Delete button -->
                                                                     <form action="{{ route('deleteUser', $user->id) }}" method="POST" style="display:inline;">
                                                                         @csrf
@@ -832,7 +763,7 @@
                                                                         </button>
                                                                     </form>
                                                                 </td>
-                                                            </tr>                                                 
+                                                            </tr>
 
                                                         @endforeach
                                                     </tbody>
@@ -845,7 +776,7 @@
 
                         </div> <!-- Closing for col-lg-12 -->
                     </div> <!-- Closing for row -->
-                </div> 
+                </div>
 
 
                 <!-- Senarai All Admin Approval Section -->
@@ -866,8 +797,8 @@
                                                 <h6 class="mb-2"></h6>
                                             </div>
                                         </div>
-                                        
-                                        
+
+
                                         <!-- View Applications Section -->
                                         <div class="card-body">
                                             <div style="overflow-x: auto; position: relative;">
@@ -924,7 +855,7 @@
                                                             </tr>
                                                         @endforeach
                                                     </tbody>
-                                                    
+
                                                 </table>
                                             </div>
                                         </div>
@@ -934,7 +865,7 @@
                         </div>
                     </div>
                 </div>
-                
+
 
 
                 <!-- Admin Approval Section -->
@@ -988,7 +919,7 @@
                                                                     <p class="text-m text-secondary">{{ $application->end_date }}</p>
                                                                 </td>
                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    
+
                                                                     <!-- View button -->
                                                                     <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#reasonModal{{ $application->id }}">
                                                                         <i class="fas fa-eye"></i>
@@ -1064,8 +995,8 @@
                                                 <h6 class="mb-2"></h6>
                                             </div>
                                         </div>
-                                        
-                                        
+
+
                                         <!-- View Applications Section -->
                                         <div class="card-body">
                                             <div style="overflow-x: auto; position: relative;">
@@ -1097,7 +1028,7 @@
                                                                     <p class="text-m text-secondary">{{ $application->end_date }}</p>
                                                                 </td>
                                                                 {{-- <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    
+
                                                                     <!-- Button to trigger modal to show reason -->
                                                                     <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#directReasonModal{{ $application->id }}" aria-label="View Reason">
                                                                         <i class="fas fa-eye"></i>
@@ -1174,7 +1105,7 @@
                                         <div class="card-header pb-0 p-3">
                                             <div class="d-flex justify-content-between">
                                                 <h4 class="mb-2"></h4>
-                                            
+
                                                 <!-- Edit Profile Button -->
                                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editStaffProfil">
                                                     Kemaskini Maklumat
@@ -1197,7 +1128,7 @@
                                                     <div class="modal-body">
                                                         <form action="{{ route('updateOwnDetails') }}"  method="POST" enctype="multipart/form-data">
                                                             @csrf
-                                                        
+
                                                             <!-- Profile Information -->
                                                             <h5 class="mt-4">MAKLUMAT DIRI</h5>
                                                             <div class="row">
@@ -1285,7 +1216,7 @@
                                                                     <p class="form-control" id="mc_days" required min="1">{{ Auth::user()->total_mc_days }}</p>
                                                                 </div>
                                                             </div>
-                                                        
+
                                                             <div class="modal-footer">
                                                                 <button type="submit" class="btn btn-success">Simpan</button>
                                                             </div>

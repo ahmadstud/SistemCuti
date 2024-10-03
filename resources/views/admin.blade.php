@@ -33,7 +33,7 @@
   <!-- Include Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
 
-  
+
 
 
 
@@ -44,7 +44,6 @@
 
 @include('partials.adminside.aside')
 @include ('partials.adminside.mainadmin')
-@include('partials.logout')
 
 </body>
 <!--   Core JS Files   -->

@@ -1,6 +1,6 @@
 <main class="main-content position-relative border-radius-lg">
-
     <div class="container-fluid py-4">
+        @include('partials.logout')
         @include('partials.officerside.mcdays')
 
         <div class="row mt-4">
@@ -29,7 +29,7 @@
                                                     <span class="font-weight-bold">Latest update on (timestamp)</span>
                                                 </p>
                                             </div>
-                                            
+
                                             <div class="card-body p-3">
 
                                                 <!-- Announcement Carousel -->
@@ -38,8 +38,8 @@
                                                         @foreach($announcements as $index => $announcement)
                                                             <div class="carousel-item {{ $index === 0 ? 'active' : '' }}" data-title="{{ $announcement->title }}" data-content="{{ $announcement->content }}">
                                                                 <div style="width: 100%; height: 0; padding-bottom: 40%; position: relative;"> <!-- Adjusted padding-bottom -->
-                                                                    <img src="{{ asset(Storage::url($announcement->image_path)) }}" 
-                                                                        alt="{{ $announcement->title }}" 
+                                                                    <img src="{{ asset(Storage::url($announcement->image_path)) }}"
+                                                                        alt="{{ $announcement->title }}"
                                                                         style="position: absolute; top: 50%; left: 50%; width: 100%; height: auto; transform: translate(-50%, -50%); object-fit: cover;">
                                                                 </div>
                                                             </div>
@@ -52,7 +52,7 @@
                                                         <p id="announcementContent">{{ $announcements[0]->content }}</p>
                                                         <p id="announcementContent">tarikh mula - tarikh akhir</p>
                                                     </div>
-                                                    
+
                                                     <button class="carousel-control-prev" type="button" data-bs-target="#announcementCarousel" data-bs-slide="prev">
                                                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                                         <span class="visually-hidden">Previous</span>
@@ -103,11 +103,11 @@
                                                 <div class="chart">
                                                     <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                     </div>
-            
+
                                     {{-- Card Senarai Staff Cuti Harian --}}
                                     <div class="col-lg-5">
                                         <div class="card h-100 mb-4">
@@ -122,7 +122,7 @@
                                                 </div>
                                             </div>
                                             </div>
-            
+
                                             <div class="card-body pt-4 p-3">
                                                 <h6 class="text-uppercase text-body text-md font-weight-bolder mb-3">Hari ini</h6>
                                                 <ul class="list-group">
@@ -151,7 +151,7 @@
                                                     </div>
                                                     </li>
                                                 </ul>
-                
+
                                                 <h6 class="text-uppercase text-body text-md font-weight-bolder my-3">Esok</h6>
                                                 <ul class="list-group">
                                                     <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
@@ -178,12 +178,12 @@
                                                         01.01.2024 - 03.01.2024
                                                     </div>
                                                     </li>
-                
+
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                             </div>
 
@@ -348,7 +348,7 @@
                                                     <div class="modal-body">
                                                         <form action="{{ route('officer.mcApplication.store') }}" method="POST" enctype="multipart/form-data">
                                                             @csrf
-                                                            
+
                                                             <div class="row g-3">
                                                                 <div class="col-md-6 mb-3">
                                                                     <label for="start_date" class="form-label">Tarikh Mula<span class="text-danger">*</span></label>
@@ -367,7 +367,7 @@
                                                                 <label for="reason" class="form-label">Ulasan<span class="text-danger">*</span></label>
                                                                 <textarea class="form-control" id="reason" name="reason" rows="3" required></textarea>
                                                             </div>
-                                                            
+
                                                             <div class="modal-footer">
                                                                 <button type="submit" class="btn btn-success">Simpan</button>
                                                             </div>
@@ -375,7 +375,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div> 
+                                        </div>
 
                                         <!-- List of MC Applications -->
                                         <div class="card-body">
@@ -447,7 +447,7 @@
                                                                     @endif
                                                                 </td>
                                                                 <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    
+
                                                                     @if ($mcApplication->status === 'pending')
 
                                                                         <!-- Edit button -->
@@ -556,7 +556,7 @@
                                                     <div class="modal-body">
                                                         <form action="{{ route('updateOwnDetails3') }}"  method="POST" enctype="multipart/form-data">
                                                             @csrf
-                                                        
+
                                                             <!-- Profile Information -->
                                                             <h5 class="mt-4">MAKLUMAT DIRI</h5>
                                                             <div class="row">
@@ -603,7 +603,7 @@
                                                                 </div>
                                                             </div>
 
-                                                        
+
                                                             <div class="modal-footer">
                                                                 <button type="submit" class="btn btn-success">Simpan</button>
                                                             </div>
@@ -691,7 +691,7 @@
                                                     <i class="fas fa-edit"></i> <!-- Edit symbol -->
                                                 </a>
                                             </div> --}}
-                                            
+
                                         </div>
                                     </div>
                                 </div>
