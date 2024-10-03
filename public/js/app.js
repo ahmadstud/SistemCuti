@@ -71,6 +71,11 @@
   // Initialize date and time on page load
   updateDateTime();
 
+
+
+
+
+
 // Admin JS /////////////////////////////////////////////////////////////////////////////////////////////////////////
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -172,6 +177,23 @@ function updateDateTime() {
         // document.getElementById('Dashboard').style.display = 'block';
     }
 });
+
+    // Initialize CKEditor for Add Announcement
+    $('#createAnnouncementModal').on('shown.bs.modal', function () {
+        CKEDITOR.replace('content');
+    });
+
+    // Initialize CKEditor for Edit Announcement
+    $('#editAnnouncementModal{{ $announcement->id }}').on('shown.bs.modal', function () {
+        CKEDITOR.replace('content{{ $announcement->id }}');
+    });
+
+
+
+
+
+
+
 
 
 //Officer JS /////////////////////////////////////////////////////////////////////////////////////////////////////

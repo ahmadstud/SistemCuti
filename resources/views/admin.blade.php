@@ -35,15 +35,14 @@
 
 
 
-
-
 </head>
 
 <body class="g-sidenav-show   bg-gray-100">
-  <div class="min-height-300 bg-primary position-absolute w-100"></div>
+  <div class="min-height-500 bg-primary position-absolute w-100"></div>
 
 @include('partials.adminside.aside')
 @include ('partials.adminside.mainadmin')
+
 
 </body>
 <!--   Core JS Files   -->
@@ -75,4 +74,8 @@
   <!-- Bootstrap JS and Popper.js -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"></script>
+
+{{-- CKEditor --}}
+  <script src="https://cdn.ckeditor.com/4.25.0/standard/ckeditor.js"></script>
+
 </html>
