@@ -35,7 +35,7 @@
                         <div class="col-4 text-end">
                             <div class="icon icon-shape bg-gradient-warning shadow-primary text-center rounded-circle" style="width: 60px; height: 60px;"> <!-- Set fixed size for circle -->
                                 <i class="fas fa-file-alt" style="font-size: 2rem; opacity: 10;" aria-hidden="true"></i> <!-- Larger icon size -->
-                            </div>                            
+                            </div>
                         </div>
                     </div>
                 </div>

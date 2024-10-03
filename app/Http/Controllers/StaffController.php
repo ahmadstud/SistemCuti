@@ -65,12 +65,12 @@ class StaffController extends Controller
     {
         // Fetch all MC applications for the logged-in user
         $mcApplications = McApplication::where('user_id', Auth::id())->get();
-        $officers = User::where('role', 'officer')->get(); // Fetch officers
+        $officers = User::where('role', 'Penyelia')->get(); // Fetch officers
         $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
         return view('staff', compact('mcApplications', 'officers','announcements'));
     }
 
-    
+
     public function updateOwnDetails2(Request $request)
     {
         $user = Auth::user(); // Get the currently authenticated user
@@ -86,6 +86,7 @@ class StaffController extends Controller
             'city' => 'nullable|string|max:255',
             'postcode' => 'nullable|string|max:10',
             'state' => 'nullable|string|max:255',
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation for profile image
 
         ]);
 
@@ -99,7 +100,16 @@ class StaffController extends Controller
         $user->state = $request->state;
         $user->city = $request->city;
 
+         // Handle profile image upload
+         if ($request->hasFile('profile_image')) {
+            $image = $request->file('profile_image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('storage/profile_image'), $imageName);
 
+            // Save the profile image path in the database
+            $user->profile_image = 'storage/profile_image/' . $imageName;
+        }
+        
         // Update password only if a new password is provided
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
