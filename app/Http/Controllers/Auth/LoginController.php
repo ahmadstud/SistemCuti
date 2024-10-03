@@ -25,9 +25,9 @@ class LoginController extends Controller
             switch ($user->role) {
                 case 'admin':
                     return redirect()->route('admin');
-                case 'officer':
+                case 'Penyelia':
                     return redirect()->route('officer');
-                case 'staff':
+                case 'Staf':
                 default:
                     return redirect()->route('staff');
             }
