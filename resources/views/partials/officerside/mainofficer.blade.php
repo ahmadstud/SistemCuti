@@ -7,209 +7,209 @@
             <div class="col-lg-12 mb-lg-0 mb-4" > <!-- Adjust column to full width -->
 
                <!-- Dashboard Section -->
-    <div id="Dashboard" class="content-section" style="display: none;">
-        <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
-            <h4><b>DASHBOARD</b></h4> <!-- Fixed closing tag -->
-        </nav>
-        <div class="row mt-4">
-            <div class="col-lg-12 mb-lg-0 mb-4">
-
-                {{-- First Row --}}
-                <div class="container-fluid py-2">
-                    <div class="row">
-
-                        {{-- Card Pengumuman --}}
+                <div id="Dashboard" class="content-section" style="display: none;">
+                    <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
+                        <h4><b>DASHBOARD</b></h4> <!-- Fixed closing tag -->
+                    </nav>
+                    <div class="row mt-4">
                         <div class="col-lg-12 mb-lg-0 mb-4">
-                            <div class="card z-index-2 h-100">
-                                <div class="card-header pb-0 pt-3 bg-transparent">
-                                    <h4 class="text-capitalize">PENGUMUMAN</h4>
-                                    <p class="text-sm mb-0">
-                                        <span class="font-weight-bold">Latest update on (timestamp)</span>
-                                    </p>
-                                </div>
 
-                                <div class="card-body p-3">
-                                    <!-- Announcement Carousel -->
-                                    <div id="announcementCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
-                                        <div class="carousel-inner">
-                                            @foreach($announcements as $index => $announcement)
-                                                <div class="carousel-item {{ $index === 0 ? 'active' : '' }}"
-                                                    data-title="{{ $announcement->title }}"
-                                                    data-content="{{ $announcement->content }}"
-                                                    data-start-date="{{ $announcement->start_date }}"
-                                                    data-end-date="{{ $announcement->end_date }}">
-                                                    <div style="width: 100%; height: 0; padding-bottom: 40%; position: relative;">
-                                                        <img src="{{ asset(Storage::url($announcement->image_path)) }}"
-                                                            alt="{{ $announcement->title }}"
-                                                            style="position: absolute; top: 50%; left: 50%; width: 100%; height: auto; transform: translate(-50%, -50%); object-fit: cover;">
+                            {{-- First Row --}}
+                            <div class="container-fluid py-2">
+                                <div class="row">
+
+                                    {{-- Card Pengumuman --}}
+                                    <div class="col-lg-12 mb-lg-0 mb-4">
+                                        <div class="card z-index-2 h-100">
+                                            <div class="card-header pb-0 pt-3 bg-transparent">
+                                                <h4 class="text-capitalize">PENGUMUMAN</h4>
+                                                <p class="text-sm mb-0">
+                                                    <span class="font-weight-bold">Latest update on (timestamp)</span>
+                                                </p>
+                                            </div>
+
+                                            <div class="card-body p-3">
+                                                <!-- Announcement Carousel -->
+                                                <div id="announcementCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
+                                                    <div class="carousel-inner">
+                                                        @foreach($announcements as $index => $announcement)
+                                                            <div class="carousel-item {{ $index === 0 ? 'active' : '' }}"
+                                                                data-title="{{ $announcement->title }}"
+                                                                data-content="{{ $announcement->content }}"
+                                                                data-start-date="{{ $announcement->start_date }}"
+                                                                data-end-date="{{ $announcement->end_date }}">
+                                                                <div style="width: 100%; height: 0; padding-bottom: 40%; position: relative;">
+                                                                    <img src="{{ asset(Storage::url($announcement->image_path)) }}"
+                                                                        alt="{{ $announcement->title }}"
+                                                                        style="position: absolute; top: 50%; left: 50%; width: 100%; height: auto; transform: translate(-50%, -50%); object-fit: cover;">
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+
+                                                    <!-- Title and Content Section -->
+                                                    <div class="text-center mt-3">
+                                                        @if($announcements->count() > 0) <!-- Check if announcements exist -->
+                                                            <h2 id="announcementTitle" style="text-transform: uppercase;">{{ $announcements[0]->title }}</h2>
+                                                            <p id="announcementContent">{{ $announcements[0]->content }}</p>
+                                                            <p id="announcementDates">
+                                                                Tarikh Buka: <strong id="startDate">{{ $announcements[0]->start_date }}</strong><br>
+                                                                Tarikh Tutup: <strong id="endDate">{{ $announcements[0]->end_date }}</strong>
+                                                            </p>
+                                                        @else
+                                                            <h2>No Announcements</h2>
+                                                            <p>No announcements available at this time.</p>
+                                                        @endif
+                                                    </div>
+
+                                                    <button class="carousel-control-prev" type="button" data-bs-target="#announcementCarousel" data-bs-slide="prev">
+                                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                        <span class="visually-hidden">Previous</span>
+                                                    </button>
+                                                    <button class="carousel-control-next" type="button" data-bs-target="#announcementCarousel" data-bs-slide="next">
+                                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                        <span class="visually-hidden">Next</span>
+                                                    </button>
+                                                </div>
+
+                                                <script>
+                                                    document.addEventListener('DOMContentLoaded', function() {
+                                                        const carouselElement = document.getElementById('announcementCarousel');
+
+                                                        carouselElement.addEventListener('slide.bs.carousel', function(event) {
+                                                            // Get the new active item
+                                                            const nextItem = event.relatedTarget;
+
+                                                            // Get data attributes
+                                                            const title = nextItem.getAttribute('data-title');
+                                                            const content = nextItem.getAttribute('data-content');
+                                                            const startDate = nextItem.getAttribute('data-start-date');
+                                                            const endDate = nextItem.getAttribute('data-end-date');
+
+                                                            // Update the content
+                                                            document.getElementById('announcementTitle').textContent = title;
+                                                            document.getElementById('announcementContent').textContent = content;
+                                                            document.getElementById('startDate').textContent = startDate;
+                                                            document.getElementById('endDate').textContent = endDate;
+                                                        });
+                                                    });
+                                                </script>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            {{-- Second Row --}}
+                            <div class="container-fluid py-2">
+                                <div class="row ">
+
+                                    {{-- Card Purata Ketidakhadiran --}}
+                                    <div class="col-lg-7 mb-lg-0 mb-4">
+                                        <div class="card z-index-2 h-100">
+                                            <div class="card-header pb-0 pt-3 bg-transparent">
+                                                <h4 class="text-capitalize">PURATA KETIDAKHADIRAN</h4>
+                                                <p class="text-sm mb-0">
+                                                    <i class="fa fa-arrow-up text-success"></i>
+                                                    <span class="font-weight-bold">4% more</span> in 2021
+                                                </p>
+                                            </div>
+                                            <div class="card-body p-3">
+                                                <div class="chart">
+                                                    <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{-- Card Senarai Staff Cuti Harian --}}
+                                    <div class="col-lg-5">
+                                        <div class="card h-100 mb-4">
+                                            <div class="card-header pb-0 px-3">
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                        <h4 class="text-capitalize">SENARAI STAFF CUTI HARIAN</h4>
+                                                    </div>
+                                                    <div class="col-md-4 d-flex justify-content-end align-items-center">
+                                                        <i class="far fa-calendar-alt me-2"></i>
+                                                        <small>September</small>
                                                     </div>
                                                 </div>
-                                            @endforeach
-                                        </div>
+                                            </div>
 
-                                        <!-- Title and Content Section -->
-                                        <div class="text-center mt-3">
-                                            @if($announcements->count() > 0) <!-- Check if announcements exist -->
-                                                <h2 id="announcementTitle" style="text-transform: uppercase;">{{ $announcements[0]->title }}</h2>
-                                                <p id="announcementContent">{{ $announcements[0]->content }}</p>
-                                                <p id="announcementDates">
-                                                    Tarikh Buka: <strong id="startDate">{{ $announcements[0]->start_date }}</strong><br>
-                                                    Tarikh Tutup: <strong id="endDate">{{ $announcements[0]->end_date }}</strong>
-                                                </p>
-                                            @else
-                                                <h2>No Announcements</h2>
-                                                <p>No announcements available at this time.</p>
-                                            @endif
-                                        </div>
+                                            <div class="card-body pt-4 p-3">
+                                                <h6 class="text-uppercase text-body text-md font-weight-bolder mb-3">Hari ini</h6>
+                                                <ul class="list-group">
+                                                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                                        <div class="d-flex align-items-center">
+                                                            <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user1">
+                                                            <div class="d-flex flex-column">
+                                                                <h6 class="mb-0 text-sm">John Michael</h6>
+                                                                <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
+                                                            01.01.2024 - 03.01.2024
+                                                        </div>
+                                                    </li>
+                                                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                                        <div class="d-flex align-items-center">
+                                                            <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user1">
+                                                            <div class="d-flex flex-column">
+                                                                <h6 class="mb-0 text-sm">John Michael</h6>
+                                                                <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
+                                                            01.01.2024 - 03.01.2024
+                                                        </div>
+                                                    </li>
+                                                </ul>
 
-                                        <button class="carousel-control-prev" type="button" data-bs-target="#announcementCarousel" data-bs-slide="prev">
-                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                            <span class="visually-hidden">Previous</span>
-                                        </button>
-                                        <button class="carousel-control-next" type="button" data-bs-target="#announcementCarousel" data-bs-slide="next">
-                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                            <span class="visually-hidden">Next</span>
-                                        </button>
+                                                <h6 class="text-uppercase text-body text-md font-weight-bolder my-3">Esok</h6>
+                                                <ul class="list-group">
+                                                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                                        <div class="d-flex align-items-center">
+                                                            <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user1">
+                                                            <div class="d-flex flex-column">
+                                                                <h6 class="mb-0 text-sm">John Michael</h6>
+                                                                <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
+                                                            01.01.2024 - 03.01.2024
+                                                        </div>
+                                                    </li>
+                                                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                                        <div class="d-flex align-items-center">
+                                                            <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user1">
+                                                            <div class="d-flex flex-column">
+                                                                <h6 class="mb-0 text-sm">John Michael</h6>
+                                                                <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
+                                                            01.01.2024 - 03.01.2024
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </div>
-
-                                    <script>
-                                        document.addEventListener('DOMContentLoaded', function() {
-                                            const carouselElement = document.getElementById('announcementCarousel');
-
-                                            carouselElement.addEventListener('slide.bs.carousel', function(event) {
-                                                // Get the new active item
-                                                const nextItem = event.relatedTarget;
-
-                                                // Get data attributes
-                                                const title = nextItem.getAttribute('data-title');
-                                                const content = nextItem.getAttribute('data-content');
-                                                const startDate = nextItem.getAttribute('data-start-date');
-                                                const endDate = nextItem.getAttribute('data-end-date');
-
-                                                // Update the content
-                                                document.getElementById('announcementTitle').textContent = title;
-                                                document.getElementById('announcementContent').textContent = content;
-                                                document.getElementById('startDate').textContent = startDate;
-                                                document.getElementById('endDate').textContent = endDate;
-                                            });
-                                        });
-                                    </script>
 
                                 </div>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
                 </div>
 
-                {{-- Second Row --}}
-                <div class="container-fluid py-2">
-                    <div class="row ">
-
-                        {{-- Card Purata Ketidakhadiran --}}
-                        <div class="col-lg-7 mb-lg-0 mb-4">
-                            <div class="card z-index-2 h-100">
-                                <div class="card-header pb-0 pt-3 bg-transparent">
-                                    <h4 class="text-capitalize">PURATA KETIDAKHADIRAN</h4>
-                                    <p class="text-sm mb-0">
-                                        <i class="fa fa-arrow-up text-success"></i>
-                                        <span class="font-weight-bold">4% more</span> in 2021
-                                    </p>
-                                </div>
-                                <div class="card-body p-3">
-                                    <div class="chart">
-                                        <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- Card Senarai Staff Cuti Harian --}}
-                        <div class="col-lg-5">
-                            <div class="card h-100 mb-4">
-                                <div class="card-header pb-0 px-3">
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <h4 class="text-capitalize">SENARAI STAFF CUTI HARIAN</h4>
-                                        </div>
-                                        <div class="col-md-4 d-flex justify-content-end align-items-center">
-                                            <i class="far fa-calendar-alt me-2"></i>
-                                            <small>September</small>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="card-body pt-4 p-3">
-                                    <h6 class="text-uppercase text-body text-md font-weight-bolder mb-3">Hari ini</h6>
-                                    <ul class="list-group">
-                                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                            <div class="d-flex align-items-center">
-                                                <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user1">
-                                                <div class="d-flex flex-column">
-                                                    <h6 class="mb-0 text-sm">John Michael</h6>
-                                                    <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                                                01.01.2024 - 03.01.2024
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                            <div class="d-flex align-items-center">
-                                                <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user1">
-                                                <div class="d-flex flex-column">
-                                                    <h6 class="mb-0 text-sm">John Michael</h6>
-                                                    <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                                                01.01.2024 - 03.01.2024
-                                            </div>
-                                        </li>
-                                    </ul>
-
-                                    <h6 class="text-uppercase text-body text-md font-weight-bolder my-3">Esok</h6>
-                                    <ul class="list-group">
-                                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                            <div class="d-flex align-items-center">
-                                                <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user1">
-                                                <div class="d-flex flex-column">
-                                                    <h6 class="mb-0 text-sm">John Michael</h6>
-                                                    <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                                                01.01.2024 - 03.01.2024
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                            <div class="d-flex align-items-center">
-                                                <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user1">
-                                                <div class="d-flex flex-column">
-                                                    <h6 class="mb-0 text-sm">John Michael</h6>
-                                                    <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                                                01.01.2024 - 03.01.2024
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-                <!-- MC Approve Application Section -->
+             <!-- MC Approve Application Section -->
                 <div id="McApprove" class="content-section" style="display: none;">
                     <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
-                        <h4><b>SENARAI PERMOHONAN<b></h4>
+                        <h4><b>SENARAI PERMOHONAN</b></h4> <!-- Fixed the closing b tag -->
                     </nav>
 
                     <!-- Applications Table Section -->
@@ -228,96 +228,83 @@
                                         <!-- Applications Table -->
                                         <div class="card-body">
                                             <div style="overflow-x: auto; position: relative;">
-                                                <table class="table" style="table-layout: fixed; width: 100%;">
-                                                    <thead style="background-color: #f0f0f0;">
-                                                        <tr>
-                                                            <th style="width: 3%; position: sticky; left: 0; z-index: 1;  padding: 8px;">BIL</th>
-                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ID PENGGUNA</th>
-                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
-                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH AKHIR</th>
-                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
-                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN RUJUKAN</th>
-                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS PEKERJAAN</th>
-                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach($applications as $application)
+                                                @if($applications->isEmpty())
+                                                    <!-- Display a message when no applications exist -->
+                                                    <div class="alert alert-info" role="alert">
+                                                        Tiada permohonan daripada staf.
+                                                    </div>
+                                                @else
+                                                    <table class="table" style="table-layout: fixed; width: 100%;">
+                                                        <thead style="background-color: #f0f0f0;">
                                                             <tr>
-                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">{{ $application->id }}</p>
-                                                                </td>
-                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">{{ $application->user_id }}</p>
-                                                                </td>
-                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">{{ $application->start_date }}</p>
-                                                                </td>
-                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">{{ $application->end_date }}</p>
-                                                                </td>
-                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <button type="button" class="btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#reasonModal{{ $application->id }}">
-                                                                        <i class="fas fa-eye"></i> <!-- View icon -->
-                                                                    </button>
-
-                                                                    <!-- Modal for showing the reason -->
-                                                                    <div class="modal fade" id="reasonModal{{ $application->id }}" tabindex="-1" aria-labelledby="reasonModalLabel{{ $application->id }}" aria-hidden="true">
-                                                                        <div class="modal-dialog">
-                                                                            <div class="modal-content">
-                                                                                <div class="modal-header">
-                                                                                    <h5 class="modal-title" id="reasonModalLabel{{ $application->id }}">Reason for MC Application</h5>
-                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                                </div>
-                                                                                <div class="modal-body">
-                                                                                    {{ $application->reason }}
-                                                                                </div>
-                                                                                <div class="modal-footer">
-                                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    @if($application->document_path)
-                                                                        <a href="{{ Storage::url($application->document_path) }}" target="_blank" class="btn btn-link p-0">
-                                                                            <i class="fas fa-file-alt"></i> <!-- Document icon -->
-                                                                        </a>
-                                                                    @endif
-                                                                </td>
-                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    @if($application->admin_approved && $application->officer_approved)
-                                                                        <span class="badge bg-success">Approved</span>
-                                                                    @elseif($application->admin_approved)
-                                                                        <span class="badge bg-info">Direct Admin Approved</span>
-                                                                    @elseif($application->officer_approved)
-                                                                        <span class="badge bg-warning text-dark">Half Approved</span>
-                                                                    @elseif($application->status == 'pending')
-                                                                        <span class="badge bg-warning">Pending</span>
-                                                                    @else
-                                                                        <span class="badge bg-danger">Rejected</span>
-                                                                    @endif
-                                                                </td>
-                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <!-- Accept or Reject Buttons -->
-                                                                    <form action="" method="POST">
-                                                                        @csrf
-                                                                        <button type="submit" name="status" value="approved_by_officer" class="btn btn-success">
-                                                                            <i class="fas fa-check"></i> <!-- Right symbol -->
-                                                                        </button>
-                                                                        <button type="submit" name="status" value="rejected" class="btn btn-danger">
-                                                                            <i class="fas fa-times"></i> <!-- Wrong symbol -->
-                                                                        </button>
-                                                                    </form>
-                                                                </td>
+                                                                <th style="width: 5%; position: sticky; left: 0; z-index: 1; padding: 8px;">BIL</th>
+                                                                <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA PENGGUNA</th>
+                                                                <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
+                                                                <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH AKHIR</th>
+                                                                <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
+                                                                <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN RUJUKAN</th>
+                                                                <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS</th>
+                                                                <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
                                                             </tr>
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach($applications as $application)
+                                                                <tr>
+                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                        <p class="text-m text-secondary">{{ $application->id }}</p>
+                                                                    </td>
+                                                                    <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                        <p class="text-m text-secondary">{{ $application->user_name }}</p>
+                                                                    </td>
+                                                                    <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                        <p class="text-m text-secondary">{{ $application->start_date }}</p>
+                                                                    </td>
+                                                                    <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                        <p class="text-m text-secondary">{{ $application->end_date }}</p>
+                                                                    </td>
+                                                                    <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                        <p class="text-m text-secondary">{{ $application->reason }}</p>
+                                                                    </td>
+                                                                    <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                        @if($application->document_path)
+                                                                            <a href="{{ Storage::url($application->document_path) }}" target="_blank" class="btn btn-link p-0">
+                                                                                <i class="fas fa-file-alt"></i> <!-- Document icon -->
+                                                                            </a>
+                                                                        @endif
+                                                                    </td>
+                                                                    <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                        @if($application->admin_approved && $application->officer_approved)
+                                                                            <span class="badge bg-success">Diterima</span>
+                                                                        @elseif($application->admin_approved)
+                                                                            <span class="badge bg-info">Diterima</span>
+                                                                        @elseif($application->officer_approved)
+                                                                            <span class="badge bg-warning text-dark">Kebenaran Penyelia</span>
+                                                                        @elseif($application->status == 'pending')
+                                                                            <span class="badge bg-warning">Menunggu</span>
+                                                                        @else
+                                                                            <span class="badge bg-danger">Ditolak</span>
+                                                                        @endif
+                                                                    </td>
+                                                                    <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                        <!-- Accept or Reject Buttons -->
+                                                                        <form action="{{ route('officer.updateStatus',['id' => $application->id]) }}" method="POST">
+                                                                            @csrf
+                                                                            <button type="submit" name="status" value="approved_by_officer" class="btn btn-success">
+                                                                                <i class="fas fa-check"></i> <!-- Right symbol -->
+                                                                            </button>
+                                                                            <button type="submit" name="status" value="rejected" class="btn btn-danger">
+                                                                                <i class="fas fa-times"></i> <!-- Wrong symbol -->
+                                                                            </button>
+                                                                        </form>
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                @endif
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> <!-- Closed card div -->
                                 </div>
                             </div>
                         </div>
@@ -335,7 +322,6 @@
                         <div class="col-lg-12 mb-lg-0 mb-4">
                             <div class="container-fluid py-2">
                                 <div class="row">
-
                                     <div class="card">
                                         <div class="card-header pb-0 p-3">
                                             <div class="d-flex justify-content-between">
@@ -391,6 +377,12 @@
                                         <!-- List of MC Applications -->
                                         <div class="card-body">
                                             <div style="overflow-x: auto; position: relative;">
+                                            @if($mcApplications->isEmpty())
+                                                <!-- Display a message when no applications exist -->
+                                                <div class="alert alert-info" role="alert">
+                                                    Tiada permohonan daripada staf.
+                                                </div>
+                                            @else
                                                 <table class="table" style="table-layout: fixed; width: 100%;">
                                                     <thead style="background-color: #f0f0f0;">
                                                         <tr>
@@ -450,7 +442,7 @@
                                                                 </td>
                                                                 <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                     @if($mcApplication->admin_approved)
-                                                                        <span class="badge badge-md bg-gradient-success">Diluluskan</span>
+                                                                        <span class="badge badge-md bg-gradient-success">Diterima</span>
                                                                     @elseif($mcApplication->status == 'pending')
                                                                         <span class="badge badge-md bg-gradient-warning">Menunggu</span>
                                                                     @else
@@ -471,7 +463,7 @@
                                                                             <div class="modal-dialog modal-lg">
                                                                                 <div class="modal-content">
                                                                                     <div class="modal-header" style="background-color: #f0f0f0;">
-                                                                                        <h5 class="modal-title" id="editMcModalLabel{{ $mcApplication->id }}">Edit Permohonan MC</h5>
+                                                                                        <h5 class="modal-title" id="editMcModalLabel{{ $mcApplication->id }}">Kemaskini Permohonan MC</h5>
                                                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                                     </div>
                                                                                     <div class="modal-body">
@@ -520,6 +512,7 @@
                                                         @endforeach
                                                     </tbody>
                                                 </table>
+                                            @endif
                                             </div>
                                         </div>
 
@@ -628,7 +621,7 @@
 
                                         <!-- View Profile Section -->
                                         <div class="card-body">
-                                            
+
                                             <div class="card-body">
                                                 <!-- Profile Image -->
                                                  <div class="text-center">

@@ -14,9 +14,11 @@ class OfficerController extends Controller
 {
     public function index()
     {
-        // Fetch all pending MC applications
-        $applications = McApplication::where('status', 'pending')
-        ->where('direct_admin_approval', false)  // Only fetch those not yet approved
+        // Fetch all pending MC applications with user names
+        $applications = McApplication::where('mc_applications.status', 'pending')
+        ->where('mc_applications.direct_admin_approval', false) // Only fetch those not yet approved
+        ->join('users', 'mc_applications.user_id', '=', 'users.id') // Join with users table
+        ->select('mc_applications.*', 'users.name as user_name') // Select necessary fields
         ->get();
         // Fetch all MC applications for the logged-in user
         $mcApplications = McApplication::where('user_id', Auth::id())->get();
