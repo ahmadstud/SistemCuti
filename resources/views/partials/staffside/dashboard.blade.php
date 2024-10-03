@@ -2,7 +2,6 @@
  <div id="Dashboard" class="content-section" style="display: none;">
     <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
         <h4><b>DASHBOARD<b></h4>
-    </nav>
     <div class="row mt-4">
         <div class="col-lg-12 mb-lg-0 mb-4">
 

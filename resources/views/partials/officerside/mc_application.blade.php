@@ -37,6 +37,15 @@
                                         <label for="document_path" class="form-label">Dokumen MC</label>
                                         <input type="file" class="form-control" id="document_path" name="document_path" required>
                                     </div>
+
+                                    <div class="mb-3">
+                                        <label>Jenis Cuti:</label><br>
+                                        <input type="radio" id="sick_leave" name="leave_type" value="sick" required>
+                                        <label for="sick_leave">Cuti Sakit (MC)</label><br>
+                                        <input type="radio" id="annual_leave" name="leave_type" value="annual" required>
+                                        <label for="annual_leave">Cuti Tahunan</label>
+                                    </div>
+
                                     <div class="mb-3">
                                         <label for="reason" class="form-label">Sebab</label>
                                         <textarea class="form-control" id="reason" name="reason" rows="3" required></textarea>
@@ -117,12 +126,12 @@
                                             <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#editMcModal{{ $mcApplication->id }}">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <!-- Edit MC Application Modal -->
-                                            <div class="modal fade" id="editMcModal{{ $mcApplication->id }}" tabindex="-1" aria-labelledby="editMcModalLabel{{ $mcApplication->id }}" aria-hidden="true">
+                                             <!-- Edit MC Application Modal -->
+                                             <div class="modal fade" id="editMcModal{{ $mcApplication->id }}" tabindex="-1" aria-labelledby="editMcModalLabel{{ $mcApplication->id }}" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="editMcModalLabel{{ $mcApplication->id }}">Kemas kini Permohonan</h5>
+                                                            <h5 class="modal-title" id="editMcModalLabel{{ $mcApplication->id }}">Kemas Kini Permohonan</h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <form action="{{ route('officer.mc.edit', $mcApplication->id) }}" method="POST" enctype="multipart/form-data">
@@ -137,12 +146,30 @@
                                                                     <input type="date" class="form-control" id="end_date{{ $mcApplication->id }}" name="end_date" value="{{ $mcApplication->end_date }}" required>
                                                                 </div>
                                                                 <div class="mb-3">
-                                                                    <label for="document_path{{ $mcApplication->id }}" class="form-label">Dokumen MC (biarkan kosong jika tidak mengubah)</label>
+                                                                    <label for="document_path{{ $mcApplication->id }}" class="form-label">Dokumen (Biarkan kosong jika tiada perubahan)</label>
                                                                     <input type="file" class="form-control" id="document_path{{ $mcApplication->id }}" name="document_path">
                                                                 </div>
+
+                                                                <div class="mb-3">
+                                                                    <label>Jenis Cuti:</label><br>
+                                                                    <input type="radio" id="sick_leave" name="leave_type" value="sick" {{ $mcApplication->leave_type === 'sick' ? 'checked' : '' }} required>
+                                                                    <label for="sick_leave">Cuti Sakit (MC)</label><br>
+
+                                                                    <input type="radio" id="annual_leave" name="leave_type" value="annual" {{ $mcApplication->leave_type === 'annual' ? 'checked' : '' }} required>
+<label for="annual_leave">Cuti Tahunan</label>
+                                                                </div>
+
                                                                 <div class="mb-3">
                                                                     <label for="reason{{ $mcApplication->id }}" class="form-label">Sebab</label>
                                                                     <textarea class="form-control" id="reason{{ $mcApplication->id }}" name="reason" rows="3" required>{{ $mcApplication->reason }}</textarea>
+                                                                </div>
+
+                                                                <div class="mb-3">
+                                                                    <label>Permohonan terus ke admin?:</label><br>
+                                                                    <input type="radio" id="yes{{ $mcApplication->id }}" name="direct_admin_approval" value="1" {{ $mcApplication->direct_admin_approval ? 'checked' : '' }}>
+                                                                    <label for="yes{{ $mcApplication->id }}">Yes</label><br>
+                                                                    <input type="radio" id="no{{ $mcApplication->id }}" name="direct_admin_approval" value="0" {{ !$mcApplication->direct_admin_approval ? 'checked' : '' }}>
+                                                                    <label for="no{{ $mcApplication->id }}">No</label>
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">

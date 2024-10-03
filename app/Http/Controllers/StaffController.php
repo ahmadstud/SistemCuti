@@ -22,6 +22,7 @@ class StaffController extends Controller
             'end_date' => 'required|date|after_or_equal:start_date',
             'document_path' => 'required|mimes:pdf,jpg,png|max:2048',
             'reason' => 'required|string',
+            'leave_type' => 'required|in:sick,annual', // Validate leave type
             'direct_admin_approval' => 'nullable|boolean',
         ]);
 
@@ -49,6 +50,7 @@ class StaffController extends Controller
                 'status' => 'pending',
                 'direct_admin_approval' => $request->input('direct_admin_approval') == '1' ? true : false,
                 'officer_approved' => false,
+                'leave_type' => $validatedData['leave_type'],
             ]);
 
             return redirect()->back()->with('success', 'MC application submitted successfully!');

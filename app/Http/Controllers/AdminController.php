@@ -35,7 +35,7 @@ class AdminController extends Controller
             })
             ->get();
 
-                // Fetch MC applications approved by officers and still pending admin approval
+            // Fetch MC applications approved by officers and still pending admin approval
             $applications = McApplication::join('users', 'mc_applications.user_id', '=', 'users.id')
             ->select('mc_applications.*', 'users.name as user_name', 'users.role as user_role') // Get all fields from mc_applications and the user's name and role
             ->where('officer_approved', true)
@@ -50,6 +50,23 @@ class AdminController extends Controller
             ->where('status', 'pending')  // Only fetch those not yet approved
             ->get();
 
+            $unavailableStaff = McApplication::join('users', 'mc_applications.user_id', '=', 'users.id')
+            ->select('mc_applications.*', 'users.name as user_name', 'users.email as user_email', 'users.profile_image as user_pic')
+            ->where('mc_applications.status', 'approved')
+            ->where('mc_applications.start_date', '<=', now()->toDateString())
+            ->where('mc_applications.end_date', '>=', now()->toDateString())
+            ->get();
+
+            $tomorrow = now()->addDay()->toDateString();
+
+            $unavailableStaffTomorrow = McApplication::join('users', 'mc_applications.user_id', '=', 'users.id')
+                ->select('mc_applications.*', 'users.name as user_name', 'users.email as user_email', 'users.profile_image as user_pic')
+                ->where('mc_applications.status', 'approved')
+                ->where('mc_applications.start_date', '<=', $tomorrow)
+                ->where('mc_applications.end_date', '>=', $tomorrow)
+                ->get();
+
+
         $officers = User::where('role', 'Penyelia')->get();
         $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
         $totalMcApplications = McApplication::count();
@@ -60,7 +77,8 @@ class AdminController extends Controller
         $acceptedMcApplications = McApplication::where('status', 'approved')->count();
         $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
 
-        return view('admin', compact('allMcApplication','directAdminApplications', 'totalUsers', 'users', 'applications', 'totalMcApplications', 'acceptedMcApplications', 'rejectedMcApplications', 'announcements', 'officers'));
+        return view('admin', compact('allMcApplication','directAdminApplications', 'totalUsers', 'users', 'unavailableStaff', 'unavailableStaffTomorrow',
+        'applications', 'totalMcApplications', 'acceptedMcApplications', 'rejectedMcApplications', 'announcements', 'officers'));
     }
 
 

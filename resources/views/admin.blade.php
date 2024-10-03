@@ -51,7 +51,7 @@
                @include('partials.adminside.password')
             </div>
         </div>
-
+    </div>
     </div>
 </main>
 

@@ -19,12 +19,12 @@ class McApplication extends Model
         'officer_approved',
         'selected_officer_id',
         'direct_admin_approval',
+        'leave_type',
     ];
      // Define the relationship with User
      public function user()
      {
-         return $this->belongsTo(User::class);
-         return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
      }
 
 

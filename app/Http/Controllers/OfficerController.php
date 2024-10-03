@@ -86,7 +86,7 @@ class OfficerController extends Controller
             // Save the profile image path in the database
             $user->profile_image = 'storage/profile_image/' . $imageName;
         }
-        
+
         // Update password only if a new password is provided
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
@@ -108,6 +108,7 @@ class OfficerController extends Controller
             'end_date' => 'required|date|after_or_equal:start_date',
             'document_path' => 'required|mimes:pdf,jpg,png|max:2048',
             'reason' => 'required|string',
+            'leave_type' => 'required|in:sick,annual', // Validate leave type
         ]);
 
         // Calculate the number of days for the MC application
@@ -133,6 +134,7 @@ class OfficerController extends Controller
                 'document_path' => $documentPath,
                 'status' => 'pending',
                 'direct_admin_approval' => true, // Indicate that this application is directly for admin approval
+                'leave_type' => $validatedData['leave_type'],
 
             ]);
 
@@ -154,6 +156,7 @@ class OfficerController extends Controller
             'end_date' => 'required|date|after_or_equal:start_date',
             'document_path' => 'nullable|mimes:pdf,jpg,png|max:2048', // Make this optional
             'reason' => 'required|string',
+            'leave_type' => 'required|in:sick,annual', // Validate leave type
         ]);
 
         // Calculate the number of days for the MC application
@@ -171,6 +174,7 @@ class OfficerController extends Controller
         $mcApplication->start_date = $request->start_date;
         $mcApplication->end_date = $request->end_date;
         $mcApplication->reason = $request->reason;
+        $mcApplication->leave_type = $request->leave_type; // Corrected this line
 
         // Handle file upload if a new document is provided
         if ($request->hasFile('document_path')) {

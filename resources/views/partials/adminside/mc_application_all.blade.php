@@ -23,6 +23,7 @@
                                 <th class="text-center" width="10%">Tarikh Tamat</th>
                                 <th class="text-center" width="30%">Sebab-sebab</th>
                                 <th class="text-center" width="10%">Dokumen berkaitan</th>
+                                <th class="text-center" width="10%">Jenis Cuti</th>
                                 <th class="text-center" width="10%">Status</th>
                             </tr>
                         </thead>
@@ -44,13 +45,14 @@
                                             <span>Tiada Dokumen</span>
                                         @endif
                                     </td>
+                                    <td class="text-center">{{ $mcApplication->leave_type == 'sick' ? 'Cuti Sakit' : 'Cuti Tahunan' }}</td>
                                     <td class="text-center">
                                         @if($mcApplication->admin_approved && $mcApplication->officer_approved)
                                             <span class="badge bg-success">Diterima</span>
                                         @elseif($mcApplication->admin_approved)
-                                            <span class="badge bg-info">Diterima terus</span>
+                                            <span class="badge bg-info">Diterima</span>
                                         @elseif($mcApplication->officer_approved)
-                                            <span class="badge bg-info">Permohonan diterima</span>
+                                            <span class="badge bg-info">Kelulusan dalam proses</span>
                                         @elseif($mcApplication->status == 'pending')
                                             <span class="badge bg-warning text-dark">Dalam Proses</span>
                                         @else

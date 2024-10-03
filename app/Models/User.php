@@ -54,7 +54,7 @@ class User extends Authenticatable
     // Define the relationship with McApplication
     public function mcApplications()
     {
-        return $this->hasMany(McApplication::class);
+        return $this->hasMany(McApplication::class,'user_id', 'id');
     }
 
     public function officer()

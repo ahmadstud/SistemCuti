@@ -2,7 +2,6 @@
  <div id="Annouce" class="content-section" style="display: none;">
     <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
         <h4><b>PENGURUSAN<b></h4>
-    </nav>
 
     <div class="row mt-4">
         <div class="col-lg-12 mb-lg-0 mb-4">
@@ -19,30 +18,30 @@
                         </div>
                         <div class="card-body">
                             <div style="overflow-x: auto; position: relative;">
-                                <table class="table" style="table-layout: fixed; width: 100%;">
+                                <table class="table table-bordered" style="table-layout: fixed; width: 100%;">
                                     <thead>
                                         <tr>
-                                            <th style="width: 10%;">NO</th>
-                                            <th style="width: 30%;">TAJUK</th>
-                                            <th style="width: 30%;">ISI</th>
-                                            <th style="width: 30%;">TARIKH MULA</th>
-                                            <th style="width: 30%;">TARIKH TAMAT</th>
-                                            <th style="width: 30%;">GAMBAR</th>
-                                            <th style="width: 30%;">TINDAKAN</th>
+                                            <th class="text-center">NO</th>
+                                            <th class="text-center" >TAJUK</th>
+                                            <th class="text-center" >ISI</th>
+                                            <th class="text-center" >TARIKH MULA</th>
+                                            <th class="text-center" >TARIKH TAMAT</th>
+                                            <th class="text-center" >GAMBAR</th>
+                                            <th class="text-center" >TINDAKAN</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach($announcements as $announcement)
                                             <tr>
-                                                <td style="position: sticky; left: 0; background: white; z-index: 1;"><p class="text-m text-secondary">{{ $loop->iteration }}</p></td>
-                                                <td style="overflow-wrap: break-word; word-wrap: break-word; white-space: normal;"><p class="text-m text-secondary">{{ $announcement->title }}</p></td>
-                                                <td style="overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                <td class="text-center" style="position: sticky; left: 0; background: white; z-index: 1;"><p class="text-m text-secondary">{{ $loop->iteration }}</p></td>
+                                                <td class="text-center" style="overflow-wrap: break-word; word-wrap: break-word; white-space: normal;"><p class="text-m text-secondary">{{ $announcement->title }}</p></td>
+                                                <td class="text-center" style="overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                     <p class="text-m text-secondary">{{ $announcement->content }}</p>
                                                 </td>
-                                                <td style="overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                <td class="text-center" style="overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                     <p class="text-m text-secondary">{{ $announcement->start_date }}</p>
                                                 </td>
-                                                <td style="overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                <td class="text-center" style="overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                     <p class="text-m text-secondary">{{ $announcement->end_date }}</p>
                                                 </td>
                                                 <td class="text-center">

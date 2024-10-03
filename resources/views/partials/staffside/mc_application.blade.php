@@ -53,7 +53,13 @@
                                         </p>
                                     </div>
 
-
+                                    <div class="mb-3">
+                                        <label>Jenis Cuti:</label><br>
+                                        <input type="radio" id="sick_leave" name="leave_type" value="sick" required>
+                                        <label for="sick_leave">Cuti Sakit (MC)</label><br>
+                                        <input type="radio" id="annual_leave" name="leave_type" value="annual" required>
+                                        <label for="annual_leave">Cuti Tahunan</label>
+                                    </div>
 
                                     <div class="mb-3">
                                         <label>Permohonan terus ke Admin:</label><br>
@@ -82,6 +88,7 @@
                                 <th class="text-center" width="10%">Tarikh Tamat</th>
                                 <th class="text-center" width="10%">Sebab-sebab</th>
                                 <th class="text-center" width="10%">Dokumen berkaitan</th>
+                                <th class="text-center" width="10%">Jenis Cuti</th>
                                 <th class="text-center" width="10%">Status</th>
                                 <th class="text-center" width="10%">Tindakan</th>
                             </tr>
@@ -106,15 +113,16 @@
                                         @if($mcApplication->admin_approved && $mcApplication->officer_approved)
                                         <span class="badge bg-success">Diterima</span>
                                     @elseif($mcApplication->admin_approved)
-                                        <span class="badge bg-info">Diterima terus</span>
+                                        <span class="badge bg-info">Diterima</span>
                                     @elseif($mcApplication->officer_approved)
-                                        <span class="badge bg-info">Permohonan diterima</span>
+                                        <span class="badge bg-info">Kelulusan dalam proses</span>
                                     @elseif($mcApplication->status == 'pending')
                                         <span class="badge bg-warning text-dark">Dalam Proses</span>
                                     @else
                                         <span class="badge bg-danger">Ditolak</span>
                                     @endif
                                     </td>
+                                    <td class="text-center">{{ $mcApplication->leave_type == 'sick' ? 'Cuti Sakit' : 'Cuti Tahunan' }}</td>
                                     <td class="text-center">
                                         @if ($mcApplication->status === 'pending')
                                             <!-- Button to trigger modal -->
@@ -144,6 +152,18 @@
                                                                     <label for="document_path{{ $mcApplication->id }}" class="form-label">Dokumen (Biarkan kosong jika tiada perubahan)</label>
                                                                     <input type="file" class="form-control" id="document_path{{ $mcApplication->id }}" name="document_path">
                                                                 </div>
+
+                                                                <div class="mb-3">
+                                                                    <label>Jenis Cuti:</label><br>
+                                                                    <input type="radio" id="sick_leave" name="leave_type" value="sick"
+                                                                           {{ $mcApplication->leave_type === 'sick' ? 'checked' : '' }} required>
+                                                                    <label for="sick_leave">Cuti Sakit (MC)</label><br>
+
+                                                                    <input type="radio" id="annual_leave" name="leave_type" value="annual"
+                                                                           {{ $mcApplication->leave_type === 'annual' ? 'checked' : '' }} required>
+                                                                    <label for="annual_leave">Cuti Tahunan</label>
+                                                                </div>
+
                                                                 <div class="mb-3">
                                                                     <label for="reason{{ $mcApplication->id }}" class="form-label">Sebab</label>
                                                                     <textarea class="form-control" id="reason{{ $mcApplication->id }}" name="reason" rows="3" required>{{ $mcApplication->reason }}</textarea>

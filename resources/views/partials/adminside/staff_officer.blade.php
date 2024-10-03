@@ -11,9 +11,9 @@
                 <div class="card-body">
                     <!-- View Applications Section -->
                     <div id="viewApplications">
-                        <div class="table-responsive">
-                            <table class="table align-items-center" style="table-layout: auto;">
-                                <thead class="thead-light">
+                        <div style="overflow-x: auto; position: relative;">
+                            <table class="table" style="table-layout: fixed; width: 100%;">
+                                <thead style="background-color: #f0f0f0;">
                                     <tr>
                                         <th class="text-center">ID</th>
                                         <th class="text-center">Nama</th>
