@@ -202,29 +202,48 @@
                                         </div>
                                     </div>
 
+
+
                                     {{-- Card Senarai Staff Cuti Harian --}}
-                                    <div class="col-lg-5">
-                                        <div class="card h-100 mb-4">
-                                            <div class="card-header pb-0 px-3">
-                                                <div class="row">
-                                                    <div class="col-md-8">
-                                                        <h4 class="text-capitalize">SENARAI STAFF CUTI HARIAN</h4>
-                                                    </div>
-                                                    <div class="col-md-4 d-flex justify-content-end align-items-center">
-                                                        <i class="far fa-calendar-alt me-2"></i>
-                                                      
-                                                    </div>
-                                                </div>
+                                    <div class="col-lg-5 mb-lg-0 mb-4">
+                                        <div class="card z-index-2 h-100">
+                                            <div class="card-header pb-0 pt-3 bg-transparent">
+                                                <h4 class="text-capitalize">SENARAI STAFF CUTI HARIAN</h4>
+                                                <p class="text-sm mb-0">
+                                                    <i class="fa fa-arrow-up text-success"></i>
+                                                    <span class="font-weight-bold">pada </span>{{ now()->format('d F Y') }}
+                                                </p>
                                             </div>
-                                    
                                             <div class="card-body pt-4 p-3">
-                                                <h6 class="text-uppercase text-body text-md font-weight-bolder mb-3">Cuti pada <span id="selectedDateText">Hari ini</span></h6>
                                                 <ul class="list-group" id="leaveList">
-                                                    <!-- Dynamic list of staff on leave will be inserted here -->
+                                                    @if($staffOnLeaveToday->isEmpty())
+                                                        <li class="list-group-item">Tiada staff yang cuti hari ini.</li>
+                                                    @else
+                                                        @foreach($staffOnLeaveToday as $leave)
+                                                            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                                                <div class="d-flex align-items-center">
+                                                                    <!-- Icon button -->
+                                                                    <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                                                        <i class="fas fa-arrow-down"></i>
+                                                                    </button>
+                                                                    <div class="d-flex flex-column">
+                                                                        <!-- Staff name and leave dates -->
+                                                                        <h6 class="mb-1 text-dark text-md">{{ $leave->user->name }}</h6>
+                                                                        <span class="text-xs">Cuti sehingga {{ \Carbon\Carbon::parse($leave->end_date)->format('d F Y') }}</span>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- Optionally, you can add more info here, like leave days used, etc. -->
+                                                                <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
+                                                                    MC Days: {{ $leave->mc_days }} <!-- or any other detail you'd like to display -->
+                                                                </div>
+                                                            </li>
+                                                        @endforeach
+                                                    @endif
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
+
    
                                     
                                 </div>
@@ -1108,6 +1127,12 @@
                                                         <form action="{{ route('updateOwnDetails') }}"  method="POST" enctype="multipart/form-data">
                                                             @csrf
 
+                                                            <!-- Profile Image Upload -->
+                                                            <div class="mb-3">
+                                                                <label for="profile_image" class="form-label">Muat Naik Gambar Profil</label>
+                                                                <input type="file" class="form-control" id="profile_image" name="profile_image">
+                                                            </div>
+
                                                             <!-- Profile Information -->
                                                             <h5 class="mt-4">MAKLUMAT DIRI</h5>
                                                             <div class="row">
@@ -1207,6 +1232,17 @@
 
                                         <!-- View Profile Section -->
                                         <div class="card-body">
+
+                                            <div class="card-body">
+                                                <!-- Profile Image -->
+                                                <div class="text-center">
+                                                    @if(Auth::user()->profile_image)
+                                                        <img src="{{ asset('' . Auth::user()->profile_image) }}" alt="Profile Image" class="rounded-circle" width="150" height="150">
+                                                    @else
+                                                        <img src="{{ asset('storage/profile_image/default.jpg') }}" alt="Default Profile Image" class="rounded-circle" width="150" height="150">
+                                                    @endif
+                                                </div>
+                                            </div>
 
                                             <!-- Profile Information -->
                                             <h5 class="mt-4">MAKLUMAT DIRI</h5>

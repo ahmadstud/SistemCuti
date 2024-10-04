@@ -492,7 +492,7 @@
                                          <img src="{{ asset('storage/profile_image/default.jpg') }}" alt="Default Profile Image" class="rounded-circle" width="150" height="150">
                                      @endif
                                  </div>
-                             </div>
+                            </div>
 
                             <!-- Profile Information -->
                             <h5 class="mt-4">MAKLUMAT DIRI</h5>
