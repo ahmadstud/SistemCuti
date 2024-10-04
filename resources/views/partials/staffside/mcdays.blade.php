@@ -1,6 +1,6 @@
 
         <!-- First Card -->
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="col-xl-12 col-sm-6 mb-xl-0 mb-4">
             <div class="card" style="height: 200px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                 <div class="card-body p-5">
                     <div class="row">

@@ -29,6 +29,7 @@ class User extends Authenticatable
         'state',
        'total_mc_days',  // Ensure this is fillable
        'job_status',
+       'profile_image',
     ];
 
     /**
@@ -54,6 +55,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(McApplication::class);
     }
+    public function officer()
+{
+    return $this->belongsTo(User::class, 'selected_officer_id');
+}
 
 
 }

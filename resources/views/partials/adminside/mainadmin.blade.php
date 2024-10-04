@@ -4,12 +4,12 @@
         @include ('partials.adminside.mcdata')
 
         <div class="row mt-4">
-            <div class="col-lg-12 mb-lg-0 mb-4" > <!-- Adjust column to full width -->
+            <div class="col-lg-12 mb-lg-0 mb-4"> <!-- Adjust column to full width -->
 
                 <!-- Dashboard Section -->
                 <div id="Dashboard" class="content-section" style="display: none;">
                     <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
-                        <h4><b>DASHBOARD<b></h4>
+                        <h4><b>DASHBOARD</b></h4> <!-- Fixed closing tag -->
                     </nav>
                     <div class="row mt-4">
                         <div class="col-lg-12 mb-lg-0 mb-4">
@@ -189,16 +189,15 @@
                                         <div class="card z-index-2 h-100">
                                             <div class="card-header pb-0 pt-3 bg-transparent">
                                                 <h4 class="text-capitalize">PURATA KETIDAKHADIRAN</h4>
-                                            <p class="text-sm mb-0">
-                                                <i class="fa fa-arrow-up text-success"></i>
-                                                <span class="font-weight-bold">4% more</span> in 2021
-                                            </p>
+                                                <p class="text-sm mb-0">
+                                                    <i class="fa fa-arrow-up text-success"></i>
+                                                    <span class="font-weight-bold">4% more</span> in 2021
+                                                </p>
                                             </div>
                                             <div class="card-body p-3">
                                                 <div class="chart">
                                                     <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
@@ -233,9 +232,8 @@
 
                         </div>
                     </div>
+
                 </div>
-
-
 
                 <!-- Announcement Section -->
                 <div id="Annouce" class="content-section" style="display: none;">
@@ -446,8 +444,6 @@
                         </div>
                     </div>
                 </div>
-
-
 
                 <!-- Senarai Pengguna section -->
                 <div id="users-section" class="content-section" style="display: none;">
@@ -790,7 +786,6 @@
                     </div> <!-- Closing for row -->
                 </div>
 
-
                 <!-- Senarai All Admin Approval Section -->
                 <div id="all-approval-section" class="content-section" style="display: none;">
                     <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
@@ -878,8 +873,6 @@
                     </div>
                 </div>
 
-
-
                 <!-- Admin Approval Section -->
                 <div id="applications-section" class="content-section" style="display: none;">
                     <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
@@ -931,29 +924,7 @@
                                                                     <p class="text-m text-secondary">{{ $application->end_date }}</p>
                                                                 </td>
                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-
-                                                                    <!-- View button -->
-                                                                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#reasonModal{{ $application->id }}">
-                                                                        <i class="fas fa-eye"></i>
-                                                                    </button>
-
-                                                                    <!-- Modal for view the reason -->
-                                                                    <div class="modal fade" id="reasonModal{{ $application->id }}" tabindex="-1" aria-labelledby="reasonModalLabel{{ $application->id }}" aria-hidden="true">
-                                                                        <div class="modal-dialog">
-                                                                            <div class="modal-content">
-                                                                                <div class="modal-header">
-                                                                                    <h5 class="modal-title" id="reasonModalLabel{{ $application->id }}">Alasan Permohonan MC</h5>
-                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                                </div>
-                                                                                <div class="modal-body" style="word-wrap: break-word; white-space: normal;">
-                                                                                    {{ $application->reason }}
-                                                                                </div>
-                                                                                <div class="modal-footer">
-                                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                                                    <p class="text-m text-secondary">{{ $application->reason }}</p>
                                                                 </td>
                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                     @if($application->document_path)
@@ -986,8 +957,6 @@
                         </div>
                     </div>
                 </div>
-
-
 
                 <!-- Direct Admin Approval Section -->
                 <div id="admin-approval-section" class="content-section" style="display: none;">
@@ -1098,8 +1067,6 @@
                         </div>
                     </div>
                 </div>
-
-
 
                 <!-- Profile Section -->
                 <div id="Profile" class="content-section" style="display: none;">
@@ -1319,8 +1286,6 @@
                     </div>
                 </div>
 
-
-
                 <!-- Separate Change Password Section -->
                 <div id="ChangePassword" class="content-section" style="display: none;">
                     <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
@@ -1370,7 +1335,6 @@
 
             </div>
         </div>
-
     </div>
 </main>
 

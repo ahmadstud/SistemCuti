@@ -14,6 +14,7 @@
             </div>
         </div>
 
+        <!-- Third Card: Jumlah Permohonan diterima -->
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
             <div class="card h-100 d-flex align-items-center justify-content-center">
                 <div class="card-body p-5 text-center">
@@ -28,6 +29,7 @@
             </div>
         </div>
 
+        <!-- Fourth Card: Jumlah Permohonan ditolak -->
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
             <div class="card h-100 d-flex align-items-center justify-content-center">
                 <div class="card-body p-5 text-center">
@@ -55,5 +57,7 @@
                 </div>
             </div>
         </div>
+
+
     </div>
 </div>

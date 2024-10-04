@@ -25,12 +25,8 @@ return new class extends Migration
             $table->string('postcode')->nullable(); // Add postcode column
             $table->string('state')->nullable(); // Add state column
             $table->string('job_status')->nullable(); // Add job status column
-            $table->unsignedBigInteger('supervisor_id')->nullable(); // Add supervisor_id column (nullable, foreign key if needed)
             $table->rememberToken();
             $table->timestamps();
-
-            // Foreign key constraint for supervisor_id (optional, if supervisor references another user)
-            $table->foreign('supervisor_id')->references('id')->on('users')->onDelete('set null');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

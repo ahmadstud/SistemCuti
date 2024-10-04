@@ -14,9 +14,11 @@ class OfficerController extends Controller
 {
     public function index()
     {
-        // Fetch all pending MC applications
-        $applications = McApplication::where('status', 'pending')
-        ->where('direct_admin_approval', false)  // Only fetch those not yet approved
+        // Fetch all pending MC applications with user names
+        $applications = McApplication::where('mc_applications.status', 'pending')
+        ->where('mc_applications.direct_admin_approval', false) // Only fetch those not yet approved
+        ->join('users', 'mc_applications.user_id', '=', 'users.id') // Join with users table
+        ->select('mc_applications.*', 'users.name as user_name') // Select necessary fields
         ->get();
         // Fetch all MC applications for the logged-in user
         $mcApplications = McApplication::where('user_id', Auth::id())->get();
@@ -26,7 +28,7 @@ class OfficerController extends Controller
         return view('officer', compact('applications','announcements','mcApplications'));
     }
 
-    
+
     public function updateStatus(Request $request, $id)
     {
         $application = McApplication::findOrFail($id);
@@ -59,6 +61,7 @@ class OfficerController extends Controller
             'city' => 'nullable|string|max:255',
             'postcode' => 'nullable|string|max:10',
             'state' => 'nullable|string|max:255',
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation for profile image
         ]);
 
         // Update user details
@@ -71,6 +74,15 @@ class OfficerController extends Controller
         $user->state = $request->state;
         $user->city = $request->city;
 
+        // Handle profile image upload
+        if ($request->hasFile('profile_image')) {
+            $image = $request->file('profile_image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('storage/profile_image'), $imageName);
+
+            // Save the profile image path in the database
+            $user->profile_image = 'storage/profile_image/' . $imageName;
+        }
         // Update password only if a new password is provided
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);

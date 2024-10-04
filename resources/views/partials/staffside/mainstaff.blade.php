@@ -1,6 +1,6 @@
 <main class="main-content position-relative border-radius-lg">
     <div class="container-fluid py-4">
-        @include('partials.logout')
+    @include('partials.logout')
     @include('partials.staffside.mcdays')
     <div class="row mt-4">
         <div class="col-lg-12 mb-lg-0 mb-4" > <!-- Adjust column to full width -->
@@ -8,14 +8,13 @@
     <!-- MC Apply Application Section -->
 <div id="McApply" class="content-section" style="display: none;">
     <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
-        <h4><b>PERMOHONAN CUTI<b></h4>
+        <h4><b>PERMOHONAN CUTI</b></h4>
     </nav>
     <!-- MC Applications Table Section -->
     <div class="row mt-4">
         <div class="col-lg-12 mb-lg-0 mb-4">
             <div class="container-fluid py-2">
                 <div class="row">
-
                     <div class="card">
                         <div class="card-header pb-0 p-3">
                             <div class="d-flex justify-content-between">
@@ -37,7 +36,7 @@
                                     </div>
 
                                     <div class="modal-body">
-                                        <form action="{{ route('officer.mcApplication.store') }}" method="POST" enctype="multipart/form-data">
+                                        <form action="{{ route('staff.mc.submit') }}" method="POST" enctype="multipart/form-data">
                                             @csrf
 
                                             <div class="row g-3">
@@ -71,100 +70,113 @@
                         <!-- List of MC Applications -->
                         <div class="card-body">
                             <div style="overflow-x: auto; position: relative;">
-                                <table class="table" style="table-layout: fixed; width: 100%;">
-                                    <thead style="background-color: #f0f0f0;">
-                                        <tr>
-                                            <th style="width: 3%; position: sticky; left: 0; z-index: 1; padding: 8px;">BIL</th>
-                                            <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
-                                            <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH TAMAT</th>
-                                            <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
-                                            <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN</th>
-                                            <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS</th>
-                                            <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($mcApplications as $index => $mcApplication)
+                                @if($mcApplications->isEmpty())
+                                    <!-- Display a message when no MC applications exist -->
+                                    <div class="alert alert-info" role="alert">
+                                        Tiada permohonan yang dibuat.
+                                    </div>
+                                @else
+                                    <table class="table" style="table-layout: fixed; width: 100%;">
+                                        <thead style="background-color: #f0f0f0;">
                                             <tr>
-                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                    <p class="text-m text-secondary">{{ $index + 1 }}</p>
-                                                </td>
-                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                    <p class="text-m text-secondary">{{ $mcApplication->start_date }}</p>
-                                                </td>
-                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                    <p class="text-m text-secondary">{{ $mcApplication->end_date }}</p>
-                                                </td>
-                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                    <p class="text-m text-secondary">{{ $mcApplication->reason }}</p>
-                                                </td>
-                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                    @if($mcApplication->document_path)
-                                                        <a href="{{ Storage::url($mcApplication->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</a>
-                                                    @else
-                                                        <span>Tidak Ada Dokumen</span>
-                                                    @endif
-                                                </td>
-                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                    @if($mcApplication->admin_approved)
-                                                        <span class="badge badge-md bg-gradient-success">Diluluskan</span>
-                                                    @elseif($mcApplication->status == 'pending')
-                                                        <span class="badge badge-md bg-gradient-warning">Menunggu</span>
-                                                    @else
-                                                        <span class="badge badge-md bg-gradient-danger">Ditolak</span>
-                                                    @endif
-                                                </td>
-                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                    @if ($mcApplication->status === 'pending')
-                                                        <!-- Edit button -->
-                                                        <button class="btn btn-md btn-primary" data-bs-toggle="modal" data-bs-target="#editMcModal{{ $mcApplication->id }}">
-                                                            <i class="fas fa-pencil-alt"></i>
-                                                        </button>
-
-                                                        <!-- Edit MC Application Modal -->
-                                                        <div class="modal fade" id="editMcModal{{ $mcApplication->id }}" tabindex="-1" aria-labelledby="editMcModalLabel{{ $mcApplication->id }}" aria-hidden="true">
-                                                            <div class="modal-dialog modal-lg">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header" style="background-color: #f0f0f0;">
-                                                                        <h5 class="modal-title" id="editMcModalLabel{{ $mcApplication->id }}">Edit Permohonan MC</h5>
-                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <form action="{{ route('staff.mc.edit', $mcApplication->id) }}" method="POST" enctype="multipart/form-data">
-                                                                            @csrf
-                                                                            <div class="row g-3">
-                                                                                <div class="col-md-6 mb-3">
-                                                                                    <label for="start_date{{ $mcApplication->id }}" class="form-label">Tarikh Mula</label>
-                                                                                    <input type="date" class="form-control" id="start_date{{ $mcApplication->id }}" name="start_date" value="{{ $mcApplication->start_date }}" required>
+                                                <th style="width: 3%; position: sticky; left: 0; z-index: 1; padding: 8px;">BIL</th>
+                                                <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
+                                                <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH TAMAT</th>
+                                                <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
+                                                <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN</th>
+                                                <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS</th>
+                                                <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($mcApplications as $index => $mcApplication)
+                                                <tr>
+                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                        <p class="text-m text-secondary">{{ $index + 1 }}</p>
+                                                    </td>
+                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                        <p class="text-m text-secondary">{{ $mcApplication->start_date }}</p>
+                                                    </td>
+                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                        <p class="text-m text-secondary">{{ $mcApplication->end_date }}</p>
+                                                    </td>
+                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                        <p class="text-m text-secondary">{{ $mcApplication->reason }}</p>
+                                                    </td>
+                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                        @if($mcApplication->document_path)
+                                                            <a href="{{ Storage::url($mcApplication->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</a>
+                                                        @else
+                                                            <span>Tidak Ada Dokumen</span>
+                                                        @endif
+                                                    </td>
+                                                    <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                        @if($mcApplication->admin_approved && $mcApplication->officer_approved)
+                                                            <span class="badge badge-md bg-gradient-success">Diterima</span>
+                                                        @elseif($mcApplication->admin_approved)
+                                                            <span class="badge badge-md bg-gradient-success">Diterima</span>
+                                                        @elseif($mcApplication->officer_approved)
+                                                            <span class="badge badge-md bg-gradient-warning" style="break-word; word-wrap: break-word; white-space: normal;">Kelulusan dalam proses</span>
+                                                        @elseif($mcApplication->status == 'pending')
+                                                            <span class="badge badge-md bg-gradient-warning">Dalam Proses</span>
+                                                        @else
+                                                            <span class="badge badge-md bg-gradient-danger">Ditolak</span>
+                                                        @endif
+                                                    </td>
+                                                    <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                        @if ($mcApplication->status === 'pending')
+                                                            <!-- Edit button -->
+                                                            <button class="btn btn-md btn-primary" data-bs-toggle="modal" data-bs-target="#editMcModal{{ $mcApplication->id }}">
+                                                                <i class="fas fa-pencil-alt"></i>
+                                                            </button>
+                                                            <!-- Edit MC Application Modal -->
+                                                            <div class="modal fade" id="editMcModal{{ $mcApplication->id }}" tabindex="-1" aria-labelledby="editMcModalLabel{{ $mcApplication->id }}" aria-hidden="true">
+                                                                <div class="modal-dialog modal-lg">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header" style="background-color: #f0f0f0;">
+                                                                            <h5 class="modal-title" id="editMcModalLabel{{ $mcApplication->id }}">Edit Permohonan MC</h5>
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <form action="{{ route('staff.mc.edit', $mcApplication->id) }}" method="POST" enctype="multipart/form-data">
+                                                                                @csrf
+                                                                                @method('PUT')
+                                                                                <div class="row g-3">
+                                                                                    <div class="col-md-6 mb-3">
+                                                                                        <label for="start_date" class="form-label">Tarikh Mula<span class="text-danger">*</span></label>
+                                                                                        <input type="date" class="form-control" id="start_date" name="start_date" value="{{ $mcApplication->start_date }}" required>
+                                                                                    </div>
+                                                                                    <div class="col-md-6 mb-3">
+                                                                                        <label for="end_date" class="form-label">Tarikh Tamat<span class="text-danger">*</span></label>
+                                                                                        <input type="date" class="form-control" id="end_date" name="end_date" value="{{ $mcApplication->end_date }}" required>
+                                                                                    </div>
                                                                                 </div>
-                                                                                <div class="col-md-6 mb-3">
-                                                                                    <label for="end_date{{ $mcApplication->id }}" class="form-label">Tarikh Tamat</label>
-                                                                                    <input type="date" class="form-control" id="end_date{{ $mcApplication->id }}" name="end_date" value="{{ $mcApplication->end_date }}" required>
+                                                                                <div class="col-md-12 mb-3">
+                                                                                    <label for="document_path" class="form-label">Dokumen MC</label>
+                                                                                    <input type="file" class="form-control" id="document_path" name="document_path">
+                                                                                    <small class="text-muted">Jika tiada dokumen baru, sila biarkan kosong.</small>
                                                                                 </div>
-                                                                            </div>
-                                                                            <div class="col-md-12 mb-3">
-                                                                                <label for="document_path{{ $mcApplication->id }}" class="form-label">Dokumen MC</label>
-                                                                                <input type="file" class="form-control" id="document_path{{ $mcApplication->id }}" name="document_path">
-                                                                                <p class="text-secondary">* Kosongkan jika tidak ingin menukar dokumen.</p>
-                                                                            </div>
-                                                                            <div class="col-md-12 mb-3">
-                                                                                <label for="reason{{ $mcApplication->id }}" class="form-label">Ulasan</label>
-                                                                                <textarea class="form-control" id="reason{{ $mcApplication->id }}" name="reason" rows="3" required>{{ $mcApplication->reason }}</textarea>
-                                                                            </div>
-                                                                            <div class="modal-footer">
-                                                                                <button type="submit" class="btn btn-success">Simpan</button>
-                                                                            </div>
-                                                                        </form>
+                                                                                <div class="col-md-12 mb-3">
+                                                                                    <label for="reason" class="form-label">Ulasan<span class="text-danger">*</span></label>
+                                                                                    <textarea class="form-control" id="reason" name="reason" rows="3" required>{{ $mcApplication->reason }}</textarea>
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="submit" class="btn btn-success">Kemaskini</button>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                                        @else
+                                                            N/A
+                                                        @endif
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -175,55 +187,205 @@
 </div>
 
 
-  <!-- Dashboard Section -->
-<div id="Dashboard" class="content-section" style="display: none;">
-    <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
-        <h4><b>DASHBOARD<b></h4>
-    </nav>
+    <!-- Dashboard Section -->
+    <div id="Dashboard" class="content-section" style="display: none;">
+        <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
+            <h4><b>DASHBOARD</b></h4> <!-- Fixed closing tag -->
+        </nav>
+        <div class="row mt-4">
+            <div class="col-lg-12 mb-lg-0 mb-4">
 
-    <div class="row mt-4">
-        <div class="col-lg-12 mb-lg-0 mb-4">
-            <div class="card z-index-2 h-100">
-                <div class="card-header pb-0 p-3">
-                    <div class="d-flex justify-content-between">
-                        <h6 class="mb-2">Dashboard</h6>
+                {{-- First Row --}}
+                <div class="container-fluid py-2">
+                    <div class="row">
+
+                        {{-- Card Pengumuman --}}
+                        <div class="col-lg-12 mb-lg-0 mb-4">
+                            <div class="card z-index-2 h-100">
+                                <div class="card-header pb-0 pt-3 bg-transparent">
+                                    <h4 class="text-capitalize">PENGUMUMAN</h4>
+                                    <p class="text-sm mb-0">
+                                        <span class="font-weight-bold">Latest update on (timestamp)</span>
+                                    </p>
+                                </div>
+
+                                <div class="card-body p-3">
+                                    <!-- Announcement Carousel -->
+                                    <div id="announcementCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
+                                        <div class="carousel-inner">
+                                            @foreach($announcements as $index => $announcement)
+                                                <div class="carousel-item {{ $index === 0 ? 'active' : '' }}"
+                                                    data-title="{{ $announcement->title }}"
+                                                    data-content="{{ $announcement->content }}"
+                                                    data-start-date="{{ $announcement->start_date }}"
+                                                    data-end-date="{{ $announcement->end_date }}">
+                                                    <div style="width: 100%; height: 0; padding-bottom: 40%; position: relative;">
+                                                        <img src="{{ asset(Storage::url($announcement->image_path)) }}"
+                                                            alt="{{ $announcement->title }}"
+                                                            style="position: absolute; top: 50%; left: 50%; width: 100%; height: auto; transform: translate(-50%, -50%); object-fit: cover;">
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+
+                                        <!-- Title and Content Section -->
+                                        <div class="text-center mt-3">
+                                            @if($announcements->count() > 0) <!-- Check if announcements exist -->
+                                                <h2 id="announcementTitle" style="text-transform: uppercase;">{{ $announcements[0]->title }}</h2>
+                                                <p id="announcementContent">{{ $announcements[0]->content }}</p>
+                                                <p id="announcementDates">
+                                                    Tarikh Buka: <strong id="startDate">{{ $announcements[0]->start_date }}</strong><br>
+                                                    Tarikh Tutup: <strong id="endDate">{{ $announcements[0]->end_date }}</strong>
+                                                </p>
+                                            @else
+                                                <h2>No Announcements</h2>
+                                                <p>No announcements available at this time.</p>
+                                            @endif
+                                        </div>
+
+                                        <button class="carousel-control-prev" type="button" data-bs-target="#announcementCarousel" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button" data-bs-target="#announcementCarousel" data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Next</span>
+                                        </button>
+                                    </div>
+
+                                    <script>
+                                        document.addEventListener('DOMContentLoaded', function() {
+                                            const carouselElement = document.getElementById('announcementCarousel');
+
+                                            carouselElement.addEventListener('slide.bs.carousel', function(event) {
+                                                // Get the new active item
+                                                const nextItem = event.relatedTarget;
+
+                                                // Get data attributes
+                                                const title = nextItem.getAttribute('data-title');
+                                                const content = nextItem.getAttribute('data-content');
+                                                const startDate = nextItem.getAttribute('data-start-date');
+                                                const endDate = nextItem.getAttribute('data-end-date');
+
+                                                // Update the content
+                                                document.getElementById('announcementTitle').textContent = title;
+                                                document.getElementById('announcementContent').textContent = content;
+                                                document.getElementById('startDate').textContent = startDate;
+                                                document.getElementById('endDate').textContent = endDate;
+                                            });
+                                        });
+                                    </script>
+
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-                <div class="card-body">
-                    <p>Welcome to the Dashboard</p>
-                    <!-- Announcement Carousel -->
-                    <div id="announcementCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
-                        <div class="carousel-inner">
-                            @foreach($announcements as $index => $announcement)
-                                <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                                    <div style="width: 100%; height: 0; padding-bottom: 40%; position: relative;">
-                                        <img src="{{ asset(Storage::url($announcement->image_path)) }}"
-                                             alt="{{ $announcement->title }}"
-                                             style="position: absolute; top: 50%; left: 50%; width: 100%; height: auto; transform: translate(-50%, -50%); object-fit: cover;">
-                                    </div>
-                                    <div class="carousel-caption d-none d-md-block">
-                                        <h5>{{ $announcement->title }}</h5>
-                                        <p>{{ $announcement->content }}</p>
+
+                {{-- Second Row --}}
+                <div class="container-fluid py-2">
+                    <div class="row ">
+
+                        {{-- Card Purata Ketidakhadiran --}}
+                        <div class="col-lg-7 mb-lg-0 mb-4">
+                            <div class="card z-index-2 h-100">
+                                <div class="card-header pb-0 pt-3 bg-transparent">
+                                    <h4 class="text-capitalize">PURATA KETIDAKHADIRAN</h4>
+                                    <p class="text-sm mb-0">
+                                        <i class="fa fa-arrow-up text-success"></i>
+                                        <span class="font-weight-bold">4% more</span> in 2021
+                                    </p>
+                                </div>
+                                <div class="card-body p-3">
+                                    <div class="chart">
+                                        <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
                                     </div>
                                 </div>
-                            @endforeach
+                            </div>
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#announcementCarousel" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#announcementCarousel" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
+
+                        {{-- Card Senarai Staff Cuti Harian --}}
+                        <div class="col-lg-5">
+                            <div class="card h-100 mb-4">
+                                <div class="card-header pb-0 px-3">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <h4 class="text-capitalize">SENARAI STAFF CUTI HARIAN</h4>
+                                        </div>
+                                        <div class="col-md-4 d-flex justify-content-end align-items-center">
+                                            <i class="far fa-calendar-alt me-2"></i>
+                                            <small>September</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-body pt-4 p-3">
+                                    <h6 class="text-uppercase text-body text-md font-weight-bolder mb-3">Hari ini</h6>
+                                    <ul class="list-group">
+                                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                            <div class="d-flex align-items-center">
+                                                <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user1">
+                                                <div class="d-flex flex-column">
+                                                    <h6 class="mb-0 text-sm">John Michael</h6>
+                                                    <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
+                                                01.01.2024 - 03.01.2024
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                            <div class="d-flex align-items-center">
+                                                <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user1">
+                                                <div class="d-flex flex-column">
+                                                    <h6 class="mb-0 text-sm">John Michael</h6>
+                                                    <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
+                                                01.01.2024 - 03.01.2024
+                                            </div>
+                                        </li>
+                                    </ul>
+
+                                    <h6 class="text-uppercase text-body text-md font-weight-bolder my-3">Esok</h6>
+                                    <ul class="list-group">
+                                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                            <div class="d-flex align-items-center">
+                                                <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user1">
+                                                <div class="d-flex flex-column">
+                                                    <h6 class="mb-0 text-sm">John Michael</h6>
+                                                    <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
+                                                01.01.2024 - 03.01.2024
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                            <div class="d-flex align-items-center">
+                                                <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user1">
+                                                <div class="d-flex flex-column">
+                                                    <h6 class="mb-0 text-sm">John Michael</h6>
+                                                    <p class="text-xs text-secondary mb-0">john@creative-tim.com</p>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
+                                                01.01.2024 - 03.01.2024
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
-                    <!-- Add more dashboard content here -->
                 </div>
+
             </div>
         </div>
     </div>
-</div>
-
 
 
   <!-- Profile Section -->
@@ -258,7 +420,11 @@
                                     <div class="modal-body">
                                         <form action="{{ route('updateOwnDetails2') }}" method="POST" enctype="multipart/form-data">
                                             @csrf
-
+                                            <!-- Profile Image Upload -->
+                                        <div class="mb-3">
+                                            <label for="profile_image" class="form-label">Muat Naik Gambar Profil</label>
+                                            <input type="file" class="form-control" id="profile_image" name="profile_image">
+                                        </div>
                                             <!-- Profile Information -->
                                             <h5 class="mt-4">MAKLUMAT DIRI</h5>
                                             <div class="row">
@@ -316,6 +482,18 @@
 
                         <!-- View Profile Section -->
                         <div class="card-body">
+
+                            <div class="card-body">
+                                <!-- Profile Image -->
+                                 <div class="text-center">
+                                     @if(Auth::user()->profile_image)
+                                         <img src="{{ asset('' . Auth::user()->profile_image) }}" alt="Profile Image" class="rounded-circle" width="150" height="150">
+                                     @else
+                                         <img src="{{ asset('storage/profile_image/default.jpg') }}" alt="Default Profile Image" class="rounded-circle" width="150" height="150">
+                                     @endif
+                                 </div>
+                             </div>
+
                             <!-- Profile Information -->
                             <h5 class="mt-4">MAKLUMAT DIRI</h5>
                             <div class="row">
@@ -370,6 +548,14 @@
                                     <p class="form-control" id="role">{{ Auth::user()->role }}</p>
                                 </div>
 
+
+                                <div class="col-md-4">
+                                    <label for="assigned_officer" class="form-label">KETUA BAHAGIAN</label>
+                                    <p class="form-control" id="assigned_officer">
+                                        {{ Auth::user()->officer ? Auth::user()->officer->name : 'Tiada Penyelia' }}
+                                    </p>
+                                </div>
+
                                 <div class="col-md-4">
                                     <label for="job_status" class="form-label">STATUS PEKERJAAN</label>
                                     <p class="form-control" id="job_status">{{ Auth::user()->job_status }}</p>
@@ -393,8 +579,6 @@
         </div>
     </div>
 </div>
-
-
 
 <!-- Separate Change Password Section -->
 <div id="ChangePassword" class="content-section" style="display: none;">
@@ -442,11 +626,8 @@
     </div>
 </div>
 
-
-</div>
-</div>
 </div>
 </div>
 </div>
 
-  </main> <!-- Closing main-content -->
+</main> <!-- Closing main-content -->
