@@ -23,7 +23,6 @@ class StaffController extends Controller
             'end_date' => 'required|date|after_or_equal:start_date',
             'document_path' => 'required|mimes:pdf,jpg,png|max:2048',
             'reason' => 'required|string',
-            'selected_officer_id' => 'nullable|exists:users,id',
             'direct_admin_approval' => 'nullable|boolean',
         ]);
 
@@ -51,7 +50,6 @@ class StaffController extends Controller
                 'status' => 'pending',
                 'direct_admin_approval' => $request->input('direct_admin_approval') == '1' ? true : false,
                 'officer_approved' => false,
-                'selected_officer_id' => $request->selected_officer_id ?: null,
             ]);
 
             return redirect()->back()->with('success', 'MC application submitted successfully!');
@@ -68,7 +66,19 @@ class StaffController extends Controller
         $mcApplications = McApplication::where('user_id', Auth::id())->get();
         $officers = User::where('role', 'Penyelia')->get(); // Fetch officers
         $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
-        return view('staff', compact('mcApplications', 'officers','announcements'));
+        // Get today's date
+        $today = now()->toDateString();
+        // Get the list of staff on MC today
+        $staffOnLeaveToday = McApplication::with('user')
+            ->where('start_date', '<=', $today)
+            ->where('end_date', '>=', $today)
+            ->where('status', 'approved') // Assuming you have a status column to check for approval
+            ->get();
+
+         // Fetch total users excluding admins
+         $totalUsers = User::all();
+
+        return view('staff', compact('mcApplications', 'officers','announcements','staffOnLeaveToday','totalUsers'));
     }
 
 
@@ -110,7 +120,7 @@ class StaffController extends Controller
             // Save the profile image path in the database
             $user->profile_image = 'storage/profile_image/' . $imageName;
         }
-        
+
         // Update password only if a new password is provided
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);

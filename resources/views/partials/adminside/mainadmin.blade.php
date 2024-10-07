@@ -907,7 +907,7 @@
                 </div>
 
                 <!-- Admin Approval Section -->
-                <div id="applications-section" class="content-section" style="display: none;">
+                <div id="applications-section" class="content-section" style="display: none;">  
                     <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
                         <h4><b>KELULUSAN ADMIN UNTUK PERMOHONAN STAF<b></h4>
                     </nav>

@@ -14,18 +14,34 @@ class OfficerController extends Controller
 {
     public function index()
     {
-        // Fetch all pending MC applications with user names
-        $applications = McApplication::where('mc_applications.status', 'pending')
-        ->where('mc_applications.direct_admin_approval', false) // Only fetch those not yet approved
-        ->join('users', 'mc_applications.user_id', '=', 'users.id') // Join with users table
-        ->select('mc_applications.*', 'users.name as user_name') // Select necessary fields
-        ->get();
+            // Get the currently authenticated officer
+            $officer = Auth::user();
+
+            // Fetch all pending MC applications with user names, filtered by selected officer and direct admin approval status
+            $applications = McApplication::where('mc_applications.status', 'pending')
+            ->where('mc_applications.direct_admin_approval', false) // Only fetch those not yet approved by admin
+            ->whereHas('user', function ($query) use ($officer) {
+                // Filter where the selected officer for the staff is the logged-in officer
+                $query->where('selected_officer_id', $officer->id);
+            })
+            ->join('users', 'mc_applications.user_id', '=', 'users.id') // Join with users table
+            ->select('mc_applications.*', 'users.name as user_name') // Select necessary fields
+            ->get();
+
+            $today = now()->toDateString();
+            // Get the list of staff on MC today
+            $staffOnLeaveToday = McApplication::with('user')
+                ->where('start_date', '<=', $today)
+                ->where('end_date', '>=', $today)
+                ->where('status', 'approved') // Assuming you have a status column to check for approval
+                ->get();
+
         // Fetch all MC applications for the logged-in user
         $mcApplications = McApplication::where('user_id', Auth::id())->get();
         $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
 
         // Pass the applications data to the view
-        return view('officer', compact('applications','announcements','mcApplications'));
+        return view('officer', compact('applications','announcements','mcApplications','staffOnLeaveToday'));
     }
 
 
