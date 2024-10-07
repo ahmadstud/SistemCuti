@@ -58,6 +58,14 @@
                                                 <textarea class="form-control" id="reason" name="reason" rows="3" required></textarea>
                                             </div>
 
+                                            <div class="col-md-12 mb-3">
+                                                <label>Permohonan terus ke Admin:</label><br>
+                                                <input type="radio" id="yes" name="direct_admin_approval" value="1">
+                                                <label for="yes">Ya</label><br>
+                                                <input type="radio" id="no" name="direct_admin_approval" value="0" checked>
+                                                <label for="no">Tidak</label>
+                                            </div>
+
                                             <div class="modal-footer">
                                                 <button type="submit" class="btn btn-success">Simpan</button>
                                             </div>
@@ -140,7 +148,6 @@
                                                                         <div class="modal-body">
                                                                             <form action="{{ route('staff.mc.edit', $mcApplication->id) }}" method="POST" enctype="multipart/form-data">
                                                                                 @csrf
-                                                                                @method('PUT')
                                                                                 <div class="row g-3">
                                                                                     <div class="col-md-6 mb-3">
                                                                                         <label for="start_date" class="form-label">Tarikh Mula<span class="text-danger">*</span></label>
@@ -160,6 +167,15 @@
                                                                                     <label for="reason" class="form-label">Ulasan<span class="text-danger">*</span></label>
                                                                                     <textarea class="form-control" id="reason" name="reason" rows="3" required>{{ $mcApplication->reason }}</textarea>
                                                                                 </div>
+
+                                                                                <div class="mb-3">
+                                                                                    <label>Permohonan terus ke admin?:</label><br>
+                                                                                    <input type="radio" id="yes{{ $mcApplication->id }}" name="direct_admin_approval" value="1" {{ $mcApplication->direct_admin_approval ? 'checked' : '' }}>
+                                                                                    <label for="yes{{ $mcApplication->id }}">Ya</label><br>
+                                                                                    <input type="radio" id="no{{ $mcApplication->id }}" name="direct_admin_approval" value="0" {{ !$mcApplication->direct_admin_approval ? 'checked' : '' }}>
+                                                                                    <label for="no{{ $mcApplication->id }}">Tidak</label>
+                                                                                </div>
+
                                                                                 <div class="modal-footer">
                                                                                     <button type="submit" class="btn btn-success">Kemaskini</button>
                                                                                 </div>
@@ -168,6 +184,14 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <!-- Delete button -->
+                                                            <form action="{{ route('staff.deleteMC',$mcApplication->id) }}" method="POST" style="display:inline;">
+                                                                @csrf
+                                                                @method('DELETE') <!-- Include this line to specify that the method is DELETE -->
+                                                                <button type="submit" class="btn btn-md btn-danger" onclick="return confirm('Adakah anda pasti ingin menghapus permohonan ini?');">
+                                                                    <i class="fas fa-trash-alt"></i>
+                                                                </button>
+                                                            </form>
                                                         @else
                                                             N/A
                                                         @endif
@@ -565,12 +589,6 @@
                                     <label for="mc_days" class="form-label">JUMLAH CUTI</label>
                                     <p class="form-control" id="mc_days">{{ Auth::user()->total_mc_days }}</p>
                                 </div>
-                            </div>
-
-                            <div class="modal-footer">
-                                <a href="{{ route('staff.editProfile') }}" class="btn btn-primary" title="Edit Profile">
-                                    <i class="fas fa-edit"></i> <!-- Edit symbol -->
-                                </a>
                             </div>
                         </div>
                     </div>

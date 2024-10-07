@@ -703,12 +703,6 @@
                                                 </div>
                                             </div>
 
-                                            {{-- <div class="modal-footer">
-                                                <a href="{{ route('officer.editProfile') }}" class="btn btn-primary" title="Edit Profile">
-                                                    <i class="fas fa-edit"></i> <!-- Edit symbol -->
-                                                </a>
-                                            </div> --}}
-
                                         </div>
                                     </div>
                                 </div>
