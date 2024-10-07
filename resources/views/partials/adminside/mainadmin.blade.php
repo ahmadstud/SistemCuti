@@ -274,6 +274,7 @@
                                                 </button>
                                             </div>
 
+
                                             <!-- Add Announcement Modal -->
                                             <div class="modal fade" id="createAnnouncementModal" tabindex="-1" aria-labelledby="createAnnouncementLabel" aria-hidden="true">
                                                 <div class="modal-dialog modal-lg">
@@ -334,6 +335,12 @@
                                                 CKEDITOR.replace('content');
                                             </script>
 
+
+                                            @if (session('success'))
+                                                <div class="alert alert-success">
+                                                    {{ session('success') }}
+                                                </div>
+                                            @endif
                                         </div>
 
                                         {{-- List of Announcements --}}
@@ -499,124 +506,131 @@
                                                     Tambah Staff / Pegawai
                                                 </button>
                                             </div>
-                                        </div>
+                                        
+                                            <!-- Add Staff/Officer Modal -->
+                                            <div class="modal fade" id="addStaffModal" tabindex="-1" aria-labelledby="addStaffModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header" style="background-color: #f0f0f0;">
+                                                            <h5 class="modal-title" id="addStaffModalLabel">Tambah Staff / Pegawai</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form action="{{ route('storeUser') }}" method="POST" enctype="multipart/form-data">
+                                                                @csrf
 
-                                        <!-- Add Staff/Officer Modal -->
-                                        <div class="modal fade" id="addStaffModal" tabindex="-1" aria-labelledby="addStaffModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-lg">
-                                                <div class="modal-content">
-                                                    <div class="modal-header" style="background-color: #f0f0f0;">
-                                                        <h5 class="modal-title" id="addStaffModalLabel">Tambah Staff / Pegawai</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form action="{{ route('storeUser') }}" method="POST" enctype="multipart/form-data">
-                                                            @csrf
+                                                                <div class="row g-3">
+                                                                    <div class="col-md-12 mb-3">
+                                                                        <label for="name" class="form-label">Nama<span class="text-danger">*</span></label>
+                                                                        <input type="text" class="form-control" id="name" name="name" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row g-3">
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label for="email" class="form-label">E-mel<span class="text-danger">*</span></label>
+                                                                        <input type="email" class="form-control" id="email" name="email" required>
+                                                                    </div>
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label for="password" class="form-label">Kata Kunci<span class="text-danger">*</span></label>
+                                                                        <input type="password" class="form-control" id="password" name="password" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row g-3">
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label for="ic" class="form-label">No K/P<span class="text-danger">*</span></label>
+                                                                        <input type="text" class="form-control" id="ic" name="ic">
+                                                                    </div>
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label for="phone_number" class="form-label">No Telefon<span class="text-danger">*</span></label>
+                                                                        <input type="text" class="form-control" id="phone_number" name="phone_number">
+                                                                    </div>
+                                                                </div>
+                                                                <hr>
 
-                                                            <div class="row g-3">
-                                                                <div class="col-md-12 mb-3">
-                                                                    <label for="name" class="form-label">Nama<span class="text-danger">*</span></label>
-                                                                    <input type="text" class="form-control" id="name" name="name" required>
+                                                                <div class="row g-3">
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label for="role" class="form-label">Peranan<span class="text-danger">*</span></label>
+                                                                        <select class="form-select" id="role" name="role" required>
+                                                                            <option selected disabled>--- Pilih Peranan ---</option>
+                                                                            <option value="admin">Admin</option>
+                                                                            <option value="staff">Staf</option>
+                                                                            <option value="officer">Pegawai</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label for="job_status" class="form-label">Status Pekerjaan<<span class="text-danger">*</span></label>
+                                                                        <select class="form-select" id="job_status" name="job_status" required>
+                                                                            <option selected disabled>--- Pilih Status ---</option>
+                                                                            <option value="Permenant">Tetap</option>
+                                                                            <option value="Contract">Kontrak</option>
+                                                                            <option value="Freelance">Berhenti</option>
+                                                                        </select>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="row g-3">
-                                                                <div class="col-md-6 mb-3">
-                                                                    <label for="email" class="form-label">E-mel<span class="text-danger">*</span></label>
-                                                                    <input type="email" class="form-control" id="email" name="email" required>
+                                                                <div class="row g-3">
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label for="pegawai" class="form-label">Ketua Bahagian/Pegawai <span class="text-danger">*</span></label>
+                                                                        <select class="form-select" id="pegawai" name="pegawai" required>
+                                                                            <option selected disabled>--- Pilih Ketua Bahagian ---</option>
+                                                                            <option value="Ketua 1 / Pegawai 1">Ketua 1 / Pegawai 1</option>
+                                                                            <option value="Ketua 2 / Pegawai 2">Ketua 2 / Pegawai 2</option>
+                                                                            <option value="Tiada Berkenaan">Tiada Berkenaan</option>
+                                                                        </select>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-md-6 mb-3">
-                                                                    <label for="password" class="form-label">Kata Kunci<span class="text-danger">*</span></label>
-                                                                    <input type="password" class="form-control" id="password" name="password" required>
+                                                                <div class="row g-3">
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label for="al_days" class="form-label">Jumlah Cuti Tahunan<span class="text-danger">*</span></label>
+                                                                        <input type="number" class="form-control" id="al_days" name="al_days" required min="1">
+                                                                    </div>
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label for="mc_days" class="form-label">Jumlah Cuti Sakit<span class="text-danger">*</span></label>
+                                                                        <input type="number" class="form-control" id="mc_days" name="mc_days" required min="1">
+                                                                    </div>
+                                                                    <p class="text-muted">
+                                                                        <em>Nota: Cuti sakit dan cuti tahunan adalah berbeza. Cuti sakit memerlukan sijil cuti sakit (MC), manakala cuti tahunan adalah cuti berbayar yang diperoleh setelah bekerja selama 12 bulan.</em>
+                                                                    </p>
                                                                 </div>
-                                                            </div>
-                                                            <div class="row g-3">
-                                                                <div class="col-md-6 mb-3">
-                                                                    <label for="ic" class="form-label">No K/P<span class="text-danger">*</span></label>
-                                                                    <input type="text" class="form-control" id="ic" name="ic">
-                                                                </div>
-                                                                <div class="col-md-6 mb-3">
-                                                                    <label for="phone_number" class="form-label">No Telefon<span class="text-danger">*</span></label>
-                                                                    <input type="text" class="form-control" id="phone_number" name="phone_number">
-                                                                </div>
-                                                            </div>
-                                                            <hr>
+                                                                <hr>
 
-                                                            <div class="row g-3">
-                                                                <div class="col-md-6 mb-3">
-                                                                    <label for="role" class="form-label">Peranan<span class="text-danger">*</span></label>
-                                                                    <select class="form-select" id="role" name="role" required>
-                                                                        <option selected disabled>--- Pilih Peranan ---</option>
-                                                                        <option value="admin">Admin</option>
-                                                                        <option value="staff">Staf</option>
-                                                                        <option value="officer">Pegawai</option>
-                                                                    </select>
+                                                                <div class="row g-3">
+                                                                    <div class="col-md-12 mb-3">
+                                                                        <label for="address" class="form-label">Alamat<span class="text-danger">*</span></label>
+                                                                        <input type="text" class="form-control" id="address" name="address" required>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-md-6 mb-3">
-                                                                    <label for="job_status" class="form-label">Status Pekerjaan<<span class="text-danger">*</span></label>
-                                                                    <select class="form-select" id="job_status" name="job_status" required>
-                                                                        <option selected disabled>--- Pilih Status ---</option>
-                                                                        <option value="Permenant">Tetap</option>
-                                                                        <option value="Contract">Kontrak</option>
-                                                                        <option value="Freelance">Berhenti</option>
-                                                                    </select>
+                                                                <div class="row g-3">
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label for="city" class="form-label">Bandar<span class="text-danger">*</span></label>
+                                                                        <input type="text" class="form-control" id="city" name="city" required>
+                                                                    </div>
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label for="postcode" class="form-label">Poskod<span class="text-danger">*</span></label>
+                                                                        <input type="text" class="form-control" id="postcode" name="postcode" required>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="row g-3">
-                                                                <div class="col-md-6 mb-3">
-                                                                    <label for="pegawai" class="form-label">Ketua Bahagian/Pegawai <span class="text-danger">*</span></label>
-                                                                    <select class="form-select" id="pegawai" name="pegawai" required>
-                                                                        <option selected disabled>--- Pilih Ketua Bahagian ---</option>
-                                                                        <option value="Ketua 1 / Pegawai 1">Ketua 1 / Pegawai 1</option>
-                                                                        <option value="Ketua 2 / Pegawai 2">Ketua 2 / Pegawai 2</option>
-                                                                        <option value="Tiada Berkenaan">Tiada Berkenaan</option>
-                                                                    </select>
+                                                                <div class="row g-3">
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label for="state" class="form-label">Negeri<span class="text-danger">*</span></label>
+                                                                        <input type="text" class="form-control" id="state" name="state" required>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="row g-3">
-                                                                <div class="col-md-6 mb-3">
-                                                                    <label for="al_days" class="form-label">Jumlah Cuti Tahunan<span class="text-danger">*</span></label>
-                                                                    <input type="number" class="form-control" id="al_days" name="al_days" required min="1">
-                                                                </div>
-                                                                <div class="col-md-6 mb-3">
-                                                                    <label for="mc_days" class="form-label">Jumlah Cuti Sakit<span class="text-danger">*</span></label>
-                                                                    <input type="number" class="form-control" id="mc_days" name="mc_days" required min="1">
-                                                                </div>
-                                                                <p class="text-muted">
-                                                                    <em>Nota: Cuti sakit dan cuti tahunan adalah berbeza. Cuti sakit memerlukan sijil cuti sakit (MC), manakala cuti tahunan adalah cuti berbayar yang diperoleh setelah bekerja selama 12 bulan.</em>
-                                                                </p>
-                                                            </div>
-                                                            <hr>
 
-                                                            <div class="row g-3">
-                                                                <div class="col-md-12 mb-3">
-                                                                    <label for="address" class="form-label">Alamat<span class="text-danger">*</span></label>
-                                                                    <input type="text" class="form-control" id="address" name="address" required>
+                                                                <div class="modal-footer">
+                                                                    <button type="submit" class="btn btn-success">Simpan</button>
                                                                 </div>
-                                                            </div>
-                                                            <div class="row g-3">
-                                                                <div class="col-md-6 mb-3">
-                                                                    <label for="city" class="form-label">Bandar<span class="text-danger">*</span></label>
-                                                                    <input type="text" class="form-control" id="city" name="city" required>
-                                                                </div>
-                                                                <div class="col-md-6 mb-3">
-                                                                    <label for="postcode" class="form-label">Poskod<span class="text-danger">*</span></label>
-                                                                    <input type="text" class="form-control" id="postcode" name="postcode" required>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row g-3">
-                                                                <div class="col-md-6 mb-3">
-                                                                    <label for="state" class="form-label">Negeri<span class="text-danger">*</span></label>
-                                                                    <input type="text" class="form-control" id="state" name="state" required>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="modal-footer">
-                                                                <button type="submit" class="btn btn-success">Simpan</button>
-                                                            </div>
-                                                        </form>
+                                                            </form>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            @if (session('success'))
+                                                <div class="alert alert-success">
+                                                    {{ session('success') }}
+                                                </div>
+                                            @endif
+                                            
                                         </div>
 
                                         {{-- List of staff --}}
