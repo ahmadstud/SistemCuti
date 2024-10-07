@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-center">
     <div class="col-xl-12 col-sm-6 mb-xl-0 mb-4">
-        <div class="card" style="height: 200px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-            <div class="card-body p-5">
+        <div class="card h-100 d-flex align-items-center justify-content-center">
+            <div class="card-body p-5 text-center">
                 <div class="row">
                     <div class="col-8">
                         <div class="numbers">
@@ -10,7 +10,7 @@
                         </div>
                     </div>
                     <div class="col-4 text-end">
-                        <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
+                        <div class="icon icon-shape bg-gradient-success shadow-primary text-center rounded-circle">
                             <i class="ni ni-calendar-grid-58 text-lg opacity-10" aria-hidden="true"></i>
                         </div>
                     </div>

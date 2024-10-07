@@ -28,12 +28,20 @@ class OfficerController extends Controller
             ->select('mc_applications.*', 'users.name as user_name') // Select necessary fields
             ->get();
 
+            $today = now()->toDateString();
+            // Get the list of staff on MC today
+            $staffOnLeaveToday = McApplication::with('user')
+                ->where('start_date', '<=', $today)
+                ->where('end_date', '>=', $today)
+                ->where('status', 'approved') // Assuming you have a status column to check for approval
+                ->get();
+
         // Fetch all MC applications for the logged-in user
         $mcApplications = McApplication::where('user_id', Auth::id())->get();
         $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
 
         // Pass the applications data to the view
-        return view('officer', compact('applications','announcements','mcApplications'));
+        return view('officer', compact('applications','announcements','mcApplications','staffOnLeaveToday'));
     }
 
 

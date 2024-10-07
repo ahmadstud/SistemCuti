@@ -66,7 +66,19 @@ class StaffController extends Controller
         $mcApplications = McApplication::where('user_id', Auth::id())->get();
         $officers = User::where('role', 'Penyelia')->get(); // Fetch officers
         $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
-        return view('staff', compact('mcApplications', 'officers','announcements'));
+        // Get today's date
+        $today = now()->toDateString();
+        // Get the list of staff on MC today
+        $staffOnLeaveToday = McApplication::with('user')
+            ->where('start_date', '<=', $today)
+            ->where('end_date', '>=', $today)
+            ->where('status', 'approved') // Assuming you have a status column to check for approval
+            ->get();
+
+         // Fetch total users excluding admins
+         $totalUsers = User::all();
+
+        return view('staff', compact('mcApplications', 'officers','announcements','staffOnLeaveToday','totalUsers'));
     }
 
 
