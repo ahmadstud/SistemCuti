@@ -37,12 +37,28 @@ class AdminController extends Controller
         ->where('status', 'pending')  // Only fetch those not yet approved
         ->get();
 
+
+        // Get today's date
+        $today = now()->toDateString();
+
+        // Get the list of staff on MC today
+        $staffOnLeaveToday = McApplication::with('user')
+            ->where('start_date', '<=', $today)
+            ->where('end_date', '>=', $today)
+            ->where('status', 'approved') // Assuming you have a status column to check for approval
+            ->get();
+        
+
+        // Annoucement
         $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
         $totalMcApplications = McApplication::count();
         $acceptedMcApplications = McApplication::where('status', 'approved')->count();
         $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
 
-        return view('admin', compact('directAdminApplications','totalUsers', 'users', 'applications', 'totalMcApplications', 'acceptedMcApplications', 'rejectedMcApplications','announcements', 'allApplications'));
+
+        
+
+        return view('admin', compact('directAdminApplications','totalUsers', 'users', 'applications', 'totalMcApplications', 'acceptedMcApplications', 'rejectedMcApplications','announcements', 'allApplications', 'staffOnLeaveToday'));
     }
 
 
@@ -278,6 +294,7 @@ class AdminController extends Controller
             'city' => 'nullable|string|max:255',
             'postcode' => 'nullable|string|max:10',
             'state' => 'nullable|string|max:255',
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation for profile image
         ]);
 
         // Update user details
@@ -289,6 +306,16 @@ class AdminController extends Controller
         $user->city = $request->city;
         $user->postcode = $request->postcode;
         $user->state = $request->state;
+
+            // Handle profile image upload
+            if ($request->hasFile('profile_image')) {
+            $image = $request->file('profile_image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('storage/profile_image'), $imageName);
+
+            // Save the profile image path in the database
+            $user->profile_image = 'storage/profile_image/' . $imageName;
+        }
 
         // Update password only if a new password is provided
         if ($request->filled('password')) {
@@ -331,5 +358,7 @@ class AdminController extends Controller
 
         return redirect()->route('admin', ['section' => 'Annouce'])->with('success', 'Announcement created successfully.');
     }
+
+    
 
 }
