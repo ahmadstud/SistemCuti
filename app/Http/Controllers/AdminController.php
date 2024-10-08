@@ -16,16 +16,38 @@ use Illuminate\Support\Facades\Storage;
 class AdminController extends Controller
 {
 
-    public function dashboard()
+    public function dashboard(Request $request)
     {
         // Fetch total users excluding admins
         $totalUsers = User::where('role', '!=', 'admin')->count();
+
         // Fetch all users excluding admins
         $users = User::where('role', '!=', 'admin')->get();
 
-         // Fetch all applications along with their status (approved, rejected, or pending)
-        $allApplications = McApplication::with('user') // Fetch associated users
-        ->get(); // Fetch all MC applications
+        // Get filter inputs
+        $statusFilter = $request->input('status');
+        $startDateFilter = $request->input('start_date');
+        $endDateFilter = $request->input('end_date');
+
+        // Prepare the query for all applications along with their status (approved, rejected, or pending)
+        $allApplicationsQuery = McApplication::with('user');
+
+        // Apply status filter
+        if ($statusFilter) {
+            $allApplicationsQuery->where('status', $statusFilter);
+        }
+
+        // Apply date filters
+        if ($startDateFilter) {
+            $allApplicationsQuery->where('start_date', '>=', $startDateFilter);
+        }
+        if ($endDateFilter) {
+            $allApplicationsQuery->where('end_date', '<=', $endDateFilter);
+        }
+
+        // Get the filtered applications
+        $allApplications = $allApplicationsQuery->get(); // Ensure this is called on the query builder
+
 
         // Fetch MC applications approved by officers and still pending admin approval
         $applications = McApplication::where('officer_approved', true)
@@ -58,7 +80,17 @@ class AdminController extends Controller
 
         
 
-        return view('admin', compact('directAdminApplications','totalUsers', 'users', 'applications', 'totalMcApplications', 'acceptedMcApplications', 'rejectedMcApplications','announcements', 'allApplications', 'staffOnLeaveToday'));
+        return view('admin', compact(
+            'directAdminApplications',
+            'totalUsers', 
+            'users', 
+            'applications', 
+            'totalMcApplications', 
+            'acceptedMcApplications', 
+            'rejectedMcApplications',
+            'announcements', 
+            'allApplications', 
+            'staffOnLeaveToday'));
     }
 
 

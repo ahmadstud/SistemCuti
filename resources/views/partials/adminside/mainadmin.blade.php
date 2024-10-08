@@ -361,13 +361,13 @@
                                                     <tbody>
                                                         @foreach($announcements as $announcement)
                                                             <tr>
-                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                     <p class="text-m text-secondary">{{ $loop->iteration }}</p>
                                                                 </td>
                                                                 <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                     <p class="text-m text-secondary">{{ $announcement->title }}</p>
                                                                 </td>
-                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap; break-word; word-wrap: break-word; white-space: normal;">
+                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                     <p class="text-m text-secondary">{!! $announcement->content !!}</p>
                                                                 </td>
                                                                 <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
@@ -378,12 +378,12 @@
                                                                 </td>
                                                                 <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                     @if($announcement->image_path)
-                                                                        <img src="{{ asset('storage/' . $announcement->image_path) }}" class="d-block w-25" alt="{{ $announcement->title }}">
+                                                                        <img src="{{ asset('storage/' . $announcement->image_path) }}" class="d-block w-40" alt="{{ $announcement->title }}">
                                                                     @else
-                                                                        No Image
+                                                                        Tiada gambar
                                                                     @endif
                                                                 </td>
-                                                                <td style="border: 1px solid #dee2e6; padding: 8px;">
+                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                     <!-- Edit Button -->
                                                                     <button class="btn btn-md btn-primary" data-bs-toggle="modal" data-bs-target="#editAnnouncementModal{{ $announcement->id }}">
                                                                         <i class="fas fa-pencil-alt"></i>
@@ -839,9 +839,12 @@
                         <h4><b>SENARAI KESELURUHAN PERMOHONAN<b></h4>
                     </nav>
 
+                    
+
                     <div class="row mt-4">
                         <div class="col-lg-12 mb-lg-0 mb-4">
                             <div class="container-fluid py-2">
+                                
                                 <div class="row">
 
                                     {{-- List of Direct Admin Approval --}}
@@ -851,8 +854,32 @@
                                                 <h6 class="mb-2"></h6>
                                             </div>
                                         </div>
-
-
+                                        
+                                        <form method="GET" action="{{ route('admin.dashboard') }}">
+                                            <div class="row mb-3 justify-content-end">
+                                                <div class="col-md-2">
+                                                    <select name="status" class="form-select">
+                                                        <option value="">Select Status</option>
+                                                        <option value="approved">Lulus</option>
+                                                        <option value="rejected">Gagal</option>
+                                                        <option value="pending">Pending</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <input type="date" name="start_date" class="form-control" placeholder="Start Date">
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <input type="date" name="end_date" class="form-control" placeholder="End Date">
+                                                </div>
+                                            </div>
+                                            <div class="text-end">
+                                                <button type="submit" class="btn btn-primary">Filter</button>
+                                            </div>
+                                        </form>
+                                        
+                                        
+                                        
+                                        
                                         <!-- View Applications Section -->
                                         <div class="card-body">
                                             <div style="overflow-x: auto; position: relative;">
@@ -946,7 +973,7 @@
                                                     <thead style="background-color: #f0f0f0;">
                                                         <tr>
                                                             <th style="width: 3%; position: sticky; left: 0; z-index: 1;  padding: 8px;">BIL</th>
-                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAME</th>
+                                                            <th style="width: 17%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAME</th>
                                                             <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
                                                             <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH AKHIR</th>
                                                             <th style="width: 20%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
@@ -956,43 +983,51 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @foreach($applications as $application)
+                                                        @if($applications->isEmpty())
                                                             <tr>
-                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">{{ $application->id }}</p>
-                                                                </td>
-                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">{{ $application->user_id }}</p>
-                                                                </td>
-                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">{{ $application->start_date }}</p>
-                                                                </td>
-                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">{{ $application->end_date }}</p>
-                                                                </td>
-                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">{{ $application->reason }}</p>
-                                                                </td>
-                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    @if($application->document_path)
-                                                                        <a href="{{ Storage::url($application->document_path) }}" target="_blank"><i class="fas fa-file-alt"></i></a>
-                                                                    @endif
-                                                                </td>
-                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    {{ $application->officer_approved ? 'Yes' : 'No' }}
-                                                                </td>
-                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    @if($application->officer_approved && !$application->admin_approved)
-                                                                        <form action="{{ route('admin.approve', $application->id) }}" method="POST" style="display:inline;">
-                                                                            @csrf
-                                                                            <button type="submit" class="btn btn-success"><i class="fas fa-check"></i></button>
-                                                                        </form>
-                                                                    @else
-                                                                        <button type="button" class="btn btn-secondary" disabled><i class="fas fa-check-double"></i></button>
-                                                                    @endif
+                                                                <td colspan="8" class="text-center" style="padding: 20px;">
+                                                                    <p class="text-muted">Tiada Permohonan</p>
                                                                 </td>
                                                             </tr>
-                                                        @endforeach
+                                                        @else
+                                                            @foreach($applications as $application)
+                                                                <tr>
+                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                        <p class="text-m text-secondary">{{ $application->id }}</p>
+                                                                    </td>
+                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                        <p class="text-m text-secondary">{{ $application->user_id }}</p>
+                                                                    </td>
+                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                        <p class="text-m text-secondary">{{ $application->start_date }}</p>
+                                                                    </td>
+                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                        <p class="text-m text-secondary">{{ $application->end_date }}</p>
+                                                                    </td>
+                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                        <p class="text-m text-secondary">{{ $application->reason }}</p>
+                                                                    </td>
+                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                        @if($application->document_path)
+                                                                            <a href="{{ Storage::url($application->document_path) }}" target="_blank"><i class="fas fa-file-alt"></i></a>
+                                                                        @endif
+                                                                    </td>
+                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                        {{ $application->officer_approved ? 'Yes' : 'No' }}
+                                                                    </td>
+                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                        @if($application->officer_approved && !$application->admin_approved)
+                                                                            <form action="{{ route('admin.approve', $application->id) }}" method="POST" style="display:inline;">
+                                                                                @csrf
+                                                                                <button type="submit" class="btn btn-success"><i class="fas fa-check"></i></button>
+                                                                            </form>
+                                                                        @else
+                                                                            <button type="button" class="btn btn-secondary" disabled><i class="fas fa-check-double"></i></button>
+                                                                        @endif
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        @endif
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -1020,7 +1055,7 @@
                                     <div class="card">
                                         <div class="card-header pb-0 p-3">
                                             <div class="d-flex justify-content-between">
-                                                <h6 class="mb-2"></h6>
+                                                <h4 class="mb-2"></h4>
                                             </div>
                                         </div>
 
@@ -1032,78 +1067,86 @@
                                                     <thead style="background-color: #f0f0f0;">
                                                         <tr>
                                                             <th style="width: 3%; position: sticky; left: 0; z-index: 1;  padding: 8px;">BIL</th>
-                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
+                                                            <th style="width: 17%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
                                                             <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
                                                             <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH AKHIR</th>
                                                             <th style="width: 20%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
-                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN RUJUKAN</th>
+                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN RUJUKAN</th>
                                                             <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @foreach ($directAdminApplications as $application)
+                                                        @if ($directAdminApplications->isEmpty())
                                                             <tr>
-                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">{{ $loop->iteration }}</p>
+                                                                <td colspan="7" class="text-center" style="padding: 20px;">
+                                                                    <p class="text-muted">Tiada Permohonan</p>
                                                                 </td>
-                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">{{ $application->user->name }}</p>
-                                                                </td>
-                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">{{ $application->start_date }}</p>
-                                                                </td>
-                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">{{ $application->end_date }}</p>
-                                                                </td>
-                                                                {{-- <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                            </tr>
+                                                        @else
+                                                            @foreach ($directAdminApplications as $application)
+                                                                <tr>
+                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                        <p class="text-m text-secondary">{{ $loop->iteration }}</p>
+                                                                    </td>
+                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                        <p class="text-m text-secondary">{{ $application->user->name }}</p>
+                                                                    </td>
+                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                        <p class="text-m text-secondary">{{ $application->start_date }}</p>
+                                                                    </td>
+                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                        <p class="text-m text-secondary">{{ $application->end_date }}</p>
+                                                                    </td>
+                                                                    {{-- <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
 
-                                                                    <!-- Button to trigger modal to show reason -->
-                                                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#directReasonModal{{ $application->id }}" aria-label="View Reason">
-                                                                        <i class="fas fa-eye"></i>
-                                                                    </button>
+                                                                        <!-- Button to trigger modal to show reason -->
+                                                                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#directReasonModal{{ $application->id }}" aria-label="View Reason">
+                                                                            <i class="fas fa-eye"></i>
+                                                                        </button>
 
-                                                                    <!-- Modal for showing the reason -->
-                                                                    <div class="modal fade" id="directReasonModal{{ $application->id }}" tabindex="-1" aria-labelledby="directReasonModalLabel{{ $application->id }}" aria-hidden="true">
-                                                                        <div class="modal-dialog">
-                                                                            <div class="modal-content">
-                                                                                <div class="modal-header">
-                                                                                    <h5 class="modal-title" id="directReasonModalLabel{{ $application->id }}">Alasan Permohonan MC</h5>
-                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                                </div>
-                                                                                <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
-                                                                                    {{ $application->reason }}
-                                                                                </div>
-                                                                                <div class="modal-footer">
-                                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                                                        <!-- Modal for showing the reason -->
+                                                                        <div class="modal fade" id="directReasonModal{{ $application->id }}" tabindex="-1" aria-labelledby="directReasonModalLabel{{ $application->id }}" aria-hidden="true">
+                                                                            <div class="modal-dialog">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                        <h5 class="modal-title" id="directReasonModalLabel{{ $application->id }}">Alasan Permohonan MC</h5>
+                                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                    </div>
+                                                                                    <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
+                                                                                        {{ $application->reason }}
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                </td> --}}
-                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">{{ $application->reason }}</p>
-                                                                </td>
-                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    @if($application->document_path)
-                                                                        <a href="{{ Storage::url($application->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</a>
-                                                                    @endif
-                                                                </td>
-                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <form action="{{ route('admin.approve', $application->id) }}" method="POST" style="display:inline;">
-                                                                        @csrf
-                                                                        <button type="submit" class="btn btn-success" aria-label="Approve">
-                                                                            <i class="fas fa-check"></i>
-                                                                        </button>
-                                                                    </form>
-                                                                    <form action="{{ route('admin.reject', $application->id) }}" method="POST" style="display:inline;">
-                                                                        @csrf
-                                                                        <button type="submit" class="btn btn-danger" aria-label="Reject">
-                                                                            <i class="fas fa-times"></i>
-                                                                        </button>
-                                                                    </form>
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
+                                                                    </td> --}}
+                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                        <p class="text-m text-secondary">{{ $application->reason }}</p>
+                                                                    </td>
+                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                        @if($application->document_path)
+                                                                            <a href="{{ Storage::url($application->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</a>
+                                                                        @endif
+                                                                    </td>
+                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                        <form action="{{ route('admin.approve', $application->id) }}" method="POST" style="display:inline;">
+                                                                            @csrf
+                                                                            <button type="submit" class="btn btn-success" aria-label="Approve">
+                                                                                <i class="fas fa-check"></i>
+                                                                            </button>
+                                                                        </form>
+                                                                        <form action="{{ route('admin.reject', $application->id) }}" method="POST" style="display:inline;">
+                                                                            @csrf
+                                                                            <button type="submit" class="btn btn-danger" aria-label="Reject">
+                                                                                <i class="fas fa-times"></i>
+                                                                            </button>
+                                                                        </form>
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        @endif
                                                     </tbody>
                                                 </table>
                                             </div>
