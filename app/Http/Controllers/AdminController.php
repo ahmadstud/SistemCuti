@@ -24,34 +24,44 @@ class AdminController extends Controller
         // Fetch all users excluding admins
         $users = User::where('role', '!=', 'admin')->get();
 
-        // Get filter inputs
-        $statusFilter = $request->input('status');
-        $startDateFilter = $request->input('start_date');
-        $endDateFilter = $request->input('end_date');
+       // Get filter inputs
+$statusFilter = $request->input('status');
+$startDateFilter = $request->input('start_date');
+$endDateFilter = $request->input('end_date');
+$roleFilter = $request->input('role'); // Get role filter input
 
-        // Prepare the query for all applications along with their status (approved, rejected, or pending)
-        $allApplicationsQuery = McApplication::with('user');
+// Prepare the query for all applications along with their status (approved, rejected, or pending) and users
+$allApplicationsQuery = McApplication::with('user');
 
-        // Apply status filter
-        if ($statusFilter) {
-            $allApplicationsQuery->where('status', $statusFilter);
-        }
+// Apply status filter
+if ($statusFilter) {
+    $allApplicationsQuery->where('status', $statusFilter);
+}
 
-        // Apply date filters
-        if ($startDateFilter) {
-            $allApplicationsQuery->where('start_date', '>=', $startDateFilter);
-        }
-        if ($endDateFilter) {
-            $allApplicationsQuery->where('end_date', '<=', $endDateFilter);
-        }
+// Apply date filters
+if ($startDateFilter) {
+    $allApplicationsQuery->where('start_date', '>=', $startDateFilter);
+}
+if ($endDateFilter) {
+    $allApplicationsQuery->where('end_date', '<=', $endDateFilter);
+}
 
-        // Get the filtered applications
-        $allApplications = $allApplicationsQuery->get(); // Ensure this is called on the query builder
+// Apply role filter
+if ($roleFilter) {
+    $allApplicationsQuery->whereHas('user', function($query) use ($roleFilter) {
+        $query->where('role', $roleFilter);
+    });
+}
 
+// Get the filtered applications
+$allApplications = $allApplicationsQuery->get(); // Ensure this is called on the query builder
 
-        // Fetch MC applications approved by officers and still pending admin approval
-        $applications = McApplication::where('officer_approved', true)
-        ->get();
+         // Fetch MC applications approved by officers and still pending admin approval
+         $applications = McApplication::join('users', 'mc_applications.user_id', '=', 'users.id')
+         ->select('mc_applications.*', 'users.name as user_name') // Get all fields from mc_applications and the user's name and role
+         ->where('officer_approved', true)
+         ->where('admin_approved', false) // Add this condition if you only want pending admin approvals
+         ->get();
 
         // Fetch direct admin approval applications
         $directAdminApplications = McApplication::where('direct_admin_approval', true)
@@ -70,7 +80,7 @@ class AdminController extends Controller
             ->where('status', 'approved') // Assuming you have a status column to check for approval
             ->get();
 
-            $officers = User::where('role', 'officer')->get();
+        $officers = User::where('role', 'officer')->get();
         // Annoucement
         $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
         $totalMcApplications = McApplication::count();

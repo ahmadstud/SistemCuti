@@ -1,4 +1,26 @@
    // Staff JS ////////////////////////////////////////////////////////////////////////////////////////////////////////
+   // Carousel JS
+   document.addEventListener('DOMContentLoaded', function() {
+    const carouselElement = document.getElementById('announcementCarousel');
+
+    carouselElement.addEventListener('slide.bs.carousel', function(event) {
+        // Get the new active item
+        const nextItem = event.relatedTarget;
+
+        // Get data attributes
+        const title = nextItem.getAttribute('data-title');
+        const content = nextItem.getAttribute('data-content');
+        const startDate = nextItem.getAttribute('data-start-date');
+        const endDate = nextItem.getAttribute('data-end-date');
+
+        // Update the content
+        document.getElementById('announcementTitle').textContent = title;
+        document.getElementById('announcementContent').textContent = content;
+        document.getElementById('startDate').textContent = startDate;
+        document.getElementById('endDate').textContent = endDate;
+    });
+});
+// End of Carousel JS
    var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
       var options = {

@@ -29,9 +29,14 @@ use App\Http\Controllers\Auth\LoginController;
 
 // ADMIN ROUTES
 
-    // Dashboard:
-        // Displays the admin dashboard.
-        Route::get('/admin',                                  [AdminController::class, 'dashboard'])->name('admin');
+         // Admin Login session:
+    Route::get('/admin', function () {
+        return view('admin');
+        })->name('admin');
+
+        // Dashboard:
+        // Fetch data from dashboard method.
+        Route::get('/admin',                                  [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
     // User Management:
         // Routes for adding, editing, updating, and deleting users.
@@ -74,7 +79,7 @@ use App\Http\Controllers\Auth\LoginController;
 
 // OFFICER ROUTES
 
-    // Dashboard:
+    // Officer Session:
         Route::get('/officer', function () {
             return view('officer');
         })->name('officer');
@@ -107,7 +112,7 @@ use App\Http\Controllers\Auth\LoginController;
 
 // STAFF ROUTES
 
-    // Dashboard
+    // Staff Session
         Route::get('/staff', function () {
             return view('staff');
         })->name('staff');
