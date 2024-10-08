@@ -32,7 +32,7 @@ use App\Http\Controllers\Auth\LoginController;
     // Dashboard:
         // Displays the admin dashboard.
         Route::get('/admin',                                  [AdminController::class, 'dashboard'])->name('admin');
-        
+
     // User Management:
         // Routes for adding, editing, updating, and deleting users.
         Route::post('/admin/store',                           [AdminController::class, 'storeUser'])->name('storeUser');
