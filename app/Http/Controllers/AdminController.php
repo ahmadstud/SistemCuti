@@ -47,8 +47,8 @@ class AdminController extends Controller
             ->where('end_date', '>=', $today)
             ->where('status', 'approved') // Assuming you have a status column to check for approval
             ->get();
-        
 
+            $officers = User::where('role', 'officer')->get();
         // Annoucement
         $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
         $totalMcApplications = McApplication::count();
@@ -56,9 +56,10 @@ class AdminController extends Controller
         $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
 
 
-        
 
-        return view('admin', compact('directAdminApplications','totalUsers', 'users', 'applications', 'totalMcApplications', 'acceptedMcApplications', 'rejectedMcApplications','announcements', 'allApplications', 'staffOnLeaveToday'));
+
+        return view('admin', compact('directAdminApplications','totalUsers', 'users', 'applications', 'totalMcApplications',
+        'acceptedMcApplications', 'rejectedMcApplications','announcements', 'allApplications', 'staffOnLeaveToday','officers'));
     }
 
 
@@ -255,7 +256,7 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'MC application approved by admin.');
     }
 
-    
+
     public function reject($id)
     {
         $application = McApplication::find($id);
@@ -338,7 +339,7 @@ class AdminController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image
             'start_date' => 'required|date', // Validate start date
             'end_date' => 'required|date|after_or_equal:start_date', // Validate end date
-           
+
         ]);
 
         // Store image if uploaded
@@ -359,6 +360,6 @@ class AdminController extends Controller
         return redirect()->route('admin', ['section' => 'Annouce'])->with('success', 'Announcement created successfully.');
     }
 
-    
+
 
 }

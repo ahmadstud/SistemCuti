@@ -20,8 +20,8 @@ use App\Http\Controllers\Auth\LoginController;
 
     // Login:
         // Route for logging in
-        Route::post('/login', [App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login');
-    // Logout: 
+        Route::post('/login',                                 [LoginController::class, 'login'])->name('login');
+    // Logout:
         // Route for logging out
         Route::post('/logout',                                [LoginController::class, 'logout'])->name('logout');
 
@@ -29,12 +29,11 @@ use App\Http\Controllers\Auth\LoginController;
 
 // ADMIN ROUTES
 
-    // Dashboard: 
+    // Dashboard:
         // Displays the admin dashboard.
         Route::get('/admin',                                  [AdminController::class, 'dashboard'])->name('admin');
-        Route::get('/admin/dashboard',                        [AdminController::class, 'showDashboard'])->name('admin.dashboard');
-
-    // User Management: 
+        
+    // User Management:
         // Routes for adding, editing, updating, and deleting users.
         Route::post('/admin/store',                           [AdminController::class, 'storeUser'])->name('storeUser');
         Route::get('/admin/edit/{id}',                        [AdminController::class, 'editUser'])->name('editUser');
@@ -45,14 +44,14 @@ use App\Http\Controllers\Auth\LoginController;
 
 
     // MC Application Approval (Admin Side):
-        // Admin & Officer MC Approval/Rejection: 
+        // Admin & Officer MC Approval/Rejection:
         // Routes for approving or rejecting MC applications by both admins and officers.
         Route::post('/admin/approve/{id}',                    [AdminController::class, 'approveMcApplication'])->name('admin.approveMcApplication');
         // Admin approval route
         Route::post('/mc-applications/{id}/admin-approve',    [AdminController::class, 'approve'])->name('admin.approve');
         // Admin reject route
         Route::post('/mc-applications/{id}/admin-reject',     [AdminController::class, 'reject'])->name('admin.reject');
-        
+
 
     // Announcement Management:
         // Admin Announcements: Routes for managing announcements (create, update, delete)
@@ -125,10 +124,10 @@ use App\Http\Controllers\Auth\LoginController;
         Route::get('/staff/edit-profile', function () {
             return view('partials.staffside.edit-profile');
         })->name('staff.editProfile');
-        
+
         // Staff Routes
         Route::get('/staff',                                   [StaffController::class, 'index'])->name('staff'); // D (this replaces the previous '/staff' view route)
-        
+
         // Route for submitting MC application
         Route::post('/staff/mc-application',                   [StaffController::class, 'storeMcApplication'])->name('staff.mc.submit');
 

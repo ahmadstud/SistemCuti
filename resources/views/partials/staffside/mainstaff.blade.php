@@ -259,6 +259,8 @@
                     <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
                         <h4><b>PERMOHONAN CUTI</b></h4>
                     </nav>
+                    <!-- Search input -->
+
                     <!-- MC Applications Table Section -->
                     <div class="row mt-4">
                         <div class="col-lg-12 mb-lg-0 mb-4">
@@ -342,7 +344,7 @@
                                                                 <div class="mb-3">
                                                                     <label for="content" class="form-label">Isi Kandungan<span class="text-danger">*</span></label>
                                                                     <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
-                                                                </div>                                                                
+                                                                </div>
                                                                 <div class="row mb-3">
                                                                     <div class="col-md-6">
                                                                         <label for="start_date" class="form-label">Tarikh Mula<span class="text-danger">*</span></label>
@@ -384,134 +386,129 @@
                                                 CKEDITOR.replace('reason');
                                             </script>
 
-                                        <!-- List of MC Applications -->
-                                        <div class="card-body">
-                                            <div style="overflow-x: auto; position: relative;">
-                                                @if($mcApplications->isEmpty())
-                                                    <!-- Display a message when no MC applications exist -->
-                                                    <div class="alert alert-info" role="alert">
-                                                        Tiada permohonan yang dibuat.
+                                      <!-- List of MC Applications -->
+<div class="card-body">
+    <div style="overflow-x: auto; position: relative;">
+        @if($mcApplications->isEmpty())
+            <!-- Display a message when no MC applications exist -->
+            <div class="alert alert-info" role="alert">
+                Tiada permohonan yang dibuat.
+            </div>
+        @else
+            <table class="table table-striped" style="width: 100%;">
+                <thead style="background-color: #f0f0f0;">
+                    <tr>
+                        <th style="width: 3%; position: sticky; left: 0;">BIL</th>
+                        <th style="width: 15%;">TARIKH MULA</th>
+                        <th style="width: 15%;">TARIKH TAMAT</th>
+                        <th style="width: 15%;">ULASAN</th>
+                        <th style="width: 15%;">DOKUMEN</th>
+                        <th style="width: 15%;">STATUS</th>
+                        <th style="width: 15%;">TINDAKAN</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($mcApplications as $index => $mcApplication)
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $mcApplication->start_date }}</td>
+                            <td>{{ $mcApplication->end_date }}</td>
+                            <td>{{ $mcApplication->reason }}</td>
+                            <td>
+                                @if($mcApplication->document_path)
+                                    <a href="{{ Storage::url($mcApplication->document_path) }}" target="_blank" title="Download Dokumen">
+                                        <i class="fas fa-file-pdf text-lg me-1"></i> PDF
+                                    </a>
+                                @else
+                                    <span>Tidak Ada Dokumen</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($mcApplication->admin_approved && $mcApplication->officer_approved)
+                                    <span class="badge bg-gradient-success">Diterima</span>
+                                @elseif($mcApplication->officer_approved)
+                                    <span class="badge bg-gradient-warning">Kelulusan dalam proses</span>
+                                @elseif($mcApplication->status == 'pending')
+                                    <span class="badge bg-gradient-warning">Dalam Proses</span>
+                                @else
+                                    <span class="badge bg-gradient-danger">Ditolak</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($mcApplication->status === 'pending')
+                                    <div class="d-flex gap-2">
+                                        <!-- Edit button -->
+                                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editMcModal{{ $mcApplication->id }}" aria-label="Edit Permohonan">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </button>
+
+                                        <!-- Edit MC Application Modal -->
+                                        <div class="modal fade" id="editMcModal{{ $mcApplication->id }}" tabindex="-1" aria-labelledby="editMcModalLabel{{ $mcApplication->id }}" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header bg-light">
+                                                        <h5 class="modal-title" id="editMcModalLabel{{ $mcApplication->id }}">Edit Permohonan MC</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
-                                                @else
-                                                    <table class="table" style="table-layout: fixed; width: 100%;">
-                                                        <thead style="background-color: #f0f0f0;">
-                                                            <tr>
-                                                                <th style="width: 3%; position: sticky; left: 0; z-index: 1; padding: 8px;">BIL</th>
-                                                                <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
-                                                                <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH TAMAT</th>
-                                                                <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
-                                                                <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN</th>
-                                                                <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS</th>
-                                                                <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @foreach($mcApplications as $index => $mcApplication)
-                                                                <tr>
-                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                        <p class="text-m text-secondary">{{ $index + 1 }}</p>
-                                                                    </td>
-                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                        <p class="text-m text-secondary">{{ $mcApplication->start_date }}</p>
-                                                                    </td>
-                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                        <p class="text-m text-secondary">{{ $mcApplication->end_date }}</p>
-                                                                    </td>
-                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                        <p class="text-m text-secondary">{{ $mcApplication->reason }}</p>
-                                                                    </td>
-                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                        @if($mcApplication->document_path)
-                                                                            <a href="{{ Storage::url($mcApplication->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</a>
-                                                                        @else
-                                                                            <span>Tidak Ada Dokumen</span>
-                                                                        @endif
-                                                                    </td>
-                                                                    <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                        @if($mcApplication->admin_approved && $mcApplication->officer_approved)
-                                                                            <span class="badge badge-md bg-gradient-success">Diterima</span>
-                                                                        @elseif($mcApplication->admin_approved)
-                                                                            <span class="badge badge-md bg-gradient-success">Diterima</span>
-                                                                        @elseif($mcApplication->officer_approved)
-                                                                            <span class="badge badge-md bg-gradient-warning" style="break-word; word-wrap: break-word; white-space: normal;">Kelulusan dalam proses</span>
-                                                                        @elseif($mcApplication->status == 'pending')
-                                                                            <span class="badge badge-md bg-gradient-warning">Dalam Proses</span>
-                                                                        @else
-                                                                            <span class="badge badge-md bg-gradient-danger">Ditolak</span>
-                                                                        @endif
-                                                                    </td>
-                                                                    <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                        @if ($mcApplication->status === 'pending')
-                                                                            <!-- Edit button -->
-                                                                            <button class="btn btn-md btn-primary" data-bs-toggle="modal" data-bs-target="#editMcModal{{ $mcApplication->id }}">
-                                                                                <i class="fas fa-pencil-alt"></i>
-                                                                            </button>
-                                                                            <!-- Edit MC Application Modal -->
-                                                                            <div class="modal fade" id="editMcModal{{ $mcApplication->id }}" tabindex="-1" aria-labelledby="editMcModalLabel{{ $mcApplication->id }}" aria-hidden="true">
-                                                                                <div class="modal-dialog modal-lg">
-                                                                                    <div class="modal-content">
-                                                                                        <div class="modal-header" style="background-color: #f0f0f0;">
-                                                                                            <h5 class="modal-title" id="editMcModalLabel{{ $mcApplication->id }}">Edit Permohonan MC</h5>
-                                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                                        </div>
-                                                                                        <div class="modal-body">
-                                                                                            <form action="{{ route('staff.mc.edit', $mcApplication->id) }}" method="POST" enctype="multipart/form-data">
-                                                                                                @csrf
-                                                                                                <div class="row g-3">
-                                                                                                    <div class="col-md-6 mb-3">
-                                                                                                        <label for="start_date" class="form-label">Tarikh Mula<span class="text-danger">*</span></label>
-                                                                                                        <input type="date" class="form-control" id="start_date" name="start_date" value="{{ $mcApplication->start_date }}" required>
-                                                                                                    </div>
-                                                                                                    <div class="col-md-6 mb-3">
-                                                                                                        <label for="end_date" class="form-label">Tarikh Tamat<span class="text-danger">*</span></label>
-                                                                                                        <input type="date" class="form-control" id="end_date" name="end_date" value="{{ $mcApplication->end_date }}" required>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div class="col-md-12 mb-3">
-                                                                                                    <label for="document_path" class="form-label">Dokumen MC</label>
-                                                                                                    <input type="file" class="form-control" id="document_path" name="document_path">
-                                                                                                    <small class="text-muted">Jika tiada dokumen baru, sila biarkan kosong.</small>
-                                                                                                </div>
-                                                                                                <div class="col-md-12 mb-3">
-                                                                                                    <label for="reason" class="form-label">Ulasan<span class="text-danger">*</span></label>
-                                                                                                    <textarea class="form-control" id="reason" name="reason" rows="3" required>{{ $mcApplication->reason }}</textarea>
-                                                                                                </div>
-
-                                                                                                <div class="mb-3">
-                                                                                                    <label>Permohonan terus ke admin?:</label><br>
-                                                                                                    <input type="radio" id="yes{{ $mcApplication->id }}" name="direct_admin_approval" value="1" {{ $mcApplication->direct_admin_approval ? 'checked' : '' }}>
-                                                                                                    <label for="yes{{ $mcApplication->id }}">Ya</label><br>
-                                                                                                    <input type="radio" id="no{{ $mcApplication->id }}" name="direct_admin_approval" value="0" {{ !$mcApplication->direct_admin_approval ? 'checked' : '' }}>
-                                                                                                    <label for="no{{ $mcApplication->id }}">Tidak</label>
-                                                                                                </div>
-
-                                                                                                <div class="modal-footer">
-                                                                                                    <button type="submit" class="btn btn-success">Kemaskini</button>
-                                                                                                </div>
-                                                                                            </form>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <!-- Delete button -->
-                                                                            <form action="{{ route('staff.deleteMC',$mcApplication->id) }}" method="POST" style="display:inline;">
-                                                                                @csrf
-                                                                                @method('DELETE') <!-- Include this line to specify that the method is DELETE -->
-                                                                                <button type="submit" class="btn btn-md btn-danger" onclick="return confirm('Adakah anda pasti ingin menghapus permohonan ini?');">
-                                                                                    <i class="fas fa-trash-alt"></i>
-                                                                                </button>
-                                                                            </form>
-                                                                        @else
-                                                                            N/A
-                                                                        @endif
-                                                                    </td>
-                                                                </tr>
-                                                            @endforeach
-                                                        </tbody>
-                                                    </table>
-                                                @endif
+                                                    <div class="modal-body">
+                                                        <form action="{{ route('staff.mc.edit', $mcApplication->id) }}" method="POST" enctype="multipart/form-data">
+                                                            @csrf
+                                                            <div class="row g-3">
+                                                                <div class="col-md-6">
+                                                                    <label for="start_date" class="form-label">Tarikh Mula<span class="text-danger">*</span></label>
+                                                                    <input type="date" class="form-control" id="start_date" name="start_date" value="{{ $mcApplication->start_date }}" required>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label for="end_date" class="form-label">Tarikh Tamat<span class="text-danger">*</span></label>
+                                                                    <input type="date" class="form-control" id="end_date" name="end_date" value="{{ $mcApplication->end_date }}" required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="document_path" class="form-label">Dokumen MC</label>
+                                                                <input type="file" class="form-control" id="document_path" name="document_path">
+                                                                <small class="text-muted">Jika tiada dokumen baru, sila biarkan kosong.</small>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="reason" class="form-label">Ulasan<span class="text-danger">*</span></label>
+                                                                <textarea class="form-control" id="reason" name="reason" rows="3" required>{{ $mcApplication->reason }}</textarea>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label>Permohonan terus ke admin?:</label><br>
+                                                                <input type="radio" id="yes{{ $mcApplication->id }}" name="direct_admin_approval" value="1" {{ $mcApplication->direct_admin_approval ? 'checked' : '' }}>
+                                                                <label for="yes{{ $mcApplication->id }}">Ya</label>
+                                                                <input type="radio" id="no{{ $mcApplication->id }}" name="direct_admin_approval" value="0" {{ !$mcApplication->direct_admin_approval ? 'checked' : '' }}>
+                                                                <label for="no{{ $mcApplication->id }}">Tidak</label>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="submit" class="btn btn-success">Kemaskini</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
+
+                                        <!-- Delete button -->
+                                        <form action="{{ route('staff.deleteMC', $mcApplication->id) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger" onclick="return confirm('Adakah anda pasti ingin menghapus permohonan ini?');" aria-label="Delete Permohonan">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                @else
+                                    N/A
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
+    </div>
+</div>
+
                                     </div>
                                 </div>
                             </div>
@@ -753,6 +750,6 @@
 
             </div>
         </div>
-        
+
     </div>
 </main> <!-- Closing main-content -->
