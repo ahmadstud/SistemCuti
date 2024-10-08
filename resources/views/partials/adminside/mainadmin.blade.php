@@ -31,65 +31,65 @@
                                             <div class="card-body p-3">
 
                                             <!-- Announcement Carousel -->
-                                                <div id="announcementCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
-                                                    <div class="carousel-inner">
-                                                        @foreach($announcements as $index => $announcement)
-                                                        <div class="carousel-item {{ $index === 0 ? 'active' : '' }}"
-                                                            data-title="{{ $announcement->title }}"
-                                                            data-content="{{ $announcement->content }}"
-                                                            data-start-date="{{ $announcement->start_date }}"
-                                                            data-end-date="{{ $announcement->end_date }}">
-                                                            <div style="width: 100%; height: 0; padding-bottom: 40%; position: relative;">
-                                                                <img src="{{ asset(Storage::url($announcement->image_path)) }}"
-                                                                    alt="{{ $announcement->title }}"
-                                                                    style="position: absolute; top: 50%; left: 50%; width: 100%; height: auto; transform: translate(-50%, -50%); object-fit: cover;">
-                                                            </div>
+                                            <div id="announcementCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
+                                                <div class="carousel-inner">
+                                                    @foreach($announcements as $index => $announcement)
+                                                    <div class="carousel-item {{ $index === 0 ? 'active' : '' }}"
+                                                        data-title="{{ $announcement->title }}"
+                                                        data-content="{{ $announcement->content }}"
+                                                        data-start-date="{{ $announcement->start_date }}"
+                                                        data-end-date="{{ $announcement->end_date }}">
+                                                        <div style="width: 100%; height: 0; padding-bottom: 40%; position: relative;">
+                                                            <img src="{{ asset(Storage::url($announcement->image_path)) }}"
+                                                                alt="{{ $announcement->title }}"
+                                                                style="position: absolute; top: 50%; left: 50%; width: 100%; height: auto; transform: translate(-50%, -50%); object-fit: cover;">
                                                         </div>
-                                                    @endforeach
                                                     </div>
-
-                                                    <!-- Title and Content Section -->
-                                                    <div class="text-center mt-3">
-                                                        <h2 id="announcementTitle" style="text-transform: uppercase;">{{ $announcements[0]->title }}</h2>
-                                                        <p id="announcementContent">{{ $announcements[0]->content }}</p>
-                                                        <p id="announcementDates">
-                                                            Tarikh Buka:  <strong id="startDate">{{ $announcements[0]->start_date }}</strong><br>
-                                                            Tarikh Tutup: <strong id="endDate">{{ $announcements[0]->end_date }}</strong>
-                                                        </p>
-                                                    </div>
-
-                                                    <button class="carousel-control-prev" type="button" data-bs-target="#announcementCarousel" data-bs-slide="prev">
-                                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                        <span class="visually-hidden">Previous</span>
-                                                    </button>
-                                                    <button class="carousel-control-next" type="button" data-bs-target="#announcementCarousel" data-bs-slide="next">
-                                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                        <span class="visually-hidden">Next</span>
-                                                    </button>
+                                                @endforeach
                                                 </div>
 
-                                                <script>
-                                                    document.addEventListener('DOMContentLoaded', function() {
-                                                        const carouselElement = document.getElementById('announcementCarousel');
+                                                <!-- Title and Content Section -->
+                                                <div class="text-center mt-3">
+                                                    <h2 id="announcementTitle" style="text-transform: uppercase;">{{ $announcements[0]->title }}</h2>
+                                                    <p id="announcementContent">{{ $announcements[0]->content }}</p>
+                                                    <p id="announcementDates">
+                                                        Tarikh Buka:  <strong id="startDate">{{ $announcements[0]->start_date }}</strong><br>
+                                                        Tarikh Tutup: <strong id="endDate">{{ $announcements[0]->end_date }}</strong>
+                                                    </p>
+                                                </div>
 
-                                                        carouselElement.addEventListener('slide.bs.carousel', function(event) {
-                                                            // Get the new active item
-                                                            const nextItem = event.relatedTarget;
+                                                <button class="carousel-control-prev" type="button" data-bs-target="#announcementCarousel" data-bs-slide="prev">
+                                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                    <span class="visually-hidden">Previous</span>
+                                                </button>
+                                                <button class="carousel-control-next" type="button" data-bs-target="#announcementCarousel" data-bs-slide="next">
+                                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                    <span class="visually-hidden">Next</span>
+                                                </button>
+                                            </div>
 
-                                                            // Get data attributes
-                                                            const title = nextItem.getAttribute('data-title');
-                                                            const content = nextItem.getAttribute('data-content');
-                                                            const startDate = nextItem.getAttribute('data-start-date');
-                                                            const endDate = nextItem.getAttribute('data-end-date');
+                                            <script>
+                                                document.addEventListener('DOMContentLoaded', function() {
+                                                    const carouselElement = document.getElementById('announcementCarousel');
 
-                                                            // Update the content
-                                                            document.getElementById('announcementTitle').textContent = title;
-                                                            document.getElementById('announcementContent').textContent = content;
-                                                            document.getElementById('startDate').textContent = startDate;
-                                                            document.getElementById('endDate').textContent = endDate;
-                                                        });
+                                                    carouselElement.addEventListener('slide.bs.carousel', function(event) {
+                                                        // Get the new active item
+                                                        const nextItem = event.relatedTarget;
+
+                                                        // Get data attributes
+                                                        const title = nextItem.getAttribute('data-title');
+                                                        const content = nextItem.getAttribute('data-content');
+                                                        const startDate = nextItem.getAttribute('data-start-date');
+                                                        const endDate = nextItem.getAttribute('data-end-date');
+
+                                                        // Update the content
+                                                        document.getElementById('announcementTitle').textContent = title;
+                                                        document.getElementById('announcementContent').textContent = content;
+                                                        document.getElementById('startDate').textContent = startDate;
+                                                        document.getElementById('endDate').textContent = endDate;
                                                     });
-                                                </script>
+                                                });
+                                            </script>
 
                                             </div>
                                         </div>
@@ -190,7 +190,6 @@
                                             <div class="card-header pb-0 pt-3 bg-transparent">
                                                 <h4 class="text-capitalize">PURATA KETIDAKHADIRAN</h4>
                                                 <p class="text-sm mb-0">
-                                                    <i class="fa fa-arrow-up text-success"></i>
                                                     <span class="font-weight-bold">4% more</span> in 2021
                                                 </p>
                                             </div>
@@ -210,7 +209,6 @@
                                             <div class="card-header pb-0 pt-3 bg-transparent">
                                                 <h4 class="text-capitalize">SENARAI STAFF CUTI HARIAN</h4>
                                                 <p class="text-sm mb-0">
-                                                    <i class="fa fa-arrow-up text-success"></i>
                                                     <span class="font-weight-bold">pada </span>{{ now()->format('d F Y') }}
                                                 </p>
                                             </div>
@@ -276,6 +274,7 @@
                                                 </button>
                                             </div>
 
+
                                             <!-- Add Announcement Modal -->
                                             <div class="modal fade" id="createAnnouncementModal" tabindex="-1" aria-labelledby="createAnnouncementLabel" aria-hidden="true">
                                                 <div class="modal-dialog modal-lg">
@@ -330,8 +329,18 @@
                                                 </div>
                                             </div>
 
+                                            <!-- CKEditor 4 Integration -->
+                                            <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+                                            <script>
+                                                CKEDITOR.replace('content');
+                                            </script>
 
 
+                                            @if (session('success'))
+                                                <div class="alert alert-success">
+                                                    {{ session('success') }}
+                                                </div>
+                                            @endif
                                         </div>
 
                                         {{-- List of Announcements --}}
@@ -341,12 +350,12 @@
                                                     <thead style="background-color: #f0f0f0;">
                                                         <tr>
                                                             <th style="width: 3%; position: sticky; left: 0; z-index: 1; padding: 8px;">BIL</th>
-                                                            <th style="width: 15%; padding: 8px;">TAJUK</th>
-                                                            <th style="width: 30%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ISI KANDUNGAN</th>
-                                                            <th style="width: 10%; padding: 8px;">TARIKH MULA</th>
-                                                            <th style="width: 10%; padding: 8px;">TARIKH AKHIR</th>
-                                                            <th style="width: 20%; padding: 8px;">GAMBAR</th>
-                                                            <th style="width: 10%; padding: 8px;">TINDAKAN</th>
+                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TAJUK</th>
+                                                            <th style="width: 30%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ISI KANDUNGAN</th>
+                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
+                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH AKHIR</th>
+                                                            <th style="width: 20%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">GAMBAR</th>
+                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -359,7 +368,7 @@
                                                                     <p class="text-m text-secondary">{{ $announcement->title }}</p>
                                                                 </td>
                                                                 <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap; break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">{{ $announcement->content }}</p>
+                                                                    <p class="text-m text-secondary">{!! $announcement->content !!}</p>
                                                                 </td>
                                                                 <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                     <p class="text-m text-secondary">{{ $announcement->start_date }}</p>
@@ -444,10 +453,22 @@
                                                                                 </div>
                                                                             </form>
                                                                         </div>
-
                                                                     </div>
                                                                 </div>
                                                             </div>
+
+                                                            <!-- CKEditor 4 Integration -->
+                                                            <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+                                                            <script>
+                                                                // Initialize CKEditor for the create modal
+                                                                CKEDITOR.replace('content');
+
+                                                                // Initialize CKEditor for the edit modal dynamically
+                                                                @foreach($announcements as $announcement)
+                                                                    CKEDITOR.replace('content{{ $announcement->id }}');
+                                                                @endforeach
+                                                            </script>
+
 
                                                         @endforeach
                                                     </tbody>
@@ -485,124 +506,131 @@
                                                     Tambah Staff / Pegawai
                                                 </button>
                                             </div>
-                                        </div>
+                                        
+                                            <!-- Add Staff/Officer Modal -->
+                                            <div class="modal fade" id="addStaffModal" tabindex="-1" aria-labelledby="addStaffModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header" style="background-color: #f0f0f0;">
+                                                            <h5 class="modal-title" id="addStaffModalLabel">Tambah Staff / Pegawai</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form action="{{ route('storeUser') }}" method="POST" enctype="multipart/form-data">
+                                                                @csrf
 
-                                        <!-- Add Staff/Officer Modal -->
-                                        <div class="modal fade" id="addStaffModal" tabindex="-1" aria-labelledby="addStaffModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-lg">
-                                                <div class="modal-content">
-                                                    <div class="modal-header" style="background-color: #f0f0f0;">
-                                                        <h5 class="modal-title" id="addStaffModalLabel">Tambah Staff / Pegawai</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form action="{{ route('storeUser') }}" method="POST" enctype="multipart/form-data">
-                                                            @csrf
+                                                                <div class="row g-3">
+                                                                    <div class="col-md-12 mb-3">
+                                                                        <label for="name" class="form-label">Nama<span class="text-danger">*</span></label>
+                                                                        <input type="text" class="form-control" id="name" name="name" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row g-3">
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label for="email" class="form-label">E-mel<span class="text-danger">*</span></label>
+                                                                        <input type="email" class="form-control" id="email" name="email" required>
+                                                                    </div>
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label for="password" class="form-label">Kata Kunci<span class="text-danger">*</span></label>
+                                                                        <input type="password" class="form-control" id="password" name="password" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row g-3">
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label for="ic" class="form-label">No K/P<span class="text-danger">*</span></label>
+                                                                        <input type="text" class="form-control" id="ic" name="ic">
+                                                                    </div>
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label for="phone_number" class="form-label">No Telefon<span class="text-danger">*</span></label>
+                                                                        <input type="text" class="form-control" id="phone_number" name="phone_number">
+                                                                    </div>
+                                                                </div>
+                                                                <hr>
 
-                                                            <div class="row g-3">
-                                                                <div class="col-md-12 mb-3">
-                                                                    <label for="name" class="form-label">Nama<span class="text-danger">*</span></label>
-                                                                    <input type="text" class="form-control" id="name" name="name" required>
+                                                                <div class="row g-3">
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label for="role" class="form-label">Peranan<span class="text-danger">*</span></label>
+                                                                        <select class="form-select" id="role" name="role" required>
+                                                                            <option selected disabled>--- Pilih Peranan ---</option>
+                                                                            <option value="admin">Admin</option>
+                                                                            <option value="staff">Staf</option>
+                                                                            <option value="officer">Pegawai</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label for="job_status" class="form-label">Status Pekerjaan<<span class="text-danger">*</span></label>
+                                                                        <select class="form-select" id="job_status" name="job_status" required>
+                                                                            <option selected disabled>--- Pilih Status ---</option>
+                                                                            <option value="Permenant">Tetap</option>
+                                                                            <option value="Contract">Kontrak</option>
+                                                                            <option value="Freelance">Berhenti</option>
+                                                                        </select>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="row g-3">
-                                                                <div class="col-md-6 mb-3">
-                                                                    <label for="email" class="form-label">E-mel<span class="text-danger">*</span></label>
-                                                                    <input type="email" class="form-control" id="email" name="email" required>
+                                                                <div class="row g-3">
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label for="pegawai" class="form-label">Ketua Bahagian/Pegawai <span class="text-danger">*</span></label>
+                                                                        <select class="form-select" id="pegawai" name="pegawai" required>
+                                                                            <option selected disabled>--- Pilih Ketua Bahagian ---</option>
+                                                                            <option value="Ketua 1 / Pegawai 1">Ketua 1 / Pegawai 1</option>
+                                                                            <option value="Ketua 2 / Pegawai 2">Ketua 2 / Pegawai 2</option>
+                                                                            <option value="Tiada Berkenaan">Tiada Berkenaan</option>
+                                                                        </select>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-md-6 mb-3">
-                                                                    <label for="password" class="form-label">Kata Kunci<span class="text-danger">*</span></label>
-                                                                    <input type="password" class="form-control" id="password" name="password" required>
+                                                                <div class="row g-3">
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label for="al_days" class="form-label">Jumlah Cuti Tahunan<span class="text-danger">*</span></label>
+                                                                        <input type="number" class="form-control" id="al_days" name="al_days" required min="1">
+                                                                    </div>
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label for="mc_days" class="form-label">Jumlah Cuti Sakit<span class="text-danger">*</span></label>
+                                                                        <input type="number" class="form-control" id="mc_days" name="mc_days" required min="1">
+                                                                    </div>
+                                                                    <p class="text-muted">
+                                                                        <em>Nota: Cuti sakit dan cuti tahunan adalah berbeza. Cuti sakit memerlukan sijil cuti sakit (MC), manakala cuti tahunan adalah cuti berbayar yang diperoleh setelah bekerja selama 12 bulan.</em>
+                                                                    </p>
                                                                 </div>
-                                                            </div>
-                                                            <div class="row g-3">
-                                                                <div class="col-md-6 mb-3">
-                                                                    <label for="ic" class="form-label">No K/P<span class="text-danger">*</span></label>
-                                                                    <input type="text" class="form-control" id="ic" name="ic">
-                                                                </div>
-                                                                <div class="col-md-6 mb-3">
-                                                                    <label for="phone_number" class="form-label">No Telefon<span class="text-danger">*</span></label>
-                                                                    <input type="text" class="form-control" id="phone_number" name="phone_number">
-                                                                </div>
-                                                            </div>
-                                                            <hr>
+                                                                <hr>
 
-                                                            <div class="row g-3">
-                                                                <div class="col-md-6 mb-3">
-                                                                    <label for="role" class="form-label">Peranan<span class="text-danger">*</span></label>
-                                                                    <select class="form-select" id="role" name="role" required>
-                                                                        <option selected disabled>--- Pilih Peranan ---</option>
-                                                                        <option value="admin">Admin</option>
-                                                                        <option value="staff">Staf</option>
-                                                                        <option value="officer">Pegawai</option>
-                                                                    </select>
+                                                                <div class="row g-3">
+                                                                    <div class="col-md-12 mb-3">
+                                                                        <label for="address" class="form-label">Alamat<span class="text-danger">*</span></label>
+                                                                        <input type="text" class="form-control" id="address" name="address" required>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-md-6 mb-3">
-                                                                    <label for="job_status" class="form-label">Status Pekerjaan<<span class="text-danger">*</span></label>
-                                                                    <select class="form-select" id="job_status" name="job_status" required>
-                                                                        <option selected disabled>--- Pilih Status ---</option>
-                                                                        <option value="Permenant">Tetap</option>
-                                                                        <option value="Contract">Kontrak</option>
-                                                                        <option value="Freelance">Berhenti</option>
-                                                                    </select>
+                                                                <div class="row g-3">
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label for="city" class="form-label">Bandar<span class="text-danger">*</span></label>
+                                                                        <input type="text" class="form-control" id="city" name="city" required>
+                                                                    </div>
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label for="postcode" class="form-label">Poskod<span class="text-danger">*</span></label>
+                                                                        <input type="text" class="form-control" id="postcode" name="postcode" required>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="row g-3">
-                                                                <div class="col-md-6 mb-3">
-                                                                    <label for="pegawai" class="form-label">Ketua Bahagian/Pegawai <span class="text-danger">*</span></label>
-                                                                    <select class="form-select" id="pegawai" name="pegawai" required>
-                                                                        <option selected disabled>--- Pilih Ketua Bahagian ---</option>
-                                                                        <option value="Ketua 1 / Pegawai 1">Ketua 1 / Pegawai 1</option>
-                                                                        <option value="Ketua 2 / Pegawai 2">Ketua 2 / Pegawai 2</option>
-                                                                        <option value="Tiada Berkenaan">Tiada Berkenaan</option>
-                                                                    </select>
+                                                                <div class="row g-3">
+                                                                    <div class="col-md-6 mb-3">
+                                                                        <label for="state" class="form-label">Negeri<span class="text-danger">*</span></label>
+                                                                        <input type="text" class="form-control" id="state" name="state" required>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="row g-3">
-                                                                <div class="col-md-6 mb-3">
-                                                                    <label for="al_days" class="form-label">Jumlah Cuti Tahunan<span class="text-danger">*</span></label>
-                                                                    <input type="number" class="form-control" id="al_days" name="al_days" required min="1">
-                                                                </div>
-                                                                <div class="col-md-6 mb-3">
-                                                                    <label for="mc_days" class="form-label">Jumlah Cuti Sakit<span class="text-danger">*</span></label>
-                                                                    <input type="number" class="form-control" id="mc_days" name="mc_days" required min="1">
-                                                                </div>
-                                                                <p class="text-muted">
-                                                                    <em>Nota: Cuti sakit dan cuti tahunan adalah berbeza. Cuti sakit memerlukan sijil cuti sakit (MC), manakala cuti tahunan adalah cuti berbayar yang diperoleh setelah bekerja selama 12 bulan.</em>
-                                                                </p>
-                                                            </div>
-                                                            <hr>
 
-                                                            <div class="row g-3">
-                                                                <div class="col-md-12 mb-3">
-                                                                    <label for="address" class="form-label">Alamat<span class="text-danger">*</span></label>
-                                                                    <input type="text" class="form-control" id="address" name="address" required>
+                                                                <div class="modal-footer">
+                                                                    <button type="submit" class="btn btn-success">Simpan</button>
                                                                 </div>
-                                                            </div>
-                                                            <div class="row g-3">
-                                                                <div class="col-md-6 mb-3">
-                                                                    <label for="city" class="form-label">Bandar<span class="text-danger">*</span></label>
-                                                                    <input type="text" class="form-control" id="city" name="city" required>
-                                                                </div>
-                                                                <div class="col-md-6 mb-3">
-                                                                    <label for="postcode" class="form-label">Poskod<span class="text-danger">*</span></label>
-                                                                    <input type="text" class="form-control" id="postcode" name="postcode" required>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row g-3">
-                                                                <div class="col-md-6 mb-3">
-                                                                    <label for="state" class="form-label">Negeri<span class="text-danger">*</span></label>
-                                                                    <input type="text" class="form-control" id="state" name="state" required>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="modal-footer">
-                                                                <button type="submit" class="btn btn-success">Simpan</button>
-                                                            </div>
-                                                        </form>
+                                                            </form>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            @if (session('success'))
+                                                <div class="alert alert-success">
+                                                    {{ session('success') }}
+                                                </div>
+                                            @endif
+                                            
                                         </div>
 
                                         {{-- List of staff --}}
@@ -835,7 +863,7 @@
                                                             <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAME</th>
                                                             <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
                                                             <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH AKHIR</th>
-                                                            <th style="width: 20%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
+                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
                                                             <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN RUJUKAN</th>
                                                             <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">KEPUTUSAN</th>
                                                         </tr>

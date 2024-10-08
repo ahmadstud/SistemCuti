@@ -51,7 +51,7 @@
                         <p class="text-md mb-0 text-uppercase font-weight-bold">Jumlah Permohonan ditolak</p>
                         <h5 class="font-weight-bolder">{{ $rejectedMcApplications }}</h5>
                     </div>
-                    <div class="icon icon-shape bg-gradient-success shadow-primary text-center rounded-circle" style="width: 50px; height: 50px; margin-top: 10px;">
+                    <div class="icon icon-shape bg-gradient-danger shadow-primary text-center rounded-circle" style="width: 50px; height: 50px; margin-top: 10px;">
                         <i class="fas fa-check" style="font-size: 1.5rem; opacity: 10;" aria-hidden="true"></i>
                     </div>
                 </div>
