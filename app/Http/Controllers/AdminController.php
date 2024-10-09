@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 use Illuminate\Support\Facades\Auth; // <-- For accessing the authenticated user
 use Illuminate\Support\Facades\Hash; // <-- For password hashing
 use App\Models\User; // <-- Import the User model
@@ -22,39 +24,54 @@ class AdminController extends Controller
         $totalUsers = User::where('role', '!=', 'admin')->count();
 
         // Fetch all users excluding admins
-        $users = User::where('role', '!=', 'admin')->get();
+        $users = User::where('role', '!=', 'admin');
 
        // Get filter inputs
-$statusFilter = $request->input('status');
-$startDateFilter = $request->input('start_date');
-$endDateFilter = $request->input('end_date');
-$roleFilter = $request->input('role'); // Get role filter input
+        $statusFilter = $request->input('status');
+        $startDateFilter = $request->input('start_date');
+        $endDateFilter = $request->input('end_date');
+        $roleFilter = $request->input('role'); // Get role filter input
+        $jobStatusFilter = $request->input('job_status'); // Get job status filter input
 
-// Prepare the query for all applications along with their status (approved, rejected, or pending) and users
-$allApplicationsQuery = McApplication::with('user');
 
-// Apply status filter
-if ($statusFilter) {
-    $allApplicationsQuery->where('status', $statusFilter);
-}
+        // Apply role filter to users
+        if ($roleFilter) {
+            $users->where('role', $roleFilter);
+        }
 
-// Apply date filters
-if ($startDateFilter) {
-    $allApplicationsQuery->where('start_date', '>=', $startDateFilter);
-}
-if ($endDateFilter) {
-    $allApplicationsQuery->where('end_date', '<=', $endDateFilter);
-}
+        // Apply job status filter to users
+        if ($jobStatusFilter) {
+            $users->where('job_status', $jobStatusFilter);
+        }
 
-// Apply role filter
-if ($roleFilter) {
-    $allApplicationsQuery->whereHas('user', function($query) use ($roleFilter) {
-        $query->where('role', $roleFilter);
-    });
-}
+        $users = $users->get(); // Get filtered users
 
-// Get the filtered applications
-$allApplications = $allApplicationsQuery->get(); // Ensure this is called on the query builder
+
+        // Prepare the query for all applications along with their status (approved, rejected, or pending) and users
+        $allApplicationsQuery = McApplication::with('user');
+
+        // Apply status filter
+        if ($statusFilter) {
+            $allApplicationsQuery->where('status', $statusFilter);
+        }
+
+        // Apply date filters
+        if ($startDateFilter) {
+            $allApplicationsQuery->where('start_date', '>=', $startDateFilter);
+        }
+        if ($endDateFilter) {
+            $allApplicationsQuery->where('end_date', '<=', $endDateFilter);
+        }
+
+        // Apply role filter
+        if ($roleFilter) {
+            $allApplicationsQuery->whereHas('user', function($query) use ($roleFilter) {
+                $query->where('role', $roleFilter);
+            });
+        }
+
+        // Get the filtered applications
+        $allApplications = $allApplicationsQuery->get(); // Ensure this is called on the query builder
 
          // Fetch MC applications approved by officers and still pending admin approval
          $applications = McApplication::join('users', 'mc_applications.user_id', '=', 'users.id')
@@ -89,6 +106,29 @@ $allApplications = $allApplicationsQuery->get(); // Ensure this is called on the
 
 
 
+        // Get the current year
+        $currentYear = now()->year;
+
+        // Query to get the monthly data of staff on leave (cuti)
+        $monthlyLeaveData = McApplication::select(
+            DB::raw('MONTH(start_date) as month'),
+            DB::raw('COUNT(DISTINCT user_id) as total_staff')
+        )
+        ->whereYear('start_date', $currentYear) // Filter by the current year
+        ->where('status', 'approved') // Only count approved leaves
+        ->groupBy(DB::raw('MONTH(start_date)'))
+        ->get();
+
+        // Preparing an array with all 12 months and setting default values as 0
+        $leaveCountsByMonth = array_fill(1, 12, 0);
+
+        // Filling the actual values from the query
+        foreach ($monthlyLeaveData as $data) {
+            $leaveCountsByMonth[$data->month] = $data->total_staff;
+        }
+
+
+
         return view('admin', compact(
             'directAdminApplications',
             'totalUsers',
@@ -100,7 +140,10 @@ $allApplications = $allApplicationsQuery->get(); // Ensure this is called on the
             'announcements',
             'allApplications',
             'staffOnLeaveToday',
-            'officers'));
+            'leaveCountsByMonth',
+            'officers'
+
+        ));
     }
 
 

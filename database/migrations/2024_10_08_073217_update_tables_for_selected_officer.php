@@ -8,27 +8,19 @@ class UpdateTablesForSelectedOfficer extends Migration
 {
     public function up()
     {
-        // Add 'selected_officer_id' column to 'users' table
-        Schema::table('users', function (Blueprint $table) {
-            $table->unsignedBigInteger('selected_officer_id')->nullable()->after('profile_image');
-            $table->foreign('selected_officer_id')->references('id')->on('users')->onDelete('set null');
-        });
-
         // Drop 'selected_officer_id' column from 'mc_applications' table
         Schema::table('mc_applications', function (Blueprint $table) {
-            $table->dropColumn('selected_officer_id');
+            // Check if the foreign key constraint exists and drop it
+            if (Schema::hasColumn('mc_applications', 'selected_officer_id')) {
+                $table->dropForeign(['selected_officer_id']); // Drop foreign key constraint if exists
+                $table->dropColumn('selected_officer_id'); // Drop the column
+            }
         });
     }
 
     public function down()
     {
-        // Drop 'selected_officer_id' column from 'users' table
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign(['selected_officer_id']);
-            $table->dropColumn('selected_officer_id');
-        });
-
-        // Add 'selected_officer_id' column back to 'mc_applications' table
+        // Re-add 'selected_officer_id' column back to 'mc_applications' table
         Schema::table('mc_applications', function (Blueprint $table) {
             $table->unsignedBigInteger('selected_officer_id')->nullable();
             $table->foreign('selected_officer_id')->references('id')->on('users')->onDelete('set null');
