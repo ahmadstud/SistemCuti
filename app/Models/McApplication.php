@@ -19,8 +19,7 @@ class McApplication extends Model
         'officer_approved',
         'selected_officer_id',
         'direct_admin_approval',
-        'mc_days',
-        'al_days',
+        'leave_type',
     ];
      // Define the relationship with User
      public function user()

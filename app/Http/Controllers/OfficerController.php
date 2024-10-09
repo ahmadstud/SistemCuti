@@ -112,7 +112,7 @@ class OfficerController extends Controller
     }
 
 
-   public function storeMcApplication(Request $request)
+    public function storeMcApplication(Request $request)
     {
         // Validate the form input
         $validatedData = $request->validate([
@@ -120,6 +120,7 @@ class OfficerController extends Controller
             'end_date' => 'required|date|after_or_equal:start_date',
             'document_path' => 'required|mimes:pdf,jpg,png|max:2048',
             'reason' => 'required|string',
+            'leave_type' => 'required|in:mc,annual,other', // Add validation for leave_type
         ]);
 
         // Calculate the number of days for the MC application
@@ -144,6 +145,7 @@ class OfficerController extends Controller
                 'reason' => $request->reason,
                 'document_path' => $documentPath,
                 'status' => 'pending',
+                'leave_type' => $request->leave_type, // Store the leave_type
                 'direct_admin_approval' => true, // Indicate that this application is directly for admin approval
             ]);
 
@@ -154,51 +156,55 @@ class OfficerController extends Controller
     }
 
 
+
     public function editMC(Request $request, $id)
-    {
-        // Retrieve the existing MC application
-        $mcApplication = McApplication::findOrFail($id);
+{
+    // Retrieve the existing MC application
+    $mcApplication = McApplication::findOrFail($id);
 
-        // Validate the form input
-        $validatedData = $request->validate([
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
-            'document_path' => 'nullable|mimes:pdf,jpg,png|max:2048', // Make this optional
-            'reason' => 'required|string',
-        ]);
+    // Validate the form input
+    $validatedData = $request->validate([
+        'start_date' => 'required|date',
+        'end_date' => 'required|date|after_or_equal:start_date',
+        'document_path' => 'nullable|mimes:pdf,jpg,png|max:2048', // Make this optional
+        'reason' => 'required|string',
+        'leave_type' => 'required|in:mc,annual,other', // Add validation for leave_type
+    ]);
 
-        // Calculate the number of days for the MC application
-        $startDate = Carbon::parse($request->start_date);
-        $endDate = Carbon::parse($request->end_date);
-        $daysRequested = $endDate->diffInDays($startDate) + 1; // Include both start and end dates
+    // Calculate the number of days for the MC application
+    $startDate = Carbon::parse($request->start_date);
+    $endDate = Carbon::parse($request->end_date);
+    $daysRequested = $endDate->diffInDays($startDate) + 1; // Include both start and end dates
 
-        // Check if user has enough MC days left
-        $user = Auth::user();
-        if ($user->total_mc_days < $daysRequested) {
-            return redirect()->back()->with('error', 'Insufficient MC days available!');
-        }
-
-        // Update MC application fields
-        $mcApplication->start_date = $request->start_date;
-        $mcApplication->end_date = $request->end_date;
-        $mcApplication->reason = $request->reason;
-
-        // Handle file upload if a new document is provided
-        if ($request->hasFile('document_path')) {
-            // Delete old document if it exists
-            if ($mcApplication->document_path) {
-                Storage::disk('public')->delete($mcApplication->document_path);
-            }
-            // Store new document
-            $documentPath = $request->file('document_path')->store('mc_documents', 'public');
-            $mcApplication->document_path = $documentPath;
-        }
-
-        // Save changes to the database
-        $mcApplication->save();
-
-        return redirect()->back()->with('success', 'MC application updated successfully!');
+    // Check if user has enough MC days left
+    $user = Auth::user();
+    if ($user->total_mc_days < $daysRequested) {
+        return redirect()->back()->with('error', 'Insufficient MC days available!');
     }
+
+    // Update MC application fields
+    $mcApplication->start_date = $request->start_date;
+    $mcApplication->end_date = $request->end_date;
+    $mcApplication->reason = $request->reason;
+    $mcApplication->leave_type = $request->leave_type; // Update leave_type
+
+    // Handle file upload if a new document is provided
+    if ($request->hasFile('document_path')) {
+        // Delete old document if it exists
+        if ($mcApplication->document_path) {
+            Storage::disk('public')->delete($mcApplication->document_path);
+        }
+        // Store new document
+        $documentPath = $request->file('document_path')->store('mc_documents', 'public');
+        $mcApplication->document_path = $documentPath;
+    }
+
+    // Save changes to the database
+    $mcApplication->save();
+
+    return redirect()->back()->with('success', 'MC application updated successfully!');
+}
+
 
 
     public function deleteMC($id)

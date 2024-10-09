@@ -28,8 +28,11 @@ class User extends Authenticatable
         'postcode',
         'state',
        'total_mc_days',  // Ensure this is fillable
+       'total_annual',
+       'total_others',
        'job_status',
        'profile_image',
+       'selected_officer_id',
     ];
 
     /**
@@ -55,7 +58,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(McApplication::class);
     }
-    
+
     public function officer()
 {
     return $this->belongsTo(User::class, 'selected_officer_id');
