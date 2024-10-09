@@ -16,49 +16,67 @@ class StaffController extends Controller
 {
 
     public function storeMcApplication(Request $request)
-    {
-        // Validate the form input
-        $validatedData = $request->validate([
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
-            'document_path' => 'required|mimes:pdf,jpg,png|max:2048',
-            'reason' => 'required|string',
-            'direct_admin_approval' => 'nullable|boolean',
-        ]);
+{
+    // Validate the form input
+    $validatedData = $request->validate([
+        'start_date' => 'required|date',
+        'end_date' => 'required|date|after_or_equal:start_date',
+        'document_path' => 'required|mimes:pdf,jpg,png|max:2048',
+        'reason' => 'required|string',
+        'direct_admin_approval' => 'nullable|boolean',
+        'leave_type' => 'required|in:mc,annual,other',  // Ensure leave_type is one of the specified options
+    ]);
 
-        // Calculate the number of days for the MC application
-        $startDate = Carbon::parse($request->start_date);
-        $endDate = Carbon::parse($request->end_date);
-        $daysRequested = $endDate->diffInDays($startDate) + 1; // Include both start and end dates
+    // Calculate the number of days for the MC application
+    $startDate = Carbon::parse($request->start_date);
+    $endDate = Carbon::parse($request->end_date);
+    $daysRequested = $endDate->diffInDays($startDate) + 1; // Include both start and end dates
 
-        // Check if user has enough MC days left
-        $user = Auth::user();
-        if ($user->total_mc_days < $daysRequested) {
-            return redirect()->back()->with('error', 'Insufficient MC days available!');
-        }
-
-        // Handle file upload
-        $documentPath = $request->file('document_path')->store('mc_documents', 'public');
-
-        try {
-            McApplication::create([
-                'user_id' => Auth::id(),  // Assign the currently authenticated user ID
-                'start_date' => $request->start_date,
-                'end_date' => $request->end_date,
-                'reason' => $request->reason,
-                'document_path' => $documentPath,
-                'status' => 'pending',
-                'direct_admin_approval' => $request->input('direct_admin_approval') == '1' ? true : false,
-                'officer_approved' => false,
-            ]);
-
-            return redirect()->back()->with('success', 'MC application submitted successfully!');
-        } catch (\Exception $e) {
-            Log::error('Error Creating MC Application:', ['message' => $e->getMessage()]);
-            return redirect()->back()->with('error', 'Failed to submit MC application. Please try again.');
-        }
+    // Check if user has enough leave days left for the selected leave type
+    $user = Auth::user();
+    if ($request->leave_type === 'mc' && $user->total_mc_days < $daysRequested) {
+        return redirect()->back()->with('error', 'Insufficient MC days available!');
+    } elseif ($request->leave_type === 'annual' && $user->total_annual < $daysRequested) {
+        return redirect()->back()->with('error', 'Insufficient Annual leave days available!');
+    } elseif ($request->leave_type === 'other' && $user->total_others < $daysRequested) {
+        return redirect()->back()->with('error', 'Insufficient Other leave days available!');
     }
 
+    // Handle file upload
+    $documentPath = $request->file('document_path')->store('mc_documents', 'public');
+
+    try {
+        // Create the MC application
+        McApplication::create([
+            'user_id' => Auth::id(),  // Assign the currently authenticated user ID
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'reason' => $request->reason,
+            'document_path' => $documentPath,
+            'status' => 'pending',
+            'leave_type' => $request->leave_type,  // Save the selected leave type
+            'direct_admin_approval' => $request->input('direct_admin_approval') == '1',
+            'officer_approved' => false,
+        ]);
+
+        // Deduct days based on leave type
+        if ($request->leave_type === 'mc') {
+            $user->total_mc_days -= $daysRequested;
+        } elseif ($request->leave_type === 'annual') {
+            $user->total_annual -= $daysRequested;
+        } elseif ($request->leave_type === 'other') {
+            $user->total_others -= $daysRequested;
+        }
+
+        // Save the updated user information
+        $user->save();
+
+        return redirect()->back()->with('success', 'MC application submitted successfully!');
+    } catch (\Exception $e) {
+        Log::error('Error Creating MC Application:', ['message' => $e->getMessage()]);
+        return redirect()->back()->with('error', 'Failed to submit MC application. Please try again.');
+    }
+}
 
     public function index()
     {
@@ -155,8 +173,8 @@ class StaffController extends Controller
             'end_date' => 'required|date|after_or_equal:start_date',
             'document_path' => 'nullable|mimes:pdf,jpg,png|max:2048', // Make this optional
             'reason' => 'required|string',
-            'selected_officer_id' => 'nullable|exists:users,id',
             'direct_admin_approval' => 'nullable|boolean',
+            'leave_type' => 'required|in:mc,annual,other', // Ensure leave_type is one of the specified options
         ]);
 
         // Calculate the number of days for the MC application
@@ -174,7 +192,17 @@ class StaffController extends Controller
         $mcApplication->start_date = $request->start_date;
         $mcApplication->end_date = $request->end_date;
         $mcApplication->reason = $request->reason;
-        $mcApplication->selected_officer_id = $request->selected_officer_id ?: null;
+        $mcApplication->leave_type = $request->leave_type; // Save the leave type
+
+        // Instead of selecting officer_id from this table, retrieve from users table
+        if ($request->has('selected_officer_id')) {
+            $officer = User::find($request->selected_officer_id);
+            if ($officer) {
+                // If officer exists, you might want to store something or process it
+                // However, you're not updating mcApplication with selected_officer_id
+            }
+        }
+
         $mcApplication->direct_admin_approval = $request->input('direct_admin_approval') == '1' ? true : false;
 
         // Handle file upload if a new document is provided
@@ -193,6 +221,7 @@ class StaffController extends Controller
 
         return redirect()->back()->with('success', 'MC application updated successfully!');
     }
+
 
 
 

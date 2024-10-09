@@ -99,7 +99,8 @@ $allApplications = $allApplicationsQuery->get(); // Ensure this is called on the
             'rejectedMcApplications',
             'announcements',
             'allApplications',
-            'staffOnLeaveToday'));
+            'staffOnLeaveToday',
+            'officers'));
     }
 
 
@@ -111,25 +112,26 @@ $allApplications = $allApplicationsQuery->get(); // Ensure this is called on the
     }
 
 
-    // Method to update user information
     public function updateUser(Request $request, $id)
     {
         $user = User::findOrFail($id);
 
         // Validate input fields
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
-            'ic' => 'nullable|string|max:255',
-            'phone_number' => 'nullable|string|max:255',
-            'role' => 'required|string',
-            'job_status' => 'required|string',
-            'address' => 'nullable|string|max:255',
-            'city' => 'nullable|string|max:255',
-            'postcode' => 'nullable|string|max:10',
-            'state' => 'nullable|string|max:255',
-            'total_mc_days' => 'required|integer|min:0', // Validate mc_days input
-            'total_al_days' => 'required|integer|min:0', // Validate al_days input
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email,' . $id,
+        'ic' => 'nullable|string',
+        'phone_number' => 'nullable|string',
+        'role' => 'required|string',
+        'job_status' => 'required|string',
+        'selected_officer_id' => 'nullable|integer',
+        'total_mc_days' => 'required|integer|min:0',
+        'total_annual' => 'required|integer|min:0',
+        'total_others' => 'required|integer|min:0',
+        'address' => 'required|string',
+        'city' => 'required|string',
+        'postcode' => 'required|string',
+        'state' => 'required|string',
         ]);
 
         // Update user information
@@ -144,13 +146,16 @@ $allApplications = $allApplicationsQuery->get(); // Ensure this is called on the
             'city' => $request->city,
             'postcode' => $request->postcode,
             'state' => $request->state,
+            'selected_officer_id' => $request->selected_officer_id, // Add this line
             'total_mc_days' => $request->total_mc_days, // Ensure this matches the input name
-            'total_al_days' => $request->total_al_days, // Ensure this matches the input name
+            'total_annual' => $request->total_annual, // Ensure this matches the input name
+            'total_others' => $request->total_others, // Ensure this matches the input name
         ]);
 
         // Redirect with success message
         return redirect()->route('admin')->with('success', 'User updated successfully!');
     }
+
 
 
     public function updateAnnouncement(Request $request, $id)
@@ -229,8 +234,9 @@ $allApplications = $allApplicationsQuery->get(); // Ensure this is called on the
             'city' => 'nullable|string|max:255',
             'postcode' => 'nullable|string|max:10',
             'state' => 'nullable|string|max:255',
-            'mc_days' => 'required|integer|min:1', // Validate mc_days input
-            'al_days' => 'required|integer|min:1', // Validate al_days input
+            'total_mc_days' => 'required|integer|min:0',
+            'total_annual' => 'required|integer|min:0', // Validate total_annual input
+            'total_others' => 'required|integer|min:0', // Validate total_others input
         ]);
 
         // Create the new user
@@ -242,8 +248,9 @@ $allApplications = $allApplicationsQuery->get(); // Ensure this is called on the
             'role' => $request->role,
             'job_status' => $request->job_status,
             'password' => bcrypt($request->password),  // Encrypt the password
-            'total_mc_days' => $request->mc_days, // Set the mc_days input value
-            'total_al_days' => $request->al_days, // Set the al_days input value
+            'total_annual' => $request->total_annual, // Set the total_annual input value
+            'total_others' => $request->total_others, // Set the total_others input value
+            'total_mc_days' => $request->total_mc_days, // Set the total_others input value
             'address' => $request->address,
             'city' => $request->city,
             'postcode' => $request->postcode,
@@ -253,6 +260,7 @@ $allApplications = $allApplicationsQuery->get(); // Ensure this is called on the
         // Redirect back to admin with a success message
         return redirect()->route('admin')->with('success', 'New Staff/Officer added successfully!');
     }
+
 
 
     public function approve($id)
@@ -275,7 +283,7 @@ $allApplications = $allApplicationsQuery->get(); // Ensure this is called on the
         $daysRequested = ($endDate->timestamp - $startDate->timestamp) / (60 * 60 * 24) + 1; // Convert seconds to days and add 1
 
         // Ensure at least 1 day is requested
-        $daysRequested = max(1, (int) $daysRequested);
+        $daysRequested = max(1, (int)$daysRequested);
 
         // Find the user who submitted the application
         $user = User::find($application->user_id);
@@ -284,8 +292,37 @@ $allApplications = $allApplicationsQuery->get(); // Ensure this is called on the
             return redirect()->back()->with('error', 'User not found.');
         }
 
-        // Deduct the requested days from the user's total MC days
-        $user->total_mc_days -= $daysRequested;
+        // Deduct based on the leave type
+        switch ($application->leave_type) {
+            case 'annual':
+                if ($user->total_annual >= $daysRequested) {
+                    $user->total_annual -= $daysRequested;
+                } else {
+                    return redirect()->back()->with('error', 'Insufficient annual leave days available.');
+                }
+                break;
+
+            case 'mc':
+                if ($user->total_mc_days >= $daysRequested) {
+                    $user->total_mc_days -= $daysRequested;
+                } else {
+                    return redirect()->back()->with('error', 'Insufficient MC days available.');
+                }
+                break;
+
+            case 'other':
+                if ($user->total_others >= $daysRequested) {
+                    $user->total_others -= $daysRequested;
+                } else {
+                    return redirect()->back()->with('error', 'Insufficient other leave days available.');
+                }
+                break;
+
+            default:
+                return redirect()->back()->with('error', 'Invalid leave type.');
+        }
+
+        // Save the updated user information
         $user->save();
 
         // Update the application's status to approved
@@ -295,6 +332,8 @@ $allApplications = $allApplicationsQuery->get(); // Ensure this is called on the
 
         return redirect()->back()->with('success', 'MC application approved by admin.');
     }
+
+
 
 
     public function reject($id)

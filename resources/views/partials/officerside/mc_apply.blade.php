@@ -43,6 +43,17 @@
                                                     <input type="date" class="form-control" id="end_date" name="end_date" required>
                                                 </div>
                                             </div>
+
+                                            <!-- Leave Type Selection -->
+                                            <div class="col-md-12 mb-3">
+                                                <label for="leave_type" class="form-label">Jenis Cuti<span class="text-danger">*</span></label>
+                                                <select class="form-control" id="leave_type" name="leave_type" required>
+                                                    <option value="mc">Cuti Sakit (MC)</option>
+                                                    <option value="annual">Cuti Tahunan</option>
+                                                    <option value="other">Lain-lain</option>
+                                                </select>
+                                            </div>
+
                                             <div class="col-md-12 mb-3">
                                                 <label for="document_path" class="form-label">Dokumen MC<span class="text-danger">*</span></label>
                                                 <input type="file" class="form-control" id="document_path" name="document_path" required>
@@ -94,29 +105,6 @@
                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                     <p class="text-m text-secondary">{{ $mcApplication->end_date }}</p>
                                                 </td>
-                                                {{-- <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#reasonModal{{ $mcApplication->id }}">
-                                                        <i class="fas fa-eye"></i>
-                                                    </button>
-
-                                                    <!-- Modal for showing the reason -->
-                                                    <div class="modal fade" id="reasonModal{{ $mcApplication->id }}" tabindex="-1" aria-labelledby="reasonModalLabel{{ $mcApplication->id }}" aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="reasonModalLabel{{ $mcApplication->id }}">Sebab Permohonan MC</h5>
-                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    {{ $mcApplication->reason }}
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td> --}}
                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                     <p class="text-m text-secondary">{{ $mcApplication->reason }}</p>
                                                 </td>
@@ -166,6 +154,16 @@
                                                                                     <input type="date" class="form-control" id="end_date{{ $mcApplication->id }}" name="end_date" value="{{ $mcApplication->end_date }}" required>
                                                                                 </div>
                                                                             </div>
+                                                                            
+                                                                            <div class="col-md-12 mb-3">
+                                                                                <label for="leave_type{{ $mcApplication->id }}" class="form-label">Jenis Cuti<span class="text-danger">*</span></label>
+                                                                                <select class="form-control" id="leave_type{{ $mcApplication->id }}" name="leave_type" required>
+                                                                                    <option value="mc" {{ $mcApplication->leave_type == 'mc' ? 'selected' : '' }}>Cuti Sakit (MC)</option>
+                                                                                    <option value="annual" {{ $mcApplication->leave_type == 'annual' ? 'selected' : '' }}>Cuti Tahunan</option>
+                                                                                    <option value="other" {{ $mcApplication->leave_type == 'other' ? 'selected' : '' }}>Lain-lain</option>
+                                                                                </select>
+                                                                            </div>
+
                                                                             <div class="mb-3">
                                                                                 <label for="document_path{{ $mcApplication->id }}" class="form-label">Dokumen MC (biarkan kosong jika tidak mengubah)</label>
                                                                                 <input type="file" class="form-control" id="document_path{{ $mcApplication->id }}" name="document_path">
