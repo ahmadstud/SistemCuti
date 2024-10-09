@@ -25,18 +25,18 @@ use App\Http\Controllers\Auth\LoginController;
         // Route for logging out
         Route::post('/logout',                                [LoginController::class, 'logout'])->name('logout');
 
+    // Route after login
+        Route::get('/staff', [StaffController::class, 'index'])->name('staff');
+        Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin');
+        Route::get('/officer', [OfficerController::class, 'index'])->name('officer');
+
 
 
 // ADMIN ROUTES
 
-         // Admin Login session:
-    Route::get('/admin', function () {
-        return view('admin');
-        })->name('admin');
+    // Dashboard:
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
-        // Dashboard:
-        // Fetch data from dashboard method.
-        Route::get('/admin',                                  [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
     // User Management:
         // Routes for adding, editing, updating, and deleting users.
@@ -79,11 +79,6 @@ use App\Http\Controllers\Auth\LoginController;
 
 // OFFICER ROUTES
 
-    // Officer Session:
-        Route::get('/officer', function () {
-            return view('officer');
-        })->name('officer');
-
     // MC Application Approval (Officer Side):
         // Accept and reject staff application for officer side
         Route::post('/officer/update-status/{id}',            [OfficerController::class, 'updateStatus'])->name('officer.updateStatus');
@@ -111,11 +106,6 @@ use App\Http\Controllers\Auth\LoginController;
 
 
 // STAFF ROUTES
-
-    // Staff Session
-        Route::get('/staff', function () {
-            return view('staff');
-        })->name('staff');
 
     // MC Application Handling (Staff Side):
         // Routes for staff to submit, edit, and delete MC applications

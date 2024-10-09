@@ -375,19 +375,21 @@
                                                                     @endif
                                                                 </td>
                                                                 <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <!-- Edit Button -->
-                                                                    <button class="btn btn-md btn-primary" data-bs-toggle="modal" data-bs-target="#editAnnouncementModal{{ $announcement->id }}">
-                                                                        <i class="fas fa-pencil-alt"></i>
-                                                                    </button>
-
-                                                                    <!-- Delete button for announcement -->
-                                                                    <form action="{{ route('deleteAnnouncement', $announcement->id) }}" method="POST" style="display:inline;">
-                                                                        @csrf
-                                                                        @method('DELETE')
-                                                                        <button type="submit" class="btn btn-md btn-danger" title="Delete">
-                                                                            <i class="fas fa-trash-alt"></i> <!-- Delete symbol -->
+                                                                    <div class="d-flex justify-content-start"> <!-- Flex container for side-by-side buttons -->
+                                                                        <!-- Edit Button -->
+                                                                        <button class="btn btn-md btn-primary me-2" data-bs-toggle="modal" data-bs-target="#editAnnouncementModal{{ $announcement->id }}">
+                                                                            <i class="fas fa-pencil-alt"></i>
                                                                         </button>
-                                                                    </form>
+
+                                                                        <!-- Delete button for announcement -->
+                                                                        <form action="{{ route('deleteAnnouncement', $announcement->id) }}" method="POST" style="margin: 0;"> <!-- Set margin to 0 for proper alignment -->
+                                                                            @csrf
+                                                                            @method('DELETE')
+                                                                            <button type="submit" class="btn btn-md btn-danger" title="Delete">
+                                                                                <i class="fas fa-trash-alt"></i> <!-- Delete symbol -->
+                                                                            </button>
+                                                                        </form>
+                                                                    </div>
                                                                 </td>
                                                             </tr>
 
