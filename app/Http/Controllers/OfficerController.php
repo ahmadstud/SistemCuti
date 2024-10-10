@@ -109,6 +109,7 @@ class OfficerController extends Controller
 
         // Redirect with success message
         return redirect()->route('officer')->with('success', 'Your details have been updated successfully!');
+        return redirect()->route('officer')->with('error', 'Your details not been updated successfully!');
     }
 
 
@@ -203,6 +204,7 @@ class OfficerController extends Controller
     $mcApplication->save();
 
     return redirect()->back()->with('success', 'MC application updated successfully!');
+    return redirect()->back()->with('error', 'MC application not successfully updated!');
 }
 
 
@@ -217,6 +219,8 @@ class OfficerController extends Controller
 
         // Redirect back with success message
         return redirect()->route('officer')->with('success', 'Permohonan MC telah berjaya dihapuskan!');
+        return redirect()->route('officer')->with('error', 'Permohonan MC telah tidak berjaya dihapuskan!');
+
     }
 
 

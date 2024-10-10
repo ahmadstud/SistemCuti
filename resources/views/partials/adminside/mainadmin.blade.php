@@ -4,9 +4,7 @@
         @include ('partials.adminside.mcdata')
 
         <div class="row mt-4">
-            <div class="col-lg-12 mb-lg-0 mb-4" > <!-- Adjust column to full width -->
-                <div class="card">
-                    <div class="card-header pb-1 p-1">
+            <div class="col-lg-12 mb-lg-0 mb-4"> <!-- Adjust column to full width -->
 
                 <!-- Dashboard Section -->
                 <div id="Dashboard" class="content-section" style="display: none;">
@@ -645,12 +643,13 @@
                                                         <tr>
                                                             <th style="width: 3%; position: sticky; left: 0; z-index: 1;  padding: 8px;">BIL</th>
                                                             <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
+                                                            {{-- <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NO K/P</th> --}}
                                                             <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NO TELEFON</th>
                                                             <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">PERANAN</th>
                                                             <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">KETUA BAHAGIAN</th>
                                                             <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS PEKERJAAN</th>
                                                             <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">BAKI JUMLAH CUTI</th>
-                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TIDAKAN</th>
+                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -663,7 +662,9 @@
                                                                     <p class="text-m text-secondary">{{ $user->name }}</p>
                                                                     <p class="text-sm text-secondary">{{ $user->email }}</p>
                                                                 </td>
-
+                                                                {{-- <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                    <p class="text-m text-secondary">{{ $user->ic }}</p>
+                                                                </td> --}}
                                                                 <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                     <p class="text-m text-secondary">{{ $user->phone_number }}</p>
                                                                 </td>
@@ -691,7 +692,9 @@
                                                                     @endif
                                                                 </td>
                                                                 <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">Tahunan/MC: <br> {{ $user->total_mc_days }} Hari</p>
+                                                                    <p class="text-m text-secondary">Tahunan: <br> {{ $user->total_annual }} Hari</p><br>
+                                                                    <p class="text-m text-secondary">Sakit: <br> {{ $user->total_mc_days }} Hari</p><br>
+                                                                    <p class="text-m text-secondary">Lain-lain: <br> {{ $user->total_others }} Hari</p>
                                                                 </td>
                                                                 <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
 
@@ -701,118 +704,120 @@
                                                                     </button>
 
                                                                     <!-- Edit User Modal -->
-                                                                    <div class="modal fade" id="editModal{{ $user->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $user->id }}" aria-hidden="true">
-                                                                        <div class="modal-dialog modal-lg">
-                                                                            <div class="modal-content">
-                                                                                <div class="modal-header" style="background-color: #f0f0f0;">
-                                                                                    <h5 class="modal-title" id="editModalLabel{{ $user->id }}">Edit User - {{ $user->name }}</h5>
-                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                                </div>
-                                                                                <div class="modal-body">
-                                                                                    <form action="{{ route('updateUser', $user->id) }}" method="POST">
-                                                                                        @csrf
+<div class="modal fade" id="editModal{{ $user->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $user->id }}" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #f0f0f0;">
+                <h5 class="modal-title" id="editModalLabel{{ $user->id }}">Edit User - {{ $user->name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('updateUser', $user->id) }}" method="POST">
+                    @csrf
 
-                                                                                        <div class="row g-3">
-                                                                                            <div class="col-md-12 mb-3">
-                                                                                                <label for="name{{ $user->id }}" class="form-label">Nama</label>
-                                                                                                <input type="text" class="form-control" id="name{{ $user->id }}" name="name" value="{{ $user->name }}" required>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="row g-3">
-                                                                                            <div class="col-md-6 mb-3">
-                                                                                                <label for="email{{ $user->id }}" class="form-label">E-mel</label>
-                                                                                                <input type="email" class="form-control" id="email{{ $user->id }}" name="email" value="{{ $user->email }}" required>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="row g-3">
-                                                                                            <div class="col-md-6 mb-3">
-                                                                                                <label for="ic{{ $user->id }}" class="form-label">No K/P</label>
-                                                                                                <input type="text" class="form-control" id="ic{{ $user->id }}" name="ic" value="{{ $user->ic }}">
-                                                                                            </div>
-                                                                                            <div class="col-md-6 mb-3">
-                                                                                                <label for="phone_number{{ $user->id }}" class="form-label">No Telefon</label>
-                                                                                                <input type="text" class="form-control" id="phone_number{{ $user->id }}" name="phone_number" value="{{ $user->phone_number }}">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <hr>
-                                                                                        <div class="row g-3">
-                                                                                            <div class="col-md-6 mb-3">
-                                                                                                <label for="role{{ $user->id }}" class="form-label">Peranan</label>
-                                                                                                <select class="form-select" id="role{{ $user->id }}" name="role">
-                                                                                                    <option selected disabled>--- Pilih Peranan ---</option>
-                                                                                                    <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
-                                                                                                    <option value="staff" {{ $user->role == 'staff' ? 'selected' : '' }}>Staf</option>
-                                                                                                    <option value="officer" {{ $user->role == 'officer' ? 'selected' : '' }}>Pegawai</option>
-                                                                                                </select>
-                                                                                            </div>
-                                                                                            <div class="col-md-6 mb-3">
-                                                                                                <label for="job_status{{ $user->id }}" class="form-label">Status Pekerjaan</label>
-                                                                                                <select class="form-select" id="job_status{{ $user->id }}" name="job_status" required>
-                                                                                                    <option selected disabled>--- Pilih Status Pekerjaan ---</option>
-                                                                                                    <option value="Permenant" {{ $user->job_status == 'Permenant' ? 'selected' : '' }}>Tetap</option>
-                                                                                                    <option value="Contract" {{ $user->job_status == 'Contract' ? 'selected' : '' }}>Kontrak</option>
-                                                                                                </select>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="row g-3">
-                                                                                            <div class="col-md-6 mb-3">
-                                                                                                <label for="selected_officer_id" class="form-label">Ketua Bahagian/Pegawai</label>
-                                                                                                <select class="form-select" id="selected_officer_id" name="selected_officer_id" required>
-                                                                                                    <option selected disabled>--- Tiada Penyelia ---</option>
-                                                                                                    @foreach($officers as $officer)
-                                                                                                    <option value="{{ $officer->id }}" {{ $user->selected_officer_id == $officer->id ? 'selected' : '' }}>
-                                                                                                        {{ $officer->name }}
-                                                                                                    </option>
-                                                                                                    @endforeach
-                                                                                                </select>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="row g-3">
-                                                                                            <div class="col-md-4 mb-3">
-                                                                                                <label for="total_mc_days{{ $user->id }}" class="form-label">Jumlah MC</label>
-                                                                                                <input type="number" class="form-control" id="total_mc_days{{ $user->id }}" name="total_mc_days" value="{{ $user->total_mc_days }}" required min="0">
-                                                                                            </div>
-                                                                                            <div class="col-md-4 mb-3">
-                                                                                                <label for="total_annual{{ $user->id }}" class="form-label">Jumlah Cuti Tahunan</label>
-                                                                                                <input type="number" class="form-control" id="total_annual{{ $user->id }}" name="total_annual" value="{{ $user->total_annual }}" required min="0">
-                                                                                            </div>
-                                                                                            <div class="col-md-4 mb-3">
-                                                                                                <label for="total_others{{ $user->id }}" class="form-label">Jumlah Cuti Lain</label>
-                                                                                                <input type="number" class="form-control" id="total_others{{ $user->id }}" name="total_others" value="{{ $user->total_others }}" required min="0">
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <hr>
-                                                                                        <div class="row g-3">
-                                                                                            <div class="col-md-12 mb-3">
-                                                                                                <label for="address{{ $user->id }}" class="form-label">Address</label>
-                                                                                                <input type="text" class="form-control" id="address{{ $user->id }}" name="address" value="{{ $user->address }}" required>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="row g-3">
-                                                                                            <div class="col-md-6 mb-3">
-                                                                                                <label for="city{{ $user->id }}" class="form-label">City</label>
-                                                                                                <input type="text" class="form-control" id="city{{ $user->id }}" name="city" value="{{ $user->city }}" required>
-                                                                                            </div>
-                                                                                            <div class="col-md-6 mb-3">
-                                                                                                <label for="postcode{{ $user->id }}" class="form-label">Postcode</label>
-                                                                                                <input type="text" class="form-control" id="postcode{{ $user->id }}" name="postcode" value="{{ $user->postcode }}" required>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="row g-3">
-                                                                                            <div class="col-md-6 mb-3">
-                                                                                                <label for="state{{ $user->id }}" class="form-label">State</label>
-                                                                                                <input type="text" class="form-control" id="state{{ $user->id }}" name="state" value="{{ $user->state }}" required>
-                                                                                            </div>
-                                                                                        </div>
+                    <div class="row g-3">
+                        <div class="col-md-12 mb-3">
+                            <label for="name{{ $user->id }}" class="form-label">Nama</label>
+                            <input type="text" class="form-control" id="name{{ $user->id }}" name="name" value="{{ $user->name }}" required>
+                        </div>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-6 mb-3">
+                            <label for="email{{ $user->id }}" class="form-label">E-mel</label>
+                            <input type="email" class="form-control" id="email{{ $user->id }}" name="email" value="{{ $user->email }}" required>
+                        </div>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-6 mb-3">
+                            <label for="ic{{ $user->id }}" class="form-label">No K/P</label>
+                            <input type="text" class="form-control" id="ic{{ $user->id }}" name="ic" value="{{ $user->ic }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="phone_number{{ $user->id }}" class="form-label">No Telefon</label>
+                            <input type="text" class="form-control" id="phone_number{{ $user->id }}" name="phone_number" value="{{ $user->phone_number }}">
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row g-3">
+                        <div class="col-md-6 mb-3">
+                            <label for="role{{ $user->id }}" class="form-label">Peranan</label>
+                            <select class="form-select" id="role{{ $user->id }}" name="role">
+                                <option selected disabled>--- Pilih Peranan ---</option>
+                                <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
+                                <option value="staff" {{ $user->role == 'staff' ? 'selected' : '' }}>Staf</option>
+                                <option value="officer" {{ $user->role == 'officer' ? 'selected' : '' }}>Pegawai</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="job_status{{ $user->id }}" class="form-label">Status Pekerjaan</label>
+                            <select class="form-select" id="job_status{{ $user->id }}" name="job_status" required>
+                                <option selected disabled>--- Pilih Status Pekerjaan ---</option>
+                                <option value="Permenant" {{ $user->job_status == 'Permenant' ? 'selected' : '' }}>Tetap</option>
+                                <option value="Contract" {{ $user->job_status == 'Contract' ? 'selected' : '' }}>Kontrak</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-6 mb-3">
+                            <label for="selected_officer_id" class="form-label">Ketua Bahagian/Pegawai</label>
+                            <select class="form-select" id="selected_officer_id" name="selected_officer_id" required>
+                                <option selected disabled>--- Tiada Penyelia ---</option>
+                                @foreach($officers as $officer)
+                                <option value="{{ $officer->id }}" {{ $user->selected_officer_id == $officer->id ? 'selected' : '' }}>
+                                    {{ $officer->name }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-4 mb-3">
+                            <label for="total_mc_days{{ $user->id }}" class="form-label">Jumlah MC</label>
+                            <input type="number" class="form-control" id="total_mc_days{{ $user->id }}" name="total_mc_days" value="{{ $user->total_mc_days }}" required min="0">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="total_annual{{ $user->id }}" class="form-label">Jumlah Cuti Tahunan</label>
+                            <input type="number" class="form-control" id="total_annual{{ $user->id }}" name="total_annual" value="{{ $user->total_annual }}" required min="0">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="total_others{{ $user->id }}" class="form-label">Jumlah Cuti Lain</label>
+                            <input type="number" class="form-control" id="total_others{{ $user->id }}" name="total_others" value="{{ $user->total_others }}" required min="0">
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row g-3">
+                        <div class="col-md-12 mb-3">
+                            <label for="address{{ $user->id }}" class="form-label">Address</label>
+                            <input type="text" class="form-control" id="address{{ $user->id }}" name="address" value="{{ $user->address }}" required>
+                        </div>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-6 mb-3">
+                            <label for="city{{ $user->id }}" class="form-label">City</label>
+                            <input type="text" class="form-control" id="city{{ $user->id }}" name="city" value="{{ $user->city }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="postcode{{ $user->id }}" class="form-label">Postcode</label>
+                            <input type="text" class="form-control" id="postcode{{ $user->id }}" name="postcode" value="{{ $user->postcode }}" required>
+                        </div>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-6 mb-3">
+                            <label for="state{{ $user->id }}" class="form-label">State</label>
+                            <input type="text" class="form-control" id="state{{ $user->id }}" name="state" value="{{ $user->state }}" required>
+                        </div>
+                    </div>
 
-                                                                                        <div class="modal-footer">
-                                                                                            <button type="submit" class="btn btn-success">Simpan</button>
-                                                                                        </div>
-                                                                                    </form>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
                                                                     <!-- Delete button -->
                                                                     <form action="{{ route('deleteUser', $user->id) }}" method="POST" style="display:inline;">
                                                                         @csrf
@@ -823,6 +828,7 @@
                                                                     </form>
                                                                 </td>
                                                             </tr>
+
                                                         @endforeach
                                                     </tbody>
                                                 </table>
@@ -831,6 +837,7 @@
                                     </div> <!-- Closing for card -->
                                 </div>
                             </div>
+
                         </div> <!-- Closing for col-lg-12 -->
                     </div> <!-- Closing for row -->
                 </div>
@@ -934,7 +941,7 @@
                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                     <p class="text-m text-secondary">
                                                                     @if($application->document_path)
-                                                                        <a href="{{ asset($application->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</a>
+                                                                    <a href="{{ Storage::url($application->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</a>
                                                                     @else
                                                                         No Document
                                                                     @endif
@@ -1122,7 +1129,7 @@
                                                                     </td>
                                                                     <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                         @if($application->document_path)
-                                                                            <a href="{{ Storage::url($application->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</a>
+                                                                        <a href="{{ Storage::url($application->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</a>
                                                                         @endif
                                                                     </td>
                                                                     <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
@@ -1364,7 +1371,16 @@
                                             <div class="row mt-3">
                                                 <div class="col-md-4">
                                                     <label for="role" class="form-label">PERANAN</label>
-                                                    <p class="form-control" id="role">{{ Auth::user()->role }}</p>
+                                                    <p class="form-control" id="role">
+                                                        @php
+                                                            $roleMapping = [
+                                                                'admin' => 'Admin',
+                                                                'staff' => 'Staf',
+                                                                'officer' => 'Pegawai',
+                                                            ];
+                                                        @endphp
+                                                        {{ $roleMapping[Auth::user()->role] ?? Auth::user()->role }}
+                                                    </p>
                                                 </div>
 
                                                 <div class="col-md-4">
@@ -1440,9 +1456,5 @@
 
             </div>
         </div>
-            </div>
-                </div>
-</div>
-</main> <!-- Closing main-content -->
-
-
+    </div>
+</main>

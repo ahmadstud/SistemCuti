@@ -32,28 +32,28 @@
                                             @csrf
                                             <!-- Profile Image Upload -->
                                         <div class="mb-3">
-                                            <label for="profile_image" class="form-label">Muat Naik Gambar Profil</label>
+                                            <label for="profile_image" class="form-label">Muat Naik Gambar Profil<span class="text-danger">*</span></label>
                                             <input type="file" class="form-control" id="profile_image" name="profile_image">
                                         </div>
                                             <!-- Profile Information -->
                                             <h5 class="mt-4">MAKLUMAT DIRI</h5>
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <label for="name" class="form-label">NAMA</label>
+                                                    <label for="name" class="form-label">NAMA<span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="name" name="name" value="{{ Auth::user()->name }}">
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label for="email" class="form-label">EMEL</label>
+                                                    <label for="email" class="form-label">EMEL<span class="text-danger">*</span></label>
                                                     <input type="email" class="form-control" id="email" name="email" value="{{ Auth::user()->email }}">
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
                                                 <div class="col-md-6">
-                                                    <label for="ic" class="form-label">NO K/P</label>
+                                                    <label for="ic" class="form-label">NO K/P<span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="ic" name="ic" value="{{ Auth::user()->ic }}">
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label for="phone_number" class="form-label">NO TELEFON</label>
+                                                    <label for="phone_number" class="form-label">NO TELEFON<span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ Auth::user()->phone_number }}">
                                                 </div>
                                             </div>
@@ -62,21 +62,21 @@
                                             <h5 class="mt-4">MAKLUMAT TEMPAT TINGGAL</h5>
                                             <div class="row mt-3">
                                                 <div class="col-md-12">
-                                                    <label for="address" class="form-label">ALAMAT</label>
+                                                    <label for="address" class="form-label">ALAMAT<span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="address" name="address" value="{{ Auth::user()->address }}">
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
                                                 <div class="col-md-4">
-                                                    <label for="postcode" class="form-label">POSKOD</label>
+                                                    <label for="postcode" class="form-label">POSKOD<span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="postcode" name="postcode" value="{{ Auth::user()->postcode }}">
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <label for="city" class="form-label">BANDAR</label>
+                                                    <label for="city" class="form-label">BANDAR<span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="city" name="city" value="{{ Auth::user()->city }}">
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <label for="state" class="form-label">NEGERI</label>
+                                                    <label for="state" class="form-label">NEGERI<span class="text-danger">*</span></label>
                                                     <input type="text" class="form-control" id="state" name="state" value="{{ Auth::user()->state }}">
                                                 </div>
                                             </div>
@@ -155,7 +155,16 @@
                             <div class="row mt-3">
                                 <div class="col-md-4">
                                     <label for="role" class="form-label">PERANAN</label>
-                                    <p class="form-control" id="role">{{ Auth::user()->role }}</p>
+                                    <p class="form-control" id="role">
+                                        @php
+                                            $roleMapping = [
+                                                'admin' => 'Admin',
+                                                'staff' => 'Staf',
+                                                'officer' => 'Pegawai',
+                                            ];
+                                        @endphp
+                                        {{ $roleMapping[Auth::user()->role] ?? Auth::user()->role }}
+                                    </p>
                                 </div>
 
 
@@ -168,7 +177,15 @@
 
                                 <div class="col-md-4">
                                     <label for="job_status" class="form-label">STATUS PEKERJAAN</label>
-                                    <p class="form-control" id="job_status">{{ Auth::user()->job_status }}</p>
+                                    <p class="form-control" id="job_status">
+                                        @php
+                                            $roleMapping = [
+                                                'Contract' => 'Kontrak',
+                                                'Permenant' => 'Tetap',
+                                            ];
+                                        @endphp
+                                        {{ $roleMapping[Auth::user()->job_status] ?? Auth::user()->job_status }}
+                                    </p>
                                 </div>
 
                                 <div class="col-md-4">

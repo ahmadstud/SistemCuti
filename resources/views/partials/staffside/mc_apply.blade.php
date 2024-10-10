@@ -75,8 +75,6 @@
         </div>
     </div>
 </div>
-
-
                         <!-- List of MC Applications -->
                         <div class="card-body">
                             <div style="overflow-x: auto; position: relative;">

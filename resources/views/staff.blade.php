@@ -29,9 +29,24 @@
   <link href="./assets/css/nucleo-svg.css" rel="stylesheet" />
   <!-- CSS Files -->
   <link id="pagestyle" href="./assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 </head>
 
 <body class="g-sidenav-show bg-gray-100">
+ <!-- Welcome Alert for Staff using SweetAlert -->
+ @if(Auth::check() && Auth::user()->role === 'staff')
+ <script>
+     document.addEventListener('DOMContentLoaded', function() {
+         Swal.fire({
+             title: 'Selamat Datang!',
+             text: "Selamat Datang ke Papan Pemuka Staf, Encik {{ Auth::user()->name }}!",
+             icon: 'info',
+             confirmButtonText: 'OK'
+         });
+     });
+ </script>
+@endif
+
     <div class="min-height-500 bg-primary position-absolute w-100"></div>
                 @include('partials.staffside.aside')
 
@@ -71,6 +86,7 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="./assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </body>
 
 

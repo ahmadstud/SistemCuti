@@ -73,11 +73,11 @@
                         </div>
 
                         <!-- List of MC Applications -->
-                        <div class="card-body">
+                        <div class="card-body d-flex justify-content-center">
                             <div style="overflow-x: auto; position: relative;">
                             @if($mcApplications->isEmpty())
                                 <!-- Display a message when no applications exist -->
-                                <div class="alert alert-info" role="alert">
+                                <div class="alert alert-warning" role="alert">
                                     Tiada permohonan daripada staf.
                                 </div>
                             @else
@@ -154,7 +154,7 @@
                                                                                     <input type="date" class="form-control" id="end_date{{ $mcApplication->id }}" name="end_date" value="{{ $mcApplication->end_date }}" required>
                                                                                 </div>
                                                                             </div>
-                                                                            
+
                                                                             <div class="col-md-12 mb-3">
                                                                                 <label for="leave_type{{ $mcApplication->id }}" class="form-label">Jenis Cuti<span class="text-danger">*</span></label>
                                                                                 <select class="form-control" id="leave_type{{ $mcApplication->id }}" name="leave_type" required>

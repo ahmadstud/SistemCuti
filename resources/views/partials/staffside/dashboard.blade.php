@@ -69,9 +69,7 @@
                             <div class="card-header pb-0 pt-3 bg-transparent">
                                 <h4 class="text-capitalize">NOTA</h4>
                             </div>
-
                             <div class="card-body p-3">
-
                                 <div class="accordion" id="accordionExample">
                                     <div class="accordion-item" style="border: 1px solid #dee2e6; border-radius: 0.375rem; margin-bottom: 1rem;">
                                         <h2 class="accordion-header" id="headingOne">
@@ -144,10 +142,8 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
-
             {{-- Second Row --}}
             <div class="container-fluid py-2">
                 <div class="row ">
@@ -169,8 +165,6 @@
                             </div>
                         </div>
                     </div>
-
-
 
                     {{-- Card Senarai Staff Cuti Harian --}}
                     <div class="col-lg-5 mb-lg-0 mb-4">
