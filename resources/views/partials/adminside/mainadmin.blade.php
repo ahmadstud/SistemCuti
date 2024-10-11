@@ -1260,7 +1260,7 @@
                                                             <thead style="background-color: #f0f0f0;">
                                                                 <tr>
                                                                     <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                        <p class="text-m text-secondary">{{ $loop->iteration }}</p>
+                                                                        <p class="text-m text-secondary">{{ $application->id }}</p>
                                                                     </td>
                                                                     <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                         <p class="text-m text-secondary">{{ $application->user->name }}</p>

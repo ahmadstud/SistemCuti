@@ -5,7 +5,7 @@
 
       <div style="display: flex; flex-direction: column; align-items: center;">
           <a class="navbar-brand m-0" href="#" target="_blank">
-              <img src="./assets/img/Erawhiz.png" class="navbar-brand-img" alt="main_logo" style="
+              <img src="{{ asset('assets/img/Erawhiz.png') }}" class="navbar-brand-img" alt="main_logo" style="
                 display: block;
                   margin: 0 auto;
                   width: 100%; /* Make image fill the width of its container */
@@ -25,9 +25,12 @@
 
       <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
+
           <li class="nav-item">
-            <a class="nav-link" href="#" data-target="Dashboard">
-              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+            <form action="{{ route('officer') }}" method="GET" style="display: none;" id="dashboard-form">
+            </form>
+            <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('dashboard-form').submit();">
+                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
               </div>
               <span class="nav-link-text ms-1">Utama</span>
@@ -35,8 +38,10 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="#" data-target="McApprove">
-              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+            <form action="{{ route('officer.mc_approve') }}" method="GET" style="display: none;" id="mcapprove-form">
+            </form>
+            <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('mcapprove-form').submit();">
+                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-briefcase-24 text-primary text-sm opacity-10"></i>
               </div>
               <span class="nav-link-text ms-1">Kelulusan Pegawai</span>
@@ -44,8 +49,10 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="#" data-target="McApply">
-              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+            <form action="{{ route('officer.mc_apply') }}" method="GET" style="display: none;" id="mcapply-form">
+            </form>
+            <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('mcapply-form').submit();">
+                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-briefcase-24 text-primary text-sm opacity-10"></i>
               </div>
               <span class="nav-link-text ms-1">Permohonan Cuti Sakit</span>
@@ -57,8 +64,10 @@
           </li>
 
           <li class="nav-item">
-              <a class="nav-link" href="#" data-target="Profile">
-              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+            <form action="{{ route('officer.profile') }}" method="GET" style="display: none;" id="profile-form">
+            </form>
+            <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('profile-form').submit();">
+                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
               </div>
               <span class="nav-link-text ms-1">Profil Pengguna</span>
@@ -66,8 +75,10 @@
           </li>
 
           <li class="nav-item">
-              <a class="nav-link" href="#" data-target="ChangePassword">
-              <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+            <form action="{{ route('officer.password') }}" method="GET" style="display: none;" id="password-form">
+            </form>
+            <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('password-form').submit();">
+                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                   <i class="ni ni-lock-circle-open text-danger text-sm opacity-10"></i>
               </div>
               <span class="nav-link-text ms-1">Tukar Kata Laluan</span>
