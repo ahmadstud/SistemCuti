@@ -1,6 +1,7 @@
-   // Staff JS ////////////////////////////////////////////////////////////////////////////////////////////////////////
-   // Carousel JS
-   document.addEventListener('DOMContentLoaded', function() {
+  // Staff JS ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Carousel JS
+document.addEventListener('DOMContentLoaded', function() {
     const carouselElement = document.getElementById('announcementCarousel');
 
     carouselElement.addEventListener('slide.bs.carousel', function(event) {
@@ -21,81 +22,82 @@
     });
 });
 // End of Carousel JS
-   var win = navigator.platform.indexOf('Win') > -1;
-    if (win && document.querySelector('#sidenav-scrollbar')) {
-      var options = {
+
+var win = navigator.platform.indexOf('Win') > -1;
+if (win && document.querySelector('#sidenav-scrollbar')) {
+    var options = {
         damping: '0.5'
-      }
-      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
     }
-    document.addEventListener('DOMContentLoaded', function() {
+    Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
     // Initially hide all sections
     document.querySelectorAll('.content-section').forEach(section => {
-      section.style.display = 'none';
+        section.style.display = 'none';
     });
-
 
     // Handle navigation link clicks
     document.querySelectorAll('.nav-link').forEach(link => {
-      link.addEventListener('click', function(event) {
-        event.preventDefault();
+        link.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default anchor behavior
 
-        // Remove 'active' class from all nav links
-        document.querySelectorAll('.nav-link').forEach(link => {
-          link.classList.remove('active');
+            // Remove 'active' class from all nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // Add 'active' class to the clicked link
+            this.classList.add('active');
+
+            // Get the target section ID from the clicked link
+            const targetId = this.getAttribute('data-target');
+
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.style.display = 'none';
+            });
+
+            // Show the selected section
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) {
+                targetSection.style.display = 'block';
+            } else {
+                console.log('No section found with ID:', targetId);
+            }
         });
-
-        // Add 'active' class to the clicked link
-        this.classList.add('active');
-
-        // Get the target section ID from the clicked link
-        const targetId = this.getAttribute('data-target');
-
-        // Hide all sections
-        document.querySelectorAll('.content-section').forEach(section => {
-          section.style.display = 'none';
-        });
-
-        // Show the selected section
-        const targetSection = document.getElementById(targetId);
-        if (targetSection) {
-          targetSection.style.display = 'block';
-        } else {
-          console.log('No section found with ID:', targetId);
-        }
-      });
     });
 
     // Show the first section by default (optional)
     const firstNavLink = document.querySelector('.nav-link[data-target]');
     if (firstNavLink) {
-      firstNavLink.click();
+        firstNavLink.click();
     }
-  });
-  function toggleEditProfile() {
+});
+
+// Function to toggle profile edit view
+function toggleEditProfile() {
     document.getElementById('viewProfile').style.display = 'none';
     document.getElementById('editProfile').style.display = 'block';
-  }
+}
 
-  function toggleViewProfile() {
+function toggleViewProfile() {
     document.getElementById('editProfile').style.display = 'none';
     document.getElementById('viewProfile').style.display = 'block';
-  }
-  function updateDateTime() {
+}
+
+// Function to update date and time
+function updateDateTime() {
     const now = new Date();
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
     document.getElementById('date-time').textContent = now.toLocaleDateString('en-US', options);
-  }
+}
 
-  // Update date and time every second
-  setInterval(updateDateTime, 1000);
+// Update date and time every second
+setInterval(updateDateTime, 1000);
 
-  // Initialize date and time on page load
-  updateDateTime();
-
-
-
-
+// Initialize date and time on page load
+updateDateTime();
 
 
 // Admin JS /////////////////////////////////////////////////////////////////////////////////////////////////////////

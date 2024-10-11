@@ -115,13 +115,8 @@ use App\Http\Controllers\Auth\LoginController;
         // Delete mc application for rejected only
         Route::delete('/staff/mc-application/{id}',           [StaffController::class, 'deleteMC'])->name('staff.deleteMC');
 
-    // Staff Profile Management:
-        Route::get('/staff/edit-profile', function () {
-            return view('partials.staffside.edit-profile');
-        })->name('staff.editProfile');
-
         // Staff Routes
-        Route::get('/staff',                                   [StaffController::class, 'index'])->name('staff'); // D (this replaces the previous '/staff' view route)
+        Route::get('/staff',                                   [StaffController::class, 'dashboard'])->name('staff'); // D (this replaces the previous '/staff' view route)
 
         // Route for submitting MC application
         Route::post('/staff/mc-application',                   [StaffController::class, 'storeMcApplication'])->name('staff.mc.submit');
@@ -132,4 +127,6 @@ use App\Http\Controllers\Auth\LoginController;
         // Route for updating own details
         Route::post('/staff/update-details',                   [StaffController::class, 'updateOwnDetails2'])->name('updateOwnDetails2');
 
-
+        Route::get('/profile', [StaffController::class, 'profile'])->name('profile');
+        Route::get('/password', [StaffController::class, 'password'])->name('password');
+        Route::get('/mc_application', [StaffController::class, 'McApply'])->name('McApply');

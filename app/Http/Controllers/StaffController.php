@@ -78,28 +78,6 @@ class StaffController extends Controller
     }
 }
 
-    public function index()
-    {
-        // Fetch all MC applications for the logged-in user
-        $mcApplications = McApplication::where('user_id', Auth::id())->get();
-        $officers = User::where('role', 'Penyelia')->get(); // Fetch officers
-        $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
-        // Get today's date
-        $today = now()->toDateString();
-        // Get the list of staff on MC today
-        $staffOnLeaveToday = McApplication::with('user')
-            ->where('start_date', '<=', $today)
-            ->where('end_date', '>=', $today)
-            ->where('status', 'approved') // Assuming you have a status column to check for approval
-            ->get();
-
-         // Fetch total users excluding admins
-         $totalUsers = User::all();
-
-        return view('staff', compact('mcApplications', 'officers','announcements','staffOnLeaveToday','totalUsers'));
-    }
-
-
     public function updateOwnDetails2(Request $request)
     {
         $user = Auth::user(); // Get the currently authenticated user
@@ -148,7 +126,7 @@ class StaffController extends Controller
         $user->save();
 
         // Redirect with success message
-        return redirect()->route('staff')->with('success', 'Your details have been updated successfully!');
+        return redirect()->back()->with('success', 'Your details have been updated successfully!');
     }
 
 
@@ -158,7 +136,7 @@ class StaffController extends Controller
         $mcApplications = McApplication::findOrFail($id);
         $mcApplications->delete(); // Delete the user
 
-        return redirect()->route('staff')->with('success', 'MC Application deleted !');
+        return redirect()->back()->with('success', 'MC Application deleted !');
     }
 
 
@@ -222,7 +200,38 @@ class StaffController extends Controller
         return redirect()->back()->with('success', 'MC application updated successfully!');
     }
 
+    public function dashboard()
+    {
+        // Get today's date
+        $today = now()->toDateString();
+        // Get the list of staff on MC today
+        $staffOnLeaveToday = McApplication::with('user')
+            ->where('start_date', '<=', $today)
+            ->where('end_date', '>=', $today)
+            ->where('status', 'approved') // Assuming you have a status column to check for approval
+            ->get();
+        $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
+        $officers = User::where('role', 'Penyelia')->get(); // Fetch officers
+         // Fetch total users excluding admins
+         $totalUsers = User::all();
+        return view('staff',compact('announcements','staffOnLeaveToday','totalUsers','officers'));
+    }
 
+    public function profile()
+    {
+        return view('partials.staffside.profile');
+    }
 
+    public function password()
+    {
+        return view('partials.staffside.password');
+    }
+
+    public function McApply()
+    {
+         // Fetch all MC applications for the logged-in user
+         $mcApplications = McApplication::where('user_id', Auth::id())->get();
+       return view('partials.staffside.mc_apply', compact('mcApplications'));
+    }
 
 }
