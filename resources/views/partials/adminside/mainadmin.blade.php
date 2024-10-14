@@ -202,46 +202,46 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
+                                            
 
-
-                                    {{-- Card Senarai Staff Cuti Harian --}}
-                                    <div class="col-lg-5 mb-lg-0 mb-4">
-                                        <div class="card z-index-2 h-100">
-                                            <div class="card-header pb-0 pt-3 bg-transparent">
-                                                <h4 class="text-capitalize">SENARAI STAFF CUTI HARIAN</h4>
-                                                <p class="text-sm mb-0">
-                                                    <i class="fa fa-arrow-up text-success"></i>
-                                                    <span class="font-weight-bold">pada </span>{{ now()->format('d F Y') }}
-                                                </p>
-                                            </div>
-                                            <div class="card-body pt-4 p-3">
-                                                <ul class="list-group" id="leaveList">
-                                                    @if($staffOnLeaveToday->isEmpty())
-                                                        <li class="list-group-item">Tiada staff yang cuti hari ini.</li>
-                                                    @else
-                                                        @foreach($staffOnLeaveToday as $leave)
-                                                            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                                                <div class="d-flex align-items-center">
-                                                                    <!-- Icon button -->
-                                                                    <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
-                                                                        <i class="fas fa-arrow-down"></i>
-                                                                    </button>
-                                                                    <div class="d-flex flex-column">
-                                                                        <!-- Staff name and leave dates -->
-                                                                        <li class="list-group-item"><h6 class="mb-1 text-dark text-md">{{ $leave->user->name }}</h6></li>
-                                                                        <span class="text-xs">Cuti sehingga {{ \Carbon\Carbon::parse($leave->end_date)->format('d F Y') }}</span>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- Optionally, you can add more info here, like leave days used, etc. -->
-                                                                <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                                                                    MC Days: {{ $leave->mc_days }} <!-- or any other detail you'd like to display -->
-                                                                </div>
-                                                            </li>
-                                                        @endforeach
-                                                    @endif
-                                                </ul>
+                                            {{-- Card Senarai Staff Cuti Harian --}}
+                                            <div class="col-lg-5 mb-lg-0 mb-4">
+                                                <div class="card z-index-2 h-100">
+                                                    <div class="card-header pb-0 pt-3 bg-transparent">
+                                                        <h4 class="text-capitalize">SENARAI STAFF CUTI HARIAN</h4>
+                                                        <p class="text-sm mb-0">
+                                                            <i class="fa fa-arrow-up text-success"></i>
+                                                            <span class="font-weight-bold">pada </span>{{ now()->format('d F Y') }}
+                                                        </p>
+                                                    </div>
+                                                    <div class="card-body pt-4 p-3">
+                                                        <ul class="list-group" id="leaveList">
+                                                            @if($staffOnLeaveToday->isEmpty())
+                                                                <li class="list-group-item">Tiada staff yang cuti hari ini.</li>
+                                                            @else
+                                                                @foreach($staffOnLeaveToday as $leave)
+                                                                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                                                        <div class="d-flex align-items-center">
+                                                                            <!-- Icon button -->
+                                                                            <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                                                                <i class="fas fa-arrow-down"></i>
+                                                                            </button>
+                                                                            <div class="d-flex flex-column">
+                                                                                <!-- Staff name and leave dates -->
+                                                                                <li class="list-group-item"><h6 class="mb-1 text-dark text-md">{{ $leave->user->name }}</h6></li>
+                                                                                <span class="text-xs">Cuti sehingga {{ \Carbon\Carbon::parse($leave->end_date)->format('d F Y') }}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- Optionally, you can add more info here, like leave days used, etc. -->
+                                                                        <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
+                                                                            MC Days: {{ $leave->mc_days }} <!-- or any other detail you'd like to display -->
+                                                                        </div>
+                                                                    </li>
+                                                                @endforeach
+                                                            @endif
+                                                        </ul>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -265,6 +265,23 @@
                                             <!-- List of Announcements -->
                                             <div class="card">
                                                 <div class="card-header pb-0 p-3">
+
+                                                     <!-- Display success message -->
+                                                    @if(session('success'))
+                                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                            {{ session('success') }}
+                                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                        </div>
+                                                    @endif
+
+                                                    <!-- Display error message -->
+                                                    @if(session('error'))
+                                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                            {{ session('error') }}
+                                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                                        </div>
+                                                    @endif
+
                                                     <div class="d-flex justify-content-between">
                                                         <h4 class="text-capitalize"></h4>
                                                         <!-- Add Pengumuman Button -->
@@ -460,48 +477,39 @@
                             </div>
                         </div>
 
-                <!-- Senarai Pengguna section -->
-                <div id="users-section" class="content-section" style="display: none;">
-                    <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
-                        <h4><b>SENARAI PEKERJA<b></h4>
-                    </nav>
+                        <!-- Senarai Pengguna section -->
+                        <div id="users-section" class="content-section" style="display: none;">
+                            <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
+                                <h4><b>SENARAI PEKERJA<b></h4>
+                            </nav>
 
-                    <div class="row mt-4">
-                        <div class="col-lg-12 mb-lg-0 mb-4">
-                            <div class="container-fluid py-2">
-                                <div class="row">
+                            <div class="row mt-4">
+                                <div class="col-lg-12 mb-lg-0 mb-4">
+                                    <div class="container-fluid py-2">
+                                        <div class="row">
 
-                                    <!-- List of Staff -->
-                                    <div class="card">
-                                        <div class="card-header pb-0 p-3">
-                                            <div class="d-flex justify-content-between">
-                                                <h6 class="mb-2"></h6>
+                                            <!-- List of Staff -->
+                                            <div class="card">
+                                                <div class="card-header pb-0 p-3">
 
-                                                <!-- Add Staff/Officer Button -->
-                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStaffModal">
-                                                    Tambah Staff / Pegawai
-                                                </button>
+                                                    <div class="d-flex justify-content-between">
+                                                        <h6 class="mb-2"></h6>
+                                                        
+                                                        <!-- Add Staff/Officer Button -->
+                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStaffModal">
+                                                            Tambah Staff / Pegawai
+                                                        </button>
 
-                                                <!-- Add Staff/Officer Modal -->
-                                                <div class="modal fade" id="addStaffModal" tabindex="-1" aria-labelledby="addStaffModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog modal-lg">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header" style="background-color: #f0f0f0;">
-                                                                <h5 class="modal-title" id="addStaffModalLabel">Tambah Staff / Pegawai</h5>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <form action="{{ route('storeUser') }}" method="POST" enctype="multipart/form-data">
-                                                                    @csrf
-
-                                                                    <div class="row g-3">
-                                                                        <div class="col-md-12 mb-3">
-                                                                            <label for="name" class="form-label">Nama<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control" id="name" name="name" required>
-                                                                        </div>
+                                                        <!-- Add Staff/Officer Modal -->
+                                                        <div class="modal fade" id="addStaffModal" tabindex="-1" aria-labelledby="addStaffModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog modal-lg">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header" style="background-color: #f0f0f0;">
+                                                                        <h5 class="modal-title" id="addStaffModalLabel">Tambah Staff / Pegawai</h5>
+                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                     </div>
                                                                     <div class="modal-body">
-                                                                        <form action="{{ route('storeUser') }}" method="POST" enctype="multipart/form-data">
+                                                                        <form action="{{ route('storeUser') }}" method="POST">
                                                                             @csrf
 
                                                                             <div class="row g-3">
@@ -532,55 +540,55 @@
                                                                             </div>
                                                                             <hr>
 
-                                                                    <div class="row g-3">
-                                                                        <div class="col-md-6 mb-3">
-                                                                            <label for="role" class="form-label">Peranan<span class="text-danger">*</span></label>
-                                                                            <select class="form-select" id="role" name="role" required>
-                                                                                <option selected disabled>--- Pilih Peranan ---</option>
-                                                                                <option value="admin">Admin</option>
-                                                                                <option value="staff">Staf</option>
-                                                                                <option value="officer">Pegawai</option>
-                                                                            </select>
-                                                                        </div>
-                                                                        <div class="col-md-6 mb-3">
-                                                                            <label for="job_status" class="form-label">Status Pekerjaan<<span class="text-danger">*</span></label>
-                                                                            <select class="form-select" id="job_status" name="job_status" required>
-                                                                                <option selected disabled>--- Pilih Status ---</option>
-                                                                                <option value="Permenant">Tetap</option>
-                                                                                <option value="Contract">Kontrak</option>
-                                                                                <option value="">Berhenti</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="row g-3">
-                                                                        <div class="col-md-6 mb-3">
-                                                                            <label for="selected_officer_id" class="form-label">Ketua Bahagian/Pegawai <span class="text-danger">*</span></label>
-                                                                            <select class="form-select" id="selected_officer_id" name="selected_officer_id" required>
-                                                                                <option selected disabled>--- Pilih Ketua Bahagian ---</option>
-                                                                                @foreach($officers as $officer)
-                                                                                <option value="{{ $officer->id }}">{{ $officer->name }}</option>
-                                                                                @endforeach
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="row g-3">
-                                                                        <div class="col-md-6 mb-3">
-                                                                            <label for="total_annual" class="form-label">Jumlah Cuti Tahunan<span class="text-danger">*</span></label>
-                                                                            <input type="number" class="form-control" id="total_annual" name="total_annual" required min="1">
-                                                                        </div>
-                                                                        <div class="col-md-6 mb-3">
-                                                                            <label for="mc_days" class="form-label">Jumlah Cuti Sakit<span class="text-danger">*</span></label>
-                                                                            <input type="number" class="form-control" id="mc_days" name="mc_days" required min="1">
-                                                                        </div>
-                                                                        <div class="col-md-6 mb-3">
-                                                                            <label for="total_others" class="form-label">Jumlah Cuti lain-lain<span class="text-danger">*</span></label>
-                                                                            <input type="number" class="form-control" id="total_others" name="total_others" required min="1">
-                                                                        </div>
-                                                                        <p class="text-muted">
-                                                                            <em>Nota: Cuti sakit dan cuti tahunan adalah berbeza. Cuti sakit memerlukan sijil cuti sakit (MC), manakala cuti tahunan adalah cuti berbayar yang diperoleh setelah bekerja selama 12 bulan.</em>
-                                                                        </p>
-                                                                    </div>
-                                                                    <hr>
+                                                                            <div class="row g-3">
+                                                                                <div class="col-md-6 mb-3">
+                                                                                    <label for="role" class="form-label">Peranan<span class="text-danger">*</span></label>
+                                                                                    <select class="form-select" id="role" name="role" required>
+                                                                                        <option selected disabled>--- Pilih Peranan ---</option>
+                                                                                        <option value="admin">Admin</option>
+                                                                                        <option value="staff">Staf</option>
+                                                                                        <option value="officer">Pegawai</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="col-md-6 mb-3">
+                                                                                    <label for="job_status" class="form-label">Status Pekerjaan<<span class="text-danger">*</span></label>
+                                                                                    <select class="form-select" id="job_status" name="job_status" required>
+                                                                                        <option selected disabled>--- Pilih Status ---</option>
+                                                                                        <option value="Permenant">Tetap</option>
+                                                                                        <option value="Contract">Kontrak</option>
+                                                                                        <option value="">Berhenti</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row g-3">
+                                                                                <div class="col-md-6 mb-3">
+                                                                                    <label for="selected_officer_id" class="form-label">Ketua Bahagian/Pegawai <span class="text-danger">*</span></label>
+                                                                                    <select class="form-select" id="selected_officer_id" name="selected_officer_id" required>
+                                                                                        <option selected disabled>--- Pilih Ketua Bahagian ---</option>
+                                                                                        @foreach($officers as $officer)
+                                                                                        <option value="{{ $officer->id }}">{{ $officer->name }}</option>
+                                                                                        @endforeach
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row g-3">
+                                                                                <div class="col-md-6 mb-3">
+                                                                                    <label for="total_annual" class="form-label">Jumlah Cuti Tahunan<span class="text-danger">*</span></label>
+                                                                                    <input type="number" class="form-control" id="total_annual" name="total_annual" required min="1">
+                                                                                </div>
+                                                                                <div class="col-md-6 mb-3">
+                                                                                    <label for="mc_days" class="form-label">Jumlah Cuti Sakit<span class="text-danger">*</span></label>
+                                                                                    <input type="number" class="form-control" id="mc_days" name="mc_days" required min="1">
+                                                                                </div>
+                                                                                <div class="col-md-6 mb-3">
+                                                                                    <label for="total_others" class="form-label">Jumlah Cuti lain-lain<span class="text-danger">*</span></label>
+                                                                                    <input type="number" class="form-control" id="total_others" name="total_others" required min="1">
+                                                                                </div>
+                                                                                <p class="text-muted">
+                                                                                    <em>Nota: Cuti sakit dan cuti tahunan adalah berbeza. Cuti sakit memerlukan sijil cuti sakit (MC), manakala cuti tahunan adalah cuti berbayar yang diperoleh setelah bekerja selama 12 bulan.</em>
+                                                                                </p>
+                                                                            </div>
+                                                                            <hr>
 
                                                                             <div class="row g-3">
                                                                                 <div class="col-md-12 mb-3">
@@ -615,103 +623,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-
-                                        {{-- List of staff --}}
-                                        <div class="card-body">
-
-                                            <form action="{{ route('admin') }}" method="GET" class="mb-3">
-                                                <div class="row g-3">
-                                                    <div class="col-md-4">
-                                                        <label for="roleFilter" class="form-label">Peranan</label>
-                                                        <select class="form-select" id="roleFilter" name="role">
-                                                            <option value="">Semua Peranan</option>
-                                                            <option value="admin" {{ request('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-                                                            <option value="staff" {{ request('role') == 'staff' ? 'selected' : '' }}>Staf</option>
-                                                            <option value="officer" {{ request('role') == 'officer' ? 'selected' : '' }}>Pegawai</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <label for="jobStatusFilter" class="form-label">Status Pekerjaan</label>
-                                                        <select class="form-select" id="jobStatusFilter" name="job_status">
-                                                            <option value="">Semua Status</option>
-                                                            <option value="Permenant" {{ request('job_status') == 'Permenant' ? 'selected' : '' }}>Tetap</option>
-                                                            <option value="Contract" {{ request('job_status') == 'Contract' ? 'selected' : '' }}>Kontrak</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <label class="form-label">&nbsp;</label>
-                                                        <button type="submit" class="btn btn-primary w-100">Cari</button>
-                                                    </div>
-                                                </div>
-                                            </form>
-
-                                            <div style="overflow-x: auto; position: relative;">
-                                                <table class="table" style="table-layout: fixed; width: 100%;">
-                                                    <thead style="background-color: #f0f0f0;">
-                                                        <tr>
-                                                            <th style="width: 3%; position: sticky; left: 0; z-index: 1;  padding: 8px;">BIL</th>
-                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
-                                                            {{-- <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NO K/P</th> --}}
-                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NO TELEFON</th>
-                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">PERANAN</th>
-                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">KETUA BAHAGIAN</th>
-                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS PEKERJAAN</th>
-                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">BAKI JUMLAH CUTI</th>
-                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach ($users as $user)
-                                                            <tr>
-                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">{{ $loop->iteration }}</p>
-                                                                </td>
-                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">{{ $user->name }}</p>
-                                                                    <p class="text-sm text-secondary">{{ $user->email }}</p>
-                                                                </td>
-                                                                {{-- <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">{{ $user->ic }}</p>
-                                                                </td> --}}
-                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">{{ $user->phone_number }}</p>
-                                                                </td>
-                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    @if($user->role == 'admin')
-                                                                        <span class="badge badge-md bg-gradient-danger">{{ $user->role }}</span>
-                                                                    @elseif($user->role == 'staff')
-                                                                        <span class="badge badge-md bg-gradient-info">Staf</span>
-                                                                    @elseif($user->role == 'officer')
-                                                                        <span class="badge badge-md bg-gradient-warning">Pegawai</span>
-                                                                    @else
-                                                                        <span class="badge badge-md bg-gradient-secondary">{{ $user->role }}</span>
-                                                                    @endif
-                                                                </td>
-                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">    {{ $user->officer ? $user->officer->name : 'Tiada Penyelia' }}</p>
-                                                                </td>
-                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    @if($user->job_status == 'Permenant')
-                                                                        <span class="badge badge-md bg-gradient-warning">Tetap</span>
-                                                                    @elseif($user->job_status == 'Contract')
-                                                                        <span class="badge badge-md bg-gradient-info">Kontrak</span>
-                                                                    @else
-                                                                        <span class="text-secondary">{{ $user->job_status }}</span>
-                                                                    @endif
-                                                                </td>
-                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">Tahunan: <br> {{ $user->total_annual }} Hari</p><br>
-                                                                    <p class="text-m text-secondary">Sakit: <br> {{ $user->total_mc_days }} Hari</p><br>
-                                                                    <p class="text-m text-secondary">Lain-lain: <br> {{ $user->total_others }} Hari</p>
-                                                                </td>
-                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-
-                                                                    <!-- Edit Button -->
-                                                                    <button class="btn btn-md btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $user->id }}">
-                                                                        <i class="fas fa-pencil-alt"></i>
-                                                                    </button>
 
                                                 {{-- List of staff --}}
                                                 <div class="card-body">
@@ -921,20 +832,22 @@
                                                                             </div>
 
 
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div> <!-- Closing for card -->
-                                </div>
-                            </div>
+                                                                            <!-- Delete button -->
+                                                                            <form action="{{ route('deleteUser', $user->id) }}" method="POST" style="display:inline;">
+                                                                                @csrf
+                                                                                @method('DELETE')
+                                                                                <button type="submit" class="btn btn-md btn-danger" title="Delete">
+                                                                                    <i class="fas fa-trash-alt"></i> <!-- Delete symbol -->
+                                                                                </button>
+                                                                            </form>
+                                                                        </td>
+                                                                    </tr>
 
                                                                 @endforeach
                                                             </tbody>
                                                         </table>
                                                     </div>
-                                                </div>
+                                                </div> 
                                             </div> <!-- Closing for card -->
                                         </div>
                                     </div>
@@ -1066,72 +979,6 @@
                                                         </table>
                                                     </div>
                                                 </div>
-                                            </form>
-
-                                            <div style="overflow-x: auto; position: relative;">
-                                                <table class="table" style="table-layout: fixed; width: 100%;">
-                                                    <thead style="background-color: #f0f0f0;">
-                                                        <tr>
-                                                            <th style="width: 3%; position: sticky; left: 0; z-index: 1;  padding: 8px;">BIL</th>
-                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
-                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JAWATAN</th>
-                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
-                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH AKHIR</th>
-                                                            <th style="width: 20%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
-                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN RUJUKAN</th>
-                                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">KEPUTUSAN</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach($allApplications as $index => $application)
-                                                            <tr>
-                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">{{ $index + 1 }}</p>
-                                                                </td>
-                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">{{ $application->user->name }}</p>
-                                                                </td>
-                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                   @if($application->user->role == 'staff')
-                                                                   <span class="badge badge-md bg-gradient-info">Staf</span>
-                                                                   @else
-                                                                   <span class="badge badge-md bg-gradient-warning">Pegawai</span>
-                                                                   @endif
-                                                                </td>
-                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">{{ $application->start_date }}</p>
-                                                                </td>
-                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">{{ $application->end_date }}</p>
-                                                                </td>
-                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">{{ $application->reason }}</p>
-                                                                </td>
-                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">
-                                                                    @if($application->document_path)
-                                                                    <a href="{{ Storage::url($application->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</a>
-                                                                    @else
-                                                                        No Document
-                                                                    @endif
-                                                                    </p>
-                                                                </td>
-                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                    <p class="text-m text-secondary">
-                                                                    @if($application->status == 'approved')
-                                                                        <span class="badge badge-md bg-gradient-success" id="statusLulus">Lulus</span>
-                                                                    @elseif($application->status == 'rejected')
-                                                                        <span class="badge badge-md bg-gradient-danger" id="statusGagal">Gagal</span>
-                                                                    @else
-                                                                        <span class="badge badge-md bg-gradient-warning" id="statusPending">Pending</span>
-                                                                    @endif
-                                                                    </p>
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
-                                                    </tbody>
-
-                                                </table>
                                             </div>
                                         </div>
                                     </div>
@@ -1259,44 +1106,13 @@
                                                         <table class="table" style="table-layout: fixed; width: 100%;">
                                                             <thead style="background-color: #f0f0f0;">
                                                                 <tr>
-                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                        <p class="text-m text-secondary">{{ $loop->iteration }}</p>
-                                                                    </td>
-                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                        <p class="text-m text-secondary">{{ $application->user->name }}</p>
-                                                                    </td>
-                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                        <p class="text-m text-secondary">{{ $application->start_date }}</p>
-                                                                    </td>
-                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                        <p class="text-m text-secondary">{{ $application->end_date }}</p>
-                                                                    </td>
-
-                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                        <p class="text-m text-secondary">{{ $application->reason }}</p>
-                                                                    </td>
-                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                        @if($application->document_path)
-                                                                        <a href="{{ Storage::url($application->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</a>
-                                                                        @endif
-                                                                    </td>
-                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                        <div class="d-flex justify-content-start"> <!-- Flex container for side-by-side buttons -->
-                                                                            <form action="{{ route('admin.approve', $application->id) }}" method="POST" style="margin-right: 5px;"> <!-- Add margin for spacing -->
-                                                                                @csrf
-                                                                                <button type="submit" class="btn btn-success" aria-label="Approve">
-                                                                                    <i class="fas fa-check"></i>
-                                                                                </button>
-                                                                            </form>
-                                                                            <form action="{{ route('admin.reject', $application->id) }}" method="POST">
-                                                                                @csrf
-                                                                                <button type="submit" class="btn btn-danger" aria-label="Reject">
-                                                                                    <i class="fas fa-times"></i>
-                                                                                </button>
-                                                                            </form>
-                                                                        </div>
-                                                                    </td>
-
+                                                                    <th style="width: 3%; position: sticky; left: 0; z-index: 1;  padding: 8px;">BIL</th>
+                                                                    <th style="width: 17%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
+                                                                    <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
+                                                                    <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH AKHIR</th>
+                                                                    <th style="width: 20%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
+                                                                    <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN RUJUKAN</th>
+                                                                    <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -1564,22 +1380,29 @@
                                                         </div>
                                                     </div>
 
-                                            {{-- Pekerjaan --}}
-                                            <h5 class="mt-4">MAKLUMAT PEKERJAAN</h5>
-                                            <div class="row mt-3">
-                                                <div class="col-md-4">
-                                                    <label for="role" class="form-label">PERANAN</label>
-                                                    <p class="form-control" id="role">
-                                                        @php
-                                                            $roleMapping = [
-                                                                'admin' => 'Admin',
-                                                                'staff' => 'Staf',
-                                                                'officer' => 'Pegawai',
-                                                            ];
-                                                        @endphp
-                                                        {{ $roleMapping[Auth::user()->role] ?? Auth::user()->role }}
-                                                    </p>
-                                                </div>
+                                                    {{-- Pekerjaan --}}
+                                                    <h5 class="mt-4">MAKLUMAT PEKERJAAN</h5>
+                                                    <div class="row mt-3">
+                                                        <div class="col-md-4">
+                                                            <label for="role" class="form-label">PERANAN</label>
+                                                            <p class="form-control" id="role">{{ Auth::user()->role }}</p>
+                                                        </div>
+
+                                                        <div class="col-md-4">
+                                                            <label for="job_status" class="form-label">STATUS PEKERJAAN</label>
+                                                            <p class="form-control" id="role">{{ Auth::user()->job_status }}</p>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label for="role" class="form-label">KETUA BAHAGIAN</label>
+                                                            <p class="form-control" id="role">{{ Auth::user()->role }}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-3">
+                                                        <div class="col-md-4">
+                                                            <label for="mc_days" class="form-label">JUMLAH CUTI</label>
+                                                            <p class="form-control" id="mc_days">{{ Auth::user()->total_mc_days }}</p>
+                                                        </div>
+                                                    </div>
 
                                                 </div>
                                             </div>
@@ -1640,4 +1463,6 @@
             </div>
         </div>
     </div>
-</main>
+</main> <!-- Closing main-content -->
+
+

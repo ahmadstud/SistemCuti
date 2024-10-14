@@ -130,3 +130,7 @@ use App\Http\Controllers\Auth\LoginController;
         Route::get('/profile', [StaffController::class, 'profile'])->name('profile');
         Route::get('/password', [StaffController::class, 'password'])->name('password');
         Route::get('/mc_application', [StaffController::class, 'McApply'])->name('McApply');
+
+
+        Route::get('/admin/annoucement', [AdminController::class, 'Annoucement'])->name('admin.annoucement');
+

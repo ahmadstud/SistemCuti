@@ -24,27 +24,40 @@
 
         <div class="collapse navbar-collapse  w-auto" id="sidenav-collapse-main">
           <ul class="navbar-nav">
+
             <!-- Sidebar items -->
+
+            {{-- Menu Utama --}}
             <li class="nav-item">
-                <a class="nav-link" href="#" data-target="Dashboard">
-                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                  <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
-                </div>
-                <span class="nav-link-text ms-1">Utama</span>
-              </a>
+              <form action="{{ route('admin') }}" method="GET" style="display: none;" id="dashboard-form">
+              </form>
+                {{-- <a class="nav-link" href="#" data-target="Dashboard"> --}}
+                <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('dashboard-form').submit();">
+                  <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                    <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
+                  </div>
+                  <span class="nav-link-text ms-1">Utama</span>
+                </a>
             </li>
 
+            {{-- Menu Pengurusan --}}
             <li class="nav-item">
-              <a class="nav-link" href="#" data-target="Annouce">
-                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                  <i class="ni ni-single-copy-04 text-primary text-sm opacity-10"></i>
-                </div>
-                <span class="nav-link-text ms-1">Pengurusan</span>
+              <form action="{{ route('admin.annoucement') }}" method="GET" style="display: none;" id="annoucement-form">
+              </form>
+              <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('annoucement-form').submit();">
+                  <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                      <i class="ni ni-single-copy-04 text-primary text-sm opacity-10"></i>
+                  </div>
+                  <span class="nav-link-text ms-1">Pengurusan</span>
               </a>
             </li>
+          
 
+            {{-- Menu Senarai Pekerja --}}
             <li class="nav-item">
-              <a class="nav-link" href="#" data-target="users-section">
+           
+              {{-- <a class="nav-link" href="#" data-target="users-section"> --}}
+              <a class="nav-link" href="#" >
                 <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                   <i class="ni ni-hat-3 text-primary text-sm opacity-10"></i>
                 </div>
@@ -52,6 +65,7 @@
               </a>
             </li>
 
+            <!-- Senarai Keseluruhan -->
             <li class="nav-item">
               <a class="nav-link" href="#" data-target="all-approval-section">
                 <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -61,6 +75,7 @@
               </a>
             </li>
 
+            {{-- Permohonoan Cuti Tapisan Pegawai --}}
             <li class="nav-item">
               <a class="nav-link" href="#" data-target="applications-section">
                 <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -70,6 +85,7 @@
               </a>
             </li>
 
+            {{-- Permohonan Cuti Admin --}}
             <li class="nav-item">
               <a class="nav-link" href="#" data-target="admin-approval-section">
                 <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -79,10 +95,12 @@
               </a>
             </li>
 
+            <!-- Halaman Akaun -->
             <li class="nav-item mt-3">
               <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Halaman Akaun</h6>
             </li>
 
+            <!-- Profil Pengguna -->
             <li class="nav-item">
               <a class="nav-link" href="#" data-target="Profile">
                 <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -92,6 +110,7 @@
               </a>
             </li>
 
+            <!-- Tukar Kata Laluan -->
             <li class="nav-item">
               <a class="nav-link" href="#" data-target="ChangePassword">
                 <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">

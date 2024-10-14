@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-
-use Illuminate\Support\Facades\Auth; // <-- For accessing the authenticated user
-use Illuminate\Support\Facades\Hash; // <-- For password hashing
-use App\Models\User; // <-- Import the User model
-use App\Models\McApplication;
 use App\Models\Announcement;
-use Illuminate\Support\Facades\Log;
+use App\Models\McApplication;
+use App\Models\Staff;
+
+use App\Models\User; // <-- Import the User model
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth; // <-- For accessing the authenticated user
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash; // <-- For password hashing
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -200,7 +202,6 @@ class AdminController extends Controller
     }
 
 
-
     public function updateAnnouncement(Request $request, $id)
     {
         $announcement = Announcement::findOrFail($id);
@@ -305,7 +306,6 @@ class AdminController extends Controller
     }
 
 
-
     public function approve($id)
     {
         $application = McApplication::find($id);
@@ -375,8 +375,6 @@ class AdminController extends Controller
 
         return redirect()->back()->with('success', 'MC application approved by admin.');
     }
-
-
 
 
     public function reject($id)
@@ -453,6 +451,7 @@ class AdminController extends Controller
     }
 
 
+
     public function storeAnnouncement(Request $request)
     {
         $request->validate([
@@ -481,6 +480,17 @@ class AdminController extends Controller
 
         return redirect()->route('admin', ['section' => 'Annouce'])->with('success', 'Announcement created successfully.');
     }
+
+    public function Annoucement()
+    {
+        // Fetch all announcements without filtering by user
+        $announcements = Announcement::all();
+    
+        // Return the announcements view for the admin
+        return view('partials.adminside.announcement', compact('announcements'));
+    }
+
+
 
 
 
