@@ -149,13 +149,135 @@ class AdminController extends Controller
     }
 
 
-    // Method to show the edit form
+// PENGURUSAN ROUTES
+    public function Annoucement()
+    {
+        // Fetch all announcements without filtering by user
+        $announcements = Announcement::all();
+    
+        // Return the announcements view for the admin
+        return view('partials.adminside.announcement', compact('announcements'));
+    }
+
+    public function updateAnnouncement(Request $request, $id)
+    {
+        $announcement = Announcement::findOrFail($id);
+
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date', // Ensure end_date is after or equal to start_date
+        ]);
+
+        $announcement->title = $request->title;
+        $announcement->content = $request->content;
+        $announcement->start_date = $request->start_date;  // Set the start date
+        $announcement->end_date = $request->end_date;  // Set the end date
+
+        if ($request->hasFile('image_path')) {
+            // Delete old image if it exists
+            if ($announcement->image_path && Storage::exists('public/' . $announcement->image_path)) {
+                Storage::delete('public/' . $announcement->image_path);
+            }
+
+            // Store new image
+            $imageName = time() . '.' . $request->image_path->extension();
+            $request->image_path->storeAs('public/announcements', $imageName);
+            $announcement->image_path = 'announcements/' . $imageName; // Store the relative path
+        }
+
+        $announcement->save();
+
+        return redirect()->route('admin')->with('success', 'Announcement updated successfully!');
+    }
+
+    public function deleteAnnouncement($id)
+    {
+        // Find the announcement by ID or fail
+        $announcement = Announcement::findOrFail($id);
+
+        // Delete image if it exists
+        if ($announcement->image && Storage::exists('public/announcements/' . $announcement->image)) {
+            Storage::delete('public/announcements/' . $announcement->image);
+        }
+
+        // Delete the announcement
+        $announcement->delete();
+
+        // Redirect back with success message
+        return redirect()->route('admin')->with('success', 'Announcement deleted successfully!');
+    }
+
+    public function storeAnnouncement(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image
+            'start_date' => 'required|date', // Validate start date
+            'end_date' => 'required|date|after_or_equal:start_date', // Validate end date
+
+        ]);
+
+        // Store image if uploaded
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('announcements', 'public'); // Store in public/announcements
+        }
+
+        // Create announcement
+        Announcement::create([
+            'title' => $request->title,
+            'content' => $request->content,
+            'image_path' => $imagePath,
+            'start_date' => $request->start_date, // Store start date
+            'end_date' => $request->end_date, // Store end date
+        ]);
+
+        return redirect()->route('admin', ['section' => 'Annouce'])->with('success', 'Announcement created successfully.');
+    }
+
+
+// SENARAI PEKERJA ROUTES
+    public function staffList(Request $request)
+    {
+        // Initialize the query to fetch all users
+        $usersQuery = User::query();
+    
+        // Get filter inputs
+        $roleFilter = $request->input('role');        // Filter for role
+        $jobStatusFilter = $request->input('job_status');  // Filter for job status
+    
+        // Apply role filter if provided
+        if ($roleFilter) {
+            $usersQuery->where('role', $roleFilter);
+        }
+    
+        // Apply job status filter if provided
+        if ($jobStatusFilter) {
+            $usersQuery->where('job_status', $jobStatusFilter);
+        }
+    
+        // Fetch all users based on the applied filters
+        $users = $usersQuery->get();
+    
+        // Fetch all officers (users with 'officer' role)
+        $officers = User::where('role', 'officer')->get();
+    
+        // Pass the users and officers data to the view
+        return view('partials.adminside.staff_list', [
+            'users' => $users, // Now using 'users' instead of 'staff'
+            'officers' => $officers,
+        ]);
+    }
+
     public function editUser($id)
     {
         $user = User::findOrFail($id); // Find the user by ID
         return view('editUser', compact('user')); // Return view with user data
     }
-
 
     public function updateUser(Request $request, $id)
     {
@@ -201,42 +323,6 @@ class AdminController extends Controller
         return redirect()->route('admin')->with('success', 'User updated successfully!');
     }
 
-
-    public function updateAnnouncement(Request $request, $id)
-    {
-        $announcement = Announcement::findOrFail($id);
-
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-            'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date', // Ensure end_date is after or equal to start_date
-        ]);
-
-        $announcement->title = $request->title;
-        $announcement->content = $request->content;
-        $announcement->start_date = $request->start_date;  // Set the start date
-        $announcement->end_date = $request->end_date;  // Set the end date
-
-        if ($request->hasFile('image_path')) {
-            // Delete old image if it exists
-            if ($announcement->image_path && Storage::exists('public/' . $announcement->image_path)) {
-                Storage::delete('public/' . $announcement->image_path);
-            }
-
-            // Store new image
-            $imageName = time() . '.' . $request->image_path->extension();
-            $request->image_path->storeAs('public/announcements', $imageName);
-            $announcement->image_path = 'announcements/' . $imageName; // Store the relative path
-        }
-
-        $announcement->save();
-
-        return redirect()->route('admin')->with('success', 'Announcement updated successfully!');
-    }
-
-    // Method to delete a user
     public function deleteUser($id)
     {
         $user = User::findOrFail($id);
@@ -245,23 +331,6 @@ class AdminController extends Controller
         return redirect()->route('admin')->with('success', 'User deleted successfully!');
     }
 
-    // Method to delete an announcement
-    public function deleteAnnouncement($id)
-    {
-        // Find the announcement by ID or fail
-        $announcement = Announcement::findOrFail($id);
-
-        // Delete image if it exists
-        if ($announcement->image && Storage::exists('public/announcements/' . $announcement->image)) {
-            Storage::delete('public/announcements/' . $announcement->image);
-        }
-
-        // Delete the announcement
-        $announcement->delete();
-
-        // Redirect back with success message
-        return redirect()->route('admin')->with('success', 'Announcement deleted successfully!');
-    }
 
     public function storeUser(Request $request)
     {
@@ -306,6 +375,175 @@ class AdminController extends Controller
     }
 
 
+// SENARAI KESELURUHAN PERMOHONAN ROUTES
+    public function showAllMcApplications(Request $request)
+    {
+        // Get filter inputs (if needed for future search functionality)
+        $statusFilter = $request->input('status');
+        $startDateFilter = $request->input('start_date');
+        $endDateFilter = $request->input('end_date');
+    
+        // Prepare the query for all applications along with their user data
+        $allApplicationsQuery = McApplication::with('user');
+    
+        // Apply status filter if provided
+        if ($statusFilter) {
+            $allApplicationsQuery->where('status', $statusFilter);
+        }
+    
+        // Apply date filters if provided
+        if ($startDateFilter) {
+            $allApplicationsQuery->where('start_date', '>=', $startDateFilter);
+        }
+        if ($endDateFilter) {
+            $allApplicationsQuery->where('end_date', '<=', $endDateFilter);
+        }
+    
+        // Get the filtered applications
+        $allApplications = $allApplicationsQuery->get();
+    
+        // Pass the data to the view
+        return view('partials.adminside.mc_all_apply', compact('allApplications'));
+    }
+
+
+// PERMOHONAN CUTI TAPISAN PEGAWAI
+    public function mcOfficerApprove(Request $request)
+    {
+        // Get filter inputs
+        $statusFilter = $request->input('status');
+        $startDateFilter = $request->input('start_date');
+        $endDateFilter = $request->input('end_date');
+    
+        // Prepare the query for officer applications along with their user data
+        $applicationsQuery = McApplication::with('user');
+    
+        // Apply status filter if provided
+        if ($statusFilter) {
+            $applicationsQuery->where('status', $statusFilter);
+        }
+    
+        // Apply date filters if provided
+        if ($startDateFilter) {
+            $applicationsQuery->where('start_date', '>=', Carbon::parse($startDateFilter));
+        }
+        if ($endDateFilter) {
+            $applicationsQuery->where('end_date', '<=', Carbon::parse($endDateFilter));
+        }
+    
+        // Get the filtered applications
+        $applications = $applicationsQuery->get();
+    
+        // Pass the data to the view
+        return view('partials.adminside.mc_officer_approve', compact('applications'));
+    }
+
+
+// SENARAI CUTI TAPISAN ADMIN
+    public function mcAdminApprove(Request $request)
+    {
+        // Get filter inputs (if needed for future search functionality)
+        $statusFilter = $request->input('status');
+        $startDateFilter = $request->input('start_date');
+        $endDateFilter = $request->input('end_date');
+    
+        // Prepare the query for admin applications along with their user data
+        $applicationsQuery = McApplication::with('user');
+    
+        // Apply status filter if provided
+        if ($statusFilter) {
+            $applicationsQuery->where('status', $statusFilter);
+        }
+    
+        // Apply date filters if provided
+        if ($startDateFilter) {
+            $applicationsQuery->where('start_date', '>=', $startDateFilter);
+        }
+        if ($endDateFilter) {
+            $applicationsQuery->where('end_date', '<=', $endDateFilter);
+        }
+    
+        // Get the filtered applications
+        $directAdminApplications = $applicationsQuery->get();
+    
+        // Pass the data to the view
+        return view('partials.adminside.mc_admin_approve', compact('directAdminApplications'));
+    }
+
+
+
+// PROFILE ROUTES
+    public function showProfile()
+    {
+        // Fetch the necessary data for the profile view, such as the logged-in user's information
+        $user = auth()->user(); // Example: get the authenticated user
+
+        // Return the profile view with the user data
+        return view('partials.adminside.profile', compact('user')); // Ensure you have a view named 'profile'
+    }
+
+    public function updateOwnDetails(Request $request)
+    {
+        $user = Auth::user(); // Get the currently authenticated user
+
+        // Validate the input data
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'ic' => 'nullable|string|max:255',
+            'phone_number' => 'nullable|string|max:255',
+            'password' => 'nullable|string|min:8|confirmed', // password confirmation validation
+            'address' => 'nullable|string|max:255',
+            'city' => 'nullable|string|max:255',
+            'postcode' => 'nullable|string|max:10',
+            'state' => 'nullable|string|max:255',
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation for profile image
+        ]);
+
+        // Update user details
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->ic = $request->ic;
+        $user->phone_number = $request->phone_number;
+        $user->address = $request->address;
+        $user->city = $request->city;
+        $user->postcode = $request->postcode;
+        $user->state = $request->state;
+
+            // Handle profile image upload
+            if ($request->hasFile('profile_image')) {
+            $image = $request->file('profile_image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('storage/profile_image'), $imageName);
+
+            // Save the profile image path in the database
+            $user->profile_image = 'storage/profile_image/' . $imageName;
+        }
+
+        // Update password only if a new password is provided
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
+        // Save changes to the database
+        $user->save();
+
+        // Redirect with success message
+        return redirect()->route('admin')->with('success', 'Your details have been updated successfully!');
+    }
+
+
+
+// PASSWORD ROUTES
+    public function password()
+    {
+        return view('partials.adminside.password');
+    }
+
+
+
+
+// PERMOHONAN CUTI
     public function approve($id)
     {
         $application = McApplication::find($id);
@@ -398,100 +636,6 @@ class AdminController extends Controller
 
         return redirect()->back()->with('success', 'MC application rejected by admin.');
     }
-
-
-    public function updateOwnDetails(Request $request)
-    {
-        $user = Auth::user(); // Get the currently authenticated user
-
-        // Validate the input data
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-            'ic' => 'nullable|string|max:255',
-            'phone_number' => 'nullable|string|max:255',
-            'password' => 'nullable|string|min:8|confirmed', // password confirmation validation
-            'address' => 'nullable|string|max:255',
-            'city' => 'nullable|string|max:255',
-            'postcode' => 'nullable|string|max:10',
-            'state' => 'nullable|string|max:255',
-            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation for profile image
-        ]);
-
-        // Update user details
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->ic = $request->ic;
-        $user->phone_number = $request->phone_number;
-        $user->address = $request->address;
-        $user->city = $request->city;
-        $user->postcode = $request->postcode;
-        $user->state = $request->state;
-
-            // Handle profile image upload
-            if ($request->hasFile('profile_image')) {
-            $image = $request->file('profile_image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('storage/profile_image'), $imageName);
-
-            // Save the profile image path in the database
-            $user->profile_image = 'storage/profile_image/' . $imageName;
-        }
-
-        // Update password only if a new password is provided
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
-        }
-
-        // Save changes to the database
-        $user->save();
-
-        // Redirect with success message
-        return redirect()->route('admin')->with('success', 'Your details have been updated successfully!');
-    }
-
-
-
-    public function storeAnnouncement(Request $request)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image
-            'start_date' => 'required|date', // Validate start date
-            'end_date' => 'required|date|after_or_equal:start_date', // Validate end date
-
-        ]);
-
-        // Store image if uploaded
-        $imagePath = null;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('announcements', 'public'); // Store in public/announcements
-        }
-
-        // Create announcement
-        Announcement::create([
-            'title' => $request->title,
-            'content' => $request->content,
-            'image_path' => $imagePath,
-            'start_date' => $request->start_date, // Store start date
-            'end_date' => $request->end_date, // Store end date
-        ]);
-
-        return redirect()->route('admin', ['section' => 'Annouce'])->with('success', 'Announcement created successfully.');
-    }
-
-    public function Annoucement()
-    {
-        // Fetch all announcements without filtering by user
-        $announcements = Announcement::all();
-    
-        // Return the announcements view for the admin
-        return view('partials.adminside.announcement', compact('announcements'));
-    }
-
-
-
 
 
 }

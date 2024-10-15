@@ -1113,6 +1113,44 @@
                                                                     <th style="width: 20%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
                                                                     <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN RUJUKAN</th>
                                                                     <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
+                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                        <p class="text-m text-secondary">{{ $application->id }}</p>
+                                                                    </td>
+                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                        <p class="text-m text-secondary">{{ $application->user->name }}</p>
+                                                                    </td>
+                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                        <p class="text-m text-secondary">{{ $application->start_date }}</p>
+                                                                    </td>
+                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                        <p class="text-m text-secondary">{{ $application->end_date }}</p>
+                                                                    </td>
+
+                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                        <p class="text-m text-secondary">{{ $application->reason }}</p>
+                                                                    </td>
+                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                        @if($application->document_path)
+                                                                        <a href="{{ Storage::url($application->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</a>
+                                                                        @endif
+                                                                    </td>
+                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                        <div class="d-flex justify-content-start"> <!-- Flex container for side-by-side buttons -->
+                                                                            <form action="{{ route('admin.approve', $application->id) }}" method="POST" style="margin-right: 5px;"> <!-- Add margin for spacing -->
+                                                                                @csrf
+                                                                                <button type="submit" class="btn btn-success" aria-label="Approve">
+                                                                                    <i class="fas fa-check"></i>
+                                                                                </button>
+                                                                            </form>
+                                                                            <form action="{{ route('admin.reject', $application->id) }}" method="POST">
+                                                                                @csrf
+                                                                                <button type="submit" class="btn btn-danger" aria-label="Reject">
+                                                                                    <i class="fas fa-times"></i>
+                                                                                </button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </td>
+
                                                                 </tr>
                                                             </thead>
                                                             <tbody>

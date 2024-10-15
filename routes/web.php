@@ -77,6 +77,29 @@ use App\Http\Controllers\Auth\LoginController;
 
 
 
+        // new
+        Route::get('/admin/annoucement', [AdminController::class, 'Annoucement'])->name('admin.annoucement');
+
+        Route::get('/admin/staff-list', [AdminController::class, 'staffList'])->name('admin.stafflist');
+
+        Route::get('/admin/mc-all-apply', [AdminController::class, 'showAllMcApplications'])->name('admin.mcAllApply');
+
+        Route::get('/admin/mc-officer-approve', [AdminController::class, 'mcOfficerApprove'])->name('admin.mcOfficerApprove');
+        Route::post('/admin/approve/{id}', [AdminController::class, 'approve'])->name('admin.approve');
+        Route::post('/admin/reject/{id}', [AdminController::class, 'reject'])->name('admin.reject');
+
+
+        Route::get('/admin/mc-admin-approve', [AdminController::class, 'mcAdminApprove'])->name('admin.mcAdminApprove');
+        
+        Route::get('/admin/profile', [AdminController::class, 'showProfile'])->name('admin.profile');
+        
+        Route::get('/admin/password', [AdminController::class, 'password'])->name('admin.password');
+
+
+        
+
+
+
 // OFFICER ROUTES
 
     // MC Application Approval (Officer Side):
@@ -132,5 +155,6 @@ use App\Http\Controllers\Auth\LoginController;
         Route::get('/mc_application', [StaffController::class, 'McApply'])->name('McApply');
 
 
-        Route::get('/admin/annoucement', [AdminController::class, 'Annoucement'])->name('admin.annoucement');
+        
+        
 

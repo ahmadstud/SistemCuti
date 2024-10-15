@@ -4,7 +4,7 @@
         <a class="navbar-brand m-0" href="https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html" target="_blank">
             <div style="display: flex; flex-direction: column; align-items: center;">
                 <a class="navbar-brand m-0" href="#" target="_blank">
-                    <img src="./assets/img/Erawhiz.png" class="navbar-brand-img" alt="main_logo" style="
+                    <img src="{{ asset('assets/img/Erawhiz.png') }}" class="navbar-brand-img" alt="main_logo" style="
                     display: block;
                     margin: 0 auto;
                     width: 100%; /* Make image fill the width of its container */
@@ -38,7 +38,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <form action="{{ route('McApply') }}" method="GET" style="display: none;" id="mcapply-form">
+                        <form action="{{ route('staff.mc_apply') }}" method="GET" style="display: none;" id="mcapply-form">
                         </form>
                         <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('mcapply-form').submit();">
                             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -53,7 +53,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <form action="{{ route('profile') }}" method="GET" style="display: none;" id="profile-form">
+                        <form action="{{ route('staff.profile') }}" method="GET" style="display: none;" id="profile-form">
                         </form>
                         <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('profile-form').submit();">
                             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -64,7 +64,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <form action="{{ route('password') }}" method="GET" style="display: none;" id="password-form">
+                        <form action="{{ route('staff.password') }}" method="GET" style="display: none;" id="password-form">
                         </form>
                         <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('password-form').submit();">
                             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
