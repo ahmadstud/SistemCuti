@@ -1,0 +1,68 @@
+/* Base styles for the table */
+table {
+    width: 100%; /* Make table full width */
+    border-collapse: collapse; /* Collapse borders */
+}
+
+/* Base styles for table cells */
+td, th {
+    padding: 10px; /* Default padding */
+    border: 1px solid #ddd; /* Border for table cells */
+    text-align: left; /* Align text to the left */
+}
+
+/* Small devices (phones, 600px and down) */
+@media (max-width: 600px) {
+    table {
+        font-size: 12px; /* Smaller font size */
+    }
+    td, th {
+        padding: 8px; /* Less padding */
+        display: block; /* Stack cells vertically */
+        text-align: right; /* Align text to the right for readability */
+    }
+    td {
+        text-align: left; /* Align cell content to the left */
+        position: relative; /* Position relative for pseudo elements */
+        padding-left: 50%; /* Create space for labels */
+    }
+    td::before {
+        content: attr(data-label); /* Use data-label for mobile */
+        position: absolute; /* Position absolute for the label */
+        left: 10px; /* Position to the left */
+        width: 50%; /* Width for the label */
+        padding-right: 10px; /* Right padding for labels */
+        white-space: nowrap; /* Prevent wrapping */
+    }
+}
+
+/* Medium devices (tablets, 600px to 768px) */
+@media (min-width: 601px) and (max-width: 768px) {
+    table {
+        font-size: 14px; /* Slightly larger font size */
+    }
+    td, th {
+        padding: 10px; /* Default padding */
+    }
+}
+
+/* Large devices (desktops, 769px to 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    table {
+        font-size: 16px; /* Standard font size */
+    }
+    td, th {
+        padding: 12px; /* More padding */
+    }
+}
+
+/* Extra large devices (large desktops, 1025px and up) */
+@media (min-width: 1025px) {
+    table {
+        font-size: 18px; /* Larger font size */
+    }
+    td, th {
+        padding: 14px; /* Increased padding */
+    }
+}
+

@@ -19,15 +19,17 @@ class OfficerController extends Controller
         if ($request->status == 'approved_by_officer') {
             $application->officer_approved = true; // Set officer approval status to true
             $application->status = 'pending_admin'; // Set status to pending for admin approval
+            $application->rejection_reason = null; // Ensure rejection reason is null if approved
         } else {
             $application->status = 'rejected'; // Officer rejects
             $application->officer_approved = false; // Ensure officer approval status is false
+            $application->rejection_reason = $request->input('rejection_reason'); // Save the rejection reason
         }
+
         $application->save();
 
-        return redirect()->route('officer')->with('status', 'Application status updated successfully!');
+        return redirect()->back()->with('status', 'Status permohonan telah dikemas kini!');
     }
-
 
     public function updateOwnDetails3(Request $request)
     {
@@ -39,7 +41,7 @@ class OfficerController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'ic' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:255',
-            'password' => 'nullable|string|min:8|confirmed', // password confirmation validation
+            'password' => 'nullable|string|min:8|confirmed', // Password confirmation validation
             'address' => 'nullable|string|max:255',
             'city' => 'nullable|string|max:255',
             'postcode' => 'nullable|string|max:10',
@@ -75,10 +77,8 @@ class OfficerController extends Controller
         $user->save();
 
         // Redirect with success message
-        return redirect()->route('officer')->with('success', 'Your details have been updated successfully!');
-        return redirect()->route('officer')->with('error', 'Your details not been updated successfully!');
+        return redirect()->back()->with('success', 'Maklumat anda telah dikemas kini!');
     }
-
 
     public function storeMcApplication(Request $request)
     {
@@ -99,7 +99,7 @@ class OfficerController extends Controller
         // Check if user has enough MC days left
         $user = Auth::user();
         if ($user->total_mc_days < $daysRequested) {
-            return redirect()->back()->with('error', 'Insufficient MC days available!');
+            return redirect()->back()->with('error', 'Hari MC tidak mencukupi!');
         }
 
         // Handle file upload
@@ -117,64 +117,59 @@ class OfficerController extends Controller
                 'direct_admin_approval' => true, // Indicate that this application is directly for admin approval
             ]);
 
-            return redirect()->back()->with('success', 'MC application submitted successfully!');
+            return redirect()->back()->with('success', 'Permohonan MC telah dihantar!');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Failed to submit MC application. Please try again.');
+            return redirect()->back()->with('error', 'Gagal menghantar permohonan MC. Sila cuba lagi.');
         }
     }
-
-
 
     public function editMC(Request $request, $id)
-{
-    // Retrieve the existing MC application
-    $mcApplication = McApplication::findOrFail($id);
+    {
+        // Retrieve the existing MC application
+        $mcApplication = McApplication::findOrFail($id);
 
-    // Validate the form input
-    $validatedData = $request->validate([
-        'start_date' => 'required|date',
-        'end_date' => 'required|date|after_or_equal:start_date',
-        'document_path' => 'nullable|mimes:pdf,jpg,png|max:2048', // Make this optional
-        'reason' => 'required|string',
-        'leave_type' => 'required|in:mc,annual,other', // Add validation for leave_type
-    ]);
+        // Validate the form input
+        $validatedData = $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'document_path' => 'nullable|mimes:pdf,jpg,png|max:2048', // Make this optional
+            'reason' => 'required|string',
+            'leave_type' => 'required|in:mc,annual,other', // Add validation for leave_type
+        ]);
 
-    // Calculate the number of days for the MC application
-    $startDate = Carbon::parse($request->start_date);
-    $endDate = Carbon::parse($request->end_date);
-    $daysRequested = $endDate->diffInDays($startDate) + 1; // Include both start and end dates
+        // Calculate the number of days for the MC application
+        $startDate = Carbon::parse($request->start_date);
+        $endDate = Carbon::parse($request->end_date);
+        $daysRequested = $endDate->diffInDays($startDate) + 1; // Include both start and end dates
 
-    // Check if user has enough MC days left
-    $user = Auth::user();
-    if ($user->total_mc_days < $daysRequested) {
-        return redirect()->back()->with('error', 'Insufficient MC days available!');
-    }
-
-    // Update MC application fields
-    $mcApplication->start_date = $request->start_date;
-    $mcApplication->end_date = $request->end_date;
-    $mcApplication->reason = $request->reason;
-    $mcApplication->leave_type = $request->leave_type; // Update leave_type
-
-    // Handle file upload if a new document is provided
-    if ($request->hasFile('document_path')) {
-        // Delete old document if it exists
-        if ($mcApplication->document_path) {
-            Storage::disk('public')->delete($mcApplication->document_path);
+        // Check if user has enough MC days left
+        $user = Auth::user();
+        if ($user->total_mc_days < $daysRequested) {
+            return redirect()->back()->with('error', 'Hari MC tidak mencukupi!');
         }
-        // Store new document
-        $documentPath = $request->file('document_path')->store('mc_documents', 'public');
-        $mcApplication->document_path = $documentPath;
+
+        // Update MC application fields
+        $mcApplication->start_date = $request->start_date;
+        $mcApplication->end_date = $request->end_date;
+        $mcApplication->reason = $request->reason;
+        $mcApplication->leave_type = $request->leave_type; // Update leave_type
+
+        // Handle file upload if a new document is provided
+        if ($request->hasFile('document_path')) {
+            // Delete old document if it exists
+            if ($mcApplication->document_path) {
+                Storage::disk('public')->delete($mcApplication->document_path);
+            }
+            // Store new document
+            $documentPath = $request->file('document_path')->store('mc_documents', 'public');
+            $mcApplication->document_path = $documentPath;
+        }
+
+        // Save changes to the database
+        $mcApplication->save();
+
+        return redirect()->back()->with('success', 'Permohonan MC telah dikemas kini!');
     }
-
-    // Save changes to the database
-    $mcApplication->save();
-
-    return redirect()->back()->with('success', 'MC application updated successfully!');
-    return redirect()->back()->with('error', 'MC application not successfully updated!');
-}
-
-
 
     public function deleteMC($id)
     {
@@ -185,9 +180,9 @@ class OfficerController extends Controller
         $mcApplication->delete();
 
         // Redirect back with success message
-        return redirect()->route('officer')->with('success', 'Permohonan MC telah berjaya dihapuskan!');
-        return redirect()->route('officer')->with('error', 'Permohonan MC telah tidak berjaya dihapuskan!');
+        return redirect()->back()->with('success', 'Permohonan MC telah berjaya dihapuskan!');
     }
+
     public function profile()
     {
         return view('partials.officerside.profile');
@@ -197,6 +192,7 @@ class OfficerController extends Controller
     {
         return view('partials.officerside.password');
     }
+
     public function McApprove()
     {
         // Get the currently authenticated officer
@@ -214,7 +210,7 @@ class OfficerController extends Controller
 
         return view('partials.officerside.mc_approve', compact('applications'));
     }
-
+    
     public function McApply()
     {
          // Fetch all MC applications for the logged-in user

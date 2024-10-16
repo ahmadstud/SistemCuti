@@ -147,8 +147,8 @@
                                             @foreach($mcApplications as $index => $mcApplication)
                                                 <tr>
                                                     <td>{{ $index + 1 }}</td>
-                                                    <td>{{ $mcApplication->start_date }}</td>
-                                                    <td>{{ $mcApplication->end_date }}</td>
+                                                    <td>{{ \Carbon\Carbon::parse($mcApplication->start_date)->format('d/m/Y') }}</td>
+                                                    <td>{{ \Carbon\Carbon::parse($mcApplication->end_date)->format('d/m/Y') }}</td>
                                                     <td>{{ $mcApplication->reason }}</td>
                                                     <td>
                                                         @if($mcApplication->document_path)
@@ -172,81 +172,81 @@
                                                     </td>
                                                     <td>
                                                         @if($mcApplication->admin_approved && $mcApplication->officer_approved)
-                                                        Tiada Tindakan
-                                                        @else
-                                                        <!-- Button to trigger modal for editing -->
-                                                        <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#editMcModal{{ $mcApplication->id }}">
-                                                            <i class="fas fa-edit"></i>
-                                                        </button>
-
-                                                        <!-- Delete button -->
-                                                        <form action="{{ route('staff.deleteMC', $mcApplication->id) }}" method="POST" style="display:inline;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger btn-sm">
-                                                                <i class="fas fa-trash"></i>
+                                                            Tiada Tindakan
+                                                        @elseif($mcApplication->status == 'pending')
+                                                            <!-- Button to trigger modal for editing -->
+                                                            <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#editMcModal{{ $mcApplication->id }}">
+                                                                <i class="fas fa-edit"></i>
                                                             </button>
-                                                        </form>
 
-                                                        <!-- Edit MC Application Modal -->
-                                                    <div class="modal fade" id="editMcModal{{ $mcApplication->id }}" tabindex="-1" aria-labelledby="editMcModalLabel{{ $mcApplication->id }}" aria-hidden="true">
-                                                        <div class="modal-dialog modal-lg">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header" style="background-color: #f0f0f0;">
-                                                                    <h5 class="modal-title" id="editMcModalLabel{{ $mcApplication->id }}">Kemas Kini Permohonan</h5>
-                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <form action="{{ route('staff.mc.edit', $mcApplication->id) }}" method="POST" enctype="multipart/form-data">
-                                                                        @csrf
-                                                                        <div class="row g-3">
-                                                                            <div class="col-md-6 mb-3">
-                                                                                <label for="start_date{{ $mcApplication->id }}" class="form-label">Tarikh Mula<span class="text-danger">*</span></label>
-                                                                                <input type="date" class="form-control" id="start_date{{ $mcApplication->id }}" name="start_date" value="{{ $mcApplication->start_date }}" required>
-                                                                            </div>
-                                                                            <div class="col-md-6 mb-3">
-                                                                                <label for="end_date{{ $mcApplication->id }}" class="form-label">Tarikh Tamat<span class="text-danger">*</span></label>
-                                                                                <input type="date" class="form-control" id="end_date{{ $mcApplication->id }}" name="end_date" value="{{ $mcApplication->end_date }}" required>
-                                                                            </div>
-                                                                        </div>
+                                                            <!-- Delete button -->
+                                                            <form action="{{ route('staff.deleteMC', $mcApplication->id) }}" method="POST" style="display:inline;">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this application?');">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </form>
 
-                                                                        <!-- Leave Type Selection -->
-                                                                        <div class="col-md-12 mb-3">
-                                                                            <label for="leave_type{{ $mcApplication->id }}" class="form-label">Jenis Cuti<span class="text-danger">*</span></label>
-                                                                            <select class="form-control" id="leave_type{{ $mcApplication->id }}" name="leave_type" required>
-                                                                                <option value="mc" {{ $mcApplication->leave_type == 'mc' ? 'selected' : '' }}>Cuti Sakit (MC)</option>
-                                                                                <option value="annual" {{ $mcApplication->leave_type == 'annual' ? 'selected' : '' }}>Cuti Tahunan</option>
-                                                                                <option value="other" {{ $mcApplication->leave_type == 'other' ? 'selected' : '' }}>Lain-lain</option>
-                                                                            </select>
+                                                            <!-- Edit MC Application Modal -->
+                                                            <div class="modal fade" id="editMcModal{{ $mcApplication->id }}" tabindex="-1" aria-labelledby="editMcModalLabel{{ $mcApplication->id }}" aria-hidden="true">
+                                                                <div class="modal-dialog modal-lg">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header" style="background-color: #f0f0f0;">
+                                                                            <h5 class="modal-title" id="editMcModalLabel{{ $mcApplication->id }}">Kemas Kini Permohonan</h5>
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                         </div>
+                                                                        <div class="modal-body">
+                                                                            <form action="{{ route('staff.mc.edit', $mcApplication->id) }}" method="POST" enctype="multipart/form-data">
+                                                                                @csrf
+                                                                                <div class="row g-3">
+                                                                                    <div class="col-md-6 mb-3">
+                                                                                        <label for="start_date{{ $mcApplication->id }}" class="form-label">Tarikh Mula<span class="text-danger">*</span></label>
+                                                                                        <input type="date" class="form-control" id="start_date{{ $mcApplication->id }}" name="start_date" value="{{ $mcApplication->start_date }}" required>
+                                                                                    </div>
+                                                                                    <div class="col-md-6 mb-3">
+                                                                                        <label for="end_date{{ $mcApplication->id }}" class="form-label">Tarikh Tamat<span class="text-danger">*</span></label>
+                                                                                        <input type="date" class="form-control" id="end_date{{ $mcApplication->id }}" name="end_date" value="{{ $mcApplication->end_date }}" required>
+                                                                                    </div>
+                                                                                </div>
 
-                                                                        <div class="col-md-12 mb-3">
-                                                                            <label for="document_path{{ $mcApplication->id }}" class="form-label">Dokumen (Biarkan kosong jika tiada perubahan)</label>
-                                                                            <input type="file" class="form-control" id="document_path{{ $mcApplication->id }}" name="document_path">
+                                                                                <!-- Leave Type Selection -->
+                                                                                <div class="col-md-12 mb-3">
+                                                                                    <label for="leave_type{{ $mcApplication->id }}" class="form-label">Jenis Cuti<span class="text-danger">*</span></label>
+                                                                                    <select class="form-control" id="leave_type{{ $mcApplication->id }}" name="leave_type" required>
+                                                                                        <option value="mc" {{ $mcApplication->leave_type == 'mc' ? 'selected' : '' }}>Cuti Sakit (MC)</option>
+                                                                                        <option value="annual" {{ $mcApplication->leave_type == 'annual' ? 'selected' : '' }}>Cuti Tahunan</option>
+                                                                                        <option value="other" {{ $mcApplication->leave_type == 'other' ? 'selected' : '' }}>Lain-lain</option>
+                                                                                    </select>
+                                                                                </div>
+
+                                                                                <div class="col-md-12 mb-3">
+                                                                                    <label for="document_path{{ $mcApplication->id }}" class="form-label">Dokumen (Biarkan kosong jika tiada perubahan)</label>
+                                                                                    <input type="file" class="form-control" id="document_path{{ $mcApplication->id }}" name="document_path">
+                                                                                </div>
+                                                                                <div class="col-md-12 mb-3">
+                                                                                    <label for="reason{{ $mcApplication->id }}" class="form-label">Sebab<span class="text-danger">*</span></label>
+                                                                                    <textarea class="form-control" id="reason{{ $mcApplication->id }}" name="reason" rows="3" required>{{ $mcApplication->reason }}</textarea>
+                                                                                </div>
+                                                                                <div class="col-md-12 mb-3">
+                                                                                    <label>Permohonan terus ke Admin:</label><br>
+                                                                                    <input type="radio" id="yes{{ $mcApplication->id }}" name="direct_admin_approval" value="1" {{ $mcApplication->direct_admin_approval ? 'checked' : '' }}>
+                                                                                    <label for="yes{{ $mcApplication->id }}">Ya</label><br>
+                                                                                    <input type="radio" id="no{{ $mcApplication->id }}" name="direct_admin_approval" value="0" {{ !$mcApplication->direct_admin_approval ? 'checked' : '' }}>
+                                                                                    <label for="no{{ $mcApplication->id }}">Tidak</label>
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="submit" class="btn btn-success">Simpan</button>
+                                                                                </div>
+                                                                            </form>
                                                                         </div>
-                                                                        <div class="col-md-12 mb-3">
-                                                                            <label for="reason{{ $mcApplication->id }}" class="form-label">Sebab<span class="text-danger">*</span></label>
-                                                                            <textarea class="form-control" id="reason{{ $mcApplication->id }}" name="reason" rows="3" required>{{ $mcApplication->reason }}</textarea>
-                                                                        </div>
-                                                                        <div class="col-md-12 mb-3">
-                                                                            <label>Permohonan terus ke Admin:</label><br>
-                                                                            <input type="radio" id="yes{{ $mcApplication->id }}" name="direct_admin_approval" value="1" {{ $mcApplication->direct_admin_approval ? 'checked' : '' }}>
-                                                                            <label for="yes{{ $mcApplication->id }}">Ya</label><br>
-                                                                            <input type="radio" id="no{{ $mcApplication->id }}" name="direct_admin_approval" value="0" {{ !$mcApplication->direct_admin_approval ? 'checked' : '' }}>
-                                                                            <label for="no{{ $mcApplication->id }}">Tidak</label>
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="submit" class="btn btn-success">Simpan</button>
-                                                                        </div>
-                                                                    </form>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-
-
+                                                        @else
+                                                        {{ $mcApplication->rejection_reason }}
+                                                        @endif
                                                     </td>
-                                                    @endif
                                                 </tr>
                                             @endforeach
                                         </tbody>

@@ -157,9 +157,15 @@ class AdminController extends Controller
     {
         // Fetch all announcements without filtering by user
         $announcements = Announcement::all();
-    
+        // Fetch total users excluding admins
+        $totalUsers = User::where('role', '!=', 'admin')->count();
+        $totalMcApplications = McApplication::count();
+        $acceptedMcApplications = McApplication::where('status', 'approved')->count();
+        $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
+
         // Return the announcements view for the admin
-        return view('partials.adminside.announcement', compact('announcements'));
+        return view('partials.adminside.announcement', compact('announcements','totalUsers','totalMcApplications',
+        'acceptedMcApplications','rejectedMcApplications'));
     }
 
     public function updateAnnouncement(Request $request, $id)
@@ -192,6 +198,8 @@ class AdminController extends Controller
         $announcement->save();
     
         return redirect()->route('admin.annoucement')->with('success', 'Pengumuman berjaya dikemaskini!!');
+
+        // return redirect()->back()->with('success', 'Announcement updated successfully!');
     }
     
     public function deleteAnnouncement($id)
@@ -205,6 +213,9 @@ class AdminController extends Controller
         $announcement->delete();
     
         return redirect()->route('admin.annoucement')->with('success', 'Pengumuman berjaya dipadam!');
+
+        // Redirect back with success message
+        // return redirect()->back()->with('success', 'Announcement deleted successfully!');
     }
     
     public function storeAnnouncement(Request $request)
@@ -231,6 +242,8 @@ class AdminController extends Controller
         ]);
     
         return redirect()->route('admin.annoucement')->with('success', 'Pengumuman berjaya disimpan!');
+
+        // return redirect()->back()->with('success', 'Announcement created successfully.');
     }
     
 
@@ -243,31 +256,40 @@ class AdminController extends Controller
     {
         // Initialize the query to fetch all users
         $usersQuery = User::query();
-    
+
         // Get filter inputs
         $roleFilter = $request->input('role');        // Filter for role
         $jobStatusFilter = $request->input('job_status');  // Filter for job status
-    
+
         // Apply role filter if provided
         if ($roleFilter) {
             $usersQuery->where('role', $roleFilter);
         }
-    
+
         // Apply job status filter if provided
         if ($jobStatusFilter) {
             $usersQuery->where('job_status', $jobStatusFilter);
         }
-    
+
         // Fetch all users based on the applied filters
         $users = $usersQuery->get();
-    
+
         // Fetch all officers (users with 'officer' role)
         $officers = User::where('role', 'officer')->get();
-    
+        $totalUsers = User::where('role', '!=', 'admin')->count();
+        $totalMcApplications = McApplication::count();
+        $acceptedMcApplications = McApplication::where('status', 'approved')->count();
+        $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
+
         // Pass the users and officers data to the view
         return view('partials.adminside.staff_list', [
             'users' => $users, // Now using 'users' instead of 'staff'
             'officers' => $officers,
+            'totalUsers' => $totalUsers,
+            'totalMcApplications' =>  $totalMcApplications,
+            'acceptedMcApplications' => $acceptedMcApplications,
+            'rejectedMcApplications' => $rejectedMcApplications,
+
         ]);
     }
 
@@ -318,7 +340,8 @@ class AdminController extends Controller
         ]);
 
         // Redirect with success message
-        return redirect()->route('admin.stafflist')->with('success', 'User updated successfully!');
+        // return redirect()->route('admin.stafflist')->with('success', 'User updated successfully!');
+        return redirect()->back()->with('success', 'User updated successfully!');
     }
 
     public function deleteUser($id)
@@ -326,7 +349,8 @@ class AdminController extends Controller
         $user = User::findOrFail($id);
         $user->delete(); // Delete the user
 
-        return redirect()->route('admin.stafflist')->with('success', 'User deleted successfully!');
+        // return redirect()->route('admin.stafflist')->with('success', 'User deleted successfully!');
+        return redirect()->back()->with('success', 'User deleted successfully!');
     }
 
 
@@ -371,7 +395,8 @@ class AdminController extends Controller
         ]);
     
         // Redirect back to admin with a success message
-        return redirect()->route('admin.stafflist')->with('success', 'Kakitangan/Pegawai baru berjaya ditambah!!');
+        // return redirect()->route('admin.stafflist')->with('success', 'Kakitangan/Pegawai baru berjaya ditambah!!');
+        return redirect()->back()->with('success', 'New Staff/Officer added successfully!');
     }
     
 
@@ -385,15 +410,15 @@ class AdminController extends Controller
         $statusFilter = $request->input('status');
         $startDateFilter = $request->input('start_date');
         $endDateFilter = $request->input('end_date');
-    
+
         // Prepare the query for all applications along with their user data
         $allApplicationsQuery = McApplication::with('user');
-    
+
         // Apply status filter if provided
         if ($statusFilter) {
             $allApplicationsQuery->where('status', $statusFilter);
         }
-    
+
         // Apply date filters if provided
         if ($startDateFilter) {
             $allApplicationsQuery->where('start_date', '>=', $startDateFilter);
@@ -401,12 +426,17 @@ class AdminController extends Controller
         if ($endDateFilter) {
             $allApplicationsQuery->where('end_date', '<=', $endDateFilter);
         }
-    
+
         // Get the filtered applications
         $allApplications = $allApplicationsQuery->get();
-    
+        $totalUsers = User::where('role', '!=', 'admin')->count();
+        $totalMcApplications = McApplication::count();
+        $acceptedMcApplications = McApplication::where('status', 'approved')->count();
+        $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
+
         // Pass the data to the view
-        return view('partials.adminside.mc_all_apply', compact('allApplications'));
+        return view('partials.adminside.mc_all_apply', compact('allApplications','totalUsers'
+        ,'totalMcApplications','acceptedMcApplications','rejectedMcApplications'));
     }
 
 
@@ -419,28 +449,43 @@ class AdminController extends Controller
         $statusFilter = $request->input('status');
         $startDateFilter = $request->input('start_date');
         $endDateFilter = $request->input('end_date');
-    
-        // Prepare the query for officer applications along with their user data
-        $applicationsQuery = McApplication::with('user');
-    
+
+        // Prepare the query for officer-approved applications that are still pending admin approval
+        $applicationsQuery = McApplication::join('users', 'mc_applications.user_id', '=', 'users.id')
+            ->select('mc_applications.*', 'users.name as user_name')
+            ->where('officer_approved', true)
+            ->where('admin_approved', false); // Pending admin approval
+
         // Apply status filter if provided
         if ($statusFilter) {
-            $applicationsQuery->where('status', $statusFilter);
+            $applicationsQuery->where('mc_applications.status', $statusFilter);
         }
-    
+
         // Apply date filters if provided
         if ($startDateFilter) {
-            $applicationsQuery->where('start_date', '>=', Carbon::parse($startDateFilter));
+            $applicationsQuery->where('mc_applications.start_date', '>=', Carbon::parse($startDateFilter));
         }
         if ($endDateFilter) {
-            $applicationsQuery->where('end_date', '<=', Carbon::parse($endDateFilter));
+            $applicationsQuery->where('mc_applications.end_date', '<=', Carbon::parse($endDateFilter));
         }
-    
+
         // Get the filtered applications
         $applications = $applicationsQuery->get();
-    
+
+        // Fetch all MC applications for statistical purposes
+        $totalUsers = User::where('role', '!=', 'admin')->count();
+        $totalMcApplications = McApplication::count();
+        $acceptedMcApplications = McApplication::where('status', 'approved')->count();
+        $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
+
         // Pass the data to the view
-        return view('partials.adminside.mc_officer_approve', compact('applications'));
+        return view('partials.adminside.mc_officer_approve', compact(
+            'applications',
+            'totalUsers',
+            'totalMcApplications',
+            'acceptedMcApplications',
+            'rejectedMcApplications'
+        ));
     }
 
 
@@ -453,29 +498,45 @@ class AdminController extends Controller
         $statusFilter = $request->input('status');
         $startDateFilter = $request->input('start_date');
         $endDateFilter = $request->input('end_date');
-    
-        // Prepare the query for admin applications along with their user data
-        $applicationsQuery = McApplication::with('user');
-    
-        // Apply status filter if provided
+
+        // Prepare the query for fetching all applications (future use)
+        $allApplicationsQuery = McApplication::with('user');
+
+        // Apply status filter to all applications if provided
         if ($statusFilter) {
-            $applicationsQuery->where('status', $statusFilter);
+            $allApplicationsQuery->where('status', $statusFilter);
         }
-    
-        // Apply date filters if provided
+
+        // Apply date filters to all applications if provided
         if ($startDateFilter) {
-            $applicationsQuery->where('start_date', '>=', $startDateFilter);
+            $allApplicationsQuery->where('start_date', '>=', $startDateFilter);
         }
         if ($endDateFilter) {
-            $applicationsQuery->where('end_date', '<=', $endDateFilter);
+            $allApplicationsQuery->where('end_date', '<=', $endDateFilter);
         }
-    
-        // Get the filtered applications
-        $directAdminApplications = $applicationsQuery->get();
-    
+
+        // Get all applications (this is required for future reference)
+        $allApplications = $allApplicationsQuery->get();
+
+        // Fetch direct admin approval applications: only pending and not yet admin approved
+        $directAdminApplications = McApplication::where('direct_admin_approval', true)
+            ->where('admin_approved', false)  // Only fetch those not yet approved
+            ->where('status', 'pending')  // Only fetch those with pending status
+            ->get();
+
+        // Fetch additional statistics
+        $totalUsers = User::where('role', '!=', 'admin')->count();
+        $totalMcApplications = McApplication::count();
+        $acceptedMcApplications = McApplication::where('status', 'approved')->count();
+        $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
+
         // Pass the data to the view
-        return view('partials.adminside.mc_admin_approve', compact('directAdminApplications'));
+        return view('partials.adminside.mc_admin_approve', compact(
+            'directAdminApplications', 'allApplications', 'totalUsers',
+            'totalMcApplications', 'acceptedMcApplications', 'rejectedMcApplications'
+        ));
     }
+
 
 
 
@@ -486,9 +547,14 @@ class AdminController extends Controller
     {
         // Fetch the necessary data for the profile view, such as the logged-in user's information
         $user = auth()->user(); // Example: get the authenticated user
+        $totalUsers = User::where('role', '!=', 'admin')->count();
+        $totalMcApplications = McApplication::count();
+        $acceptedMcApplications = McApplication::where('status', 'approved')->count();
+        $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
 
         // Return the profile view with the user data
-        return view('partials.adminside.profile', compact('user')); // Ensure you have a view named 'profile'
+        return view('partials.adminside.profile', compact('user','totalUsers',
+        'totalMcApplications','acceptedMcApplications','rejectedMcApplications')); // Ensure you have a view named 'profile'
     }
 
     public function updateOwnDetails(Request $request)
@@ -538,7 +604,7 @@ class AdminController extends Controller
         $user->save();
 
         // Redirect with success message
-        return redirect()->route('admin')->with('success', 'Your details have been updated successfully!');
+        return redirect()->back()->with('success', 'Your details have been updated successfully!');
     }
 
 
@@ -546,7 +612,11 @@ class AdminController extends Controller
 // PASSWORD ROUTES
     public function password()
     {
-        return view('partials.adminside.password');
+        $totalUsers = User::where('role', '!=', 'admin')->count();
+        $totalMcApplications = McApplication::count();
+        $acceptedMcApplications = McApplication::where('status', 'approved')->count();
+        $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
+        return view('partials.adminside.password',compact('totalUsers','totalMcApplications','acceptedMcApplications','rejectedMcApplications'));
     }
 
 

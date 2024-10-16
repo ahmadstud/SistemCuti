@@ -14,12 +14,12 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/Erawhiz.png">
-        <link rel="icon" type="image/png" href="./assets/img/Erawhiz.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/Erawhiz.png') }}">
+        <link rel="icon" type="image/png" href="{{ asset('assets/img/Erawhiz.png') }}">
         <title>
             Sistem Permohonan Cuti - Staf
         </title>
-        
+
         <!--     Fonts and icons     -->
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
         <!-- Nucleo Icons -->
@@ -31,17 +31,17 @@
         <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
-    </head>  
+    </head>
 
     <body class="g-sidenav-show bg-gray-100">
         <div class="min-height-500 bg-primary position-absolute w-100"></div>
                     @include('partials.adminside.aside')
-    
+
         <main class="main-content position-relative border-radius-lg">
             <div class="container-fluid py-4">
-                    {{-- @include('partials.logout') --}}
-                    @include('partials.adminside.mcdays')
-    
+                     @include('partials.logout')
+                    @include('partials.adminside.mcdata')
+
                 <div class="row mt-4">
                     <div class="col-lg-12 mb-lg-0 mb-4" > <!-- Adjust column to full width -->
                         <div class="card">

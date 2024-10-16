@@ -91,7 +91,7 @@
                                             @foreach($applications as $application)
                                                 <tr>
                                                     <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                        <p class="text-m text-secondary">{{ $application->id }}</p>
+                                                        <p class="text-m text-secondary">{{ $loop->iteration }}</p>
                                                     </td>
                                                     <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                         <p class="text-m text-secondary">{{ $application->user_name }}</p>
@@ -127,14 +127,39 @@
                                                     </td>
                                                     <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                         <!-- Accept or Reject Buttons -->
-                                                        <form action="{{ route('officer.updateStatus',['id' => $application->id]) }}" method="POST">
+                                                        <form action="{{ route('officer.updateStatus',['id' => $application->id]) }}" method="POST" class="approve-form">
                                                             @csrf
                                                             <button type="submit" name="status" value="approved_by_officer" class="btn btn-success">
                                                                 <i class="fas fa-check"></i> <!-- Right symbol -->
                                                             </button>
-                                                            <button type="submit" name="status" value="rejected" class="btn btn-danger">
-                                                                <i class="fas fa-times"></i> <!-- Wrong symbol -->
+                                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectionReasonModal">
+                                                                <i class="fas fa-times"></i> <!-- Reject symbol -->
                                                             </button>
+
+                                                            <!-- Rejection Reason Modal -->
+                                                            <div class="modal fade" id="rejectionReasonModal" tabindex="-1" role="dialog" aria-labelledby="rejectionReasonModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title" id="rejectionReasonModalLabel">Alasan Penolakan</h5>
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <label for="rejection_reason">Alasan Penolakan:</label>
+                                                                            <textarea name="rejection_reason" id="rejection_reason" rows="3" class="form-control" required></textarea>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                                                            <button type="submit" name="status" value="rejected" class="btn btn-danger">
+                                                                                Hantar Tolakan
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
                                                         </form>
                                                     </td>
                                                 </tr>
@@ -166,6 +191,12 @@
 <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
 <!-- Most Important JS Files -->
 <script src="{{ asset('js/app.js') }}"></script>
+
+
+<!-- jQuery and Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <!-- Github buttons -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>

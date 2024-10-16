@@ -40,7 +40,7 @@
         <main class="main-content position-relative border-radius-lg">
           <div class="container-fluid py-4">
             @include('partials.logout')
-            @include ('partials.adminside.mcdays')
+            @include ('partials.adminside.mcdata')
 
             <div class="row mt-4">
               <div class="col-lg-12 mb-lg-0 mb-4" > <!-- Adjust column to full width -->
