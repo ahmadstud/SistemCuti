@@ -469,13 +469,6 @@ class AdminController extends Controller
         }
 
         // Get the filtered applications
-        $application = $applicationsQuery->get();
-        // Fetch MC applications approved by officers and still pending admin approval
-        $applications = McApplication::join('users', 'mc_applications.user_id', '=', 'users.id')
-        ->select('mc_applications.*', 'users.name as user_name') // Get all fields from mc_applications and the user's name and role
-        ->where('officer_approved', true)
-        ->where('admin_approved', false) // Add this condition if you only want pending admin approvals
-        ->get();
         $applications = $applicationsQuery->get();
 
         // Fetch all MC applications for statistical purposes
@@ -484,10 +477,7 @@ class AdminController extends Controller
         $acceptedMcApplications = McApplication::where('status', 'approved')->count();
         $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
 
-
         // Pass the data to the view
-        return view('partials.adminside.mc_officer_approve', compact('applications','totalUsers',
-        'totalMcApplications','acceptedMcApplications','rejectedMcApplications','application'));
         return view('partials.adminside.mc_officer_approve', compact(
             'applications',
             'totalUsers',
@@ -496,7 +486,6 @@ class AdminController extends Controller
             'rejectedMcApplications'
         ));
     }
-
 
 
 
@@ -524,15 +513,6 @@ class AdminController extends Controller
             $allApplicationsQuery->where('end_date', '<=', $endDateFilter);
         }
 
-        // Get the filtered applications
-        $applications = $applicationsQuery->get();
-
-         // Fetch direct admin approval applications
-         $directAdminApplications = McApplication::where('direct_admin_approval', true)
-         ->where('admin_approved', false)  // Only fetch those not yet approved
-         ->where('status', 'pending')  // Only fetch those not yet approved
-         ->get();
-
         // Get all applications (this is required for future reference)
         $allApplications = $allApplicationsQuery->get();
 
@@ -549,13 +529,12 @@ class AdminController extends Controller
         $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
 
         // Pass the data to the view
-        return view('partials.adminside.mc_admin_approve', compact('applications',
-        'totalUsers','totalMcApplications','acceptedMcApplications','rejectedMcApplications','directAdminApplications'));
         return view('partials.adminside.mc_admin_approve', compact(
             'directAdminApplications', 'allApplications', 'totalUsers',
             'totalMcApplications', 'acceptedMcApplications', 'rejectedMcApplications'
         ));
     }
+
 
 
 
