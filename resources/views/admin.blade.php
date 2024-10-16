@@ -39,7 +39,7 @@
 
         <main class="main-content position-relative border-radius-lg">
           <div class="container-fluid py-4">
-            {{-- @include('partials.logout') --}}
+            @include('partials.logout')
             @include ('partials.adminside.mcdays')
 
             <div class="row mt-4">

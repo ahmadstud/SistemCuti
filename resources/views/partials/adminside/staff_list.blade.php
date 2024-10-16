@@ -31,6 +31,7 @@
         <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
+
     </head>    
 
     <body class="g-sidenav-show bg-gray-100">
@@ -39,7 +40,7 @@
     
         <main class="main-content position-relative border-radius-lg">
             <div class="container-fluid py-4">
-                    {{-- @include('partials.logout') --}}
+                    @include('partials.logout')
                     @include('partials.adminside.mcdays')
     
                 <div class="row mt-4">
@@ -136,8 +137,9 @@
                                                                                         <select class="form-select" id="selected_officer_id" name="selected_officer_id" required>
                                                                                             <option selected disabled>--- Pilih Ketua Bahagian ---</option>
                                                                                             @foreach($officers as $officer)
-                                                                                            <option value="{{ $officer->id }}">{{ $officer->name }}</option>
+                                                                                                <option value="{{ $officer->id }}">{{ $officer->name }}</option>
                                                                                             @endforeach
+                                                                                            <option value="">Tiada Penyelia</option>
                                                                                         </select>
                                                                                     </div>
                                                                                 </div>
@@ -147,8 +149,8 @@
                                                                                         <input type="number" class="form-control" id="total_annual" name="total_annual" required min="1">
                                                                                     </div>
                                                                                     <div class="col-md-6 mb-3">
-                                                                                        <label for="mc_days" class="form-label">Jumlah Cuti Sakit<span class="text-danger">*</span></label>
-                                                                                        <input type="number" class="form-control" id="mc_days" name="mc_days" required min="1">
+                                                                                        <label for="total_mc_days" class="form-label">Jumlah Cuti Sakit<span class="text-danger">*</span></label>
+                                                                                        <input type="number" class="form-control" id="total_mc_days" name="total_mc_days" required min="1">
                                                                                     </div>
                                                                                     <div class="col-md-6 mb-3">
                                                                                         <label for="total_others" class="form-label">Jumlah Cuti lain-lain<span class="text-danger">*</span></label>
@@ -197,7 +199,7 @@
                                                     {{-- List of staff --}}
                                                     <div class="card-body">
 
-                                                        <form action="{{ route('admin') }}" method="GET" class="mb-3">
+                                                        <form action="{{ route('admin.stafflist') }}" method="GET" class="mb-3">
                                                             <div class="row g-3">
                                                                 <div class="col-md-4">
                                                                     <label for="roleFilter" class="form-label">Peranan</label>
@@ -266,7 +268,15 @@
                                                                                 @endif
                                                                             </td>
                                                                             <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                <p class="text-m text-secondary">    {{ $user->officer ? $user->officer->name : 'Tiada Penyelia' }}</p>
+                                                                                {{-- <p class="text-m text-secondary">    {{ $user->officer ? $user->officer->name : 'Tiada Penyelia' }}</p> --}}
+                                                                                <p class="text-m text-secondary">
+                                                                                    @if($user->officer)
+                                                                                        {{ $user->officer->name }}
+                                                                                    @else
+                                                                                        <span class="text-danger">Tiada Penyelia ( {{ $user->selected_officer_id }})</span>
+                                                                                    @endif
+                                                                                </p>
+                                                                                
                                                                             </td>
                                                                             <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                 @if($user->job_status == 'Permenant')
@@ -347,9 +357,9 @@
                                                                                                             <select class="form-select" id="selected_officer_id" name="selected_officer_id" required>
                                                                                                                 <option selected disabled>--- Tiada Penyelia ---</option>
                                                                                                                 @foreach($officers as $officer)
-                                                                                                                <option value="{{ $officer->id }}" {{ $user->selected_officer_id == $officer->id ? 'selected' : '' }}>
-                                                                                                                    {{ $officer->name }}
-                                                                                                                </option>
+                                                                                                                    <option value="{{ $officer->id }}" {{ $user->selected_officer_id == $officer->id ? 'selected' : '' }}>
+                                                                                                                        {{ $officer->name }}
+                                                                                                                    </option>
                                                                                                                 @endforeach
                                                                                                             </select>
                                                                                                         </div>
@@ -403,13 +413,27 @@
 
 
                                                                                 <!-- Delete button -->
-                                                                                <form action="{{ route('deleteUser', $user->id) }}" method="POST" style="display:inline;">
+                                                                                <form action="{{ route('deleteUser', $user->id) }}" method="POST" style="display:inline;" id="delete-form-{{ $user->id }}">
                                                                                     @csrf
                                                                                     @method('DELETE')
-                                                                                    <button type="submit" class="btn btn-md btn-danger" title="Delete">
+                                                                                    <button type="button" class="btn btn-md btn-danger" title="Delete" onclick="confirmDelete({{ $user->id }})">
                                                                                         <i class="fas fa-trash-alt"></i> <!-- Delete symbol -->
                                                                                     </button>
                                                                                 </form>
+
+                                                                                <script>
+                                                                                    function confirmDelete(userId) {
+                                                                                        // Simple confirmation dialog
+                                                                                        if (confirm("Are you sure you want to delete this user? This action cannot be undone.")) {
+                                                                                            // Submit the form to delete the user
+                                                                                            document.getElementById('delete-form-' + userId).submit();
+                                                                                        } else {
+                                                                                            alert("User deletion cancelled.");
+                                                                                        }
+                                                                                    }
+                                                                                </script>
+
+                                                                                
                                                                             </td>
                                                                         </tr>
 

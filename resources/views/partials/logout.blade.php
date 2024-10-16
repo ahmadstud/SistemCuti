@@ -6,10 +6,10 @@
         </div>
         <ul class="navbar-nav  justify-content-end">
             <li class="nav-item d-flex align-items-center">
-                <a href="{{ route('logout') }}" class="nav-link text-white font-weight-bold px-0" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                {{-- <a href="{{ route('logout') }}" class="nav-link text-white font-weight-bold px-0" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="fa fa-sign-out me-sm-1"></i> <!-- Changed icon to signify logout -->
                     <span class="d-sm-inline d-none">Log Keluar</span> <!-- Updated text to 'Log Keluar' -->
-                </a>
+                </a> --}}
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>

@@ -149,6 +149,9 @@ class AdminController extends Controller
     }
 
 
+
+
+
 // PENGURUSAN ROUTES
     public function Annoucement()
     {
@@ -162,84 +165,79 @@ class AdminController extends Controller
     public function updateAnnouncement(Request $request, $id)
     {
         $announcement = Announcement::findOrFail($id);
-
+    
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date', // Ensure end_date is after or equal to start_date
+            'end_date' => 'required|date|after_or_equal:start_date',
         ]);
-
+    
         $announcement->title = $request->title;
         $announcement->content = $request->content;
-        $announcement->start_date = $request->start_date;  // Set the start date
-        $announcement->end_date = $request->end_date;  // Set the end date
-
+        $announcement->start_date = $request->start_date; 
+        $announcement->end_date = $request->end_date;
+    
         if ($request->hasFile('image_path')) {
-            // Delete old image if it exists
             if ($announcement->image_path && Storage::exists('public/' . $announcement->image_path)) {
                 Storage::delete('public/' . $announcement->image_path);
             }
-
-            // Store new image
+    
             $imageName = time() . '.' . $request->image_path->extension();
             $request->image_path->storeAs('public/announcements', $imageName);
-            $announcement->image_path = 'announcements/' . $imageName; // Store the relative path
+            $announcement->image_path = 'announcements/' . $imageName;
         }
-
+    
         $announcement->save();
-
-        return redirect()->route('admin')->with('success', 'Announcement updated successfully!');
+    
+        return redirect()->route('admin.annoucement')->with('success', 'Pengumuman berjaya dikemaskini!!');
     }
-
+    
     public function deleteAnnouncement($id)
     {
-        // Find the announcement by ID or fail
         $announcement = Announcement::findOrFail($id);
-
-        // Delete image if it exists
-        if ($announcement->image && Storage::exists('public/announcements/' . $announcement->image)) {
-            Storage::delete('public/announcements/' . $announcement->image);
+    
+        if ($announcement->image_path && Storage::exists('public/announcements/' . $announcement->image_path)) {
+            Storage::delete('public/announcements/' . $announcement->image_path);
         }
-
-        // Delete the announcement
+    
         $announcement->delete();
-
-        // Redirect back with success message
-        return redirect()->route('admin')->with('success', 'Announcement deleted successfully!');
+    
+        return redirect()->route('admin.annoucement')->with('success', 'Pengumuman berjaya dipadam!');
     }
-
+    
     public function storeAnnouncement(Request $request)
     {
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image
-            'start_date' => 'required|date', // Validate start date
-            'end_date' => 'required|date|after_or_equal:start_date', // Validate end date
-
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
         ]);
-
-        // Store image if uploaded
+    
         $imagePath = null;
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('announcements', 'public'); // Store in public/announcements
+            $imagePath = $request->file('image')->store('announcements', 'public');
         }
-
-        // Create announcement
+    
         Announcement::create([
             'title' => $request->title,
             'content' => $request->content,
             'image_path' => $imagePath,
-            'start_date' => $request->start_date, // Store start date
-            'end_date' => $request->end_date, // Store end date
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
         ]);
-
-        return redirect()->route('admin', ['section' => 'Annouce'])->with('success', 'Announcement created successfully.');
+    
+        return redirect()->route('admin.annoucement')->with('success', 'Pengumuman berjaya disimpan!');
     }
+    
 
 
+
+
+    
 // SENARAI PEKERJA ROUTES
     public function staffList(Request $request)
     {
@@ -320,7 +318,7 @@ class AdminController extends Controller
         ]);
 
         // Redirect with success message
-        return redirect()->route('admin')->with('success', 'User updated successfully!');
+        return redirect()->route('admin.stafflist')->with('success', 'User updated successfully!');
     }
 
     public function deleteUser($id)
@@ -328,7 +326,7 @@ class AdminController extends Controller
         $user = User::findOrFail($id);
         $user->delete(); // Delete the user
 
-        return redirect()->route('admin')->with('success', 'User deleted successfully!');
+        return redirect()->route('admin.stafflist')->with('success', 'User deleted successfully!');
     }
 
 
@@ -348,10 +346,11 @@ class AdminController extends Controller
             'postcode' => 'nullable|string|max:10',
             'state' => 'nullable|string|max:255',
             'total_mc_days' => 'required|integer|min:0',
-            'total_annual' => 'required|integer|min:0', // Validate total_annual input
-            'total_others' => 'required|integer|min:0', // Validate total_others input
+            'total_annual' => 'required|integer|min:0',
+            'total_others' => 'required|integer|min:0',
+            'selected_officer_id' => 'nullable|integer', // Add this line to validate officer selection
         ]);
-
+    
         // Create the new user
         User::create([
             'name' => $request->name,
@@ -361,18 +360,22 @@ class AdminController extends Controller
             'role' => $request->role,
             'job_status' => $request->job_status,
             'password' => bcrypt($request->password),  // Encrypt the password
-            'total_annual' => $request->total_annual, // Set the total_annual input value
-            'total_others' => $request->total_others, // Set the total_others input value
-            'total_mc_days' => $request->total_mc_days, // Set the total_others input value
+            'total_annual' => $request->total_annual,
+            'total_others' => $request->total_others,
+            'total_mc_days' => $request->total_mc_days,
             'address' => $request->address,
             'city' => $request->city,
             'postcode' => $request->postcode,
             'state' => $request->state,
+            'selected_officer_id' => $request->selected_officer_id, // Save selected officer ID here
         ]);
-
+    
         // Redirect back to admin with a success message
-        return redirect()->route('admin')->with('success', 'New Staff/Officer added successfully!');
+        return redirect()->route('admin.stafflist')->with('success', 'Kakitangan/Pegawai baru berjaya ditambah!!');
     }
+    
+
+
 
 
 // SENARAI KESELURUHAN PERMOHONAN ROUTES
@@ -407,6 +410,8 @@ class AdminController extends Controller
     }
 
 
+
+
 // PERMOHONAN CUTI TAPISAN PEGAWAI
     public function mcOfficerApprove(Request $request)
     {
@@ -437,6 +442,8 @@ class AdminController extends Controller
         // Pass the data to the view
         return view('partials.adminside.mc_officer_approve', compact('applications'));
     }
+
+
 
 
 // SENARAI CUTI TAPISAN ADMIN
@@ -471,6 +478,8 @@ class AdminController extends Controller
     }
 
 
+
+    
 
 // PROFILE ROUTES
     public function showProfile()

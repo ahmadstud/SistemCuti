@@ -32,68 +32,47 @@ use App\Http\Controllers\Auth\LoginController;
 
 
 
-// ADMIN ROUTES
+    // ADMIN ROUTES
 
-    // Dashboard:
-    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+        // Dashboard:
+        Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
+        // User Management:
+        Route::get('/admin/staff-list', [AdminController::class, 'staffList'])->name('admin.stafflist'); // For displaying staff list
+        Route::post('/admin/store', [AdminController::class, 'storeUser'])->name('storeUser');
+        Route::get('/admin/edit/{id}', [AdminController::class, 'editUser'])->name('editUser');
+        Route::post('/admin/update/{id}', [AdminController::class, 'updateUser'])->name('updateUser');
+        Route::delete('/admin/delete/{id}', [AdminController::class, 'deleteUser'])->name('deleteUser');
 
-    // User Management:
-        // Routes for adding, editing, updating, and deleting users.
-        Route::post('/admin/store',                           [AdminController::class, 'storeUser'])->name('storeUser');
-        Route::get('/admin/edit/{id}',                        [AdminController::class, 'editUser'])->name('editUser');
-        // Route for updating a user (after form submission)
-        Route::post('/admin/update/{id}',                     [AdminController::class, 'updateUser'])->name('updateUser');
-        // Route for deleting a user
-        Route::delete('/admin/delete/{id}',                   [AdminController::class, 'deleteUser'])->name('deleteUser');
+        // Announcement Management:
+        Route::get('/admin/annoucement', [AdminController::class, 'Annoucement'])->name('admin.annoucement');
+        Route::post('/admin/announcements', [AdminController::class, 'storeAnnouncement'])->name('admin.storeAnnouncement');
+        Route::put('/admin/announcements/{id}', [AdminController::class, 'updateAnnouncement'])->name('updateAnnouncement');
+        Route::delete('/admin/delete-announcement/{id}', [AdminController::class, 'deleteAnnouncement'])->name('deleteAnnouncement');
 
+        // MC Application Approval (Admin Side):
+        Route::get('/admin/mc-all-apply', [AdminController::class, 'showAllMcApplications'])->name('admin.mcAllApply');
+        Route::post('/admin/mc-applications/{id}/admin-approve', [AdminController::class, 'approve'])->name('admin.approve');
+        Route::post('/admin/mc-applications/{id}/admin-reject', [AdminController::class, 'reject'])->name('admin.reject');
 
-    // MC Application Approval (Admin Side):
-        // Admin & Officer MC Approval/Rejection:
-        // Routes for approving or rejecting MC applications by both admins and officers.
-        Route::post('/admin/approve/{id}',                    [AdminController::class, 'approveMcApplication'])->name('admin.approveMcApplication');
-        // Admin approval route
-        Route::post('/mc-applications/{id}/admin-approve',    [AdminController::class, 'approve'])->name('admin.approve');
-        // Admin reject route
-        Route::post('/mc-applications/{id}/admin-reject',     [AdminController::class, 'reject'])->name('admin.reject');
+        // Officer MC Approval:
+        Route::get('/admin/mc-officer-approve', [AdminController::class, 'mcOfficerApprove'])->name('admin.mcOfficerApprove');
 
+        // Admin MC Approval:
+        Route::get('/admin/mc-admin-approve', [AdminController::class, 'mcAdminApprove'])->name('admin.mcAdminApprove');
 
-    // Announcement Management:
-        // Admin Announcements: Routes for managing announcements (create, update, delete)
-        Route::post('/admin/announcements',                   [AdminController::class, 'storeAnnouncement'])->name('admin.storeAnnouncement');
-        Route::put('/admin/announcements/{id}',               [AdminController::class, 'updateAnnouncement'])->name('updateAnnouncement');
-        Route::delete('/admin/delete-announcement/{id}',      [AdminController::class, 'deleteAnnouncement'])->name('deleteAnnouncement');
-
-    // Admin Profile Management:
+        // Profile Management:
+        Route::get('/admin/profile', [AdminController::class, 'showProfile'])->name('admin.profile');
         Route::get('/admin/edit-profile', function () {
             return view('partials.adminside.edit-profile');
         })->name('admin.editProfile');
+        Route::post('/admin/update-details', [AdminController::class, 'updateOwnDetails'])->name('updateOwnDetails');
 
-    // Admin Routes
-        Route::post('/admin/approve/{id}',                    [AdminController::class, 'approve'])->name('admin.approve');
-
-    // Route for updating own details
-        Route::post('/admin/update-details',                  [AdminController::class, 'updateOwnDetails'])->name('updateOwnDetails');
-
-
-
-        // new
-        Route::get('/admin/annoucement', [AdminController::class, 'Annoucement'])->name('admin.annoucement');
-
-        Route::get('/admin/staff-list', [AdminController::class, 'staffList'])->name('admin.stafflist');
-
-        Route::get('/admin/mc-all-apply', [AdminController::class, 'showAllMcApplications'])->name('admin.mcAllApply');
-
-        Route::get('/admin/mc-officer-approve', [AdminController::class, 'mcOfficerApprove'])->name('admin.mcOfficerApprove');
-        Route::post('/admin/approve/{id}', [AdminController::class, 'approve'])->name('admin.approve');
-        Route::post('/admin/reject/{id}', [AdminController::class, 'reject'])->name('admin.reject');
-
-
-        Route::get('/admin/mc-admin-approve', [AdminController::class, 'mcAdminApprove'])->name('admin.mcAdminApprove');
-        
-        Route::get('/admin/profile', [AdminController::class, 'showProfile'])->name('admin.profile');
-        
+        // Password Management:
         Route::get('/admin/password', [AdminController::class, 'password'])->name('admin.password');
+
+      
+
 
 
         
