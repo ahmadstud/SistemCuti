@@ -70,7 +70,7 @@
                                                     <!-- View Applications Section -->
                                                     <div class="card-body">
 
-                                                        <form method="GET" action="{{ route('admin') }}" class="mb-3">
+                                                        <form method="GET" action="" class="mb-3">
                                                             <div class="row g-3">
                                                                 <div class="col-md-2">
                                                                     <label for="statusFilter" class="form-label">Status</label>

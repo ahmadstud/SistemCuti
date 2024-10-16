@@ -197,7 +197,7 @@
                                                     {{-- List of staff --}}
                                                     <div class="card-body">
 
-                                                        <form action="{{ route('admin') }}" method="GET" class="mb-3">
+                                                        <form action="" method="GET" class="mb-3">
                                                             <div class="row g-3">
                                                                 <div class="col-md-4">
                                                                     <label for="roleFilter" class="form-label">Peranan</label>

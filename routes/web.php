@@ -86,7 +86,7 @@ use App\Http\Controllers\Auth\LoginController;
         Route::get('/admin/profile', [AdminController::class, 'showProfile'])->name('admin.profile');
 
         Route::get('/admin/password', [AdminController::class, 'password'])->name('admin.password');
-            
+
 
 // OFFICER ROUTES
 
@@ -106,6 +106,8 @@ use App\Http\Controllers\Auth\LoginController;
 
         // Route for updating own details
         Route::post('/officer/update-details',                [OfficerController::class, 'updateOwnDetails3'])->name('updateOwnDetails3');
+
+        Route::post('/change-password', [OfficerController::class, 'changePassword'])->name('changePassword');
 
         // Routes for officers
         Route::prefix('officer')->name('officer.')->group(function () {
@@ -133,6 +135,8 @@ use App\Http\Controllers\Auth\LoginController;
 
         // Edit the mc application if any changes
         Route::post('/staff/mc-application/edit/{id}',         [StaffController::class, 'editMC'])->name('staff.mc.edit');
+
+        Route::post('/change-password', [StaffController::class, 'changePassword2'])->name('changePassword2');
 
         // Route for updating own details
         Route::post('/staff/update-details',                   [StaffController::class, 'updateOwnDetails2'])->name('updateOwnDetails2');

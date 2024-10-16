@@ -49,7 +49,7 @@
 
                                 <!-- Direct Admin Approval Section -->
                                 <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
-                                    <h4><b>KELULUSAN TERUS ADMIN UNTUK PERMOHONAN STAF<b></h4>
+                                    <h4><b>KELULUSAN TERUS ADMIN UNTUK PERMOHONAN STAF DAN PEGAWAI<b></h4>
                                 </nav>
 
                                 <div class="row mt-4">
@@ -64,7 +64,6 @@
                                                             <h4 class="mb-2"></h4>
                                                         </div>
                                                     </div>
-
 
                                                     <!-- View Applications Section -->
                                                     <div class="card-body">
@@ -128,7 +127,6 @@
                                                                                         </form>
                                                                                     </div>
                                                                                 </td>
-
                                                                             </tr>
                                                                         @endforeach
                                                                     @endif

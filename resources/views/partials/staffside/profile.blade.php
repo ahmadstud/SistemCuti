@@ -169,7 +169,7 @@
                                         <p class="form-control" id="email">{{ Auth::user()->email }}</p>
                                     </div>
                                 </div>
-                                
+
                             <div class="row mt-3">
                                 <div class="col-md-6">
                                     <label for="ic" class="form-label">NO K/P</label>
@@ -245,6 +245,14 @@
                                 <div class="col-md-4">
                                     <label for="mc_days" class="form-label">JUMLAH CUTI</label>
                                     <p class="form-control" id="mc_days">{{ Auth::user()->total_mc_days }}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="mc_days" class="form-label">CUTI TAHUNAN</label>
+                                    <p class="form-control" id="mc_days">{{ Auth::user()->total_annual }}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="mc_days" class="form-label">CUTI LAIN-LAIN</label>
+                                    <p class="form-control" id="mc_days">{{ Auth::user()->total_others }}</p>
                                 </div>
                             </div>
                         </div>

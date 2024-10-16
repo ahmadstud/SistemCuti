@@ -235,13 +235,23 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label for="role" class="form-label">KETUA BAHAGIAN</label>
-                                                    <p class="form-control" id="role">{{ Auth::user()->role }}</p>
+                                                    <p class="form-control" id="assigned_officer">
+                                                        {{ Auth::user()->officer ? Auth::user()->officer->name : 'Tiada Pegawai' }}
+                                                    </p>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
                                                 <div class="col-md-4">
-                                                    <label for="mc_days" class="form-label">JUMLAH CUTI</label>
+                                                    <label for="mc_days" class="form-label">CUTI MC</label>
                                                     <p class="form-control" id="mc_days">{{ Auth::user()->total_mc_days }}</p>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="mc_days" class="form-label">CUTI TAHUNAN</label>
+                                                    <p class="form-control" id="mc_days">{{ Auth::user()->total_annual }}</p>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="mc_days" class="form-label">CUTI LAIN-LAIN</label>
+                                                    <p class="form-control" id="mc_days">{{ Auth::user()->total_others }}</p>
                                                 </div>
                                             </div>
 

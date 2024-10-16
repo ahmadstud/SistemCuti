@@ -41,12 +41,11 @@ class OfficerController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'ic' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:255',
-            'password' => 'nullable|string|min:8|confirmed', // Password confirmation validation
             'address' => 'nullable|string|max:255',
             'city' => 'nullable|string|max:255',
             'postcode' => 'nullable|string|max:10',
             'state' => 'nullable|string|max:255',
-            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation for profile image
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate profile image
         ]);
 
         // Update user details
@@ -64,13 +63,8 @@ class OfficerController extends Controller
             $image = $request->file('profile_image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('storage/profile_image'), $imageName);
-
             // Save the profile image path in the database
             $user->profile_image = 'storage/profile_image/' . $imageName;
-        }
-        // Update password only if a new password is provided
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
         }
 
         // Save changes to the database
@@ -210,7 +204,7 @@ class OfficerController extends Controller
 
         return view('partials.officerside.mc_approve', compact('applications'));
     }
-    
+
     public function McApply()
     {
          // Fetch all MC applications for the logged-in user
@@ -229,4 +223,22 @@ class OfficerController extends Controller
      $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
         return view('officer', compact('staffOnLeaveToday','announcements'));
     }
+    public function changePassword(Request $request)
+{
+    $user = Auth::user(); // Get the currently authenticated user
+
+    // Validate the password input data
+    $request->validate([
+        'password' => 'required|string|min:8|confirmed', // New password must be confirmed
+    ]);
+
+    // Update the user's password
+    $user->password = Hash::make($request->password); // Hash the new password
+
+    // Save changes to the database
+    $user->save();
+
+    // Redirect with success message
+    return redirect()->back()->with('success', 'Kata laluan anda telah berjaya dikemas kini!');
+}
 }
