@@ -1,11 +1,8 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Models\Announcement;
 use App\Models\McApplication;
 use App\Models\Staff;
-
 use App\Models\User; // <-- Import the User model
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -106,8 +103,6 @@ class AdminController extends Controller
         $acceptedMcApplications = McApplication::where('status', 'approved')->count();
         $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
 
-
-
         // Get the current year
         $currentYear = now()->year;
 
@@ -128,8 +123,6 @@ class AdminController extends Controller
         foreach ($monthlyLeaveData as $data) {
             $leaveCountsByMonth[$data->month] = $data->total_staff;
         }
-
-
 
         return view('admin', compact(
             'directAdminApplications',
@@ -410,6 +403,7 @@ class AdminController extends Controller
         $statusFilter = $request->input('status');
         $startDateFilter = $request->input('start_date');
         $endDateFilter = $request->input('end_date');
+        $roleFilter = $request->input('role');
 
         // Prepare the query for all applications along with their user data
         $allApplicationsQuery = McApplication::with('user');
@@ -418,7 +412,12 @@ class AdminController extends Controller
         if ($statusFilter) {
             $allApplicationsQuery->where('status', $statusFilter);
         }
-
+        // Join with users table and apply role filter if provided
+    if ($roleFilter) {
+    $allApplicationsQuery->whereHas('user', function ($query) use ($roleFilter) {
+        $query->where('role', $roleFilter);
+    });
+}
         // Apply date filters if provided
         if ($startDateFilter) {
             $allApplicationsQuery->where('start_date', '>=', $startDateFilter);
@@ -470,6 +469,13 @@ class AdminController extends Controller
         }
 
         // Get the filtered applications
+        $application = $applicationsQuery->get();
+        // Fetch MC applications approved by officers and still pending admin approval
+        $applications = McApplication::join('users', 'mc_applications.user_id', '=', 'users.id')
+        ->select('mc_applications.*', 'users.name as user_name') // Get all fields from mc_applications and the user's name and role
+        ->where('officer_approved', true)
+        ->where('admin_approved', false) // Add this condition if you only want pending admin approvals
+        ->get();
         $applications = $applicationsQuery->get();
 
         // Fetch all MC applications for statistical purposes
@@ -478,7 +484,10 @@ class AdminController extends Controller
         $acceptedMcApplications = McApplication::where('status', 'approved')->count();
         $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
 
+
         // Pass the data to the view
+        return view('partials.adminside.mc_officer_approve', compact('applications','totalUsers',
+        'totalMcApplications','acceptedMcApplications','rejectedMcApplications','application'));
         return view('partials.adminside.mc_officer_approve', compact(
             'applications',
             'totalUsers',
@@ -515,6 +524,15 @@ class AdminController extends Controller
             $allApplicationsQuery->where('end_date', '<=', $endDateFilter);
         }
 
+        // Get the filtered applications
+        $applications = $applicationsQuery->get();
+
+         // Fetch direct admin approval applications
+         $directAdminApplications = McApplication::where('direct_admin_approval', true)
+         ->where('admin_approved', false)  // Only fetch those not yet approved
+         ->where('status', 'pending')  // Only fetch those not yet approved
+         ->get();
+
         // Get all applications (this is required for future reference)
         $allApplications = $allApplicationsQuery->get();
 
@@ -531,6 +549,8 @@ class AdminController extends Controller
         $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
 
         // Pass the data to the view
+        return view('partials.adminside.mc_admin_approve', compact('applications',
+        'totalUsers','totalMcApplications','acceptedMcApplications','rejectedMcApplications','directAdminApplications'));
         return view('partials.adminside.mc_admin_approve', compact(
             'directAdminApplications', 'allApplications', 'totalUsers',
             'totalMcApplications', 'acceptedMcApplications', 'rejectedMcApplications'
@@ -595,10 +615,16 @@ class AdminController extends Controller
             $user->profile_image = 'storage/profile_image/' . $imageName;
         }
 
-        // Update password only if a new password is provided
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
+       // Check if the password is filled and matches the confirmation password
+    if ($request->filled('password')) {
+        // Check if password confirmation is provided
+        if ($request->input('password') !== $request->input('password_confirmation')) {
+            return redirect()->back()->withErrors(['password' => 'Kata laluan tidak sepadan!']);
         }
+
+        // Hash the new password and save it
+        $user->password = Hash::make($request->password);
+    }
 
         // Save changes to the database
         $user->save();

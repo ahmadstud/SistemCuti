@@ -286,7 +286,29 @@ setInterval(updateDateTime, 1000);
 // Initialize date and time on page load
 updateDateTime();
 
+function checkPasswordMatch() {
+    const password = document.getElementById('password').value;
+    const passwordConfirmation = document.getElementById('password_confirmation').value;
+    const alertMessage = document.getElementById('password-alert');
 
+    if (password !== passwordConfirmation) {
+        alertMessage.classList.remove('d-none'); // Show alert if passwords don't match
+    } else {
+        alertMessage.classList.add('d-none'); // Hide alert if passwords match
+    }
+}
+
+function validatePassword() {
+    const password = document.getElementById('password').value;
+    const passwordConfirmation = document.getElementById('password_confirmation').value;
+
+    // Check if passwords match before form submission
+    if (password !== passwordConfirmation) {
+        alert('Kata laluan tidak sepadan!'); // Alert user on submission if passwords don't match
+        return false; // Prevent form submission
+    }
+    return true; // Allow form submission
+}
 
 
 

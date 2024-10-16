@@ -69,104 +69,123 @@
                         <div class="card-body">
                             <div style="overflow-x: auto; position: relative;">
                                 @if($applications->isEmpty())
-                                    <!-- Display a message when no applications exist -->
-                                    <div class="alert alert-warning" role="alert">
-                                        Tiada permohonan daripada staf.
-                                    </div>
-                                @else
-                                    <table class="table" style="table-layout: fixed; width: 100%;">
-                                        <thead style="background-color: #f0f0f0;">
+                                <!-- Display a message when no applications exist inside the table -->
+                                <table class="table" style="table-layout: fixed; width: 100%;">
+                                    <thead style="background-color: #f0f0f0;">
+                                        <tr>
+                                            <th style="width: 5%; position: sticky; left: 0; z-index: 1; padding: 8px;">BIL</th>
+                                            <th style="width: 15%; padding: 8px;">NAMA</th>
+                                            <th style="width: 15%; padding: 8px;">TARIKH MULA</th>
+                                            <th style="width: 15%; padding: 8px;">TARIKH AKHIR</th>
+                                            <th style="width: 15%; padding: 8px;">ULASAN</th>
+                                            <th style="width: 15%; padding: 8px;">DOKUMEN RUJUKAN</th>
+                                            <th style="width: 15%; padding: 8px;">STATUS</th>
+                                            <th style="width: 15%; padding: 8px;">TINDAKAN</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="8" class="text-center" style="padding: 20px;">
+                                                <p class="text-muted">Tiada Permohonan daripada staf</p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            @else
+                                <table class="table" style="table-layout: fixed; width: 100%;">
+                                    <thead style="background-color: #f0f0f0;">
+                                        <tr>
+                                            <th style="width: 5%; position: sticky; left: 0; z-index: 1; padding: 8px;">BIL</th>
+                                            <th style="width: 15%; padding: 8px;">NAMA</th>
+                                            <th style="width: 15%; padding: 8px;">TARIKH MULA</th>
+                                            <th style="width: 15%; padding: 8px;">TARIKH AKHIR</th>
+                                            <th style="width: 15%; padding: 8px;">ULASAN</th>
+                                            <th style="width: 15%; padding: 8px;">DOKUMEN RUJUKAN</th>
+                                            <th style="width: 15%; padding: 8px;">STATUS</th>
+                                            <th style="width: 15%; padding: 8px;">TINDAKAN</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($applications as $application)
                                             <tr>
-                                                <th style="width: 5%; position: sticky; left: 0; z-index: 1; padding: 8px;">BIL</th>
-                                                <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
-                                                <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
-                                                <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH AKHIR</th>
-                                                <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
-                                                <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN RUJUKAN</th>
-                                                <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS</th>
-                                                <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($applications as $application)
-                                                <tr>
-                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                        <p class="text-m text-secondary">{{ $loop->iteration }}</p>
-                                                    </td>
-                                                    <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                        <p class="text-m text-secondary">{{ $application->user_name }}</p>
-                                                    </td>
-                                                    <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                        <p class="text-m text-secondary">{{ $application->start_date }}</p>
-                                                    </td>
-                                                    <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                        <p class="text-m text-secondary">{{ $application->end_date }}</p>
-                                                    </td>
-                                                    <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                        <p class="text-m text-secondary">{{ $application->reason }}</p>
-                                                    </td>
-                                                    <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                        @if($application->document_path)
-                                                            <a href="{{ Storage::url($application->document_path) }}" target="_blank" class="btn btn-link p-0">
-                                                                <i class="fas fa-file-alt"></i> <!-- Document icon -->
-                                                            </a>
-                                                        @endif
-                                                    </td>
-                                                    <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                        @if($application->admin_approved && $application->officer_approved)
-                                                            <span class="badge bg-success">Diterima</span>
-                                                        @elseif($application->admin_approved)
-                                                            <span class="badge bg-info">Diterima</span>
-                                                        @elseif($application->officer_approved)
-                                                            <span class="badge bg-warning text-dark">Kebenaran Penyelia</span>
-                                                        @elseif($application->status == 'pending')
-                                                            <span class="badge bg-warning">Menunggu</span>
-                                                        @else
-                                                            <span class="badge bg-danger">Ditolak</span>
-                                                        @endif
-                                                    </td>
-                                                    <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                        <!-- Accept or Reject Buttons -->
-                                                        <form action="{{ route('officer.updateStatus',['id' => $application->id]) }}" method="POST" class="approve-form">
-                                                            @csrf
-                                                            <button type="submit" name="status" value="approved_by_officer" class="btn btn-success">
-                                                                <i class="fas fa-check"></i> <!-- Right symbol -->
-                                                            </button>
-                                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectionReasonModal">
-                                                                <i class="fas fa-times"></i> <!-- Reject symbol -->
-                                                            </button>
+                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px;">
+                                                    <p class="text-m text-secondary">{{ $loop->iteration }}</p>
+                                                </td>
+                                                <td style="border: 1px solid #dee2e6; padding: 8px;">
+                                                    <p class="text-m text-secondary">{{ $application->user_name }}</p>
+                                                </td>
+                                                <td style="border: 1px solid #dee2e6; padding: 8px;">
+                                                    <p class="text-m text-secondary">{{ $application->start_date }}</p>
+                                                </td>
+                                                <td style="border: 1px solid #dee2e6; padding: 8px;">
+                                                    <p class="text-m text-secondary">{{ $application->end_date }}</p>
+                                                </td>
+                                                <td style="border: 1px solid #dee2e6; padding: 8px;">
+                                                    <p class="text-m text-secondary">{{ $application->reason }}</p>
+                                                </td>
+                                                <td style="border: 1px solid #dee2e6; padding: 8px;">
+                                                    @if($application->document_path)
+                                                        <a href="{{ Storage::url($application->document_path) }}" target="_blank" class="btn btn-link p-0">
+                                                            <i class="fas fa-file-alt"></i> <!-- Document icon -->
+                                                        </a>
+                                                    @endif
+                                                </td>
+                                                <td style="border: 1px solid #dee2e6; padding: 8px;">
+                                                    @if($application->admin_approved && $application->officer_approved)
+                                                        <span class="badge bg-success">Diterima</span>
+                                                    @elseif($application->admin_approved)
+                                                        <span class="badge bg-info">Diterima</span>
+                                                    @elseif($application->officer_approved)
+                                                        <span class="badge bg-warning text-dark">Kebenaran Penyelia</span>
+                                                    @elseif($application->status == 'pending')
+                                                        <span class="badge bg-warning">Menunggu</span>
+                                                    @else
+                                                        <span class="badge bg-danger">Ditolak</span>
+                                                    @endif
+                                                </td>
+                                                <td style="border: 1px solid #dee2e6; padding: 8px;">
+                                                    <!-- Accept or Reject Buttons -->
+                                                    <form action="{{ route('officer.updateStatus',['id' => $application->id]) }}" method="POST" class="approve-form">
+                                                        @csrf
+                                                        <button type="submit" name="status" value="approved_by_officer" class="btn btn-success">
+                                                            <i class="fas fa-check"></i> <!-- Right symbol -->
+                                                        </button>
+                                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectionReasonModal">
+                                                            <i class="fas fa-times"></i> <!-- Reject symbol -->
+                                                        </button>
 
-                                                            <!-- Rejection Reason Modal -->
-                                                            <div class="modal fade" id="rejectionReasonModal" tabindex="-1" role="dialog" aria-labelledby="rejectionReasonModalLabel" aria-hidden="true">
-                                                                <div class="modal-dialog" role="document">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h5 class="modal-title" id="rejectionReasonModalLabel">Alasan Penolakan</h5>
-                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                <span aria-hidden="true">&times;</span>
-                                                                            </button>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            <label for="rejection_reason">Alasan Penolakan:</label>
-                                                                            <textarea name="rejection_reason" id="rejection_reason" rows="3" class="form-control" required></textarea>
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                                                            <button type="submit" name="status" value="rejected" class="btn btn-danger">
-                                                                                Hantar Tolakan
-                                                                            </button>
-                                                                        </div>
+                                                        <!-- Rejection Reason Modal -->
+                                                        <div class="modal fade" id="rejectionReasonModal" tabindex="-1" role="dialog" aria-labelledby="rejectionReasonModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="rejectionReasonModalLabel">Alasan Penolakan</h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <label for="rejection_reason">Alasan Penolakan:</label>
+                                                                        <textarea name="rejection_reason" id="rejection_reason" rows="3" class="form-control" required></textarea>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                                                        <button type="submit" name="status" value="rejected" class="btn btn-danger">
+                                                                            Hantar Tolakan
+                                                                        </button>
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                        </div>
 
-                                                        </form>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                @endif
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            @endif
+
                             </div>
                         </div>
                     </div> <!-- Closed card div -->

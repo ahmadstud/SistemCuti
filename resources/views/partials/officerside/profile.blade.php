@@ -80,6 +80,7 @@
                                                     <div class="modal-body">
                                                         <form action="{{ route('updateOwnDetails2') }}" method="POST" enctype="multipart/form-data">
                                                             @csrf
+
                                                             <!-- Profile Image Upload -->
                                                         <div class="mb-3">
                                                             <label for="profile_image" class="form-label">Muat Naik Gambar Profil<span class="text-danger">*</span></label>
@@ -142,30 +143,33 @@
 
                                         <!-- View Profile Section -->
                                         <div class="card-body">
-
-                                            <div class="card-body">
-                                                <!-- Profile Image -->
-                                                    <div class="text-center">
+                                            <!-- Profile Information -->
+                                            <div class="row">
+                                                 <!-- Profile Image and Full Name -->
+                                                 <div class="row align-items-center mb-3">
+                                                    <div class="col-md-2 text-center">
                                                         @if(Auth::user()->profile_image)
-                                                            <img src="{{ asset('' . Auth::user()->profile_image) }}" alt="Profile Image" class="rounded-circle" width="150" height="150">
+                                                            <img src="{{ asset('' . Auth::user()->profile_image) }}" alt="Profile Image" class="rounded-circle" width="120" height="120">
                                                         @else
-                                                            <img src="{{ asset('storage/profile_image/default.jpg') }}" alt="Default Profile Image" class="rounded-circle" width="150" height="150">
+                                                            <img src="{{ asset('storage/profile_image/default.jpg') }}" alt="Default Profile Image" class="rounded-circle" width="120" height="120">
                                                         @endif
                                                     </div>
+                                                    <div class="col-md-10">
+                                                        <label for="full_name" class="form-label" style="margin-left: 20px;">NAMA PENUH</label>
+                                                        <p class="form-control" id="full_name" style="margin-left: 20px;">{{ Auth::user()->name }}</p>
+                                                    </div>
                                                 </div>
-
-                                            <!-- Profile Information -->
-                                            <h5 class="mt-4">MAKLUMAT DIRI</h5>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <label for="name" class="form-label">NAME</label>
-                                                    <p class="form-control" id="name">{{ Auth::user()->name }}</p>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label for="email" class="form-label">EMEL</label>
-                                                    <p class="form-control" id="email">{{ Auth::user()->email }}</p>
-                                                </div>
-                                            </div>
+                                                    <!-- Name and Email -->
+                                                    <div class="row mt-3">
+                                                        <div class="col-md-6">
+                                                            <label for="name" class="form-label">NAMA</label>
+                                                            <p class="form-control" id="name">{{ Auth::user()->name }}</p>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="email" class="form-label">EMEL</label>
+                                                            <p class="form-control" id="email">{{ Auth::user()->email }}</p>
+                                                        </div>
+                                                    </div>
                                             <div class="row mt-3">
                                                 <div class="col-md-6">
                                                     <label for="ic" class="form-label">NO K/P</label>
@@ -231,13 +235,23 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label for="role" class="form-label">KETUA BAHAGIAN</label>
-                                                    <p class="form-control" id="role">{{ Auth::user()->role }}</p>
+                                                    <p class="form-control" id="assigned_officer">
+                                                        {{ Auth::user()->officer ? Auth::user()->officer->name : 'Tiada Pegawai' }}
+                                                    </p>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
                                                 <div class="col-md-4">
-                                                    <label for="mc_days" class="form-label">JUMLAH CUTI</label>
+                                                    <label for="mc_days" class="form-label">CUTI MC</label>
                                                     <p class="form-control" id="mc_days">{{ Auth::user()->total_mc_days }}</p>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="mc_days" class="form-label">CUTI TAHUNAN</label>
+                                                    <p class="form-control" id="mc_days">{{ Auth::user()->total_annual }}</p>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="mc_days" class="form-label">CUTI LAIN-LAIN</label>
+                                                    <p class="form-control" id="mc_days">{{ Auth::user()->total_others }}</p>
                                                 </div>
                                             </div>
 

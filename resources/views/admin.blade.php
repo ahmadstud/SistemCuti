@@ -19,7 +19,7 @@
         <title>
             Sistem Permohonan Cuti - Admin
         </title>
-      
+
         <!--     Fonts and icons     -->
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
         <!-- Nucleo Icons -->
@@ -199,7 +199,7 @@
                                                   </div>
                                               </div>
                                           </div>
-                                          
+
 
                                           {{-- Card Nota --}}
                                           <div class="col-lg-5 mb-lg-0 mb-4">
@@ -288,7 +288,7 @@
                               </div>
                           </div>
                       </div>
-                  </div>    
+                  </div>
               </div>
             </div>
           </div>
