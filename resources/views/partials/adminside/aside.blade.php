@@ -21,9 +21,9 @@
 
     <!-- Date and Time Section with added margin -->
     <div id="date-time" class="text-center mt-2" style="margin-bottom: 1rem;">
-        <i class="fas fa-calendar-alt"></i> 
+        <i class="fas fa-calendar-alt"></i>
         <span id="current-date" style="font-size: 0.8rem;"></span> <br>
-        <i class="fas fa-clock"></i> 
+        <i class="fas fa-clock"></i>
         <span id="current-time" style="font-size: 0.8rem;"></span>
     </div>
 
@@ -31,7 +31,7 @@
 
     <div class="collapse navbar-collapse w-auto nav-section" id="sidenav-collapse-main" style="padding-bottom: 0; margin-bottom: 0;">
       <ul class="navbar-nav" style="padding-bottom: 0; margin-bottom: 0;">
-    
+
           <!-- Menu Utama -->
           <li class="nav-item" style="margin-bottom: 0;">
               <form action="{{ route('admin') }}" method="GET" id="dashboard-form" style="display:none;"></form>
@@ -42,7 +42,7 @@
                   <span class="nav-link-text ms-1">Utama</span>
               </a>
           </li>
-    
+
           <!-- Menu Pengurusan -->
           <li class="nav-item" style="margin-bottom: 0;">
               <form action="{{ route('admin.annoucement') }}" method="GET" id="annoucement-form" style="display:none;"></form>
@@ -53,7 +53,7 @@
                   <span class="nav-link-text ms-1">Pengurusan</span>
               </a>
           </li>
-    
+
           <!-- Senarai Pekerja -->
           <li class="nav-item" style="margin-bottom: 0;">
               <form action="{{ route('admin.stafflist') }}" method="GET" id="stafflist-form" style="display:none;"></form>
@@ -64,7 +64,7 @@
                   <span class="nav-link-text ms-1">Senarai Pekerja</span>
               </a>
           </li>
-    
+
           <!-- Senarai Keseluruhan -->
           <li class="nav-item" style="margin-bottom: 0;">
               <form action="{{ route('admin.mcAllApply') }}" method="GET" id="all-approval-section-form" style="display:none;"></form>
@@ -75,7 +75,7 @@
                   <span class="nav-link-text ms-1">Senarai Keseluruhan<br>Permohonan</span>
               </a>
           </li>
-    
+
           <!-- Permohonan Cuti Tapisan Pegawai -->
           <li class="nav-item" style="margin-bottom: 0;">
               <form action="{{ route('admin.mcOfficerApprove') }}" method="GET" id="officer-applications-section-form" style="display:none;"></form>
@@ -86,7 +86,7 @@
                   <span class="nav-link-text ms-1">Permohonan Cuti<br>Tapisan Pegawai</span>
               </a>
           </li>
-    
+
           <!-- Permohonan Cuti Admin -->
           <li class="nav-item" style="margin-bottom: 0;">
               <form action="{{ route('admin.mcAdminApprove') }}" method="GET" id="admin-approval-section-form" style="display:none;"></form>
@@ -97,12 +97,12 @@
                   <span class="nav-link-text ms-1">Permohonan Cuti<br>oleh Admin</span>
               </a>
           </li>
-    
+
           <!-- Halaman Akaun -->
           <li class="nav-item mt-3" style="margin-bottom: 0;">
               <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Halaman Akaun</h6>
           </li>
-    
+
           <!-- Profil Pengguna -->
           <li class="nav-item" style="margin-bottom: 0;">
               <form action="{{ route('admin.profile') }}" method="GET" id="Profile-form" style="display:none;"></form>
@@ -113,7 +113,7 @@
                   <span class="nav-link-text ms-1">Profil Pengguna</span>
               </a>
           </li>
-    
+
           <!-- Tukar Kata Laluan -->
           <li class="nav-item" style="margin-bottom: 0;">
               <form action="{{ route('admin.password') }}" method="GET" id="ChangePassword-form" style="display:none;"></form>
@@ -124,19 +124,21 @@
                   <span class="nav-link-text ms-1">Tukar Kata Laluan</span>
               </a>
           </li>
-    
-          <!-- Log Keluar -->
-          <li class="nav-item" style="margin-bottom: 0;">
-              <form action="{{ route('logout') }}" method="GET" id="logout-form" style="display:none;"></form>
-              <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                  <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                      <i class="fa fa-sign-out text-danger text-sm opacity-10"></i>
-                  </div>
-                  <span class="nav-link-text ms-1">Log Keluar</span>
-              </a>
-          </li>
+
+        <!-- Log Keluar -->
+         <li class="nav-item" style="margin-bottom: 0;">
+            <form action="{{ route('logout') }}" method="POST" id="logout-form" style="display: none;">
+                @csrf
+            </form>
+            <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                    <i class="fa fa-sign-out text-danger text-sm opacity-10"></i>
+                </div>
+                <span class="nav-link-text ms-1">Log Keluar</span>
+            </a>
+        </li>
       </ul>
     </div>
-    
+
   </div>
 </aside>

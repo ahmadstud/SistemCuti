@@ -26,11 +26,9 @@ use App\Http\Controllers\Auth\LoginController;
         Route::post('/logout',                                [LoginController::class, 'logout'])->name('logout');
 
     // Route after login
-        Route::get('/staff', [StaffController::class, 'index'])->name('staff');
+        Route::get('/staff', [StaffController::class, 'dashboard'])->name('staff');
         Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin');
-        Route::get('/officer', [OfficerController::class, 'index'])->name('officer');
-
-
+        Route::get('/officer', [OfficerController::class, 'dashboard'])->name('officer');
 
 // ADMIN ROUTES
 
@@ -64,18 +62,12 @@ use App\Http\Controllers\Auth\LoginController;
         Route::put('/admin/announcements/{id}',               [AdminController::class, 'updateAnnouncement'])->name('updateAnnouncement');
         Route::delete('/admin/delete-announcement/{id}',      [AdminController::class, 'deleteAnnouncement'])->name('deleteAnnouncement');
 
-    // Admin Profile Management:
-        Route::get('/admin/edit-profile', function () {
-            return view('partials.adminside.edit-profile');
-        })->name('admin.editProfile');
 
     // Admin Routes
         Route::post('/admin/approve/{id}',                    [AdminController::class, 'approve'])->name('admin.approve');
 
     // Route for updating own details
         Route::post('/admin/update-details',                  [AdminController::class, 'updateOwnDetails'])->name('updateOwnDetails');
-
-
 
         // new
         Route::get('/admin/annoucement', [AdminController::class, 'Annoucement'])->name('admin.annoucement');
@@ -90,15 +82,11 @@ use App\Http\Controllers\Auth\LoginController;
 
 
         Route::get('/admin/mc-admin-approve', [AdminController::class, 'mcAdminApprove'])->name('admin.mcAdminApprove');
-        
+
         Route::get('/admin/profile', [AdminController::class, 'showProfile'])->name('admin.profile');
-        
+
         Route::get('/admin/password', [AdminController::class, 'password'])->name('admin.password');
-
-
         
-
-
 
 // OFFICER ROUTES
 
@@ -108,10 +96,6 @@ use App\Http\Controllers\Auth\LoginController;
         // Officer approval route
         Route::post('/mc-applications/{id}/officer-approve',  [OfficerController::class, 'approve'])->name('officer.approve');
 
-    // Officer Profile Management:
-        Route::get('/officer/edit-profile', function () {
-            return view('partials.officerside.edit-profile');
-        })->name('officer.editProfile');
 
         // MC Application Handling (Officer Side):
         Route::post('/officer/mc-application',                [OfficerController::class, 'storeMcApplication'])->name('officer.mcApplication.store');
@@ -120,13 +104,16 @@ use App\Http\Controllers\Auth\LoginController;
         // Delete mc application for rejected only
         Route::delete('/officer/mc-application/{id}',         [OfficerController::class, 'deleteMC'])->name('officer.deleteMC');
 
-        // Display staffmc application route
-        Route::get('/officer',                                [OfficerController::class, 'index'])->name('officer');
-
         // Route for updating own details
         Route::post('/officer/update-details',                [OfficerController::class, 'updateOwnDetails3'])->name('updateOwnDetails3');
 
-
+        // Routes for officers
+        Route::prefix('officer')->name('officer.')->group(function () {
+            Route::get('/profile', [OfficerController::class, 'profile'])->name('profile');
+            Route::get('/password', [OfficerController::class, 'password'])->name('password');
+            Route::get('/mc_application', [OfficerController::class, 'McApply'])->name('mc_application');
+            Route::get('/mc_approve', [OfficerController::class, 'McApprove'])->name('mc_approve');
+        });
 
 // STAFF ROUTES
 
@@ -150,11 +137,16 @@ use App\Http\Controllers\Auth\LoginController;
         // Route for updating own details
         Route::post('/staff/update-details',                   [StaffController::class, 'updateOwnDetails2'])->name('updateOwnDetails2');
 
-        Route::get('/profile', [StaffController::class, 'profile'])->name('profile');
-        Route::get('/password', [StaffController::class, 'password'])->name('password');
-        Route::get('/mc_application', [StaffController::class, 'McApply'])->name('McApply');
+      // Routes for staff
+Route::prefix('staff')->name('staff.')->group(function () {
+    Route::get('/profile', [StaffController::class, 'profile'])->name('profile');
+    Route::get('/password', [StaffController::class, 'password'])->name('password');
+    Route::get('/mc_application', [StaffController::class, 'McApply'])->name('mc_application');
+});
 
 
-        
-        
+
+
+
+
 

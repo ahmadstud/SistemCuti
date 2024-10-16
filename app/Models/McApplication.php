@@ -20,6 +20,7 @@ class McApplication extends Model
         'selected_officer_id',
         'direct_admin_approval',
         'leave_type',
+        'rejection_reason'
     ];
      // Define the relationship with User
      public function user()

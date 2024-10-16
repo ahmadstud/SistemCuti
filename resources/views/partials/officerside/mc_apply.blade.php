@@ -175,7 +175,6 @@
                                                 <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
 
                                                     @if ($mcApplication->status === 'pending')
-
                                                         <!-- Edit button -->
                                                         <button class="btn btn-md btn-primary" data-bs-toggle="modal" data-bs-target="#editMcModal{{ $mcApplication->id }}">
                                                             <i class="fas fa-pencil-alt"></i>

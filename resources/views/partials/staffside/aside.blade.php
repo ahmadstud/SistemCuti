@@ -1,24 +1,31 @@
-<aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4" id="sidenav-main">
-    <div class="sidenav-header">
-        <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-        <a class="navbar-brand m-0" href="https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html" target="_blank">
-            <div style="display: flex; flex-direction: column; align-items: center;">
-                <a class="navbar-brand m-0" href="#" target="_blank">
-                    <img src="{{ asset('assets/img/Erawhiz.png') }}" class="navbar-brand-img" alt="main_logo" style="
-                    display: block;
-                    margin: 0 auto;
-                    width: 100%; /* Make image fill the width of its container */
-                    max-height: 100px; /* Adjust height to fit content area */
-                    object-fit: contain; /* Ensure the image maintains its aspect ratio */
-                    border-radius: 10px; /* Optional rounded corners */">
-                </a>
-                <span style="display: block; font-weight: bold; font-size: 1.25rem; margin-top: 0.5rem;">Papan Pemuka Staf</span>
-            </div>
+<aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4" id="sidenav-main" style="height: calc(100vh - 60px;); overflow-y: auto;">
+    <div class="sidenav-header logo-section">
+      <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+      <a class="navbar-brand m-0" href="#" target="_blank">
+        <div style="display: flex; align-items: center;">
+          <img src="{{ asset('assets/img/Erawhiz.png') }}" class="navbar-brand-img" alt="main_logo" style="width: 80; max-height: 80; object-fit: contain; border-radius: 10px; margin-right: 10px;">
+          <div>
+            <span style="font-weight: bold; font-size: 1.25rem;">Era Whiz ICT</span>
+          </div>
+        </div>
+      </a>
 
-            <div id="date-time" class="text-center mt-2 font-weight-bold">
-                <i class="fas fa-calendar-alt"></i> <span id="current-date"></span> <br>
-                <i class="fas fa-clock"></i> <span id="current-time"></span>
-            </div>
+      <div class="text-center" style="margin-bottom: 1rem; width: 100%;">
+        <!-- Info Card -->
+        <div id="info-card" style="background-color: #000000; color: white; border-radius: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; height: 100%; width: 100%;">
+          <img src="{{ asset(Auth::user()->profile_image) }}" alt="Profile Image" class="rounded-circle" width="50" height="50" style="margin-bottom: 10px;">
+          <div style="font-size: 1rem; font-weight: bold;">{{ Auth::user()->name }}</div>
+          <span style="font-size: 1rem; color: #ccc;">Papan Pemuka Staf</span> <!-- Moved here -->
+        </div>
+      </div>
+
+      <!-- Date and Time Section with added margin -->
+      <div id="date-time" class="text-center mt-2" style="margin-bottom: 1rem;">
+          <i class="fas fa-calendar-alt"></i>
+          <span id="current-date" style="font-size: 0.8rem;"></span> <br>
+          <i class="fas fa-clock"></i>
+          <span id="current-time" style="font-size: 0.8rem;"></span>
+      </div>
 
             <hr class="horizontal dark mt-0">
 
@@ -38,7 +45,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <form action="{{ route('staff.mc_apply') }}" method="GET" style="display: none;" id="mcapply-form">
+                        <form action="{{ route('staff.mc_application') }}" method="GET" style="display: none;" id="mcapply-form">
                         </form>
                         <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('mcapply-form').submit();">
                             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -73,6 +80,20 @@
                             <span class="nav-link-text ms-1">Tukar Kata Laluan</span>
                         </a>
                     </li>
+
+                     <!-- Log Keluar -->
+        <li class="nav-item" style="margin-bottom: 0;">
+            <form action="{{ route('logout') }}" method="POST" id="logout-form" style="display: none;">
+                @csrf
+            </form>
+            <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                    <i class="fa fa-sign-out text-danger text-sm opacity-10"></i>
+                </div>
+                <span class="nav-link-text ms-1">Log Keluar</span>
+            </a>
+        </li>
+
                 </ul>
             </div>
 
