@@ -141,30 +141,35 @@
 
                         <!-- View Profile Section -->
                         <div class="card-body">
-
-                            <div class="card-body">
-                                <!-- Profile Image -->
-                                <div class="text-center">
-                                    @if(Auth::user()->profile_image)
-                                        <img src="{{ asset('' . Auth::user()->profile_image) }}" alt="Profile Image" class="rounded-circle" width="150" height="150">
-                                    @else
-                                        <img src="{{ asset('storage/profile_image/default.jpg') }}" alt="Default Profile Image" class="rounded-circle" width="150" height="150">
-                                    @endif
-                                </div>
-                            </div>
-
                             <!-- Profile Information -->
-                            <h5 class="mt-4">MAKLUMAT DIRI</h5>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <label for="name" class="form-label">NAMA</label>
-                                    <p class="form-control" id="name">{{ Auth::user()->name }}</p>
+                                <!-- Profile Image and Full Name -->
+                                <div class="row align-items-center mb-3">
+                                   <div class="col-md-2 text-center">
+                                       @if(Auth::user()->profile_image)
+                                           <img src="{{ asset('' . Auth::user()->profile_image) }}" alt="Profile Image" class="rounded-circle" width="120" height="120">
+                                       @else
+                                           <img src="{{ asset('storage/profile_image/default.jpg') }}" alt="Default Profile Image" class="rounded-circle" width="120" height="120">
+                                       @endif
+                                   </div>
+                                   <div class="col-md-10">
+                                       <label for="full_name" class="form-label" style="margin-left: 20px;">NAMA PENUH</label>
+                                       <p class="form-control" id="full_name" style="margin-left: 20px;">{{ Auth::user()->name }}</p>
+                                   </div>
+                               </div>
+
+                                <!-- Name and Email -->
+                                <div class="row mt-3">
+                                    <div class="col-md-6">
+                                        <label for="name" class="form-label">NAMA</label>
+                                        <p class="form-control" id="name">{{ Auth::user()->name }}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="email" class="form-label">EMEL</label>
+                                        <p class="form-control" id="email">{{ Auth::user()->email }}</p>
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <label for="email" class="form-label">EMEL</label>
-                                    <p class="form-control" id="email">{{ Auth::user()->email }}</p>
-                                </div>
-                            </div>
+                                
                             <div class="row mt-3">
                                 <div class="col-md-6">
                                     <label for="ic" class="form-label">NO K/P</label>

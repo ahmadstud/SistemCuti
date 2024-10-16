@@ -86,7 +86,7 @@ use App\Http\Controllers\Auth\LoginController;
         Route::get('/admin/profile', [AdminController::class, 'showProfile'])->name('admin.profile');
 
         Route::get('/admin/password', [AdminController::class, 'password'])->name('admin.password');
-        
+            
 
 // OFFICER ROUTES
 
