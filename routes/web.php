@@ -14,8 +14,6 @@ use App\Http\Controllers\Auth\LoginController;
         return view('login');
     });
 
-
-
 // AUTHENTICATION ROUTES
 
     // Login:
@@ -26,11 +24,9 @@ use App\Http\Controllers\Auth\LoginController;
         Route::post('/logout',                                  [LoginController::class, 'logout'])->name('logout');
 
     // Route after login
-        Route::get('/staff',                                    [StaffController::class, 'index'])->name('staff');
+        Route::get('/staff',                                    [StaffController::class, 'dashboard'])->name('staff');
         Route::get('/admin',                                    [AdminController::class, 'dashboard'])->name('admin');
-        Route::get('/officer',                                  [OfficerController::class, 'index'])->name('officer');
-
-
+        Route::get('/officer',                                  [OfficerController::class, 'dashboard'])->name('officer');
 
 // ADMIN ROUTES
 
@@ -96,7 +92,7 @@ use App\Http\Controllers\Auth\LoginController;
         Route::post('/admin/reject/{id}',                           [AdminController::class, 'reject'])->name('admin.reject');
 
 
-        
+
 
 
 
@@ -108,20 +104,12 @@ use App\Http\Controllers\Auth\LoginController;
         // Officer approval route
         Route::post('/mc-applications/{id}/officer-approve',  [OfficerController::class, 'approve'])->name('officer.approve');
 
-    // Officer Profile Management:
-        Route::get('/officer/edit-profile', function () {
-            return view('partials.officerside.edit-profile');
-        })->name('officer.editProfile');
-
         // MC Application Handling (Officer Side):
         Route::post('/officer/mc-application',                [OfficerController::class, 'storeMcApplication'])->name('officer.mcApplication.store');
         // Edit the mc application if any changes
         Route::post('/officer/mc-application/edit/{id}',      [OfficerController::class, 'editMC'])->name('officer.mc.edit');
         // Delete mc application for rejected only
         Route::delete('/officer/mc-application/{id}',         [OfficerController::class, 'deleteMC'])->name('officer.deleteMC');
-
-        // Display staffmc application route
-        Route::get('/officer',                                [OfficerController::class, 'index'])->name('officer');
 
         // Route for updating own details
         Route::post('/officer/update-details',                [OfficerController::class, 'updateOwnDetails3'])->name('updateOwnDetails3');
@@ -160,11 +148,13 @@ use App\Http\Controllers\Auth\LoginController;
         // Route for updating own details
         Route::post('/staff/update-details',                   [StaffController::class, 'updateOwnDetails2'])->name('updateOwnDetails2');
 
+        // Routes for officers
+        Route::prefix('staff')->name('staff.')->group(function () {
         Route::get('/profile', [StaffController::class, 'profile'])->name('profile');
         Route::get('/password', [StaffController::class, 'password'])->name('password');
-        Route::get('/mc_application', [StaffController::class, 'McApply'])->name('McApply');
+        Route::get('/mc_application', [StaffController::class, 'McApply'])->name('mc_application');
+    });
 
 
-        
-        
+
 

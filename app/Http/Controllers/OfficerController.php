@@ -28,7 +28,8 @@ class OfficerController extends Controller
 
         $application->save();
 
-        return redirect()->back()->with('status', 'Status permohonan telah dikemas kini!');
+        return redirect()->back()->with('success', 'Status permohonan telah dikemas kini!');
+        return redirect()->back()->with('error', 'Status permohonan gagal dikemas kini!');
     }
 
     public function updateOwnDetails3(Request $request)
@@ -72,6 +73,7 @@ class OfficerController extends Controller
 
         // Redirect with success message
         return redirect()->back()->with('success', 'Maklumat anda telah dikemas kini!');
+        return redirect()->back()->with('error', 'Maklumat anda gagal dikemas kini!');
     }
 
     public function storeMcApplication(Request $request)
@@ -162,7 +164,8 @@ class OfficerController extends Controller
         // Save changes to the database
         $mcApplication->save();
 
-        return redirect()->back()->with('success', 'Permohonan MC telah dikemas kini!');
+        return redirect()->back()->with('success', 'Permohonan Cuti telah dikemas kini!');
+        return redirect()->back()->with('error', 'Permohonan Cuti telah dikemas kini!');
     }
 
     public function deleteMC($id)
@@ -174,7 +177,8 @@ class OfficerController extends Controller
         $mcApplication->delete();
 
         // Redirect back with success message
-        return redirect()->back()->with('success', 'Permohonan MC telah berjaya dihapuskan!');
+        return redirect()->back()->with('success', 'Permohonan Cuti telah berjaya dihapuskan!');
+        return redirect()->back()->with('error', 'Permohonan Cuti telah gagal dihapuskan!');
     }
 
     public function profile()
@@ -240,5 +244,6 @@ class OfficerController extends Controller
 
     // Redirect with success message
     return redirect()->back()->with('success', 'Kata laluan anda telah berjaya dikemas kini!');
+    return redirect()->back()->with('error', 'Kata laluan anda telah gagal dikemas kini!');
 }
 }
