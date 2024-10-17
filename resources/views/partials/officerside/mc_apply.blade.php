@@ -128,13 +128,14 @@
                                <table class="table" style="table-layout: fixed; width: 100%;">
                                 <thead style="background-color: #f0f0f0;">
                                     <tr>
-                                        <th style="width: 5%; position: sticky; left: 0; z-index: 1; padding: 8px;">BIL</th>
-                                        <th style="width: 15%; padding: 8px;">TARIKH MULA</th>
-                                        <th style="width: 15%; padding: 8px;">TARIKH AKHIR</th>
-                                        <th style="width: 15%; padding: 8px;">ULASAN</th>
-                                        <th style="width: 15%; padding: 8px;">DOKUMEN RUJUKAN</th>
-                                        <th style="width: 15%; padding: 8px;">STATUS</th>
-                                        <th style="width: 15%; padding: 8px;">TINDAKAN</th>
+                                        <th style="width: 3%; position: sticky; left: 0; z-index: 1;  padding: 8px;">BIL</th>
+                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
+                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH TAMAT</th>
+                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
+                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN</th>
+                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
+                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS</th>
+                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -154,6 +155,7 @@
                                             <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH TAMAT</th>
                                             <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
                                             <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN</th>
+                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
                                             <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS</th>
                                             <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
                                         </tr>
@@ -178,6 +180,15 @@
                                                         <a href="{{ Storage::url($mcApplication->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</a>
                                                     @else
                                                         <span>Tidak Ada Dokumen</span>
+                                                    @endif
+                                                </td>
+                                                <td style="border: 1px solid #dee2e6; padding: 8px;">
+                                                    @if($mcApplication->leave_type == 'mc')
+                                                        <span class="badge bg-success">Cuti Sakit</span>
+                                                    @elseif($mcApplication->leave_type == 'annual')
+                                                        <span class="badge bg-success">Cuti Tahunan</span>
+                                                    @else
+                                                        <span class="badge bg-success">Cuti Lain2</span>
                                                     @endif
                                                 </td>
                                                 <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">

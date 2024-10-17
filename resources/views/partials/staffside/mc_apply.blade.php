@@ -131,13 +131,14 @@
                                <table class="table" style="table-layout: fixed; width: 100%;">
                                 <thead style="background-color: #f0f0f0;">
                                     <tr>
-                                        <th style="width: 5%; position: sticky; left: 0; z-index: 1; padding: 8px;">BIL</th>
-                                        <th style="width: 15%; padding: 8px;">TARIKH MULA</th>
-                                        <th style="width: 15%; padding: 8px;">TARIKH AKHIR</th>
-                                        <th style="width: 15%; padding: 8px;">ULASAN</th>
-                                        <th style="width: 15%; padding: 8px;">DOKUMEN</th>
-                                        <th style="width: 15%; padding: 8px;">STATUS</th>
-                                        <th style="width: 15%; padding: 8px;">TINDAKAN</th>
+                                        <th style="width: 3%; position: sticky; left: 0;">BIL</th>
+                                            <th style="width: 15%;">TARIKH MULA</th>
+                                            <th style="width: 15%;">TARIKH TAMAT</th>
+                                            <th style="width: 15%;">ULASAN</th>
+                                            <th style="width: 15%;">DOKUMEN</th>
+                                            <th style="width: 15%;">JENIS CUTI</th>
+                                            <th style="width: 15%;">STATUS</th>
+                                            <th style="width: 15%;">TINDAKAN</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -157,6 +158,7 @@
                                             <th style="width: 15%;">TARIKH TAMAT</th>
                                             <th style="width: 15%;">ULASAN</th>
                                             <th style="width: 15%;">DOKUMEN</th>
+                                            <th style="width: 15%;">JENIS CUTI</th>
                                             <th style="width: 15%;">STATUS</th>
                                             <th style="width: 15%;">TINDAKAN</th>
                                         </tr>
@@ -175,6 +177,15 @@
                                                         </a>
                                                     @else
                                                         <span>Tidak Ada Dokumen</span>
+                                                    @endif
+                                                </td>
+                                                <td style="border: 1px solid #dee2e6; padding: 8px;">
+                                                    @if($mcApplication->leave_type == 'mc')
+                                                        <span class="badge bg-success">Cuti Sakit</span>
+                                                    @elseif($mcApplication->leave_type == 'annual')
+                                                        <span class="badge bg-success">Cuti Tahunan</span>
+                                                    @else
+                                                        <span class="badge bg-success">Cuti Lain2</span>
                                                     @endif
                                                 </td>
                                                 <td>
@@ -303,6 +314,22 @@
 <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.0.4') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+<script>
+    @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Berjaya!',
+            text: "{{ session('success') }}",
+            confirmButtonText: 'OK'
+        });
+    @elseif(session('error'))
+        Swal.fire({
+            icon: 'error',
+            title: 'Ralat!',
+            text: "{{ session('error') }}",
+            confirmButtonText: 'OK'
+        });
+    @endif
+</script>
 </body>
 </html>

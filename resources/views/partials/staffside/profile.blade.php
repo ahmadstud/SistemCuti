@@ -84,6 +84,10 @@
                                             <label for="profile_image" class="form-label">Muat Naik Gambar Profil<span class="text-danger">*</span></label>
                                             <input type="file" class="form-control" id="profile_image" name="profile_image">
                                         </div>
+                                        <div class="col-md-6">
+                                            <label for="fullname" class="form-label">NAMA PENUH<span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="fullname" name="fullname" value="{{ Auth::user()->fullname }}">
+                                        </div>
                                             <!-- Profile Information -->
                                             <h5 class="mt-4">MAKLUMAT DIRI</h5>
                                             <div class="row">
@@ -154,14 +158,14 @@
                                    </div>
                                    <div class="col-md-10">
                                        <label for="full_name" class="form-label" style="margin-left: 20px;">NAMA PENUH</label>
-                                       <p class="form-control" id="full_name" style="margin-left: 20px;">{{ Auth::user()->name }}</p>
+                                       <p class="form-control" id="full_name" style="margin-left: 20px;">{{ Auth::user()->fullname }}</p>
                                    </div>
                                </div>
 
                                 <!-- Name and Email -->
                                 <div class="row mt-3">
                                     <div class="col-md-6">
-                                        <label for="name" class="form-label">NAMA</label>
+                                        <label for="name" class="form-label">NAMA PENGGUNA</label>
                                         <p class="form-control" id="name">{{ Auth::user()->name }}</p>
                                     </div>
                                     <div class="col-md-6">
@@ -284,6 +288,22 @@
 <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.0.4') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+<script>
+    @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Berjaya!',
+            text: "{{ session('success') }}",
+            confirmButtonText: 'OK'
+        });
+    @elseif(session('error'))
+        Swal.fire({
+            icon: 'error',
+            title: 'Ralat!',
+            text: "{{ session('error') }}",
+            confirmButtonText: 'OK'
+        });
+    @endif
+</script>
 </body>
 </html>

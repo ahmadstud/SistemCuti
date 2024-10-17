@@ -79,7 +79,7 @@
                                             <th style="width: 15%; padding: 8px;">TARIKH AKHIR</th>
                                             <th style="width: 15%; padding: 8px;">ULASAN</th>
                                             <th style="width: 15%; padding: 8px;">DOKUMEN RUJUKAN</th>
-                                            <th style="width: 15%; padding: 8px;">STATUS</th>
+                                            <th style="width: 15%; padding: 8px;">JENIS CUTI</th>
                                             <th style="width: 15%; padding: 8px;">TINDAKAN</th>
                                         </tr>
                                     </thead>
@@ -141,40 +141,48 @@
                                                 </td>
                                                 <td style="border: 1px solid #dee2e6; padding: 8px;">
                                                     <!-- Accept or Reject Buttons -->
-                                                    <form action="{{ route('officer.updateStatus',['id' => $application->id]) }}" method="POST" class="approve-form">
-                                                        @csrf
-                                                        <button type="submit" name="status" value="approved_by_officer" class="btn btn-success">
-                                                            <i class="fas fa-check"></i> <!-- Right symbol -->
-                                                        </button>
-                                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectionReasonModal">
-                                                            <i class="fas fa-times"></i> <!-- Reject symbol -->
-                                                        </button>
+                                                    <div class="d-flex justify-content-between">
+                                                        <form action="{{ route('officer.updateStatus', ['id' => $application->id]) }}" method="POST" class="approve-form">
+                                                            @csrf
+                                                            <!-- Approve Button -->
+                                                            <button type="submit" name="status" value="approved_by_officer" class="btn btn-success">
+                                                                <i class="fas fa-check"></i> <!-- Right symbol -->
+                                                            </button>
+                                                        </form>
 
-                                                        <!-- Rejection Reason Modal -->
-                                                        <div class="modal fade" id="rejectionReasonModal" tabindex="-1" role="dialog" aria-labelledby="rejectionReasonModalLabel" aria-hidden="true">
-                                                            <div class="modal-dialog" role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title" id="rejectionReasonModalLabel">Alasan Penolakan</h5>
-                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                            <span aria-hidden="true">&times;</span>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <label for="rejection_reason">Alasan Penolakan:</label>
-                                                                        <textarea name="rejection_reason" id="rejection_reason" rows="3" class="form-control" required></textarea>
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                                                        <button type="submit" name="status" value="rejected" class="btn btn-danger">
-                                                                            Hantar Tolakan
-                                                                        </button>
+                                                        <form action="{{ route('officer.updateStatus', ['id' => $application->id]) }}" method="POST" class="approve-form">
+                                                            <!-- Reject Button to Open Modal -->
+                                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectionReasonModal">
+                                                                <i class="fas fa-times"></i> <!-- Reject symbol -->
+                                                            </button>
+
+                                                            <!-- Rejection Reason Modal -->
+                                                            <div class="modal fade" id="rejectionReasonModal" tabindex="-1" role="dialog" aria-labelledby="rejectionReasonModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title" id="rejectionReasonModalLabel">Alasan Penolakan</h5>
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <label for="rejection_reason">Alasan Penolakan:</label>
+                                                                            <textarea name="rejection_reason" id="rejection_reason" rows="3" class="form-control" required></textarea>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                                                            <!-- Rejection submit button -->
+                                                                            <button type="submit" name="status" value="rejected" class="btn btn-danger">
+                                                                                Hantar Tolakan
+                                                                            </button>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                        </form>
+                                                    </div>
 
-                                                    </form>
                                                 </td>
                                             </tr>
                                         @endforeach
