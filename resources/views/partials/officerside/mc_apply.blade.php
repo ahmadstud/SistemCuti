@@ -124,10 +124,27 @@
                         <div class="card-body d-flex justify-content-center">
                             <div style="overflow-x: auto; position: relative;">
                             @if($mcApplications->isEmpty())
-                                <!-- Display a message when no applications exist -->
-                                <div class="alert alert-warning" role="alert">
-                                    Tiada permohonan daripada staf.
-                                </div>
+                               <!-- Display a message when no applications exist inside the table -->
+                               <table class="table" style="table-layout: fixed; width: 100%;">
+                                <thead style="background-color: #f0f0f0;">
+                                    <tr>
+                                        <th style="width: 5%; position: sticky; left: 0; z-index: 1; padding: 8px;">BIL</th>
+                                        <th style="width: 15%; padding: 8px;">TARIKH MULA</th>
+                                        <th style="width: 15%; padding: 8px;">TARIKH AKHIR</th>
+                                        <th style="width: 15%; padding: 8px;">ULASAN</th>
+                                        <th style="width: 15%; padding: 8px;">DOKUMEN RUJUKAN</th>
+                                        <th style="width: 15%; padding: 8px;">STATUS</th>
+                                        <th style="width: 15%; padding: 8px;">TINDAKAN</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="8" class="text-center" style="padding: 20px;">
+                                            <p class="text-muted">Tiada Permohonan daripada staf</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                             @else
                                 <table class="table" style="table-layout: fixed; width: 100%;">
                                     <thead style="background-color: #f0f0f0;">
@@ -148,10 +165,10 @@
                                                     <p class="text-m text-secondary">{{ $index + 1 }}</p>
                                                 </td>
                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                    <p class="text-m text-secondary">{{ $mcApplication->start_date }}</p>
+                                                    <p class="text-m text-secondary">{{ \Carbon\Carbon::parse($mcApplication->start_date)->format('d/m/Y') }}</p>
                                                 </td>
                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                    <p class="text-m text-secondary">{{ $mcApplication->end_date }}</p>
+                                                    <p class="text-m text-secondary">{{ \Carbon\Carbon::parse($mcApplication->end_date)->format('d/m/Y') }}</p>
                                                 </td>
                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                     <p class="text-m text-secondary">{{ $mcApplication->reason }}</p>
@@ -236,6 +253,8 @@
                                                                 <i class="fas fa-trash-alt"></i>
                                                             </button>
                                                         </form>
+                                                    @elseif($mcApplication->status == 'rejected')
+                                                    {{ $mcApplication->rejection_reason }}
                                                     @else
                                                         <span>-</span>
                                                     @endif
@@ -277,7 +296,23 @@
 <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.0.4') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+<script>
+    @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Berjaya!',
+            text: "{{ session('success') }}",
+            confirmButtonText: 'OK'
+        });
+    @elseif(session('error'))
+        Swal.fire({
+            icon: 'error',
+            title: 'Ralat!',
+            text: "{{ session('error') }}",
+            confirmButtonText: 'OK'
+        });
+    @endif
+</script>
 </body>
 
 

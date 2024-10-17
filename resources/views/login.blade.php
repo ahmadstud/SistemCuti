@@ -51,7 +51,7 @@
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3 navbar-transparent mt-4">
     <div class="container">
-      <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 text-white" href="../pages/dashboard.html">
+      <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 text-white" href="https://www.erawhizict.com.my/">
         Era Whiz ICT
       </a>
     </div>
@@ -65,14 +65,14 @@
         <div class="row justify-content-center">
           <div class="col-lg-5 text-center mx-auto">
             <h1 class="text-white mb-2 mt-5">
-              <img src="{{ asset('assets/img/Erawhiz.png') }}" alt="Logo" 
+              <img src="{{ asset('assets/img/Erawhiz.png') }}" alt="Logo"
                    style="width: 200px; height: auto; background-color: white; padding: 10px; border-radius: 10px;">
             </h1><br>
             <p class="text-lead text-white">Sistem Permohonan Cuti</p>
           </div>
         </div>
-        
-        
+
+
       </div>
     </div>
     <div class="container">
@@ -97,7 +97,7 @@
                 <div class="text-center">
                   <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">Log Masuk</button>
                 </div>
-                
+
               </form>
             </div>
           </div>

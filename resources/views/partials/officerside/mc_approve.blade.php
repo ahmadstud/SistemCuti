@@ -49,7 +49,7 @@
 
     <!-- MC Approve Application Section -->
     <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
-        <h4><b>SENARAI PERMOHONAN</b></h4> <!-- Fixed the closing b tag -->
+        <h4><b>SENARAI PERMOHONAN DARIPADA STAF</b></h4> <!-- Fixed the closing b tag -->
     </nav>
 
     <!-- Applications Table Section -->
@@ -101,7 +101,7 @@
                                             <th style="width: 15%; padding: 8px;">TARIKH AKHIR</th>
                                             <th style="width: 15%; padding: 8px;">ULASAN</th>
                                             <th style="width: 15%; padding: 8px;">DOKUMEN RUJUKAN</th>
-                                            <th style="width: 15%; padding: 8px;">STATUS</th>
+                                            <th style="width: 15%; padding: 8px;">JENIS CUTI</th>
                                             <th style="width: 15%; padding: 8px;">TINDAKAN</th>
                                         </tr>
                                     </thead>
@@ -115,10 +115,10 @@
                                                     <p class="text-m text-secondary">{{ $application->user_name }}</p>
                                                 </td>
                                                 <td style="border: 1px solid #dee2e6; padding: 8px;">
-                                                    <p class="text-m text-secondary">{{ $application->start_date }}</p>
+                                                    <p class="text-m text-secondary">{{ \Carbon\Carbon::parse($application->start_date)->format('d/m/Y') }}</p>
                                                 </td>
                                                 <td style="border: 1px solid #dee2e6; padding: 8px;">
-                                                    <p class="text-m text-secondary">{{ $application->end_date }}</p>
+                                                    <p class="text-m text-secondary">{{ \Carbon\Carbon::parse($application->end_date)->format('d/m/Y') }}</p>
                                                 </td>
                                                 <td style="border: 1px solid #dee2e6; padding: 8px;">
                                                     <p class="text-m text-secondary">{{ $application->reason }}</p>
@@ -131,16 +131,12 @@
                                                     @endif
                                                 </td>
                                                 <td style="border: 1px solid #dee2e6; padding: 8px;">
-                                                    @if($application->admin_approved && $application->officer_approved)
-                                                        <span class="badge bg-success">Diterima</span>
-                                                    @elseif($application->admin_approved)
-                                                        <span class="badge bg-info">Diterima</span>
-                                                    @elseif($application->officer_approved)
-                                                        <span class="badge bg-warning text-dark">Kebenaran Penyelia</span>
-                                                    @elseif($application->status == 'pending')
-                                                        <span class="badge bg-warning">Menunggu</span>
+                                                    @if($application->leave_type == 'mc')
+                                                        <span class="badge bg-success">Cuti Sakit</span>
+                                                    @elseif($application->leave_type == 'annual')
+                                                        <span class="badge bg-success">Cuti Tahunan</span>
                                                     @else
-                                                        <span class="badge bg-danger">Ditolak</span>
+                                                        <span class="badge bg-success">Cuti Lain2</span>
                                                     @endif
                                                 </td>
                                                 <td style="border: 1px solid #dee2e6; padding: 8px;">
@@ -222,7 +218,23 @@
 <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
 <script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.0.4') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+<script>
+    @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Berjaya!',
+            text: "{{ session('success') }}",
+            confirmButtonText: 'OK'
+        });
+    @elseif(session('error'))
+        Swal.fire({
+            icon: 'error',
+            title: 'Ralat!',
+            text: "{{ session('error') }}",
+            confirmButtonText: 'OK'
+        });
+    @endif
+</script>
 </body>
 
 

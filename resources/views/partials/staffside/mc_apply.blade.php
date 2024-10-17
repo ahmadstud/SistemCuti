@@ -127,13 +127,27 @@
                         <div class="card-body">
                             <div style="overflow-x: auto; position: relative;">
                                 @if($mcApplications->isEmpty())
-                                <table class="table table-striped table-bordered text-center" style="width: 100%;">
-                                    <thead style="background-color: #f0f0f0;">
-                                        <tr>
-                                            <th colspan="7" class="text-center">Tiada permohonan yang dibuat.</th>
-                                        </tr>
-                                    </thead>
-                                </table>
+                                 <!-- Display a message when no applications exist inside the table -->
+                               <table class="table" style="table-layout: fixed; width: 100%;">
+                                <thead style="background-color: #f0f0f0;">
+                                    <tr>
+                                        <th style="width: 5%; position: sticky; left: 0; z-index: 1; padding: 8px;">BIL</th>
+                                        <th style="width: 15%; padding: 8px;">TARIKH MULA</th>
+                                        <th style="width: 15%; padding: 8px;">TARIKH AKHIR</th>
+                                        <th style="width: 15%; padding: 8px;">ULASAN</th>
+                                        <th style="width: 15%; padding: 8px;">DOKUMEN</th>
+                                        <th style="width: 15%; padding: 8px;">STATUS</th>
+                                        <th style="width: 15%; padding: 8px;">TINDAKAN</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="8" class="text-center" style="padding: 20px;">
+                                            <p class="text-muted">Tiada Permohonan daripada staf</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                             @else
                                 <table class="table table-striped table-bordered text-center" style="width: 100%;">
                                     <thead style="background-color: #f0f0f0;">
@@ -176,7 +190,7 @@
                                                 </td>
                                                 <td>
                                                     @if($mcApplication->admin_approved && $mcApplication->officer_approved)
-                                                        Tiada Tindakan
+                                                        -
                                                     @elseif($mcApplication->status == 'pending')
                                                         <!-- Button to trigger modal for editing -->
                                                         <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#editMcModal{{ $mcApplication->id }}">
@@ -247,6 +261,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        @elseif($mcApplication->status == 'pending_admin')
+                                                        Menunggu kelulusan daripada admin
                                                     @else
                                                         {{ $mcApplication->rejection_reason }}
                                                     @endif
