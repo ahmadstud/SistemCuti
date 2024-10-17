@@ -32,7 +32,7 @@ use App\Http\Controllers\Auth\LoginController;
 
 
 
-    // ADMIN ROUTES
+// ADMIN ROUTES
 
         // Dashboard:
             Route::get('/admin/dashboard',                              [AdminController::class, 'dashboard'])->name('admin.dashboard');

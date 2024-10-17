@@ -31,6 +31,17 @@
         <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
+        <!-- Summernote CSS -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" rel="stylesheet">
+
+        <!-- Summernote JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js"></script>
+
+        <!-- jQuery (required for Summernote) -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
     </head>
 
 
@@ -104,8 +115,8 @@
                                                                         </div>
                                                                         <div class="mb-3">
                                                                             <label for="content" class="form-label">Isi Kandungan<span class="text-danger">*</span></label>
-                                                                            <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
-                                                                        </div>
+                                                                            <textarea class="form-control summernote" id="content" name="content" rows="4" required></textarea>
+                                                                        </div>                                                                        
                                                                         <div class="row mb-3">
                                                                             <div class="col-md-6">
                                                                                 <label for="start_date" class="form-label">Tarikh Mula<span class="text-danger">*</span></label>
@@ -136,6 +147,26 @@
                                                                             <button type="submit" class="btn btn-success">Simpan</button>
                                                                         </div>
                                                                     </form>
+                                                                    
+
+                                                                    <script>
+                                                                        $(document).ready(function() {
+                                                                            $('#createAnnouncementModal').on('shown.bs.modal', function () {
+                                                                                $('.summernote').summernote({
+                                                                                    height: 200, // Set editor height
+                                                                                    toolbar: [
+                                                                                        ['style', ['style']],
+                                                                                        ['font', ['bold', 'underline', 'clear']],
+                                                                                        ['fontname', ['fontname']],
+                                                                                        ['para', ['ul', 'ol', 'paragraph']],
+                                                                                        ['insert', ['link', 'picture', 'video']],
+                                                                                        ['view', ['fullscreen', 'codeview', 'help']]
+                                                                                    ]
+                                                                                });
+                                                                            });
+                                                                        });
+                                                                    </script>
+
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -287,6 +318,10 @@
         <script src="{{ asset('js/app.js') }}"></script>
         <script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.0.4') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+
 
     </body>
 </html>
