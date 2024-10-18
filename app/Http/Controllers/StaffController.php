@@ -16,67 +16,67 @@ class StaffController extends Controller
 {
 
     public function storeMcApplication(Request $request)
-{
-    // Validate the form input
-    $validatedData = $request->validate([
-        'start_date' => 'required|date',
-        'end_date' => 'required|date|after_or_equal:start_date',
-        'document_path' => 'required|mimes:pdf,jpg,png|max:2048',
-        'reason' => 'required|string',
-        'direct_admin_approval' => 'nullable|boolean',
-        'leave_type' => 'required|in:mc,annual,other',  // Ensure leave_type is one of the specified options
-    ]);
-
-    // Calculate the number of days for the MC application
-    $startDate = Carbon::parse($request->start_date);
-    $endDate = Carbon::parse($request->end_date);
-    $daysRequested = $endDate->diffInDays($startDate) + 1; // Include both start and end dates
-
-    // Check if user has enough leave days left for the selected leave type
-    $user = Auth::user();
-    if ($request->leave_type === 'mc' && $user->total_mc_days < $daysRequested) {
-        return redirect()->back()->with('error', 'Insufficient MC days available!');
-    } elseif ($request->leave_type === 'annual' && $user->total_annual < $daysRequested) {
-        return redirect()->back()->with('error', 'Insufficient Annual leave days available!');
-    } elseif ($request->leave_type === 'other' && $user->total_others < $daysRequested) {
-        return redirect()->back()->with('error', 'Insufficient Other leave days available!');
-    }
-
-    // Handle file upload
-    $documentPath = $request->file('document_path')->store('mc_documents', 'public');
-
-    try {
-        // Create the MC application
-        McApplication::create([
-            'user_id' => Auth::id(),  // Assign the currently authenticated user ID
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-            'reason' => $request->reason,
-            'document_path' => $documentPath,
-            'status' => 'pending',
-            'leave_type' => $request->leave_type,  // Save the selected leave type
-            'direct_admin_approval' => $request->input('direct_admin_approval') == '1',
-            'officer_approved' => false,
+    {
+        // Validate the form input
+        $validatedData = $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'document_path' => 'required|mimes:pdf,jpg,png|max:2048',
+            'reason' => 'required|string',
+            'direct_admin_approval' => 'nullable|boolean',
+            'leave_type' => 'required|in:mc,annual,other',  // Ensure leave_type is one of the specified options
         ]);
 
-        // Deduct days based on leave type
-        if ($request->leave_type === 'mc') {
-            $user->total_mc_days -= $daysRequested;
-        } elseif ($request->leave_type === 'annual') {
-            $user->total_annual -= $daysRequested;
-        } elseif ($request->leave_type === 'other') {
-            $user->total_others -= $daysRequested;
+        // Calculate the number of days for the MC application
+        $startDate = Carbon::parse($request->start_date);
+        $endDate = Carbon::parse($request->end_date);
+        $daysRequested = $endDate->diffInDays($startDate) + 1; // Include both start and end dates
+
+        // Check if user has enough leave days left for the selected leave type
+        $user = Auth::user();
+        if ($request->leave_type === 'mc' && $user->total_mc_days < $daysRequested) {
+            return redirect()->back()->with('error', 'Insufficient MC days available!');
+        } elseif ($request->leave_type === 'annual' && $user->total_annual < $daysRequested) {
+            return redirect()->back()->with('error', 'Insufficient Annual leave days available!');
+        } elseif ($request->leave_type === 'other' && $user->total_others < $daysRequested) {
+            return redirect()->back()->with('error', 'Insufficient Other leave days available!');
         }
 
-        // Save the updated user information
-        $user->save();
+        // Handle file upload
+        $documentPath = $request->file('document_path')->store('mc_documents', 'public');
 
-        return redirect()->back()->with('success', 'MC application submitted successfully!');
-    } catch (\Exception $e) {
-        Log::error('Error Creating MC Application:', ['message' => $e->getMessage()]);
-        return redirect()->back()->with('error', 'Failed to submit MC application. Please try again.');
+        try {
+            // Create the MC application
+            McApplication::create([
+                'user_id' => Auth::id(),  // Assign the currently authenticated user ID
+                'start_date' => $request->start_date,
+                'end_date' => $request->end_date,
+                'reason' => $request->reason,
+                'document_path' => $documentPath,
+                'status' => 'pending',
+                'leave_type' => $request->leave_type,  // Save the selected leave type
+                'direct_admin_approval' => $request->input('direct_admin_approval') == '1',
+                'officer_approved' => false,
+            ]);
+
+            // Deduct days based on leave type
+            if ($request->leave_type === 'mc') {
+                $user->total_mc_days -= $daysRequested;
+            } elseif ($request->leave_type === 'annual') {
+                $user->total_annual -= $daysRequested;
+            } elseif ($request->leave_type === 'other') {
+                $user->total_others -= $daysRequested;
+            }
+
+            // Save the updated user information
+            $user->save();
+
+            return redirect()->back()->with('success', 'MC application submitted successfully!');
+        } catch (\Exception $e) {
+            Log::error('Error Creating MC Application:', ['message' => $e->getMessage()]);
+            return redirect()->back()->with('error', 'Failed to submit MC application. Please try again.');
+        }
     }
-}
 
     public function updateOwnDetails2(Request $request)
     {
@@ -229,23 +229,23 @@ class StaffController extends Controller
     }
 
     public function changePassword2(Request $request)
-{
-    $user = Auth::user(); // Get the currently authenticated user
+    {
+        $user = Auth::user(); // Get the currently authenticated user
 
-    // Validate the password input data
-    $request->validate([
-        'password' => 'required|string|min:8|confirmed', // New password must be confirmed
-    ]);
+        // Validate the password input data
+        $request->validate([
+            'password' => 'required|string|min:8|confirmed', // New password must be confirmed
+        ]);
 
-    // Update the user's password
-    $user->password = Hash::make($request->password); // Hash the new password
+        // Update the user's password
+        $user->password = Hash::make($request->password); // Hash the new password
 
-    // Save changes to the database
-    $user->save();
+        // Save changes to the database
+        $user->save();
 
-    // Redirect with success message
-    return redirect()->back()->with('success', 'Kata laluan anda telah berjaya dikemas kini!');
-}
+        // Redirect with success message
+        return redirect()->back()->with('success', 'Kata laluan anda telah berjaya dikemas kini!');
+    }
 
 
 }

@@ -1,5 +1,6 @@
 <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4" id="sidenav-main" style="height: calc(100vh - 60px;); overflow-y: auto;">
     <div class="sidenav-header logo-section">
+
       <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand m-0" href="#" target="_blank">
         <div style="display: flex; align-items: center;">
@@ -91,20 +92,21 @@
             </a>
           </li>
 
-            <!-- Log Keluar -->
-        <li class="nav-item" style="margin-bottom: 0;">
-            <form action="{{ route('logout') }}" method="POST" id="logout-form" style="display: none;">
-                @csrf
-            </form>
-            <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="fa fa-sign-out text-danger text-sm opacity-10"></i>
-                </div>
-                <span class="nav-link-text ms-1">Log Keluar</span>
-            </a>
-        </li>
+          <!-- Log Keluar -->
+          <li class="nav-item" style="margin-bottom: 0;">
+              <form action="{{ route('logout') }}" method="POST" id="logout-form" style="display: none;">
+                  @csrf
+              </form>
+              <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                  <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                      <i class="fa fa-sign-out text-danger text-sm opacity-10"></i>
+                  </div>
+                  <span class="nav-link-text ms-1">Log Keluar</span>
+              </a>
+          </li>
         
         </ul>
       </div>
-  </div>
+
+    </div>
 </aside>

@@ -98,10 +98,10 @@
                                                                                     <p class="text-m text-secondary">{{ $application->user->name }}</p>
                                                                                 </td>
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                    <p class="text-m text-secondary">{{ $application->start_date }}</p>
+                                                                                    <p class="text-m text-secondary">{{ \Carbon\Carbon::parse($application->start_date)->format('d/m/Y') }}</p>
                                                                                 </td>
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                    <p class="text-m text-secondary">{{ $application->end_date }}</p>
+                                                                                    <p class="text-m text-secondary">{{ \Carbon\Carbon::parse($application->end_date)->format('d/m/Y') }}</p></td>
                                                                                 </td>
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                     <p class="text-m text-secondary">{{ $application->reason }}</p>
@@ -111,14 +111,15 @@
                                                                                     @if($application->document_path)
                                                                                         <a href="{{ asset($application->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</a>
                                                                                     @else
-                                                                                        No Document
+                                                                                        <span>Tidak Ada Dokumen</span>
                                                                                     @endif
                                                                                     </p>
                                                                                 </td>
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                     {{ $application->officer_approved ? 'Yes' : 'No' }}
                                                                                 </td>
-                                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+
+                                                                                {{-- <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                     @if($application->officer_approved && !$application->admin_approved)
                                                                                         <form action="{{ route('admin.approve', $application->id) }}" method="POST" style="display:inline;">
                                                                                             @csrf
@@ -127,7 +128,52 @@
                                                                                     @else
                                                                                         <button type="button" class="btn btn-secondary btn-sm" disabled><i class="fas fa-check-double"></i></button>
                                                                                     @endif
+                                                                                </td> --}}
+
+                                                                                <td style="background-color: transparent; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                    @if($application->officer_approved && !$application->admin_approved)
+                                                                                        <form action="{{ route('admin.approve', $application->id) }}" method="POST" style="display:inline;">
+                                                                                            @csrf
+                                                                                            <button type="submit" class="btn btn-success btn-sm">
+                                                                                                <i class="fas fa-check"></i> <!-- Check symbol for approval -->
+                                                                                            </button>
+                                                                                        </form>
+                                                                                        <!-- Rejection Button (Modal Trigger) -->
+                                                                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#adminRejectionModal-{{ $application->id }}">
+                                                                                            <i class="fas fa-times"></i> <!-- Reject symbol -->
+                                                                                        </button>
+                                                                                
+                                                                                        <!-- Rejection Reason Modal -->
+                                                                                        <div class="modal fade" id="adminRejectionModal-{{ $application->id }}" tabindex="-1" role="dialog" aria-labelledby="adminRejectionModalLabel-{{ $application->id }}" aria-hidden="true">
+                                                                                            <div class="modal-dialog" role="document">
+                                                                                                <div class="modal-content">
+                                                                                                    <div class="modal-header">
+                                                                                                        <h5 class="modal-title" id="adminRejectionModalLabel-{{ $application->id }}">Alasan Penolakan</h5>
+                                                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                                            <span aria-hidden="true">&times;</span>
+                                                                                                        </button>
+                                                                                                    </div>
+                                                                                                    <div class="modal-body">
+                                                                                                        <form action="{{ route('admin.reject', $application->id) }}" method="POST" class="reject-form">
+                                                                                                            @csrf
+                                                                                                            <label for="rejection_reason_{{ $application->id }}">Alasan Penolakan:</label>
+                                                                                                            <textarea name="rejection_reason" id="rejection_reason_{{ $application->id }}" rows="3" class="form-control" required></textarea>
+                                                                                                    </div>
+                                                                                                    <div class="modal-footer">
+                                                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                                                                                        <button type="submit" class="btn btn-danger">Hantar Tolakan</button>
+                                                                                                    </div>
+                                                                                                        </form>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    @else
+                                                                                        <button type="button" class="btn btn-secondary btn-sm" disabled>
+                                                                                            <i class="fas fa-check-double"></i> <!-- Double-check symbol for already approved -->
+                                                                                        </button>
+                                                                                    @endif
                                                                                 </td>
+                                                                                
 
                                                                             </tr>
                                                                         @endforeach
