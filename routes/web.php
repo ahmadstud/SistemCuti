@@ -72,9 +72,6 @@ use App\Http\Controllers\Auth\LoginController;
 
         // Profile Management:
             Route::get('/admin/profile',                            [AdminController::class, 'showProfile'])->name('admin.profile');
-            Route::get('/admin/edit-profile', function () {
-            return view('partials.adminside.edit-profile');
-        })->name('admin.editProfile');
 
         // Route for updating own details
         Route::post('/admin/update-details',                        [AdminController::class, 'updateOwnDetails'])->name('updateOwnDetails');
@@ -90,10 +87,6 @@ use App\Http\Controllers\Auth\LoginController;
         Route::get('/admin/mc-officer-approve',                     [AdminController::class, 'mcOfficerApprove'])->name('admin.mcOfficerApprove');
         Route::post('/admin/approve/{id}',                          [AdminController::class, 'approve'])->name('admin.approve');
         Route::post('/admin/reject/{id}',                           [AdminController::class, 'reject'])->name('admin.reject');
-
-
-
-
 
 
 // OFFICER ROUTES

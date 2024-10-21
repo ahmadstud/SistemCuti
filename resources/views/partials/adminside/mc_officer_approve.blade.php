@@ -75,6 +75,7 @@
                                                                         <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
                                                                         <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
                                                                         <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH AKHIR</th>
+                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
                                                                         <th style="width: 20%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
                                                                         <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN RUJUKAN</th>
                                                                         <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DILULUSKAN OLEH</th>
@@ -104,6 +105,18 @@
                                                                                     <p class="text-m text-secondary">{{ $application->end_date }}</p>
                                                                                 </td>
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                    @switch($application->leave_type)
+                                                                                    @case('mc')
+                                                                                        <span class="badge bg-success">Cuti Sakit</span>
+                                                                                        @break
+                                                                                    @case('annual')
+                                                                                        <span class="badge bg-success">Cuti Tahunan</span>
+                                                                                        @break
+                                                                                    @default
+                                                                                        <span class="badge bg-success">Cuti Lain-lain</span>
+                                                                                @endswitch
+                                                                                </td>
+                                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                     <p class="text-m text-secondary">{{ $application->reason }}</p>
                                                                                 </td>
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
@@ -117,17 +130,37 @@
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                     {{ $application->officer_name ? $application->officer_name : 'Tiada Penyelia' }}
                                                                                 </td>
-                                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                    @if($application->officer_approved && !$application->admin_approved)
-                                                                                        <form action="{{ route('admin.approve', $application->id) }}" method="POST" style="display:inline;">
+                                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; white-space: normal;">
+                                                                                    @if($application->status === 'pending_admin')
+                                                                                    <div class="d-flex justify-content-between">
+                                                                                        <form action="{{ route('admin.approve', $application->id) }}" method="POST" class="d-inline">
                                                                                             @csrf
-                                                                                            <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-check"></i></button>
+                                                                                            <button type="submit" class="btn btn-success btn-sm" aria-label="Accept">
+                                                                                                <i class="fas fa-check"></i>
+                                                                                            </button>
                                                                                         </form>
+
+                                                                                        <form action="{{ route('admin.reject', $application->id) }}" method="POST" class="d-inline">
+                                                                                            @csrf
+                                                                                            <button type="submit" class="btn btn-danger btn-sm" aria-label="Reject">
+                                                                                                <i class="fas fa-times"></i>
+                                                                                            </button>
+                                                                                        </form>
+                                                                                    </div>
+                                                                                    @elseif($application->status === 'accepted')
+                                                                                        <button type="button" class="btn btn-primary btn-sm" disabled aria-label="Accepted">
+                                                                                            <i class="fas fa-check-circle"></i>
+                                                                                        </button>
+                                                                                    @elseif($application->status === 'rejected')
+                                                                                        <button type="button" class="btn btn-secondary btn-sm" disabled aria-label="Rejected">
+                                                                                            <i class="fas fa-times-circle"></i>
+                                                                                        </button>
                                                                                     @else
-                                                                                        <button type="button" class="btn btn-secondary btn-sm" disabled><i class="fas fa-check-double"></i></button>
+                                                                                        <button type="button" class="btn btn-secondary btn-sm" disabled aria-label="Pending">
+                                                                                            <i class="fas fa-check-double"></i>
+                                                                                        </button>
                                                                                     @endif
                                                                                 </td>
-
                                                                             </tr>
                                                                         @endforeach
                                                                     @endif

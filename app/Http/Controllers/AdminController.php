@@ -315,6 +315,7 @@ class AdminController extends Controller
         'city' => 'required|string',
         'postcode' => 'required|string',
         'state' => 'required|string',
+        'fullname' => 'required|string',
         ]);
 
         // Update user information
@@ -333,6 +334,7 @@ class AdminController extends Controller
             'total_mc_days' => $request->total_mc_days, // Ensure this matches the input name
             'total_annual' => $request->total_annual, // Ensure this matches the input name
             'total_others' => $request->total_others, // Ensure this matches the input name
+            'fullname' => $request->fullname,
         ]);
 
         // Redirect with success message
@@ -449,38 +451,17 @@ class AdminController extends Controller
 // PERMOHONAN CUTI TAPISAN PEGAWAI
     public function mcOfficerApprove(Request $request)
     {
-        // Get filter inputs
-        $statusFilter = $request->input('status');
-        $startDateFilter = $request->input('start_date');
-        $endDateFilter = $request->input('end_date');
-
-        // Prepare the query for officer-approved applications that are still pending admin approval
-        $applicationsQuery = McApplication::join('users as staff', 'mc_applications.user_id', '=', 'staff.id') // Join for staff (applicant)
-        ->leftJoin('users as officers', 'staff.selected_officer_id', '=', 'officers.id') // Join for officer based on selected_officer_id
-        ->select(
-            'mc_applications.*',
-            'staff.name as user_name', // Staff (applicant) name
-            'officers.name as officer_name' // Officer's name
-        )
-        ->where('mc_applications.officer_approved', true)
-        ->where('mc_applications.admin_approved', false); // Pending admin approval
-
-
-        // Apply status filter if provided
-        if ($statusFilter) {
-            $applicationsQuery->where('mc_applications.status', $statusFilter);
-        }
-
-        // Apply date filters if provided
-        if ($startDateFilter) {
-            $applicationsQuery->where('mc_applications.start_date', '>=', Carbon::parse($startDateFilter));
-        }
-        if ($endDateFilter) {
-            $applicationsQuery->where('mc_applications.end_date', '<=', Carbon::parse($endDateFilter));
-        }
-
-        // Get the filtered applications
-        $applications = $applicationsQuery->get();
+    $applications = McApplication::join('users as staff', 'mc_applications.user_id', '=', 'staff.id')
+    ->leftJoin('users as officers', 'staff.selected_officer_id', '=', 'officers.id')
+    ->select(
+        'mc_applications.*',
+        'staff.name as user_name',
+        'officers.name as officer_name'
+    )
+    ->where('mc_applications.officer_approved', true)
+    ->where('mc_applications.admin_approved', false)
+    ->where('mc_applications.direct_admin_approval', false)
+    ->paginate(10); // Change 10 to the number of items per page you want
 
         // Fetch all MC applications for statistical purposes
         $totalUsers = User::where('role', '!=', 'admin')->count();

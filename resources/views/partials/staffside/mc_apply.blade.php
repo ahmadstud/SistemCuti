@@ -30,6 +30,7 @@
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
   </head>
 
 <body class="g-sidenav-show bg-gray-100">
@@ -89,20 +90,22 @@
                                                 </div>
                                             </div>
 
-                                            <!-- Leave Type Selection -->
+                                           <!-- Leave Type Selection -->
                                             <div class="col-md-12 mb-3">
                                                 <label for="leave_type" class="form-label">Jenis Cuti<span class="text-danger">*</span></label>
-                                                <select class="form-control" id="leave_type" name="leave_type" required>
+                                                <select class="form-control" id="leave_type" name="leave_type" required onchange="toggleDocumentField()">
                                                     <option value="mc">Cuti Sakit (MC)</option>
                                                     <option value="annual">Cuti Tahunan</option>
                                                     <option value="other">Lain-lain</option>
                                                 </select>
                                             </div>
 
-                                            <div class="col-md-12 mb-3">
+                                            <!-- Document Upload Field -->
+                                            <div class="col-md-12 mb-3" id="document_upload_field">
                                                 <label for="document_path" class="form-label">Dokumen MC<span class="text-danger">*</span></label>
                                                 <input type="file" class="form-control" id="document_path" name="document_path" required>
                                             </div>
+
                                             <div class="col-md-12 mb-3">
                                                 <label for="reason" class="form-label">Ulasan<span class="text-danger">*</span></label>
                                                 <textarea class="form-control" id="reason" name="reason" rows="3" required></textarea>
@@ -150,10 +153,10 @@
                                 </tbody>
                             </table>
                             @else
-                                <table class="table table-striped table-bordered text-center" style="width: 100%;">
+                                <table class="table" style="table-layout: fixed; width: 100%;">
                                     <thead style="background-color: #f0f0f0;">
                                         <tr>
-                                            <th style="width: 3%; position: sticky; left: 0;">BIL</th>
+                                            <th style="width: 5%; position: sticky; left: 0;">BIL</th>
                                             <th style="width: 15%;">TARIKH MULA</th>
                                             <th style="width: 15%;">TARIKH TAMAT</th>
                                             <th style="width: 15%;">ULASAN</th>
@@ -166,11 +169,11 @@
                                     <tbody>
                                         @foreach($mcApplications as $index => $mcApplication)
                                             <tr>
-                                                <td>{{ $index + 1 }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($mcApplication->start_date)->format('d/m/Y') }}</td>
-                                                <td>{{ \Carbon\Carbon::parse($mcApplication->end_date)->format('d/m/Y') }}</td>
-                                                <td>{{ $mcApplication->reason }}</td>
-                                                <td>
+                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">{{ $index + 1 }}</td>
+                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">{{ \Carbon\Carbon::parse($mcApplication->start_date)->format('d/m/Y') }}</td>
+                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">{{ \Carbon\Carbon::parse($mcApplication->end_date)->format('d/m/Y') }}</td>
+                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">{{ $mcApplication->reason }}</td>
+                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                     @if($mcApplication->document_path)
                                                         <a href="{{ Storage::url($mcApplication->document_path) }}" target="_blank" title="Download Dokumen">
                                                             <i class="fas fa-file-pdf text-lg me-1"></i> PDF
@@ -179,7 +182,7 @@
                                                         <span>Tidak Ada Dokumen</span>
                                                     @endif
                                                 </td>
-                                                <td style="border: 1px solid #dee2e6; padding: 8px;">
+                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                     @switch($mcApplication->leave_type)
                                                     @case('mc')
                                                         <span class="badge bg-success">Cuti Sakit</span>
@@ -191,10 +194,10 @@
                                                         <span class="badge bg-success">Cuti Lain-lain</span>
                                                 @endswitch
                                                 </td>
-                                                <td>
-                                                    @if($mcApplication->admin_approved && $mcApplication->officer_approved)
+                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                    @if($mcApplication->status == 'approved')
                                                         <span class="badge bg-gradient-success">Diterima</span>
-                                                    @elseif($mcApplication->officer_approved)
+                                                    @elseif($mcApplication->status == 'pending_admin')
                                                         <span class="badge bg-gradient-warning">Kelulusan dalam proses</span>
                                                     @elseif($mcApplication->status == 'pending')
                                                         <span class="badge bg-gradient-warning">Dalam Proses</span>
@@ -202,7 +205,7 @@
                                                         <span class="badge bg-gradient-danger">Ditolak</span>
                                                     @endif
                                                 </td>
-                                                <td>
+                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                     @if($mcApplication->admin_approved && $mcApplication->officer_approved)
                                                         -
                                                     @elseif($mcApplication->status == 'pending')

@@ -75,6 +75,7 @@
                                                                         <th style="width: 17%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
                                                                         <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
                                                                         <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH AKHIR</th>
+                                                                        <th style="width: 20%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
                                                                         <th style="width: 20%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
                                                                         <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN RUJUKAN</th>
                                                                         <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
@@ -102,7 +103,18 @@
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                     <p class="text-m text-secondary">{{ $application->end_date }}</p>
                                                                                 </td>
-
+                                                                                <td>
+                                                                                @switch($application->leave_type)
+                                                                                @case('mc')
+                                                                                    <span class="badge bg-success">Cuti Sakit</span>
+                                                                                    @break
+                                                                                @case('annual')
+                                                                                    <span class="badge bg-success">Cuti Tahunan</span>
+                                                                                    @break
+                                                                                @default
+                                                                                    <span class="badge bg-success">Cuti Lain-lain</span>
+                                                                            @endswitch
+                                                                                </td>
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                     <p class="text-m text-secondary">{{ $application->reason }}</p>
                                                                                 </td>

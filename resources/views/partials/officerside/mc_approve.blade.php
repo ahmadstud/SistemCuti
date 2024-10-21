@@ -96,41 +96,41 @@
                                     <thead style="background-color: #f0f0f0;">
                                         <tr>
                                             <th style="width: 5%; position: sticky; left: 0; z-index: 1; padding: 8px;">BIL</th>
-                                            <th style="width: 15%; padding: 8px;">NAMA</th>
-                                            <th style="width: 15%; padding: 8px;">TARIKH MULA</th>
-                                            <th style="width: 15%; padding: 8px;">TARIKH AKHIR</th>
-                                            <th style="width: 15%; padding: 8px;">ULASAN</th>
-                                            <th style="width: 15%; padding: 8px;">DOKUMEN RUJUKAN</th>
-                                            <th style="width: 15%; padding: 8px;">JENIS CUTI</th>
-                                            <th style="width: 15%; padding: 8px;">TINDAKAN</th>
+                                            <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
+                                            <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
+                                            <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH AKHIR</th>
+                                            <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
+                                            <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN RUJUKAN</th>
+                                            <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
+                                            <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach($applications as $application)
                                             <tr>
-                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px;">
+                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                     <p class="text-m text-secondary">{{ $loop->iteration }}</p>
                                                 </td>
-                                                <td style="border: 1px solid #dee2e6; padding: 8px;">
+                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                     <p class="text-m text-secondary">{{ $application->user_name }}</p>
                                                 </td>
-                                                <td style="border: 1px solid #dee2e6; padding: 8px;">
+                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                     <p class="text-m text-secondary">{{ \Carbon\Carbon::parse($application->start_date)->format('d/m/Y') }}</p>
                                                 </td>
-                                                <td style="border: 1px solid #dee2e6; padding: 8px;">
+                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                     <p class="text-m text-secondary">{{ \Carbon\Carbon::parse($application->end_date)->format('d/m/Y') }}</p>
                                                 </td>
-                                                <td style="border: 1px solid #dee2e6; padding: 8px;">
+                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                     <p class="text-m text-secondary">{{ $application->reason }}</p>
                                                 </td>
-                                                <td style="border: 1px solid #dee2e6; padding: 8px;">
+                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                     @if($application->document_path)
                                                         <a href="{{ Storage::url($application->document_path) }}" target="_blank" class="btn btn-link p-0">
                                                             <i class="fas fa-file-alt"></i> <!-- Document icon -->
                                                         </a>
                                                     @endif
                                                 </td>
-                                                <td style="border: 1px solid #dee2e6; padding: 8px;">
+                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                     @switch($application->leave_type)
                                                     @case('mc')
                                                         <span class="badge bg-success">Cuti Sakit</span>
@@ -142,7 +142,7 @@
                                                         <span class="badge bg-success">Cuti Lain-lain</span>
                                                 @endswitch
                                                 </td>
-                                                <td style="border: 1px solid #dee2e6; padding: 8px;">
+                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                     <!-- Accept or Reject Buttons -->
                                                     <div class="d-flex justify-content-between">
                                                         <form action="{{ route('officer.updateStatus', ['id' => $application->id]) }}" method="POST" class="approve-form">
@@ -152,16 +152,16 @@
                                                                 <i class="fas fa-check"></i> <!-- Right symbol -->
                                                             </button>
                                                         </form>
-
-                                                        <form action="{{ route('officer.updateStatus', ['id' => $application->id]) }}" method="POST" class="approve-form">
+                                                            <form action="{{ route('officer.updateStatus', ['id' => $application->id]) }}" method="POST" class="approve-form">
+                                                                @csrf
                                                             <!-- Reject Button to Open Modal -->
-                                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectionReasonModal">
+                                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectionReasonModal-{{ $application->id }}">
                                                                 <i class="fas fa-times"></i> <!-- Reject symbol -->
                                                             </button>
 
                                                             <!-- Rejection Reason Modal -->
-                                                            <div class="modal fade" id="rejectionReasonModal" tabindex="-1" role="dialog" aria-labelledby="rejectionReasonModalLabel" aria-hidden="true">
-                                                                <div class="modal-dialog" role="document">
+                                                            <div class="modal fade" id="rejectionReasonModal-{{ $application->id }}" tabindex="-1" role="dialog" aria-labelledby="rejectionReasonModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog modal-lg" role="document">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
                                                                             <h5 class="modal-title" id="rejectionReasonModalLabel">Alasan Penolakan</h5>
@@ -185,8 +185,8 @@
                                                             </div>
                                                         </form>
                                                     </div>
-
                                                 </td>
+
                                             </tr>
                                         @endforeach
                                     </tbody>

@@ -16,67 +16,73 @@ class StaffController extends Controller
 {
 
     public function storeMcApplication(Request $request)
-{
-    // Validate the form input
-    $validatedData = $request->validate([
-        'start_date' => 'required|date',
-        'end_date' => 'required|date|after_or_equal:start_date',
-        'document_path' => 'required|mimes:pdf,jpg,png|max:2048',
-        'reason' => 'required|string',
-        'direct_admin_approval' => 'nullable|boolean',
-        'leave_type' => 'required|in:mc,annual,other',  // Ensure leave_type is one of the specified options
-    ]);
-
-    // Calculate the number of days for the MC application
-    $startDate = Carbon::parse($request->start_date);
-    $endDate = Carbon::parse($request->end_date);
-    $daysRequested = $endDate->diffInDays($startDate) + 1; // Include both start and end dates
-
-    // Check if user has enough leave days left for the selected leave type
-    $user = Auth::user();
-    if ($request->leave_type === 'mc' && $user->total_mc_days < $daysRequested) {
-        return redirect()->back()->with('error', 'Hari MC tidak mencukupi!!');
-    } elseif ($request->leave_type === 'annual' && $user->total_annual < $daysRequested) {
-        return redirect()->back()->with('error', 'Cuti Tahunan tidak mencukupu!');
-    } elseif ($request->leave_type === 'other' && $user->total_others < $daysRequested) {
-        return redirect()->back()->with('error', 'Cuti lain-lain tidak mencukupi!');
-    }
-
-    // Handle file upload
-    $documentPath = $request->file('document_path')->store('mc_documents', 'public');
-
-    try {
-        // Create the MC application
-        McApplication::create([
-            'user_id' => Auth::id(),  // Assign the currently authenticated user ID
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-            'reason' => $request->reason,
-            'document_path' => $documentPath,
-            'status' => 'pending',
-            'leave_type' => $request->leave_type,  // Save the selected leave type
-            'direct_admin_approval' => $request->input('direct_admin_approval') == '1',
-            'officer_approved' => false,
+    {
+        // Validate the form input
+        $validatedData = $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'document_path' => 'nullable|mimes:pdf,jpg,png|max:2048', // Allow null for document_path
+            'reason' => 'required|string',
+            'direct_admin_approval' => 'nullable|boolean',
+            'leave_type' => 'required|in:mc,annual,other',  // Ensure leave_type is one of the specified options
         ]);
 
-        // Deduct days based on leave type
-        if ($request->leave_type === 'mc') {
-            $user->total_mc_days -= $daysRequested;
-        } elseif ($request->leave_type === 'annual') {
-            $user->total_annual -= $daysRequested;
-        } elseif ($request->leave_type === 'other') {
-            $user->total_others -= $daysRequested;
+        // Calculate the number of days for the MC application
+        $startDate = Carbon::parse($request->start_date);
+        $endDate = Carbon::parse($request->end_date);
+        $daysRequested = $endDate->diffInDays($startDate) + 1; // Include both start and end dates
+
+        // Check if user has enough leave days left for the selected leave type
+        $user = Auth::user();
+        if ($request->leave_type === 'mc' && $user->total_mc_days < $daysRequested) {
+            return redirect()->back()->with('error', 'Hari MC tidak mencukupi!!');
+        } elseif ($request->leave_type === 'annual' && $user->total_annual < $daysRequested) {
+            return redirect()->back()->with('error', 'Cuti Tahunan tidak mencukupi!');
+        } elseif ($request->leave_type === 'other' && $user->total_others < $daysRequested) {
+            return redirect()->back()->with('error', 'Cuti lain-lain tidak mencukupi!');
         }
 
-        // Save the updated user information
-        $user->save();
+        // Initialize document path as null
+        $documentPath = null;
 
-        return redirect()->back()->with('success', 'Permohonan Cuti telah dihantar!');
-    } catch (\Exception $e) {
-        Log::error('Error Creating MC Application:', ['message' => $e->getMessage()]);
-        return redirect()->back()->with('error', 'Gagal menghantar permohonan MC. Sila cuba lagi.');
+        // Handle file upload if a document is provided
+        if ($request->hasFile('document_path')) {
+            $documentPath = $request->file('document_path')->store('mc_documents', 'public');
+        }
+
+        try {
+            // Create the MC application
+            McApplication::create([
+                'user_id' => Auth::id(),  // Assign the currently authenticated user ID
+                'start_date' => $request->start_date,
+                'end_date' => $request->end_date,
+                'reason' => $request->reason,
+                'document_path' => $documentPath, // This will be null if no document was uploaded
+                'status' => 'pending',
+                'leave_type' => $request->leave_type,  // Save the selected leave type
+                'direct_admin_approval' => $request->input('direct_admin_approval') == '1',
+                'officer_approved' => false,
+            ]);
+
+            // Deduct days based on leave type
+            if ($request->leave_type === 'mc') {
+                $user->total_mc_days -= $daysRequested;
+            } elseif ($request->leave_type === 'annual') {
+                $user->total_annual -= $daysRequested;
+            } elseif ($request->leave_type === 'other') {
+                $user->total_others -= $daysRequested;
+            }
+
+            // Save the updated user information
+            $user->save();
+
+            return redirect()->back()->with('success', 'Permohonan Cuti telah dihantar!');
+        } catch (\Exception $e) {
+            Log::error('Error Creating MC Application:', ['message' => $e->getMessage()]);
+            return redirect()->back()->with('error', 'Gagal menghantar permohonan MC. Sila cuba lagi.');
+        }
     }
-}
+
 
     public function updateOwnDetails2(Request $request)
     {
@@ -213,7 +219,7 @@ class StaffController extends Controller
         ->get();
 
         $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
-        $officer = User::where('role', 'officer')->get(); // Fetch officers
+        $officers = User::where('role', 'officer')->get(); // Fetch officers
          // Fetch total users excluding admins
          $totalUsers = User::all();
         return view('staff',compact('announcements','staffOnLeaveToday','totalUsers','officers'));

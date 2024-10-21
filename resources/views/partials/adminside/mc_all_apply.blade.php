@@ -72,10 +72,9 @@
 
                                                     <!-- View Applications Section -->
                                                     <div class="card-body">
-
                                                         <form method="GET" action="{{ route('admin.mcAllApply') }}" class="mb-3">
                                                             <div class="row g-3">
-                                                                <div class="col-md-2">
+                                                                <div class="col-md-3">
                                                                     <label for="statusFilter" class="form-label">Status</label>
                                                                     <select name="status" id="statusFilter" class="form-select">
                                                                         <option value="">Semua Status</option>
@@ -84,9 +83,9 @@
                                                                         <option value="pending">Pending</option>
                                                                     </select>
                                                                 </div>
-                                                                <div class="col-md-2">
-                                                                    <label for="roleFilter" class="form-label">Status</label>
-                                                                    <select name="role" id="roleFilter"class="form-select">
+                                                                <div class="col-md-3">
+                                                                    <label for="roleFilter" class="form-label">Peranan</label>
+                                                                    <select name="role" id="roleFilter" class="form-select">
                                                                         <option value="">Semua Peranan</option>
                                                                         <option value="staff">Staf</option>
                                                                         <option value="officer">Pegawai</option>
@@ -94,7 +93,7 @@
                                                                 </div>
                                                                 <div class="col-md-2">
                                                                     <label for="leave_typeFilter" class="form-label">Jenis Cuti</label>
-                                                                    <select name="leave_type" id="leave_typeFilter  "class="form-select">
+                                                                    <select name="leave_type" id="leave_typeFilter" class="form-select">
                                                                         <option value="">Semua Cuti</option>
                                                                         <option value="mc">Sakit</option>
                                                                         <option value="annual">Tahunan</option>
@@ -109,7 +108,7 @@
                                                                     <label for="end_date" class="form-label">Tarikh Akhir</label>
                                                                     <input type="date" name="end_date" class="form-control" placeholder="End Date">
                                                                 </div>
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-12">
                                                                     <label class="form-label">&nbsp;</label>
                                                                     <button type="submit" class="btn btn-primary w-100">Cari</button>
                                                                 </div>

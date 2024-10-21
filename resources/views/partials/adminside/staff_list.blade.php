@@ -240,7 +240,7 @@
                                                                         <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">KETUA BAHAGIAN</th>
                                                                         <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS PEKERJAAN</th>
                                                                         <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">BAKI JUMLAH CUTI</th>
-                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TIDAKAN</th>
+                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -291,7 +291,10 @@
                                                                                 @endif
                                                                             </td>
                                                                             <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                <p class="text-m text-secondary">Tahunan/MC: <br> {{ $user->total_mc_days }} Hari</p>
+                                                                                <p class="text-m text-secondary">
+                                                                                    Tahunan :<br> {{ $user->total_annual }} Hari <br>
+                                                                                    Sakit :<br> {{ $user->total_mc_days }} Hari <br>
+                                                                                    Lain-Lain :<br> {{ $user->total_others }} Hari</p>
                                                                             </td>
                                                                             <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
 
@@ -311,7 +314,12 @@
                                                                                             <div class="modal-body">
                                                                                                 <form action="{{ route('updateUser', $user->id) }}" method="POST">
                                                                                                     @csrf
-
+                                                                                                    <div class="row g-3">
+                                                                                                        <div class="col-md-12 mb-3">
+                                                                                                            <label for="fullname{{ $user->id }}" class="form-label">Nama Penuh</label>
+                                                                                                            <input type="text" class="form-control" id="fullname{{ $user->id }}" name="fullname" value="{{ $user->fullname }}" required>
+                                                                                                        </div>
+                                                                                                    </div>
                                                                                                     <div class="row g-3">
                                                                                                         <div class="col-md-12 mb-3">
                                                                                                             <label for="name{{ $user->id }}" class="form-label">Nama</label>
@@ -357,8 +365,8 @@
                                                                                                     <div class="row g-3">
                                                                                                         <div class="col-md-6 mb-3">
                                                                                                             <label for="selected_officer_id" class="form-label">Ketua Bahagian/Pegawai</label>
-                                                                                                            <select class="form-select" id="selected_officer_id" name="selected_officer_id" required>
-                                                                                                                <option selected disabled>--- Tiada Penyelia ---</option>
+                                                                                                            <select class="form-select" id="selected_officer_id" name="selected_officer_id">
+                                                                                                                <option value ="">--- Tiada Penyelia ---</option>
                                                                                                                 @foreach($officers as $officer)
                                                                                                                     <option value="{{ $officer->id }}" {{ $user->selected_officer_id == $officer->id ? 'selected' : '' }}>
                                                                                                                         {{ $officer->name }}

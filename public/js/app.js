@@ -1,27 +1,23 @@
   // Staff JS ////////////////////////////////////////////////////////////////////////////////////////////////////////
+  function toggleDocumentField() {
+    var leaveType = document.getElementById('leave_type').value;
+    var documentField = document.getElementById('document_upload_field');
+    var documentInput = document.getElementById('document_path');
 
-// Carousel JS
+    if (leaveType === 'mc') {
+        documentField.style.display = 'block';  // Show the document field
+        documentInput.required = true;         // Make it required
+    } else {
+        documentField.style.display = 'none';  // Hide the document field
+        documentInput.required = false;        // Remove the required attribute
+        documentInput.value = '';              // Clear the file input
+    }
+}
+
+// Run the function when the page loads to ensure correct state
 document.addEventListener('DOMContentLoaded', function() {
-    const carouselElement = document.getElementById('announcementCarousel');
-
-    carouselElement.addEventListener('slide.bs.carousel', function(event) {
-        // Get the new active item
-        const nextItem = event.relatedTarget;
-
-        // Get data attributes
-        const title = nextItem.getAttribute('data-title');
-        const content = nextItem.getAttribute('data-content');
-        const startDate = nextItem.getAttribute('data-start-date');
-        const endDate = nextItem.getAttribute('data-end-date');
-
-        // Update the content
-        document.getElementById('announcementTitle').textContent = title;
-        document.getElementById('announcementContent').textContent = content;
-        document.getElementById('startDate').textContent = startDate;
-        document.getElementById('endDate').textContent = endDate;
-    });
+    toggleDocumentField();
 });
-// End of Carousel JS
 
 var win = navigator.platform.indexOf('Win') > -1;
 if (win && document.querySelector('#sidenav-scrollbar')) {
