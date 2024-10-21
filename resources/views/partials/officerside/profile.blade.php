@@ -141,7 +141,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
+                                                    
                                                     <!-- View Profile Section -->
                                                     <div class="card-body">
                                                         <!-- Profile Information -->
@@ -157,7 +157,7 @@
                                                                 </div>
                                                                 <div class="col-md-10">
                                                                     <label for="full_name" class="form-label" style="margin-left: 20px;">NAMA PENUH</label>
-                                                                    <p class="form-control" id="full_name" style="margin-left: 20px;">{{ Auth::user()->name }}</p>
+                                                                    <p class="form-control" id="full_name" style="margin-left: 20px;">{{ Auth::user()->fullname }}</p>
                                                                 </div>
                                                             </div>
 
@@ -172,6 +172,7 @@
                                                                     <p class="form-control" id="email">{{ Auth::user()->email }}</p>
                                                                 </div>
                                                             </div>
+
                                                             <div class="row mt-3">
                                                                 <div class="col-md-6">
                                                                     <label for="ic" class="form-label">NO K/P</label>
@@ -182,6 +183,7 @@
                                                                     <p class="form-control" id="phone_number">{{ Auth::user()->phone_number }}</p>
                                                                 </div>
                                                             </div>
+                                                        
 
                                                             <!-- Address -->
                                                             <h5 class="mt-4">MAKLUMAT TEMPAT TINGGAL</h5>
@@ -206,9 +208,9 @@
                                                                 </div>
                                                             </div>
 
-                                                            {{-- Pekerjaan --}}
-                                                            <h5 class="mt-4">MAKLUMAT PEKERJAAN</h5>
-                                                            <div class="row mt-3">
+                                                             <!-- Job Status -->
+                                                             <h5 class="mt-4">MAKLUMAT PEKERJAAN</h5>
+                                                             <div class="row mt-3">
                                                                 <div class="col-md-4">
                                                                     <label for="role" class="form-label">PERANAN</label>
                                                                     <p class="form-control" id="role">
@@ -222,47 +224,49 @@
                                                                         {{ $roleMapping[Auth::user()->role] ?? Auth::user()->role }}
                                                                     </p>
                                                                 </div>
+                                                                 <div class="col-md-4">
+                                                                     <label for="assigned_officer" class="form-label">KETUA BAHAGIAN</label>
+                                                                     <p class="form-control" id="assigned_officer">
+                                                                         {{ Auth::user()->officer ? Auth::user()->officer->name : 'Tiada Penyelia' }}
+                                                                     </p>
+                                                                 </div>
+                                                                 <div class="col-md-4">
+                                                                     <label for="job_status" class="form-label">STATUS PEKERJAAN</label>
+                                                                     <p class="form-control" id="job_status">
+                                                                         @php
+                                                                             $roleMapping = [
+                                                                                 'Contract' => 'Kontrak',
+                                                                                 'Permenant' => 'Tetap',
+                                                                             ];
+                                                                         @endphp
+                                                                         {{ $roleMapping[Auth::user()->job_status] ?? Auth::user()->job_status }}
+                                                                     </p>
+                                                                 </div>
+                                                                 <div class="col-md-4">
+                                                                     <label for="mc_days" class="form-label">JUMLAH CUTI</label>
+                                                                     <p class="form-control" id="mc_days">{{ Auth::user()->total_mc_days }}</p>
+                                                                 </div>
+                                                                 <div class="col-md-4">
+                                                                     <label for="mc_days" class="form-label">CUTI TAHUNAN</label>
+                                                                     <p class="form-control" id="mc_days">{{ Auth::user()->total_annual }}</p>
+                                                                 </div>
+                                                                 <div class="col-md-4">
+                                                                     <label for="mc_days" class="form-label">CUTI LAIN-LAIN</label>
+                                                                     <p class="form-control" id="mc_days">{{ Auth::user()->total_others }}</p>
+                                                                 </div>
+                                                             </div>
 
-                                                                <div class="col-md-4">
-                                                                    <label for="job_status" class="form-label">STATUS PEKERJAAN</label>
-                                                                    <p class="form-control" id="job_status">
-                                                                        @php
-                                                                            $roleMapping = [
-                                                                                'Contract' => 'Kontrak',
-                                                                                'Permenant' => 'Tetap',
-                                                                            ];
-                                                                        @endphp
-                                                                        {{ $roleMapping[Auth::user()->job_status] ?? Auth::user()->job_status }}
-                                                                    </p>
-                                                                </div>
-                                                                <div class="col-md-4">
-                                                                    <label for="role" class="form-label">KETUA BAHAGIAN</label>
-                                                                    <p class="form-control" id="assigned_officer">
-                                                                        {{ Auth::user()->officer ? Auth::user()->officer->name : 'Tiada Pegawai' }}
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row mt-3">
-                                                                <div class="col-md-4">
-                                                                    <label for="mc_days" class="form-label">CUTI MC</label>
-                                                                    <p class="form-control" id="mc_days">{{ Auth::user()->total_mc_days }}</p>
-                                                                </div>
-                                                                <div class="col-md-4">
-                                                                    <label for="mc_days" class="form-label">CUTI TAHUNAN</label>
-                                                                    <p class="form-control" id="mc_days">{{ Auth::user()->total_annual }}</p>
-                                                                </div>
-                                                                <div class="col-md-4">
-                                                                    <label for="mc_days" class="form-label">CUTI LAIN-LAIN</label>
-                                                                    <p class="form-control" id="mc_days">{{ Auth::user()->total_others }}</p>
-                                                                </div>
+                                                            
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
+
                                             </div>
-                                        </div>
+                                        </div>                                       
                                     </div>
                                 </div>
+                                
                             </div>
                         </div>
                     </div>

@@ -50,6 +50,14 @@ use App\Http\Controllers\Auth\LoginController;
             Route::delete('/admin/delete-announcement/{id}',        [AdminController::class, 'deleteAnnouncement'])->name('deleteAnnouncement');
 
 
+        // Note Management:
+            Route::get('/admin/notes',                               [AdminController::class, 'Notes'])->name('admin.notes');
+            Route::post('/admin/notes',                              [AdminController::class, 'storeNote'])->name('admin.storeNote');
+            Route::put('/admin/notes/{id}',                          [AdminController::class, 'updateNote'])->name('updateNote');
+            Route::delete('/admin/delete-note/{id}',                 [AdminController::class, 'deleteNote'])->name('deleteNote');
+
+
+
         // MC Application Approval (Admin Side):
             Route::get('/admin/mc-all-apply',                       [AdminController::class, 'showAllMcApplications'])->name('admin.mcAllApply');
         // Routes for approving or rejecting MC applications by both admins and officers.

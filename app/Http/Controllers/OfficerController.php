@@ -32,6 +32,7 @@ class OfficerController extends Controller
         return redirect()->back()->with('error', 'Status permohonan gagal dikemas kini!');
     }
 
+
     public function updateOwnDetails3(Request $request)
     {
         $user = Auth::user(); // Get the currently authenticated user
@@ -46,6 +47,7 @@ class OfficerController extends Controller
             'city' => 'nullable|string|max:255',
             'postcode' => 'nullable|string|max:10',
             'state' => 'nullable|string|max:255',
+            'fullname' => 'nullable|string|max:255',
             'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate profile image
         ]);
 
@@ -58,6 +60,7 @@ class OfficerController extends Controller
         $user->postcode = $request->postcode;
         $user->state = $request->state;
         $user->city = $request->city;
+        $user->fullname = $request->fullname;
 
         // Handle profile image upload
         if ($request->hasFile('profile_image')) {

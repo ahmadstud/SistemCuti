@@ -63,7 +63,7 @@
                                                         <div class="d-flex justify-content-between">
                                                             <h4 class="mb-2"></h4>
 
-                                                            <!-- Add MC Application Modal -->
+                                                            <!-- Add MC Application Button -->
                                                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcApplicationModal">
                                                                 Memohon Surat Cuti
                                                             </button>
@@ -92,15 +92,17 @@
                                                                             </div>
                                                                         </div>
 
-                                                                        <!-- Leave Type Selection -->
+                                                                       <!-- Leave Type Selection -->
                                                                         <div class="col-md-12 mb-3">
                                                                             <label for="leave_type" class="form-label">Jenis Cuti<span class="text-danger">*</span></label>
                                                                             <select class="form-control" id="leave_type" name="leave_type" required>
+                                                                                <option value="" selected disabled>Pilih Jenis Cuti</option>
                                                                                 <option value="mc">Cuti Sakit (MC)</option>
                                                                                 <option value="annual">Cuti Tahunan</option>
                                                                                 <option value="other">Lain-lain</option>
                                                                             </select>
                                                                         </div>
+
 
                                                                         <div class="col-md-12 mb-3">
                                                                             <label for="document_path" class="form-label">Dokumen MC<span class="text-danger">*</span></label>
@@ -138,8 +140,9 @@
                                                                             <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
                                                                             <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH AKHIR</th>
                                                                             <th style="width: 20%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
-                                                                            <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN</th>
-                                                                            <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS</th>
+                                                                            <th style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN</th>
+                                                                            <th style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS</th>
+                                                                            <th style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">KEPUTUSAN</th>
                                                                             <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
                                                                         </tr>
                                                                     </thead>
@@ -159,8 +162,9 @@
                                                                             <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
                                                                             <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH TAMAT</th>
                                                                             <th style="width: 20%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
-                                                                            <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN</th>
-                                                                            <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS</th>
+                                                                            <th style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN</th>
+                                                                            <th style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS</th>
+                                                                            <th style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">KEPUTUSAN</th>
                                                                             <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
                                                                         </tr>
                                                                     </thead>
@@ -195,6 +199,15 @@
                                                                                                 <span>Tidak Ada Dokumen</span>
                                                                                             @endif
                                                                                         </p>
+                                                                                    </td>
+                                                                                    <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                        @if($mcApplication->leave_type == 'mc')
+                                                                                            <span class="badge bg-success">Cuti Sakit</span>
+                                                                                        @elseif($mcApplication->leave_type == 'annual')
+                                                                                            <span class="badge bg-success">Cuti Tahunan</span>
+                                                                                        @else
+                                                                                            <span class="badge bg-success">Cuti Lain2</span>
+                                                                                        @endif
                                                                                     </td>
                                                                                     <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                         @if($mcApplication->admin_approved && $mcApplication->officer_approved)
@@ -309,8 +322,7 @@
                     </div>
                 </div>
             </div>
-        </main> 
-        <!-- Closing main-content -->
+        </main> <!-- Closing main-content -->
 
         <!-- Core JS Files -->
         <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
@@ -320,11 +332,28 @@
         <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
         <!-- Most Important JS Files -->
         <script src="{{ asset('js/app.js') }}"></script>
+
         <!-- Github buttons -->
         <script async defer src="https://buttons.github.io/buttons.js"></script>
         <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
         <script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.0.4') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+        <script>
+            @if(session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berjaya!',
+                    text: "{{ session('success') }}",
+                    confirmButtonText: 'OK'
+                });
+            @elseif(session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ralat!',
+                    text: "{{ session('error') }}",
+                    confirmButtonText: 'OK'
+                });
+            @endif
+        </script>
     </body>
 </html>

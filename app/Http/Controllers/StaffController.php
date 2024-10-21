@@ -17,6 +17,7 @@ class StaffController extends Controller
 
     public function storeMcApplication(Request $request)
     {
+
         // Validate the form input
         $validatedData = $request->validate([
             'start_date' => 'required|date',
@@ -35,15 +36,16 @@ class StaffController extends Controller
         // Check if user has enough leave days left for the selected leave type
         $user = Auth::user();
         if ($request->leave_type === 'mc' && $user->total_mc_days < $daysRequested) {
-            return redirect()->back()->with('error', 'Insufficient MC days available!');
+            return redirect()->back()->with('error', 'Hari MC tidak mencukupi!!');
         } elseif ($request->leave_type === 'annual' && $user->total_annual < $daysRequested) {
-            return redirect()->back()->with('error', 'Insufficient Annual leave days available!');
+            return redirect()->back()->with('error', 'Cuti Tahunan tidak mencukupu!');
         } elseif ($request->leave_type === 'other' && $user->total_others < $daysRequested) {
-            return redirect()->back()->with('error', 'Insufficient Other leave days available!');
+            return redirect()->back()->with('error', 'Cuti lain-lain tidak mencukupi!');
         }
 
         // Handle file upload
         $documentPath = $request->file('document_path')->store('mc_documents', 'public');
+        
 
         try {
             // Create the MC application
@@ -71,10 +73,11 @@ class StaffController extends Controller
             // Save the updated user information
             $user->save();
 
-            return redirect()->back()->with('success', 'MC application submitted successfully!');
+
+            return redirect()->back()->with('success', 'Permohonan Cuti telah dihantar!');
         } catch (\Exception $e) {
             Log::error('Error Creating MC Application:', ['message' => $e->getMessage()]);
-            return redirect()->back()->with('error', 'Failed to submit MC application. Please try again.');
+            return redirect()->back()->with('error', 'Gagal menghantar permohonan MC. Sila cuba lagi.');
         }
     }
 
@@ -92,6 +95,7 @@ class StaffController extends Controller
             'city' => 'nullable|string|max:255',
             'postcode' => 'nullable|string|max:10',
             'state' => 'nullable|string|max:255',
+            'fullname' => 'nullable|string|max:255',
             'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation for profile image
 
         ]);
@@ -105,6 +109,7 @@ class StaffController extends Controller
         $user->postcode = $request->postcode;
         $user->state = $request->state;
         $user->city = $request->city;
+        $user->fullname = $request->fullname;
 
          // Handle profile image upload
          if ($request->hasFile('profile_image')) {
@@ -120,7 +125,8 @@ class StaffController extends Controller
         $user->save();
 
         // Redirect with success message
-        return redirect()->back()->with('success', 'Your details have been updated successfully!');
+        return redirect()->back()->with('success', 'Maklumat diri anda telah dikemaskini!');
+        return redirect()->back()->with('error', 'Maklumat diri anda gagak dikemaskini');
     }
 
 
@@ -130,7 +136,8 @@ class StaffController extends Controller
         $mcApplications = McApplication::findOrFail($id);
         $mcApplications->delete(); // Delete the user
 
-        return redirect()->back()->with('success', 'MC Application deleted !');
+        return redirect()->back()->with('success', 'Permohonan Cuti telah berjaya dihapuskan!');
+        return redirect()->back()->with('error', 'Permohonan Cuti telah gagal dihapuskan!');
     }
 
 
@@ -157,7 +164,7 @@ class StaffController extends Controller
         // Check if user has enough MC days left
         $user = Auth::user();
         if ($user->total_mc_days < $daysRequested) {
-            return redirect()->back()->with('error', 'Insufficient MC days available!');
+            return redirect()->back()->with('error', 'Hari MC tidak mencukupi!!');
         }
 
         // Update MC application fields
@@ -191,7 +198,8 @@ class StaffController extends Controller
         // Save changes to the database
         $mcApplication->save();
 
-        return redirect()->back()->with('success', 'MC application updated successfully!');
+        return redirect()->back()->with('success', 'Permohonan Cuti telah dikemas kini!');
+        return redirect()->back()->with('error', 'Permohonan Cuti gagal dikemas kini!');
     }
 
     public function dashboard()
@@ -245,6 +253,7 @@ class StaffController extends Controller
 
         // Redirect with success message
         return redirect()->back()->with('success', 'Kata laluan anda telah berjaya dikemas kini!');
+        return redirect()->back()->with('error', 'Kata laluan anda telah gagal dikemas kini!');
     }
 
 

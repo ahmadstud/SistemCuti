@@ -140,24 +140,30 @@
                                                                                     @endif
                                                                                 </td>
                                                                                 <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                    
-                                                                                    <!-- Accept or Reject Buttons -->
-                                                                                    <form action="{{ route('officer.updateStatus',['id' => $application->id]) }}" method="POST" class="approve-form">
+                                                                                    <!-- Approve Form -->
+                                                                                    <form action="{{ route('officer.updateStatus',['id' => $application->id]) }}" method="POST" class="approve-form" style="display: inline-block;">
                                                                                         @csrf
+                                                                                        <!-- Approve Button -->
                                                                                         <button type="submit" name="status" value="approved_by_officer" class="btn btn-success">
-                                                                                            <i class="fas fa-check"></i> <!-- Right symbol -->
+                                                                                            <i class="fas fa-check"></i>
                                                                                         </button>
+                                                                                    </form>
+                                                                                
+                                                                                    <!-- Reject Form -->
+                                                                                    <form action="{{ route('officer.updateStatus', ['id' => $application->id]) }}" method="POST" class="approve-form" style="display: inline-block;">
+                                                                                        @csrf
+                                                                                        <!-- Reject Button -->
                                                                                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectionReasonModal">
-                                                                                            <i class="fas fa-times"></i> <!-- Reject symbol -->
+                                                                                            <i class="fas fa-times"></i>
                                                                                         </button>
-
+                                                                                
                                                                                         <!-- Rejection Reason Modal -->
                                                                                         <div class="modal fade" id="rejectionReasonModal" tabindex="-1" role="dialog" aria-labelledby="rejectionReasonModalLabel" aria-hidden="true">
                                                                                             <div class="modal-dialog" role="document">
                                                                                                 <div class="modal-content">
                                                                                                     <div class="modal-header">
                                                                                                         <h5 class="modal-title" id="rejectionReasonModalLabel">Alasan Penolakan</h5>
-                                                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                                        <button type="button" class="close" data-dismiss="modal" >
                                                                                                             <span aria-hidden="true">&times;</span>
                                                                                                         </button>
                                                                                                     </div>
@@ -167,16 +173,15 @@
                                                                                                     </div>
                                                                                                     <div class="modal-footer">
                                                                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                                                                                        <button type="submit" name="status" value="rejected" class="btn btn-danger">
-                                                                                                            Hantar Tolakan
-                                                                                                        </button>
+                                                                                                        <button type="submit" name="status" value="rejected" class="btn btn-danger">Hantar Tolakan</button>
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
-
                                                                                     </form>
                                                                                 </td>
+                                                                                
+                                                                                
                                                                             </tr>
                                                                         @endforeach
                                                                     </tbody>

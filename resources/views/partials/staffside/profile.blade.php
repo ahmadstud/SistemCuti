@@ -81,10 +81,14 @@
                                                                         <form action="{{ route('updateOwnDetails2') }}" method="POST" enctype="multipart/form-data">
                                                                             @csrf
                                                                             <!-- Profile Image Upload -->
-                                                                        <div class="mb-3">
-                                                                            <label for="profile_image" class="form-label">Muat Naik Gambar Profil<span class="text-danger">*</span></label>
-                                                                            <input type="file" class="form-control" id="profile_image" name="profile_image">
-                                                                        </div>
+                                                                            <div class="mb-3">
+                                                                                <label for="profile_image" class="form-label">Muat Naik Gambar Profil<span class="text-danger">*</span></label>
+                                                                                <input type="file" class="form-control" id="profile_image" name="profile_image">
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label for="fullname" class="form-label">NAMA PENUH<span class="text-danger">*</span></label>
+                                                                                <input type="text" class="form-control" id="fullname" name="fullname" value="{{ Auth::user()->fullname }}">
+                                                                            </div>
                                                                             <!-- Profile Information -->
                                                                             <h5 class="mt-4">MAKLUMAT DIRI</h5>
                                                                             <div class="row">
@@ -153,9 +157,9 @@
                                                                         <img src="{{ asset('storage/profile_image/default.jpg') }}" alt="Default Profile Image" class="rounded-circle" width="120" height="120">
                                                                     @endif
                                                                 </div>
-                                                                <div class="col-md-10">
-                                                                    <label for="full_name" class="form-label" style="margin-left: 20px;">NAMA PENUH</label>
-                                                                    <p class="form-control" id="full_name" style="margin-left: 20px;">{{ Auth::user()->name }}</p>
+                                                                <div class="col-md-6">
+                                                                    <label for="fullname" class="form-label">NAMA PENUH<span class="text-danger">*</span></label>
+                                                                    <input type="text" class="form-control" id="fullname" name="fullname" value="{{ Auth::user()->fullname }}">
                                                                 </div>
                                                             </div>
 
@@ -258,13 +262,15 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
 
+
+
+                                        
+                                       
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
             </main> <!-- Closing main-content -->
 
             <!-- Core JS Files -->
@@ -282,5 +288,23 @@
             <script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.0.4') }}"></script>
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+
+            <script>
+                @if(session('success'))
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berjaya!',
+                        text: "{{ session('success') }}",
+                        confirmButtonText: 'OK'
+                    });
+                @elseif(session('error'))
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ralat!',
+                        text: "{{ session('error') }}",
+                        confirmButtonText: 'OK'
+                    });
+                @endif
+            </script>
     </body>
 </html>

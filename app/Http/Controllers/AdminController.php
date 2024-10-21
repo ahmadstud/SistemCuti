@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use App\Models\Announcement;
 use App\Models\McApplication;
+use App\Models\Note;
 use App\Models\Staff;
 use App\Models\User; // <-- Import the User model
 use Carbon\Carbon;
@@ -97,8 +98,13 @@ class AdminController extends Controller
             ->get();
 
         $officers = User::where('role', 'officer')->get();
+
         // Annoucement
         $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
+        // Notes
+        $notes = Note::all(); // Adjust as necessary to fetch your notes
+        
+
         $totalMcApplications = McApplication::count();
         $acceptedMcApplications = McApplication::where('status', 'approved')->count();
         $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
@@ -133,6 +139,7 @@ class AdminController extends Controller
             'acceptedMcApplications',
             'rejectedMcApplications',
             'announcements',
+            'notes',
             'allApplications',
             'staffOnLeaveToday',
             'leaveCountsByMonth',
@@ -145,7 +152,7 @@ class AdminController extends Controller
 
 
 
-// PENGURUSAN ROUTES
+// PENGUMUMAN ROUTES
     public function Annoucement()
     {
         // Fetch all announcements without filtering by user
@@ -239,6 +246,57 @@ class AdminController extends Controller
         // return redirect()->back()->with('success', 'Announcement created successfully.');
     }
     
+//NOTA ROUTES
+    // Fetch all notes
+    public function Notes()
+    {
+        $notes = Note::all(); // Retrieve all notes
+        return view('admin.notes.index', compact('notes')); // Pass the notes to the view
+    }
+    
+    // Store a new note
+    public function storeNote(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+        ]);
+
+        Note::create([
+            'title' => $request->title,
+            'content' => $request->content,
+        ]);
+
+        return redirect()->route('admin.notes')->with('success', 'Note created successfully.');
+    }
+
+    // Update an existing note
+    public function updateNote(Request $request, $id)
+    {
+        $note = Note::findOrFail($id); // Find note or fail
+
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+        ]);
+
+        $note->update([
+            'title' => $request->title,
+            'content' => $request->content,
+        ]);
+
+        return redirect()->route('admin.notes')->with('success', 'Note updated successfully.');
+    }
+
+    // Delete a note
+    public function deleteNote($id)
+    {
+        $note = Note::findOrFail($id); // Find note or fail
+        $note->delete();
+
+        return redirect()->route('admin.notes')->with('success', 'Note deleted successfully.');
+    }
+
 
 
 
@@ -312,6 +370,7 @@ class AdminController extends Controller
         'city' => 'required|string',
         'postcode' => 'required|string',
         'state' => 'required|string',
+        'fullname' => 'nullable|string|max:255',
         ]);
 
         // Update user information
@@ -330,6 +389,7 @@ class AdminController extends Controller
             'total_mc_days' => $request->total_mc_days, // Ensure this matches the input name
             'total_annual' => $request->total_annual, // Ensure this matches the input name
             'total_others' => $request->total_others, // Ensure this matches the input name
+            'fullname' => $request->fullname, // Added fullname update
         ]);
 
         // Redirect with success message
@@ -366,6 +426,7 @@ class AdminController extends Controller
             'total_annual' => 'required|integer|min:0',
             'total_others' => 'required|integer|min:0',
             'selected_officer_id' => 'nullable|integer', // Add this line to validate officer selection
+            'fullname' => 'nullable|string|max:255', // Added fullname validation
         ]);
     
         // Create the new user
@@ -385,6 +446,7 @@ class AdminController extends Controller
             'postcode' => $request->postcode,
             'state' => $request->state,
             'selected_officer_id' => $request->selected_officer_id, // Save selected officer ID here
+            'fullname' => $request->fullname, // Added fullname field
         ]);
     
         // Redirect back to admin with a success message
@@ -572,6 +634,7 @@ class AdminController extends Controller
             'postcode' => 'nullable|string|max:10',
             'state' => 'nullable|string|max:255',
             'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation for profile image
+            'fullname' => 'nullable|string|max:255',
         ]);
 
         // Update user details
@@ -583,6 +646,7 @@ class AdminController extends Controller
         $user->city = $request->city;
         $user->postcode = $request->postcode;
         $user->state = $request->state;
+        $user->fullname = $request->fullname;
 
             // Handle profile image upload
             if ($request->hasFile('profile_image')) {

@@ -33,6 +33,7 @@ class User extends Authenticatable
        'job_status',
        'profile_image',
        'selected_officer_id',
+       'fullname'
     ];
 
     /**
