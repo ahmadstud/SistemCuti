@@ -114,14 +114,13 @@ use App\Http\Controllers\Auth\LoginController;
         // Route for updating own details
         Route::post('/officer/update-details',                [OfficerController::class, 'updateOwnDetails3'])->name('updateOwnDetails3');
 
-        Route::post('/change-password', [OfficerController::class, 'changePassword'])->name('changePassword');
-
         // Routes for officers
         Route::prefix('officer')->name('officer.')->group(function () {
             Route::get('/profile', [OfficerController::class, 'profile'])->name('profile');
             Route::get('/password', [OfficerController::class, 'password'])->name('password');
             Route::get('/mc_application', [OfficerController::class, 'McApply'])->name('mc_application');
             Route::get('/mc_approve', [OfficerController::class, 'McApprove'])->name('mc_approve');
+            Route::post('/change-password', [OfficerController::class, 'changePassword'])->name('changePassword');
         });
 
 // STAFF ROUTES
@@ -143,8 +142,6 @@ use App\Http\Controllers\Auth\LoginController;
         // Edit the mc application if any changes
         Route::post('/staff/mc-application/edit/{id}',         [StaffController::class, 'editMC'])->name('staff.mc.edit');
 
-        Route::post('/change-password', [StaffController::class, 'changePassword2'])->name('changePassword2');
-
         // Route for updating own details
         Route::post('/staff/update-details',                   [StaffController::class, 'updateOwnDetails2'])->name('updateOwnDetails2');
 
@@ -153,6 +150,7 @@ use App\Http\Controllers\Auth\LoginController;
         Route::get('/profile', [StaffController::class, 'profile'])->name('profile');
         Route::get('/password', [StaffController::class, 'password'])->name('password');
         Route::get('/mc_application', [StaffController::class, 'McApply'])->name('mc_application');
+        Route::post('/change-password', [StaffController::class, 'changePassword'])->name('changePassword');
     });
 
 

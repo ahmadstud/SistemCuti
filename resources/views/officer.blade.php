@@ -34,7 +34,7 @@
 
 
 <body class="g-sidenav-show bg-gray-100">
-    <div class="min-height-500 bg-primary position-absolute w-100"></div>
+    <div class="min-height-500 position-absolute w-100" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-position: top;"></div>
     @include('partials.officerside.aside')
 
     <main class="main-content position-relative border-radius-lg">
@@ -135,8 +135,79 @@
                         </div>
                     </div>
 
-                    {{-- Card Nota --}}
-                    <div class="col-lg-4 mb-lg-0 mb-4">
+                   {{-- Card Senarai Staff Cuti Harian --}}
+                   <div class="col-lg-4 mb-lg-0 mb-4">
+                    <div class="card z-index-2 h-100">
+                        <div class="card-header pb-0 pt-3 bg-transparent">
+                            <h4 class="text-capitalize">SENARAI STAFF CUTI HARIAN</h4>
+                            <p class="text-sm mb-0">
+                                <i class="fa fa-arrow-up text-success"></i>
+                                <span class="font-weight-bold">pada </span>{{ now()->format('d F Y') }}
+                            </p>
+                        </div>
+                        <div class="card-body pt-4 p-3">
+                            <ul class="list-group" id="leaveList">
+                                @if($staffOnLeaveToday->isEmpty())
+                                    <li class="list-group-item">Tiada staff yang cuti hari ini.</li>
+                                @else
+                                    @foreach($staffOnLeaveToday as $leave)
+                                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                            <div class="d-flex align-items-center">
+                                                <!-- Icon button -->
+                                                <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-arrow-down"></i>
+                                                </button>
+                                                <div class="d-flex flex-column">
+                                                    <!-- Staff name and leave dates -->
+                                                    <h6 class="mb-1 text-dark text-md">{{ $leave->user->name }}</h6>
+                                                    <span class="text-xs">Cuti sehingga {{ \Carbon\Carbon::parse($leave->end_date)->format('d F Y') }}</span>
+                                                </div>
+                                            </div>
+                                            <!-- Display leave balance based on leave type -->
+                                            <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
+                                                @if($leave->leave_type == 'mc')
+                                                    Baki cuti Sakit: {{ $leave->total_mc_days }}
+                                                @elseif($leave->leave_type == 'annual')
+                                                    Baki cuti Tahunan: {{ $leave->total_annual }}
+                                                @else
+                                                    Baki cuti Lain-lain: {{ $leave->total_others }}
+                                                @endif
+                                            </div>
+                                        </li>
+                                    @endforeach
+                                @endif
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                </div>
+            </div>
+
+            {{-- Second Row --}}
+            <div class="container-fluid py-2">
+                <div class="row ">
+
+                    {{-- Card Purata Ketidakhadiran --}}
+                    <div class="col-lg-7 mb-lg-0 mb-4">
+                        <div class="card z-index-2 h-100">
+                            <div class="card-header pb-0 pt-3 bg-transparent">
+                                <h4 class="text-capitalize">PURATA KETIDAKHADIRAN</h4>
+                                <p class="text-sm mb-0">
+                                    <i class="fa fa-arrow-up text-success"></i>
+                                    <span class="font-weight-bold">4% more</span> in 2021
+                                </p>
+                            </div>
+                            <div class="card-body p-3">
+                                <div class="chart">
+                                    <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                      {{-- Card Nota --}}
+                      <div class="col-lg-4 mb-lg-0 mb-4">
                         <div class="card z-index-2 h-100">
                             <div class="card-header pb-0 pt-3 bg-transparent">
                                 <h4 class="text-capitalize">NOTA</h4>
@@ -216,75 +287,6 @@
                             </div>
                         </div>
                     </div>
-
-                </div>
-            </div>
-
-            {{-- Second Row --}}
-            <div class="container-fluid py-2">
-                <div class="row ">
-
-                    {{-- Card Purata Ketidakhadiran --}}
-                    <div class="col-lg-7 mb-lg-0 mb-4">
-                        <div class="card z-index-2 h-100">
-                            <div class="card-header pb-0 pt-3 bg-transparent">
-                                <h4 class="text-capitalize">PURATA KETIDAKHADIRAN</h4>
-                                <p class="text-sm mb-0">
-                                    <i class="fa fa-arrow-up text-success"></i>
-                                    <span class="font-weight-bold">4% more</span> in 2021
-                                </p>
-                            </div>
-                            <div class="card-body p-3">
-                                <div class="chart">
-                                    <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                    {{-- Card Senarai Staff Cuti Harian --}}
-                    <div class="col-lg-5 mb-lg-0 mb-4">
-                        <div class="card z-index-2 h-100">
-                            <div class="card-header pb-0 pt-3 bg-transparent">
-                                <h4 class="text-capitalize">SENARAI STAFF CUTI HARIAN</h4>
-                                <p class="text-sm mb-0">
-                                    <i class="fa fa-arrow-up text-success"></i>
-                                    <span class="font-weight-bold">pada </span>{{ now()->format('d F Y') }}
-                                </p>
-                            </div>
-                            <div class="card-body pt-4 p-3">
-                                <ul class="list-group" id="leaveList">
-                                    @if($staffOnLeaveToday->isEmpty())
-                                        <li class="list-group-item">Tiada staff yang cuti hari ini.</li>
-                                    @else
-                                        @foreach($staffOnLeaveToday as $leave)
-                                            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                                <div class="d-flex align-items-center">
-                                                    <!-- Icon button -->
-                                                    <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
-                                                        <i class="fas fa-arrow-down"></i>
-                                                    </button>
-                                                    <div class="d-flex flex-column">
-                                                        <!-- Staff name and leave dates -->
-                                                        <h6 class="mb-1 text-dark text-md">{{ $leave->user->name }}</h6>
-                                                        <span class="text-xs">Cuti sehingga {{ \Carbon\Carbon::parse($leave->end_date)->format('d F Y') }}</span>
-                                                    </div>
-                                                </div>
-                                                <!-- Optionally, you can add more info here, like leave days used, etc. -->
-                                                <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                                                    MC Days: {{ $leave->mc_days }} <!-- or any other detail you'd like to display -->
-                                                </div>
-                                            </li>
-                                        @endforeach
-                                    @endif
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-
 
                 </div>
             </div>

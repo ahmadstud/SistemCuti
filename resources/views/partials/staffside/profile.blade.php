@@ -35,7 +35,7 @@
 <body class="g-sidenav-show bg-gray-100">
 
 
-    <div class="min-height-500 bg-primary position-absolute w-100"></div>
+    <div class="min-height-500 position-absolute w-100" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-position: top;"></div>
                 @include('partials.staffside.aside')
 
     <main class="main-content position-relative border-radius-lg">

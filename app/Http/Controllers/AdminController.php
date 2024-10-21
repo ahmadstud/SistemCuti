@@ -89,12 +89,15 @@ class AdminController extends Controller
         // Get today's date
         $today = now()->toDateString();
 
-        // Get the list of staff on MC today
-        $staffOnLeaveToday = McApplication::with('user')
-            ->where('start_date', '<=', $today)
-            ->where('end_date', '>=', $today)
-            ->where('status', 'approved') // Assuming you have a status column to check for approval
-            ->get();
+       // Get the list of staff on MC today along with their total_mc_days from users table
+        $staffOnLeaveToday = McApplication::with('user') // Assuming there's a 'user' relationship in McApplication model
+        ->join('users', 'mc_applications.user_id', '=', 'users.id') // Join the users table
+        ->where('mc_applications.start_date', '<=', $today)
+        ->where('mc_applications.end_date', '>=', $today)
+        ->where('mc_applications.status', 'approved') // Assuming you have a status column to check for approval
+        ->select('mc_applications.*', 'users.total_mc_days', 'users.total_annual', 'users.total_others') // Select fields from both tables
+        ->get();
+
 
         $officers = User::where('role', 'officer')->get();
         // Annoucement
@@ -164,7 +167,7 @@ class AdminController extends Controller
     public function updateAnnouncement(Request $request, $id)
     {
         $announcement = Announcement::findOrFail($id);
-    
+
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
@@ -172,45 +175,45 @@ class AdminController extends Controller
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
         ]);
-    
+
         $announcement->title = $request->title;
         $announcement->content = $request->content;
-        $announcement->start_date = $request->start_date; 
+        $announcement->start_date = $request->start_date;
         $announcement->end_date = $request->end_date;
-    
+
         if ($request->hasFile('image_path')) {
             if ($announcement->image_path && Storage::exists('public/' . $announcement->image_path)) {
                 Storage::delete('public/' . $announcement->image_path);
             }
-    
+
             $imageName = time() . '.' . $request->image_path->extension();
             $request->image_path->storeAs('public/announcements', $imageName);
             $announcement->image_path = 'announcements/' . $imageName;
         }
-    
+
         $announcement->save();
-    
+
         return redirect()->route('admin.annoucement')->with('success', 'Pengumuman berjaya dikemaskini!!');
 
         // return redirect()->back()->with('success', 'Announcement updated successfully!');
     }
-    
+
     public function deleteAnnouncement($id)
     {
         $announcement = Announcement::findOrFail($id);
-    
+
         if ($announcement->image_path && Storage::exists('public/announcements/' . $announcement->image_path)) {
             Storage::delete('public/announcements/' . $announcement->image_path);
         }
-    
+
         $announcement->delete();
-    
+
         return redirect()->route('admin.annoucement')->with('success', 'Pengumuman berjaya dipadam!');
 
         // Redirect back with success message
         // return redirect()->back()->with('success', 'Announcement deleted successfully!');
     }
-    
+
     public function storeAnnouncement(Request $request)
     {
         $request->validate([
@@ -220,12 +223,12 @@ class AdminController extends Controller
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
         ]);
-    
+
         $imagePath = null;
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('announcements', 'public');
         }
-    
+
         Announcement::create([
             'title' => $request->title,
             'content' => $request->content,
@@ -233,17 +236,17 @@ class AdminController extends Controller
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
         ]);
-    
+
         return redirect()->route('admin.annoucement')->with('success', 'Pengumuman berjaya disimpan!');
 
         // return redirect()->back()->with('success', 'Announcement created successfully.');
     }
-    
 
 
 
 
-    
+
+
 // SENARAI PEKERJA ROUTES
     public function staffList(Request $request)
     {
@@ -367,7 +370,7 @@ class AdminController extends Controller
             'total_others' => 'required|integer|min:0',
             'selected_officer_id' => 'nullable|integer', // Add this line to validate officer selection
         ]);
-    
+
         // Create the new user
         User::create([
             'name' => $request->name,
@@ -386,15 +389,11 @@ class AdminController extends Controller
             'state' => $request->state,
             'selected_officer_id' => $request->selected_officer_id, // Save selected officer ID here
         ]);
-    
+
         // Redirect back to admin with a success message
         // return redirect()->route('admin.stafflist')->with('success', 'Kakitangan/Pegawai baru berjaya ditambah!!');
         return redirect()->back()->with('success', 'New Staff/Officer added successfully!');
     }
-    
-
-
-
 
 // SENARAI KESELURUHAN PERMOHONAN ROUTES
     public function showAllMcApplications(Request $request)
@@ -534,12 +533,6 @@ class AdminController extends Controller
             'totalMcApplications', 'acceptedMcApplications', 'rejectedMcApplications'
         ));
     }
-
-
-
-
-
-    
 
 // PROFILE ROUTES
     public function showProfile()

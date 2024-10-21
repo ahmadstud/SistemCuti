@@ -220,12 +220,15 @@ class OfficerController extends Controller
     public function dashboard()
     {
          $today = now()->toDateString();
-         // Get the list of staff on MC today
-         $staffOnLeaveToday = McApplication::with('user')
-             ->where('start_date', '<=', $today)
-             ->where('end_date', '>=', $today)
-             ->where('status', 'approved') // Assuming you have a status column to check for approval
-             ->get();
+         // Get the list of staff on MC today along with their total_mc_days from users table
+         $staffOnLeaveToday = McApplication::with('user') // Assuming there's a 'user' relationship in McApplication model
+         ->join('users', 'mc_applications.user_id', '=', 'users.id') // Join the users table
+         ->where('mc_applications.start_date', '<=', $today)
+         ->where('mc_applications.end_date', '>=', $today)
+         ->where('mc_applications.status', 'approved') // Assuming you have a status column to check for approval
+         ->select('mc_applications.*', 'users.total_mc_days', 'users.total_annual', 'users.total_others') // Select fields from both tables
+         ->get();
+         
      $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
         return view('officer', compact('staffOnLeaveToday','announcements'));
     }

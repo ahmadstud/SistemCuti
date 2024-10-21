@@ -33,7 +33,7 @@
   </head>
 
 <body class="g-sidenav-show bg-gray-100">
-    <div class="min-height-500 bg-primary position-absolute w-100"></div>
+    <div class="min-height-500 position-absolute w-100" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-position: top;"></div>
                 @include('partials.staffside.aside')
 
     <main class="main-content position-relative border-radius-lg">
@@ -180,13 +180,16 @@
                                                     @endif
                                                 </td>
                                                 <td style="border: 1px solid #dee2e6; padding: 8px;">
-                                                    @if($mcApplication->leave_type == 'mc')
+                                                    @switch($mcApplication->leave_type)
+                                                    @case('mc')
                                                         <span class="badge bg-success">Cuti Sakit</span>
-                                                    @elseif($mcApplication->leave_type == 'annual')
+                                                        @break
+                                                    @case('annual')
                                                         <span class="badge bg-success">Cuti Tahunan</span>
-                                                    @else
-                                                        <span class="badge bg-success">Cuti Lain2</span>
-                                                    @endif
+                                                        @break
+                                                    @default
+                                                        <span class="badge bg-success">Cuti Lain-lain</span>
+                                                @endswitch
                                                 </td>
                                                 <td>
                                                     @if($mcApplication->admin_approved && $mcApplication->officer_approved)

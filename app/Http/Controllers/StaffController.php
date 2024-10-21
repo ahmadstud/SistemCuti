@@ -203,12 +203,15 @@ class StaffController extends Controller
     {
         // Get today's date
         $today = now()->toDateString();
-        // Get the list of staff on MC today
-        $staffOnLeaveToday = McApplication::with('user')
-            ->where('start_date', '<=', $today)
-            ->where('end_date', '>=', $today)
-            ->where('status', 'approved') // Assuming you have a status column to check for approval
-            ->get();
+        // Get the list of staff on MC today along with their total_mc_days from users table
+        $staffOnLeaveToday = McApplication::with('user') // Assuming there's a 'user' relationship in McApplication model
+        ->join('users', 'mc_applications.user_id', '=', 'users.id') // Join the users table
+        ->where('mc_applications.start_date', '<=', $today)
+        ->where('mc_applications.end_date', '>=', $today)
+        ->where('mc_applications.status', 'approved') // Assuming you have a status column to check for approval
+        ->select('mc_applications.*', 'users.total_mc_days', 'users.total_annual', 'users.total_others') // Select fields from both tables
+        ->get();
+
         $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
         $officers = User::where('role', 'Penyelia')->get(); // Fetch officers
          // Fetch total users excluding admins
@@ -233,7 +236,7 @@ class StaffController extends Controller
        return view('partials.staffside.mc_apply', compact('mcApplications'));
     }
 
-    public function changePassword2(Request $request)
+    public function changePassword(Request $request)
 {
     $user = Auth::user(); // Get the currently authenticated user
 
