@@ -395,6 +395,7 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'New Staff/Officer added successfully!');
     }
 
+
 // SENARAI KESELURUHAN PERMOHONAN ROUTES
     public function showAllMcApplications(Request $request)
     {
@@ -403,6 +404,7 @@ class AdminController extends Controller
         $startDateFilter = $request->input('start_date');
         $endDateFilter = $request->input('end_date');
         $roleFilter = $request->input('role');
+        $leave_typeFilter = $request->input('leave_type');
 
         // Prepare the query for all applications along with their user data
         $allApplicationsQuery = McApplication::with('user');
@@ -410,6 +412,10 @@ class AdminController extends Controller
         // Apply status filter if provided
         if ($statusFilter) {
             $allApplicationsQuery->where('status', $statusFilter);
+        }
+         // Apply status filter if provided
+         if ($leave_typeFilter) {
+            $allApplicationsQuery->where('leave_type', $leave_typeFilter);
         }
         // Join with users table and apply role filter if provided
     if ($roleFilter) {
@@ -449,10 +455,16 @@ class AdminController extends Controller
         $endDateFilter = $request->input('end_date');
 
         // Prepare the query for officer-approved applications that are still pending admin approval
-        $applicationsQuery = McApplication::join('users', 'mc_applications.user_id', '=', 'users.id')
-            ->select('mc_applications.*', 'users.name as user_name')
-            ->where('officer_approved', true)
-            ->where('admin_approved', false); // Pending admin approval
+        $applicationsQuery = McApplication::join('users as staff', 'mc_applications.user_id', '=', 'staff.id') // Join for staff (applicant)
+        ->leftJoin('users as officers', 'staff.selected_officer_id', '=', 'officers.id') // Join for officer based on selected_officer_id
+        ->select(
+            'mc_applications.*',
+            'staff.name as user_name', // Staff (applicant) name
+            'officers.name as officer_name' // Officer's name
+        )
+        ->where('mc_applications.officer_approved', true)
+        ->where('mc_applications.admin_approved', false); // Pending admin approval
+
 
         // Apply status filter if provided
         if ($statusFilter) {

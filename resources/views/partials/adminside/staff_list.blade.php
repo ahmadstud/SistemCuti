@@ -32,17 +32,17 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
 
-    </head>    
+    </head>
 
     <body class="g-sidenav-show bg-gray-100">
-        <div class="min-height-500 bg-primary position-absolute w-100"></div>
+        <div class="min-height-500 bg-primary position-absolute w-100" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-position: top;"></div>
                     @include('partials.adminside.aside')
 
         <main class="main-content position-relative border-radius-lg">
             <div class="container-fluid py-4">
                     {{-- @include('partials.logout')
                     @include('partials.adminside.mcdays') --}}
-    
+
                      @include('partials.logout')
                     @include('partials.adminside.mcdata')
 
@@ -279,7 +279,7 @@
                                                                                         <span class="text-danger">Tiada Penyelia ( {{ $user->selected_officer_id }})</span>
                                                                                     @endif
                                                                                 </p>
-                                                                                
+
                                                                             </td>
                                                                             <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                 @if($user->job_status == 'Permenant')
@@ -436,7 +436,7 @@
                                                                                     }
                                                                                 </script>
 
-                                                                                
+
                                                                             </td>
                                                                         </tr>
 

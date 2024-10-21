@@ -213,7 +213,7 @@ class StaffController extends Controller
         ->get();
 
         $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
-        $officers = User::where('role', 'Penyelia')->get(); // Fetch officers
+        $officer = User::where('role', 'officer')->get(); // Fetch officers
          // Fetch total users excluding admins
          $totalUsers = User::all();
         return view('staff',compact('announcements','staffOnLeaveToday','totalUsers','officers'));

@@ -34,7 +34,7 @@
     </head>
 
     <body class="g-sidenav-show bg-gray-100">
-        <div class="min-height-500 bg-primary position-absolute w-100"></div>
+        <div class="min-height-500 bg-primary position-absolute w-100" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-position: top;"></div>
                     @include('partials.adminside.aside')
 
         <main class="main-content position-relative border-radius-lg">
@@ -109,14 +109,13 @@
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                     <p class="text-m text-secondary">
                                                                                     @if($application->document_path)
-                                                                                        <a href="{{ asset($application->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</a>
-                                                                                    @else
+                                                                                    <a href="{{ Storage::url($application->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</a>                                                                                    @else
                                                                                         No Document
                                                                                     @endif
                                                                                     </p>
                                                                                 </td>
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                    {{ $application->officer_approved ? 'Yes' : 'No' }}
+                                                                                    {{ $application->officer_name ? $application->officer_name : 'Tiada Penyelia' }}
                                                                                 </td>
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                     @if($application->officer_approved && !$application->admin_approved)

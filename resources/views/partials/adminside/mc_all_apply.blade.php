@@ -34,7 +34,7 @@
     </head>
 
     <body class="g-sidenav-show bg-gray-100">
-        <div class="min-height-500 bg-primary position-absolute w-100"></div>
+        <div class="min-height-500 bg-primary position-absolute w-100" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-position: top;"></div>
                     @include('partials.adminside.aside')
 
         <main class="main-content position-relative border-radius-lg">
@@ -93,6 +93,15 @@
                                                                     </select>
                                                                 </div>
                                                                 <div class="col-md-2">
+                                                                    <label for="leave_typeFilter" class="form-label">Jenis Cuti</label>
+                                                                    <select name="leave_type" id="leave_typeFilter  "class="form-select">
+                                                                        <option value="">Semua Cuti</option>
+                                                                        <option value="mc">Sakit</option>
+                                                                        <option value="annual">Tahunan</option>
+                                                                        <option value="other">Lain-lain</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-md-2">
                                                                     <label for="start_date" class="form-label">Tarikh Mula</label>
                                                                     <input type="date" name="start_date" class="form-control" placeholder="Start Date">
                                                                 </div>
@@ -118,6 +127,7 @@
                                                                         <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH AKHIR</th>
                                                                         <th style="width: 20%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
                                                                         <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN RUJUKAN</th>
+                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
                                                                         <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">KEPUTUSAN</th>
                                                                     </tr>
                                                                 </thead>
@@ -154,6 +164,18 @@
                                                                                     No Document
                                                                                 @endif
                                                                                 </p>
+                                                                            </td>
+                                                                            <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                @switch($application->leave_type)
+                                                                                @case('mc')
+                                                                                    <span class="badge bg-success">Cuti Sakit</span>
+                                                                                    @break
+                                                                                @case('annual')
+                                                                                    <span class="badge bg-success">Cuti Tahunan</span>
+                                                                                    @break
+                                                                                @default
+                                                                                    <span class="badge bg-success">Cuti Lain-lain</span>
+                                                                            @endswitch
                                                                             </td>
                                                                             <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                 <p class="text-m text-secondary">
