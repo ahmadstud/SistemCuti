@@ -18,44 +18,47 @@ use Illuminate\Support\Facades\Storage;
 class AdminController extends Controller
 {
 
+//UTAMA
     public function dashboard(Request $request)
     {
+        // Get the current year and optionally the user-selected year
+        $currentYear = now()->year;
+        $year = $request->input('year', $currentYear); // Default to current year
+
+        // Generate a range of years, e.g., from 2020 to the current year + 1 (can adjust starting year as needed)
+        $yearRange = range(2020, $currentYear + 1);
+
         // Fetch total users excluding admins
         $totalUsers = User::where('role', '!=', 'admin')->count();
 
         // Fetch all users excluding admins
-        $users = User::where('role', '!=', 'admin');
+        $usersQuery = User::where('role', '!=', 'admin');
 
-       // Get filter inputs
+        // Get filter inputs from the request
         $statusFilter = $request->input('status');
         $startDateFilter = $request->input('start_date');
         $endDateFilter = $request->input('end_date');
         $roleFilter = $request->input('role'); // Get role filter input
         $jobStatusFilter = $request->input('job_status'); // Get job status filter input
 
-
-        // Apply role filter to users
+        // Apply filters to the users query
         if ($roleFilter) {
-            $users->where('role', $roleFilter);
+            $usersQuery->where('role', $roleFilter);
         }
-
-        // Apply job status filter to users
         if ($jobStatusFilter) {
-            $users->where('job_status', $jobStatusFilter);
+            $usersQuery->where('job_status', $jobStatusFilter);
         }
+        $users = $usersQuery->get(); // Get filtered users
 
-        $users = $users->get(); // Get filtered users
-
-
-        // Prepare the query for all applications along with their status (approved, rejected, or pending) and users
+        // Prepare the query for all applications along with their status (approved, rejected, or pending)
         $allApplicationsQuery = McApplication::with('user');
 
-        // Apply status filter
+        // Apply status filter to applications
         if ($statusFilter) {
             $allApplicationsQuery->where('status', $statusFilter);
         }
 
-        // Apply date filters
+        // Apply date filters to applications
         if ($startDateFilter) {
             $allApplicationsQuery->where('start_date', '>=', $startDateFilter);
         }
@@ -63,7 +66,7 @@ class AdminController extends Controller
             $allApplicationsQuery->where('end_date', '<=', $endDateFilter);
         }
 
-        // Apply role filter
+        // Apply role filter to applications
         if ($roleFilter) {
             $allApplicationsQuery->whereHas('user', function($query) use ($roleFilter) {
                 $query->where('role', $roleFilter);
@@ -71,68 +74,65 @@ class AdminController extends Controller
         }
 
         // Get the filtered applications
-        $allApplications = $allApplicationsQuery->get(); // Ensure this is called on the query builder
+        $allApplications = $allApplicationsQuery->get();
 
-         // Fetch MC applications approved by officers and still pending admin approval
-         $applications = McApplication::join('users', 'mc_applications.user_id', '=', 'users.id')
-         ->select('mc_applications.*', 'users.name as user_name') // Get all fields from mc_applications and the user's name and role
-         ->where('officer_approved', true)
-         ->where('admin_approved', false) // Add this condition if you only want pending admin approvals
-         ->get();
+        // Fetch MC applications approved by officers and still pending admin approval
+        $applications = McApplication::join('users', 'mc_applications.user_id', '=', 'users.id')
+            ->select('mc_applications.*', 'users.name as user_name') // Select fields from mc_applications and users
+            ->where('officer_approved', true)
+            ->where('admin_approved', false) // Only pending admin approvals
+            ->get();
 
         // Fetch direct admin approval applications
         $directAdminApplications = McApplication::where('direct_admin_approval', true)
-        ->where('admin_approved', false)  // Only fetch those not yet approved
-        ->where('status', 'pending')  // Only fetch those not yet approved
-        ->get();
-
+            ->where('admin_approved', false) // Only fetch those not yet approved
+            ->where('status', 'pending') // Only fetch pending approvals
+            ->get();
 
         // Get today's date
         $today = now()->toDateString();
 
-       // Get the list of staff on MC today along with their total_mc_days from users table
+        // Get the list of staff on MC today along with their total_mc_days from users table
         $staffOnLeaveToday = McApplication::with('user') // Assuming there's a 'user' relationship in McApplication model
-        ->join('users', 'mc_applications.user_id', '=', 'users.id') // Join the users table
-        ->where('mc_applications.start_date', '<=', $today)
-        ->where('mc_applications.end_date', '>=', $today)
-        ->where('mc_applications.status', 'approved') // Assuming you have a status column to check for approval
-        ->select('mc_applications.*', 'users.total_mc_days', 'users.total_annual', 'users.total_others') // Select fields from both tables
-        ->get();
+            ->join('users', 'mc_applications.user_id', '=', 'users.id') // Join users table
+            ->where('mc_applications.start_date', '<=', $today)
+            ->where('mc_applications.end_date', '>=', $today)
+            ->where('mc_applications.status', 'approved') // Check for approved status
+            ->select('mc_applications.*', 'users.total_mc_days', 'users.total_annual', 'users.total_others') // Select fields from both tables
+            ->get();
 
-
+        // Fetch all officers
         $officers = User::where('role', 'officer')->get();
 
-        // Annoucement
-        $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
-        // Notes
-        $notes = Note::all(); // Adjust as necessary to fetch your notes
+        // Fetch announcements and notes
+        $announcements = Announcement::all(); // Adjust as necessary to fetch announcements
+        $notes = Note::all(); // Adjust as necessary to fetch notes
 
-
+        // Count total MC applications and their statuses
         $totalMcApplications = McApplication::count();
         $acceptedMcApplications = McApplication::where('status', 'approved')->count();
         $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
 
-        // Get the current year
-        $currentYear = now()->year;
-
-        // Query to get the monthly data of staff on leave (cuti)
+        // Query to get the monthly data of staff on leave (cuti) for the selected year
         $monthlyLeaveData = McApplication::select(
             DB::raw('MONTH(start_date) as month'),
             DB::raw('COUNT(DISTINCT user_id) as total_staff')
         )
-        ->whereYear('start_date', $currentYear) // Filter by the current year
+        ->whereYear('start_date', $year) // Use the selected year
         ->where('status', 'approved') // Only count approved leaves
         ->groupBy(DB::raw('MONTH(start_date)'))
+        ->orderBy(DB::raw('MONTH(start_date)')) // Ensure data is ordered by month
         ->get();
 
-        // Preparing an array with all 12 months and setting default values as 0
+        // Prepare an array with all 12 months and set default values as 0
         $leaveCountsByMonth = array_fill(1, 12, 0);
 
-        // Filling the actual values from the query
+        // Fill the actual values from the query into the leave counts
         foreach ($monthlyLeaveData as $data) {
             $leaveCountsByMonth[$data->month] = $data->total_staff;
         }
 
+        // Return the view with all collected data, including year and yearRange for the dropdown
         return view('admin', compact(
             'directAdminApplications',
             'totalUsers',
@@ -146,14 +146,13 @@ class AdminController extends Controller
             'allApplications',
             'staffOnLeaveToday',
             'leaveCountsByMonth',
-            'officers'
-
+            'officers',
+            'year', // Pass selected year to view
+            'yearRange' // Pass the year range to view
         ));
     }
 
-
-
-
+    
 
 // PENGUMUMAN ROUTES
     public function Annoucement()
@@ -251,6 +250,8 @@ class AdminController extends Controller
     }
 
 
+
+
 // NOTE ROUTES
     public function note()
     {
@@ -265,10 +266,7 @@ class AdminController extends Controller
         'acceptedMcApplications','rejectedMcApplications')); // Correct view path
     }
 
-
-
-
-// Store a new note
+    // Store a new note
     public function storeNote(Request $request)
     {
         $request->validate([
@@ -284,7 +282,7 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Note created successfully!');
     }
 
-// Update an existing note
+    // Update an existing note
     public function updateNote(Request $request, $id)
     {
         $note = Note::findOrFail($id); // Find note or fail
@@ -302,7 +300,7 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Note updated successfully!');
     }
 
-// Delete a note
+    // Delete a note
     public function deleteNote($id)
     {
         $note = Note::findOrFail($id); // Find note or fail
@@ -310,9 +308,6 @@ class AdminController extends Controller
 
         return redirect()->back()->with('success', 'Note deleted successfully!');
     }
-
-
-
 
 
 
@@ -473,6 +468,8 @@ class AdminController extends Controller
     }
 
 
+
+
 // SENARAI KESELURUHAN PERMOHONAN ROUTES
     public function showAllMcApplications(Request $request)
     {
@@ -526,17 +523,17 @@ class AdminController extends Controller
 // PERMOHONAN CUTI TAPISAN PEGAWAI
     public function mcOfficerApprove(Request $request)
     {
-    $applications = McApplication::join('users as staff', 'mc_applications.user_id', '=', 'staff.id')
-    ->leftJoin('users as officers', 'staff.selected_officer_id', '=', 'officers.id')
-    ->select(
-        'mc_applications.*',
-        'staff.name as user_name',
-        'officers.name as officer_name'
-    )
-    ->where('mc_applications.officer_approved', true)
-    ->where('mc_applications.admin_approved', false)
-    ->where('mc_applications.direct_admin_approval', false)
-    ->paginate(10); // Change 10 to the number of items per page you want
+        $applications = McApplication::join('users as staff', 'mc_applications.user_id', '=', 'staff.id')
+        ->leftJoin('users as officers', 'staff.selected_officer_id', '=', 'officers.id')
+        ->select(
+            'mc_applications.*',
+            'staff.name as user_name',
+            'officers.name as officer_name'
+        )
+        ->where('mc_applications.officer_approved', true)
+        ->where('mc_applications.admin_approved', false)
+        ->where('mc_applications.direct_admin_approval', false)
+        ->paginate(10); // Change 10 to the number of items per page you want
 
         // Fetch all MC applications for statistical purposes
         $totalUsers = User::where('role', '!=', 'admin')->count();
@@ -556,7 +553,7 @@ class AdminController extends Controller
 
 
 
-// SENARAI CUTI TAPISAN ADMIN
+// PERMOHONAN CUTI TAPISAN ADMIN
     public function mcAdminApprove(Request $request)
     {
         // Get filter inputs (if needed for future search functionality)
@@ -602,7 +599,110 @@ class AdminController extends Controller
         ));
     }
 
-// PROFILE ROUTES
+    // PERMOHONAN CUTI
+    public function approve($id)
+    {
+        $application = McApplication::find($id);
+
+        if (!$application) {
+            return redirect()->back()->with('error', 'Application not found.');
+        }
+
+        // Check if it's direct admin approval or needs officer approval
+        if (!$application->direct_admin_approval && !$application->officer_approved) {
+            return redirect()->back()->with('error', 'MC must be approved by an officer first.');
+        }
+
+        $startDate = Carbon::parse($application->start_date);
+        $endDate = Carbon::parse($application->end_date);
+
+        // Calculate the number of days manually
+        $daysRequested = ($endDate->timestamp - $startDate->timestamp) / (60 * 60 * 24) + 1; // Convert seconds to days and add 1
+
+        // Ensure at least 1 day is requested
+        $daysRequested = max(1, (int)$daysRequested);
+
+        // Find the user who submitted the application
+        $user = User::find($application->user_id);
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'User not found.');
+        }
+
+        // Deduct based on the leave type
+        switch ($application->leave_type) {
+            case 'annual':
+                if ($user->total_annual >= $daysRequested) {
+                    $user->total_annual -= $daysRequested;
+                } else {
+                    return redirect()->back()->with('error', 'Insufficient annual leave days available.');
+                }
+                break;
+
+            case 'mc':
+                if ($user->total_mc_days >= $daysRequested) {
+                    $user->total_mc_days -= $daysRequested;
+                } else {
+                    return redirect()->back()->with('error', 'Insufficient MC days available.');
+                }
+                break;
+
+            case 'other':
+                if ($user->total_others >= $daysRequested) {
+                    $user->total_others -= $daysRequested;
+                } else {
+                    return redirect()->back()->with('error', 'Insufficient other leave days available.');
+                }
+                break;
+
+            default:
+                return redirect()->back()->with('error', 'Invalid leave type.');
+        }
+
+        // Save the updated user information
+        $user->save();
+
+        // Update the application's status to approved
+        $application->admin_approved = true;
+        $application->status = 'approved';
+        $application->save();
+
+        return redirect()->back()->with('success', 'MC application approved by admin.');
+    }
+
+
+    public function reject(Request $request, $id)
+    {
+        $application = McApplication::find($id);
+    
+        if (!$application) {
+            return redirect()->back()->with('error', 'Application not found.');
+        }
+    
+        // Optionally, check if the application can be rejected
+        if ($application->status === 'approved') {
+            return redirect()->back()->with('error', 'Cannot reject an already approved application.');
+        }
+    
+        // Validate the reason
+        $request->validate([
+            'reason' => 'required|string|max:255',
+        ]);
+    
+        // Update the application's status to rejected
+        $application->status = 'rejected';
+        $application->admin_approved = false; // Optionally set this to false
+        $application->rejection_reason = $request->reason; // Save the reason for rejection
+        $application->save();
+    
+        return redirect()->back()->with('success', 'MC application rejected by admin. Reason: ' . $request->reason);
+    }
+    
+
+
+
+
+// PROFILE PENGGUNA ROUTES
     public function showProfile()
     {
         // Fetch the necessary data for the profile view, such as the logged-in user's information
@@ -690,99 +790,6 @@ class AdminController extends Controller
 
 
 
-// PERMOHONAN CUTI
-    public function approve($id)
-    {
-        $application = McApplication::find($id);
-
-        if (!$application) {
-            return redirect()->back()->with('error', 'Application not found.');
-        }
-
-        // Check if it's direct admin approval or needs officer approval
-        if (!$application->direct_admin_approval && !$application->officer_approved) {
-            return redirect()->back()->with('error', 'MC must be approved by an officer first.');
-        }
-
-        $startDate = Carbon::parse($application->start_date);
-        $endDate = Carbon::parse($application->end_date);
-
-        // Calculate the number of days manually
-        $daysRequested = ($endDate->timestamp - $startDate->timestamp) / (60 * 60 * 24) + 1; // Convert seconds to days and add 1
-
-        // Ensure at least 1 day is requested
-        $daysRequested = max(1, (int)$daysRequested);
-
-        // Find the user who submitted the application
-        $user = User::find($application->user_id);
-
-        if (!$user) {
-            return redirect()->back()->with('error', 'User not found.');
-        }
-
-        // Deduct based on the leave type
-        switch ($application->leave_type) {
-            case 'annual':
-                if ($user->total_annual >= $daysRequested) {
-                    $user->total_annual -= $daysRequested;
-                } else {
-                    return redirect()->back()->with('error', 'Insufficient annual leave days available.');
-                }
-                break;
-
-            case 'mc':
-                if ($user->total_mc_days >= $daysRequested) {
-                    $user->total_mc_days -= $daysRequested;
-                } else {
-                    return redirect()->back()->with('error', 'Insufficient MC days available.');
-                }
-                break;
-
-            case 'other':
-                if ($user->total_others >= $daysRequested) {
-                    $user->total_others -= $daysRequested;
-                } else {
-                    return redirect()->back()->with('error', 'Insufficient other leave days available.');
-                }
-                break;
-
-            default:
-                return redirect()->back()->with('error', 'Invalid leave type.');
-        }
-
-        // Save the updated user information
-        $user->save();
-
-        // Update the application's status to approved
-        $application->admin_approved = true;
-        $application->status = 'approved';
-        $application->save();
-
-        return redirect()->back()->with('success', 'MC application approved by admin.');
-    }
-
-
-    public function reject($id)
-    {
-        $application = McApplication::find($id);
-
-        if (!$application) {
-            return redirect()->back()->with('error', 'Application not found.');
-        }
-
-        // Optionally, you can check if the application can be rejected
-        // For example, check if it has already been approved
-        if ($application->status === 'approved') {
-            return redirect()->back()->with('error', 'Cannot reject an already approved application.');
-        }
-
-        // Update the application's status to rejected
-        $application->status = 'rejected';
-        $application->admin_approved = false; // Optionally set this to false
-        $application->save();
-
-        return redirect()->back()->with('success', 'MC application rejected by admin.');
-    }
 
 
 }

@@ -95,38 +95,40 @@
               </form>
             </div>
   
-            <!-- Modal for Reset Password -->
-            <div class="modal fade z-index-5" id="resetPasswordModal" tabindex="-1" aria-labelledby="resetPasswordModalLabel" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="resetPasswordModalLabel">Tukar Kata Laluan</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                    <form id="resetPasswordForm" action="{{ route('reset.password') }}" method="POST">
-                      @csrf
-                      <div class="mb-3">
-                        <label for="email" class="form-label">Emel</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Masukkan emel anda" required>
-                      </div>
-                      <div class="mb-3">
-                        <label for="new_password" class="form-label">Kata Laluan Baru</label>
-                        <input type="password" class="form-control" id="new_password" name="new_password" placeholder="Masukkan kata laluan baru" required>
-                      </div>
-                      <div class="mb-3">
-                        <label for="confirm_password" class="form-label">Sahkan Kata Laluan Baru</label>
-                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Sahkan kata laluan baru" required>
-                      </div>
-                      <div class="text-center">
-                        <button type="submit" class="btn btn-primary w-100">Tukar Kata Laluan</button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
+            
   
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Modal for Reset Password -->
+    <div class="modal fade z-index-5" id="resetPasswordModal" tabindex="-1" aria-labelledby="resetPasswordModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="resetPasswordModalLabel">Tukar Kata Laluan</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="resetPasswordForm" action="{{ route('reset.password') }}" method="POST">
+              @csrf
+              <div class="mb-3">
+                <label for="email" class="form-label">Emel</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Masukkan emel anda" required>
+              </div>
+              <div class="mb-3">
+                <label for="new_password" class="form-label">Kata Laluan Baru</label>
+                <input type="password" class="form-control" id="new_password" name="new_password" placeholder="Masukkan kata laluan baru" required>
+              </div>
+              <div class="mb-3">
+                <label for="confirm_password" class="form-label">Sahkan Kata Laluan Baru</label>
+                <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Sahkan kata laluan baru" required>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary w-100">Tukar Kata Laluan</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

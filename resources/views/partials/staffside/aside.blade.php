@@ -41,7 +41,7 @@
                 <li class="nav-item">
                     <form action="{{ route('staff') }}" method="GET" style="display: none;" id="dashboard-form">
                     </form>
-                    <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('dashboard-form').submit();">
+                    <a class="nav-link {{ request()->routeIs('staff') ? 'active' : '' }}" href="#" onclick="event.preventDefault(); document.getElementById('dashboard-form').submit();">
                         <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
                         </div>
@@ -53,7 +53,7 @@
                 <li class="nav-item">
                     <form action="{{ route('staff.mc_application') }}" method="GET" style="display: none;" id="mcapply-form">
                     </form>
-                    <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('mcapply-form').submit();">
+                    <a class="nav-link {{ request()->routeIs('staff.mc_application') ? 'active' : '' }}" href="#" onclick="event.preventDefault(); document.getElementById('mcapply-form').submit();">
                         <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="ni ni-briefcase-24 text-primary text-sm opacity-10"></i>
                         </div>
@@ -70,7 +70,7 @@
                 <li class="nav-item">
                     <form action="{{ route('staff.profile') }}" method="GET" style="display: none;" id="profile-form">
                     </form>
-                    <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('profile-form').submit();">
+                    <a class="nav-link {{ request()->routeIs('staff.profile') ? 'active' : '' }}" href="#" onclick="event.preventDefault(); document.getElementById('profile-form').submit();">
                         <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
                         </div>
@@ -82,7 +82,7 @@
                 <li class="nav-item">
                     <form action="{{ route('staff.password') }}" method="GET" style="display: none;" id="password-form">
                     </form>
-                    <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('password-form').submit();">
+                    <a class="nav-link {{ request()->routeIs('staff.password') ? 'active' : '' }}" href="#" onclick="event.preventDefault(); document.getElementById('password-form').submit();">
                         <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="ni ni-lock-circle-open text-danger text-sm opacity-10"></i>
                         </div>
@@ -108,3 +108,4 @@
 
     </div>
 </aside>
+

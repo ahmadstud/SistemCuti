@@ -152,7 +152,8 @@
                                                                 <i class="fas fa-check"></i> <!-- Right symbol -->
                                                             </button>
                                                         </form>
-                                                            <form action="{{ route('officer.updateStatus', ['id' => $application->id]) }}" method="POST" class="approve-form">
+
+                                                        <form action="{{ route('officer.updateStatus', ['id' => $application->id]) }}" method="POST" class="approve-form">
                                                                 @csrf
                                                             <!-- Reject Button to Open Modal -->
                                                             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectionReasonModal-{{ $application->id }}">
