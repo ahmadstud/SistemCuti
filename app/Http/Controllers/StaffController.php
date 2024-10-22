@@ -222,6 +222,7 @@ class StaffController extends Controller
         $officers = User::where('role', 'officer')->get(); // Fetch officers
          // Fetch total users excluding admins
          $totalUsers = User::all();
+         $notes = Note::all(); // Adjust as necessary to fetch your notes
         return view('staff',compact('announcements','staffOnLeaveToday','totalUsers','officers', 'notes',));
     }
 

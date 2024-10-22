@@ -58,60 +58,69 @@
                                         <div class="container-fluid py-2">
                                             <div class="row">
                                                 <div class="card">
+                                                    <div class="card-header pb-0 p-3">
+                                                        <div class="d-flex justify-content-between">
+                                                            <h4 class="mb-2"></h4>
+                                                            <!-- Add MC Application Modal -->
+                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcApplicationModal">
+                                                                Memohon Surat Cuti
+                                                            </button>
+                                                        </div>
+                                                    </div>
 
-                       <!-- Add MC Application Modal -->
-<div class="modal fade" id="mcApplicationModal" tabindex="-1" aria-labelledby="mcApplicationModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header" style="background-color: #f0f0f0;">
-                <h5 class="modal-title" id="mcApplicationModalLabel">Permohonan Cuti</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
+                        <!-- Add MC Application Modal -->
+                        <div class="modal fade" id="mcApplicationModal" tabindex="-1" aria-labelledby="mcApplicationModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header" style="background-color: #f0f0f0;">
+                                        <h5 class="modal-title" id="mcApplicationModalLabel">Permohonan Cuti</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
 
-            <div class="modal-body">
-                <form action="{{ route('officer.mcApplication.store') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
+                                    <div class="modal-body">
+                                        <form action="{{ route('officer.mcApplication.store') }}" method="POST" enctype="multipart/form-data">
+                                            @csrf
 
-                    <div class="row g-3">
-                        <div class="col-md-6 mb-3">
-                            <label for="start_date" class="form-label">Tarikh Mula<span class="text-danger">*</span></label>
-                            <input type="date" class="form-control" id="start_date" name="start_date" required>
+                                            <div class="row g-3">
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="start_date" class="form-label">Tarikh Mula<span class="text-danger">*</span></label>
+                                                    <input type="date" class="form-control" id="start_date" name="start_date" required>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label for="end_date" class="form-label">Tarikh Tamat<span class="text-danger">*</span></label>
+                                                    <input type="date" class="form-control" id="end_date" name="end_date" required>
+                                                </div>
+                                            </div>
+
+                                            <!-- Leave Type Selection -->
+                                            <div class="col-md-12 mb-3">
+                                                <label for="leave_type" class="form-label">Jenis Cuti<span class="text-danger">*</span></label>
+                                                <select class="form-control" id="leave_type" name="leave_type" required onchange="toggleDocumentField()">
+                                                    <option value="mc">Cuti Sakit (MC)</option>
+                                                    <option value="annual">Cuti Tahunan</option>
+                                                    <option value="other">Lain-lain</option>
+                                                </select>
+                                            </div>
+
+                                            <!-- Document Upload Field -->
+                                            <div class="col-md-12 mb-3" id="document_upload_field">
+                                                <label for="document_path" class="form-label">Dokumen MC<span class="text-danger">*</span></label>
+                                                <input type="file" class="form-control" id="document_path" name="document_path" required>
+                                            </div>
+
+                                            <div class="col-md-12 mb-3">
+                                                <label for="reason" class="form-label">Ulasan<span class="text-danger">*</span></label>
+                                                <textarea class="form-control" id="reason" name="reason" rows="3" required></textarea>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-success">Simpan</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="end_date" class="form-label">Tarikh Tamat<span class="text-danger">*</span></label>
-                            <input type="date" class="form-control" id="end_date" name="end_date" required>
-                        </div>
-                    </div>
-
-                    <!-- Leave Type Selection -->
-                    <div class="col-md-12 mb-3">
-                        <label for="leave_type" class="form-label">Jenis Cuti<span class="text-danger">*</span></label>
-                        <select class="form-control" id="leave_type" name="leave_type" required onchange="toggleDocumentField()">
-                            <option value="mc">Cuti Sakit (MC)</option>
-                            <option value="annual">Cuti Tahunan</option>
-                            <option value="other">Lain-lain</option>
-                        </select>
-                    </div>
-
-                    <!-- Document Upload Field -->
-                    <div class="col-md-12 mb-3" id="document_upload_field">
-                        <label for="document_path" class="form-label">Dokumen MC<span class="text-danger">*</span></label>
-                        <input type="file" class="form-control" id="document_path" name="document_path" required>
-                    </div>
-
-                    <div class="col-md-12 mb-3">
-                        <label for="reason" class="form-label">Ulasan<span class="text-danger">*</span></label>
-                        <textarea class="form-control" id="reason" name="reason" rows="3" required></textarea>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Simpan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
 
                         <!-- List of MC Applications -->
