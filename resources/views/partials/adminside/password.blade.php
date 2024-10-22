@@ -34,7 +34,8 @@
     </head>
 
     <body class="g-sidenav-show bg-gray-100">
-        <div class="min-height-500 bg-primary position-absolute w-100"></div>
+        <div class="min-height-500 position-absolute w-100" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-position: top;"></div>
+        
                     @include('partials.adminside.aside')
 
         <main class="main-content position-relative border-radius-lg">
@@ -48,9 +49,11 @@
                             <div class="card-header pb-1 p-1">
 
                                 <!-- Separate Change Password Section -->
-                                <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
-                                <h4><b>TUKAR KATA LALUAN<b></h4>
-                                </nav>
+                                <div class="d-flex align-items-center justify-content-between mb-4 p-3" style="background-color: rgba(0, 0, 0, 0);">
+                                    <h4 class="mb-0 text-uppercase fw-bold "><b>
+                                        <i class="bi bi-speedometer2 me-2"></i> TUKAR KATA LALUAN </b>
+                                    </h4>
+                                </div>
 
                                 <div class="row mt-4">
                                 <div class="col-lg-12 mb-lg-0 mb-4">

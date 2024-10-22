@@ -34,7 +34,7 @@
     </head>
 
     <body class="g-sidenav-show bg-gray-100">
-        <div class="min-height-500 bg-primary position-absolute w-100"></div>
+        <div class="min-height-500 position-absolute w-100" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-position: top;"></div>
                     @include('partials.adminside.aside')
 
         <main class="main-content position-relative border-radius-lg">
@@ -48,9 +48,11 @@
                             <div class="card-header pb-1 p-1">
 
                                 <!-- Admin Approval Section -->
-                                <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
-                                    <h4><b>KELULUSAN ADMIN UNTUK PERMOHONAN STAF<b></h4>
-                                </nav>
+                                <div class="d-flex align-items-center justify-content-between mb-4 p-3" style="background-color: rgba(0, 0, 0, 0);">
+                                    <h4 class="mb-0 text-uppercase fw-bold "><b>
+                                        <i class="bi bi-speedometer2 me-2"></i> KELULUSAN ADMIN UNTUK PERMOHONAN STAF</b>
+                                    </h4>
+                                </div>
 
                                 <div class="row mt-4">
                                     <div class="col-lg-12 mb-lg-0 mb-4">
@@ -119,7 +121,7 @@
                                                                                     {{ $application->officer_approved ? 'Yes' : 'No' }}
                                                                                 </td>
 
-                                                                                {{-- <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                     @if($application->officer_approved && !$application->admin_approved)
                                                                                         <form action="{{ route('admin.approve', $application->id) }}" method="POST" style="display:inline;">
                                                                                             @csrf
@@ -128,57 +130,9 @@
                                                                                     @else
                                                                                         <button type="button" class="btn btn-secondary btn-sm" disabled><i class="fas fa-check-double"></i></button>
                                                                                     @endif
-                                                                                </td> --}}
-
-                                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                    @if($application->officer_approved && !$application->admin_approved)
-                                                                                        <!-- Approve Form -->
-                                                                                        <form action="{{ route('admin.approve', $application->id) }}" method="POST" style="display:inline;">
-                                                                                            @csrf
-                                                                                            <button type="submit" class="btn btn-success btn-sm">
-                                                                                                <i class="fas fa-check"></i>
-                                                                                            </button>
-                                                                                        </form>
-                                                                                
-                                                                                        <!-- Reject Button -->
-                                                                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#rejectionReasonModal{{ $application->id }}">
-                                                                                            <i class="fas fa-times"></i>
-                                                                                        </button>
-                                                                                
-                                                                                        <!-- Rejection Reason Modal -->
-                                                                                        <div class="modal fade" id="rejectionReasonModal{{ $application->id }}" tabindex="-1" role="dialog" aria-labelledby="rejectionReasonModalLabel" aria-hidden="true">
-                                                                                            <div class="modal-dialog" role="document">
-                                                                                                <div class="modal-content">
-                                                                                                    <div class="modal-header">
-                                                                                                        <h5 class="modal-title" id="rejectionReasonModalLabel">Alasan Penolakan</h5>
-                                                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                                            <span aria-hidden="true">&times;</span>
-                                                                                                        </button>
-                                                                                                    </div>
-                                                                                                    <div class="modal-body">
-                                                                                                        <!-- Rejection Form -->
-                                                                                                        <form action="{{ route('admin.reject', $application->id) }}" method="POST">
-                                                                                                            @csrf
-                                                                                                            <label for="rejection_reason_{{ $application->id }}">Alasan Penolakan:</label>
-                                                                                                            <textarea name="rejection_reason" id="rejection_reason_{{ $application->id }}" rows="3" class="form-control" required></textarea>
-                                                                                                    </div>
-                                                                                                    <div class="modal-footer">
-                                                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                                                                                        <button type="submit" class="btn btn-danger">Hantar Tolakan</button>
-                                                                                                        </form> <!-- Close form tag here -->
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    @else
-                                                                                        <!-- If the application is already approved by admin, disable the buttons -->
-                                                                                        <button type="button" class="btn btn-secondary btn-sm" disabled>
-                                                                                            <i class="fas fa-check-double"></i>
-                                                                                        </button>
-                                                                                    @endif
                                                                                 </td>
                                                                                 
-                                                                                
+                                                                            
 
                                                                             </tr>
                                                                         @endforeach

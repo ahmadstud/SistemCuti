@@ -35,7 +35,7 @@
 <body class="g-sidenav-show bg-gray-100">
 
 
-    <div class="min-height-500 bg-primary position-absolute w-100"></div>
+    <div class="min-height-500 position-absolute w-100" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-position: top;"></div>
                 @include('partials.staffside.aside')
 
         <main class="main-content position-relative border-radius-lg">
@@ -140,9 +140,15 @@
                                                                                     <span class="text-xs">Cuti sehingga {{ \Carbon\Carbon::parse($leave->end_date)->format('d F Y') }}</span>
                                                                                 </div>
                                                                             </div>
-                                                                            <!-- Optionally, you can add more info here, like leave days used, etc. -->
+                                                                            <!-- Display leave balance based on leave type -->
                                                                             <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                                                                                MC Days: {{ $leave->mc_days }} <!-- or any other detail you'd like to display -->
+                                                                                @if($leave->leave_type == 'mc')
+                                                                                    Baki cuti Sakit: {{ $leave->total_mc_days }}
+                                                                                @elseif($leave->leave_type == 'annual')
+                                                                                    Baki cuti Tahunan: {{ $leave->total_annual }}
+                                                                                @else
+                                                                                    Baki cuti Lain-lain: {{ $leave->total_others }}
+                                                                                @endif
                                                                             </div>
                                                                         </li>
                                                                     @endforeach
@@ -177,94 +183,50 @@
                                                     </div>
                                                 </div>
 
+
                                                 {{-- Card Nota --}}
                                                 <div class="col-lg-5 mb-lg-0 mb-4">
                                                     <div class="card z-index-2 h-100">
                                                         <div class="card-header pb-0 pt-3 bg-transparent">
                                                             <h4 class="text-capitalize">NOTA</h4>
                                                         </div>
+        
                                                         <div class="card-body p-3">
-                                                            <div class="accordion" id="accordionExample">
+        
+                                                            <div class="accordion" id="notesAccordion">
+                                                                @foreach($notes as $index => $note)
                                                                 <div class="accordion-item" style="border: 1px solid #dee2e6; border-radius: 0.375rem; margin-bottom: 1rem;">
-                                                                    <h2 class="accordion-header" id="headingOne">
-                                                                        <button class="accordion-button" type="button" style="background-color: #f8f9fa; color: #333; border: none;"
-                                                                                data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                                            1. Cuti Tahunan
+                                                                    <h2 class="accordion-header" id="heading{{ $index }}">
+                                                                        <button class="accordion-button {{ $index === 0 ? '' : 'collapsed' }}" type="button" style="background-color: #f8f9fa; color: #333; border: none;"
+                                                                                data-bs-toggle="collapse" data-bs-target="#collapse{{ $index }}" aria-expanded="{{ $index === 0 ? 'true' : 'false' }}" aria-controls="collapse{{ $index }}">
+                                                                            {{ $index + 1 }}. {{ $note->title }}
                                                                         </button>
                                                                     </h2>
-                                                                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="color: #333; border: none;">
+                                                                    <div id="collapse{{ $index }}" class="accordion-collapse collapse {{ $index === 0 ? 'show' : '' }}" aria-labelledby="heading{{ $index }}" data-bs-parent="#notesAccordion" style="color: #333; border: none;">
                                                                         <div class="accordion-body" style="padding: 1rem;">
-                                                                            <ul>
-                                                                                <li><p>Pekerja berhak mendapat sejumlah hari cuti tahunan berbayar sebagai tambahan kepada hari rehat dan cuti berbayar.</p></li>
-                                                                                <li><p>Kelayakan mengikut Seksyen 60E(1) Akta Pekerjaan 1955:</p>
-                                                                                    <ul>
-                                                                                        <li><p>Kurang dari 2 tahun: Tidak kurang dari 8 hari/tahun</p></li>
-                                                                                        <li><p>2-5 tahun: Tidak kurang dari 12 hari/tahun</p></li>
-                                                                                        <li><p>Lebih dari 5 tahun: Tidak kurang dari 16 hari/tahun</p></li>
-                                                                                    </ul>
-                                                                                </li>
-                                                                                <li><p>Perlu bekerja sekurang-kurangnya 12 bulan untuk layak mendapat cuti tahunan. Jika meninggalkan syarikat sebelum 12 bulan, hari cuti akan dikira secara prorata (0.66 hari/bulan).</p></li>
-                                                                                <li><p>Ketidakhadiran tanpa kebenaran selama lebih dari 10% tahun kerja mengakibatkan kehilangan kelayakan.</p></li>
-                                                                            </ul>
+                                                                            <p>{{ $note->content }}</p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="accordion-item" style="border: 1px solid #dee2e6; border-radius: 0.375rem; margin-bottom: 1rem;">
-                                                                    <h2 class="accordion-header" id="headingTwo">
-                                                                        <button class="accordion-button collapsed" type="button" style="background-color: #f8f9fa; color: #333; border: none;"
-                                                                                data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                                            2. Cuti Sakit
-                                                                        </button>
-                                                                    </h2>
-                                                                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample" style="color: #333; border: none;">
-                                                                        <div class="accordion-body" style="padding: 1rem;">
-                                                                            <ul>
-                                                                                <li><p>Kelayakan cuti sakit berbayar berdasarkan tempoh pekerjaan:</p>
-                                                                                    <ul>
-                                                                                        <li><p>Kurang dari 2 tahun: 14 hari/tahun</p></li>
-                                                                                        <li><p>2-5 tahun: 18 hari/tahun</p></li>
-                                                                                        <li><p>Lebih dari 5 tahun: 22 hari/tahun</p></li>
-                                                                                    </ul>
-                                                                                </li>
-                                                                                <li><p>Seksyen 60F(3) menyatakan pekerja menerima gaji biasa semasa cuti sakit.</p></li>
-                                                                                <li><p>Kelayakan 60 hari cuti sakit berbayar untuk hospitalisasi (Seksyen 60F(1)(bb)).</p></li>
-                                                                                <li><p>Maklumkan kepada majikan dalam masa 48 jam ketidakhadiran; jika tidak, dianggap tidak hadir tanpa kebenaran.</p></li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="accordion-item" style="border: 1px solid #dee2e6; border-radius: 0.375rem; margin-bottom: 1rem;">
-                                                                    <h2 class="accordion-header" id="headingThree">
-                                                                        <button class="accordion-button collapsed" type="button" style="background-color: #f8f9fa; color: #333; border: none;"
-                                                                                data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                                                            3. Cuti Umum
-                                                                        </button>
-                                                                    </h2>
-                                                                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample" style="color: #333; border: none;">
-                                                                        <div class="accordion-body" style="padding: 1rem;">
-                                                                            <ul>
-                                                                                <li><p>Pekerja berhak mendapat cuti berbayar pada 11 cuti umum yang diwartakan (Seksyen 60D(1)).</p></li>
-                                                                                <li><p>Cuti umum boleh ditetapkan di bawah Seksyen 8 Akta Cuti 1951.</p></li>
-                                                                                <li><p>Majikan boleh meminta pekerja bekerja pada cuti umum dan memberikan hari lain sebagai pengganti.</p></li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+                                                                @endforeach
                                                             </div>
-
-
+                                                            
+        
+        
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                              
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </main> <!-- Closing main-content -->

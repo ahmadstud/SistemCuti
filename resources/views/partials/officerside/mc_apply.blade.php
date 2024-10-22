@@ -33,9 +33,9 @@
     </head>
 
 
-    <body class="g-sidenav-show bg-gray-100">
-        <div class="min-height-500 bg-primary position-absolute w-100"></div>
-        @include('partials.officerside.aside')
+<body class="g-sidenav-show bg-gray-100">
+    <div class="min-height-500 position-absolute w-100" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-position: top;"></div>
+    @include('partials.officerside.aside')
 
         <main class="main-content position-relative border-radius-lg">
             <div class="container-fluid py-4">
@@ -124,93 +124,90 @@
                                                         </div>
                                                     </div>
 
-                                                    <!-- List of MC Applications -->
-                                                    <div class="card-body d-flex justify-content-center">
-                                                        <div style="overflow-x: auto; position: relative;">
-                                                            @if($mcApplications->isEmpty())
-
-                                                                <!-- Display a message when no applications exist inside the table -->
-                                                                <table class="table" style="table-layout: fixed; width: 100%;">
-                                                                    <thead style="background-color: #f0f0f0;">
-                                                                        <tr>
-                                                                            <th style="width: 3%; position: sticky; left: 0; z-index: 1;  padding: 8px;">BIL</th>
-                                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
-                                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH TAMAT</th>
-                                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
-                                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN</th>
-                                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
-                                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS</th>
-                                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
-                                                                            
-                                                                        </tr>
-                                                                    </thead>
-
-                                                                    <tbody>
-                                                                        <tr>
-                                                                            <td colspan="8" class="text-center" style="padding: 20px;">
-                                                                                <p class="text-muted">Tiada Permohonan daripada staf</p>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                </table>
-
-                                                            @else
-                                                                <table class="table" style="table-layout: fixed; width: 100%;">
-                                                                    <thead style="background-color: #f0f0f0;">
-                                                                        <tr>
-                                                                            <th style="width: 3%; position: sticky; left: 0; z-index: 1;  padding: 8px;">BIL</th>
-                                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
-                                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH TAMAT</th>
-                                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
-                                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN</th>
-                                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
-                                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS</th>
-                                                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
-                                                                        </tr>
-                                                                    </thead>
-
-                                                                    <tbody>
-                                                                        @foreach($mcApplications as $index => $mcApplication)
-                                                                            <tr>
-                                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                    <p class="text-m text-secondary">{{ $index + 1 }}</p>
-                                                                                </td>
-                                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                    <p class="text-m text-secondary">{{ \Carbon\Carbon::parse($mcApplication->start_date)->format('d/m/Y') }}</p>
-                                                                                </td>
-                                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                    <p class="text-m text-secondary">{{ \Carbon\Carbon::parse($mcApplication->end_date)->format('d/m/Y') }}</p>
-                                                                                </td>
-                                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                    <p class="text-m text-secondary">{{ $mcApplication->reason }}</p>
-                                                                                </td>
-                                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                    @if($mcApplication->document_path)
-                                                                                        <a href="{{ Storage::url($mcApplication->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</a>
-                                                                                    @else
-                                                                                        <span>Tidak Ada Dokumen</span>
-                                                                                    @endif
-                                                                                </td>
-                                                                                <td style="border: 1px solid #dee2e6; padding: 8px;">
-                                                                                    @if($mcApplication->leave_type == 'mc')
-                                                                                        <span class="badge bg-success">Cuti Sakit</span>
-                                                                                    @elseif($mcApplication->leave_type == 'annual')
-                                                                                        <span class="badge bg-success">Cuti Tahunan</span>
-                                                                                    @else
-                                                                                        <span class="badge bg-success">Cuti Lain2</span>
-                                                                                    @endif
-                                                                                </td>
-                                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                    @if($mcApplication->admin_approved)
-                                                                                        <span class="badge badge-md bg-gradient-success">Diterima</span>
-                                                                                    @elseif($mcApplication->status == 'pending')
-                                                                                        <span class="badge badge-md bg-gradient-warning">Menunggu</span>
-                                                                                    @else
-                                                                                        <span class="badge badge-md bg-gradient-danger">Ditolak</span>
-                                                                                    @endif
-                                                                                </td>
-
-                                                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                        <!-- List of MC Applications -->
+                        <div class="card-body d-flex justify-content-center">
+                            <div style="overflow-x: auto; position: relative;">
+                            @if($mcApplications->isEmpty())
+                               <!-- Display a message when no applications exist inside the table -->
+                               <table class="table" style="table-layout: fixed; width: 100%;">
+                                <thead style="background-color: #f0f0f0;">
+                                    <tr>
+                                        <th style="width: 3%; position: sticky; left: 0; z-index: 1;  padding: 8px;">BIL</th>
+                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
+                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH TAMAT</th>
+                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
+                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN</th>
+                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
+                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS</th>
+                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="8" class="text-center" style="padding: 20px;">
+                                            <p class="text-muted">Tiada Permohonan daripada staf</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            @else
+                                <table class="table" style="table-layout: fixed; width: 100%;">
+                                    <thead style="background-color: #f0f0f0;">
+                                        <tr>
+                                            <th style="width: 3%; position: sticky; left: 0; z-index: 1;  padding: 8px;">BIL</th>
+                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
+                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH TAMAT</th>
+                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
+                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN</th>
+                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
+                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS</th>
+                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($mcApplications as $index => $mcApplication)
+                                            <tr>
+                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                    <p class="text-m text-secondary">{{ $index + 1 }}</p>
+                                                </td>
+                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                    <p class="text-m text-secondary">{{ \Carbon\Carbon::parse($mcApplication->start_date)->format('d/m/Y') }}</p>
+                                                </td>
+                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                    <p class="text-m text-secondary">{{ \Carbon\Carbon::parse($mcApplication->end_date)->format('d/m/Y') }}</p>
+                                                </td>
+                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                    <p class="text-m text-secondary">{{ $mcApplication->reason }}</p>
+                                                </td>
+                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                    @if($mcApplication->document_path)
+                                                        <a href="{{ Storage::url($mcApplication->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</a>
+                                                    @else
+                                                        <span>Tidak Ada Dokumen</span>
+                                                    @endif
+                                                </td>
+                                                <td style="border: 1px solid #dee2e6; padding: 8px;">
+                                                    @switch($mcApplication->leave_type)
+                                                    @case('mc')
+                                                        <span class="badge bg-success">Cuti Sakit</span>
+                                                        @break
+                                                    @case('annual')
+                                                        <span class="badge bg-success">Cuti Tahunan</span>
+                                                        @break
+                                                    @default
+                                                        <span class="badge bg-success">Cuti Lain-lain</span>
+                                                @endswitch
+                                                </td>
+                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                    @if($mcApplication->admin_approved)
+                                                        <span class="badge badge-md bg-gradient-success">Diterima</span>
+                                                    @elseif($mcApplication->status == 'pending')
+                                                        <span class="badge badge-md bg-gradient-warning">Menunggu</span>
+                                                    @else
+                                                        <span class="badge badge-md bg-gradient-danger">Ditolak</span>
+                                                    @endif
+                                                </td>
+                                                <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
 
                                                                                     @if ($mcApplication->status === 'pending')
                                                                                         <!-- Edit button -->

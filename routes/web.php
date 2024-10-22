@@ -21,7 +21,12 @@ use App\Http\Controllers\Auth\LoginController;
         Route::post('/login',                                   [LoginController::class, 'login'])->name('login');
     // Logout:
         // Route for logging out
-        Route::post('/logout',                                  [LoginController::class, 'logout'])->name('logout');
+        Route::
+        post('/logout',                                  [LoginController::class, 'logout'])->name('logout');
+
+        // New routes for password reset
+        Route::get('/reset-password', [LoginController::class, 'showResetForm'])->name('reset.password.form');
+        Route::post('/reset-password', [LoginController::class, 'resetPassword'])->name('reset.password');
 
     // Route after login
         Route::get('/staff',                                    [StaffController::class, 'dashboard'])->name('staff');
@@ -51,9 +56,11 @@ use App\Http\Controllers\Auth\LoginController;
 
 
         // Note Management:
-            Route::get('/admin/notes',                               [AdminController::class, 'Notes'])->name('admin.notes');
-            Route::post('/admin/notes',                              [AdminController::class, 'storeNote'])->name('admin.storeNote');
-            Route::put('/admin/notes/{id}',                          [AdminController::class, 'updateNote'])->name('updateNote');
+            Route::get('/notes', [AdminController::class, 'note'])->name('admin.nota');
+
+            Route::get('/admin/annoucement/notes',                               [AdminController::class, 'Notes'])->name('admin.notes');
+            Route::post('/admin/annoucement/notes',                              [AdminController::class, 'storeNote'])->name('admin.storeNote');
+            Route::put('/admin/annoucement/notes/{id}',                          [AdminController::class, 'updateNote'])->name('updateNote');
             Route::delete('/admin/delete-note/{id}',                 [AdminController::class, 'deleteNote'])->name('deleteNote');
 
 
@@ -66,6 +73,8 @@ use App\Http\Controllers\Auth\LoginController;
             Route::post('/admin/mc-applications/{id}/admin-approve',[AdminController::class, 'approve'])->name('admin.approve');
         // Admin reject route
             Route::post('/admin/mc-applications/{id}/admin-reject', [AdminController::class, 'reject'])->name('admin.reject');
+
+            
 
 
         // Admin Routes
@@ -122,14 +131,13 @@ use App\Http\Controllers\Auth\LoginController;
         // Route for updating own details
         Route::post('/officer/update-details',                [OfficerController::class, 'updateOwnDetails3'])->name('updateOwnDetails3');
 
-        Route::post('/change-password', [OfficerController::class, 'changePassword'])->name('changePassword');
-
         // Routes for officers
         Route::prefix('officer')->name('officer.')->group(function () {
             Route::get('/profile', [OfficerController::class, 'profile'])->name('profile');
             Route::get('/password', [OfficerController::class, 'password'])->name('password');
             Route::get('/mc_application', [OfficerController::class, 'McApply'])->name('mc_application');
             Route::get('/mc_approve', [OfficerController::class, 'McApprove'])->name('mc_approve');
+            Route::post('/change-password', [OfficerController::class, 'changePassword'])->name('changePassword');
         });
 
 // STAFF ROUTES
@@ -151,16 +159,15 @@ use App\Http\Controllers\Auth\LoginController;
         // Edit the mc application if any changes
         Route::post('/staff/mc-application/edit/{id}',         [StaffController::class, 'editMC'])->name('staff.mc.edit');
 
-        Route::post('/change-password', [StaffController::class, 'changePassword2'])->name('changePassword2');
-
         // Route for updating own details
         Route::post('/staff/update-details',                   [StaffController::class, 'updateOwnDetails2'])->name('updateOwnDetails2');
 
         // Routes for officers
         Route::prefix('staff')->name('staff.')->group(function () {
-        Route::get('/profile',                                  [StaffController::class, 'profile'])->name('profile');
-        Route::get('/password',                                 [StaffController::class, 'password'])->name('password');
-        Route::get('/mc_application',                           [StaffController::class, 'McApply'])->name('mc_application');
+        Route::get('/profile', [StaffController::class, 'profile'])->name('profile');
+        Route::get('/password', [StaffController::class, 'password'])->name('password');
+        Route::get('/mc_application', [StaffController::class, 'McApply'])->name('mc_application');
+        Route::post('/change-password', [StaffController::class, 'changePassword'])->name('changePassword');
     });
 
 

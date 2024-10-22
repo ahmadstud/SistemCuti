@@ -35,8 +35,8 @@
     <body class="g-sidenav-show bg-gray-100">
 
 
-        <div class="min-height-500 bg-primary position-absolute w-100"></div>
-            @include('partials.staffside.aside')
+    <div class="min-height-500 position-absolute w-100" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-position: top;"></div>
+                @include('partials.staffside.aside')
 
             <main class="main-content position-relative border-radius-lg">
                 <div class="container-fluid py-4">
@@ -67,7 +67,7 @@
                                                         </div>
 
                                                         <div class="card-body">
-                                                            <form action="{{ route('changePassword2') }}" method="POST" onsubmit="return validatePassword();">
+                                                            <form action="{{ route('staff.changePassword') }}" method="POST" onsubmit="return validatePassword();">
                                                                 @csrf
                                                                 <div class="mb-3">
                                                                     <label for="password" class="form-label">Kata Laluan Baru<span class="text-danger">*</span></label>
@@ -77,9 +77,9 @@
                                                                     <label for="password_confirmation" class="form-label">Sahkan Kata Laluan Baru<span class="text-danger">*</span></label>
                                                                     <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" oninput="checkPasswordMatch();">
                                                                 </div>
-
+                                
                                                                 <div id="password-alert" class="alert alert-danger d-none">Kata laluan tidak sepadan!</div>
-
+                                
                                                                 <div class="modal-footer">
                                                                     <button type="submit" class="btn btn-primary">
                                                                         <i class="fas fa-save"></i> Simpan

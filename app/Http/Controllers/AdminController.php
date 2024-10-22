@@ -90,12 +90,15 @@ class AdminController extends Controller
         // Get today's date
         $today = now()->toDateString();
 
-        // Get the list of staff on MC today
-        $staffOnLeaveToday = McApplication::with('user')
-            ->where('start_date', '<=', $today)
-            ->where('end_date', '>=', $today)
-            ->where('status', 'approved') // Assuming you have a status column to check for approval
-            ->get();
+       // Get the list of staff on MC today along with their total_mc_days from users table
+        $staffOnLeaveToday = McApplication::with('user') // Assuming there's a 'user' relationship in McApplication model
+        ->join('users', 'mc_applications.user_id', '=', 'users.id') // Join the users table
+        ->where('mc_applications.start_date', '<=', $today)
+        ->where('mc_applications.end_date', '>=', $today)
+        ->where('mc_applications.status', 'approved') // Assuming you have a status column to check for approval
+        ->select('mc_applications.*', 'users.total_mc_days', 'users.total_annual', 'users.total_others') // Select fields from both tables
+        ->get();
+
 
         $officers = User::where('role', 'officer')->get();
 
@@ -162,16 +165,17 @@ class AdminController extends Controller
         $totalMcApplications = McApplication::count();
         $acceptedMcApplications = McApplication::where('status', 'approved')->count();
         $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
+        $notes = Note::all(); // Retrieve all notes
 
         // Return the announcements view for the admin
         return view('partials.adminside.announcement', compact('announcements','totalUsers','totalMcApplications',
-        'acceptedMcApplications','rejectedMcApplications'));
+        'acceptedMcApplications','rejectedMcApplications','notes'));
     }
 
     public function updateAnnouncement(Request $request, $id)
     {
         $announcement = Announcement::findOrFail($id);
-    
+
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
@@ -179,45 +183,45 @@ class AdminController extends Controller
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
         ]);
-    
+
         $announcement->title = $request->title;
         $announcement->content = $request->content;
-        $announcement->start_date = $request->start_date; 
+        $announcement->start_date = $request->start_date;
         $announcement->end_date = $request->end_date;
-    
+
         if ($request->hasFile('image_path')) {
             if ($announcement->image_path && Storage::exists('public/' . $announcement->image_path)) {
                 Storage::delete('public/' . $announcement->image_path);
             }
-    
+
             $imageName = time() . '.' . $request->image_path->extension();
             $request->image_path->storeAs('public/announcements', $imageName);
             $announcement->image_path = 'announcements/' . $imageName;
         }
-    
+
         $announcement->save();
-    
+
         return redirect()->route('admin.annoucement')->with('success', 'Pengumuman berjaya dikemaskini!!');
 
         // return redirect()->back()->with('success', 'Announcement updated successfully!');
     }
-    
+
     public function deleteAnnouncement($id)
     {
         $announcement = Announcement::findOrFail($id);
-    
+
         if ($announcement->image_path && Storage::exists('public/announcements/' . $announcement->image_path)) {
             Storage::delete('public/announcements/' . $announcement->image_path);
         }
-    
+
         $announcement->delete();
-    
+
         return redirect()->route('admin.annoucement')->with('success', 'Pengumuman berjaya dipadam!');
 
         // Redirect back with success message
         // return redirect()->back()->with('success', 'Announcement deleted successfully!');
     }
-    
+
     public function storeAnnouncement(Request $request)
     {
         $request->validate([
@@ -227,12 +231,12 @@ class AdminController extends Controller
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
         ]);
-    
+
         $imagePath = null;
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('announcements', 'public');
         }
-    
+
         Announcement::create([
             'title' => $request->title,
             'content' => $request->content,
@@ -240,21 +244,31 @@ class AdminController extends Controller
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
         ]);
-    
+
         return redirect()->route('admin.annoucement')->with('success', 'Pengumuman berjaya disimpan!');
 
         // return redirect()->back()->with('success', 'Announcement created successfully.');
     }
     
-//NOTA ROUTES
-    // Fetch all notes
-    public function Notes()
+
+// NOTE ROUTES
+    public function note() 
     {
-        $notes = Note::all(); // Retrieve all notes
-        return view('admin.notes.index', compact('notes')); // Pass the notes to the view
+        $notes = Note::all(); // Fetch all notes
+
+        $totalUsers = User::where('role', '!=', 'admin')->count();
+        $totalMcApplications = McApplication::count();
+        $acceptedMcApplications = McApplication::where('status', 'approved')->count();
+        $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
+
+        return view('partials.adminside.note', compact('notes','totalUsers','totalMcApplications',
+        'acceptedMcApplications','rejectedMcApplications')); // Correct view path
     }
-    
-    // Store a new note
+
+
+
+
+// Store a new note
     public function storeNote(Request $request)
     {
         $request->validate([
@@ -267,10 +281,10 @@ class AdminController extends Controller
             'content' => $request->content,
         ]);
 
-        return redirect()->route('admin.notes')->with('success', 'Note created successfully.');
+        return redirect()->back()->with('success', 'Note created successfully!');
     }
 
-    // Update an existing note
+// Update an existing note
     public function updateNote(Request $request, $id)
     {
         $note = Note::findOrFail($id); // Find note or fail
@@ -285,23 +299,25 @@ class AdminController extends Controller
             'content' => $request->content,
         ]);
 
-        return redirect()->route('admin.notes')->with('success', 'Note updated successfully.');
+        return redirect()->back()->with('success', 'Note updated successfully!');
     }
 
-    // Delete a note
+// Delete a note
     public function deleteNote($id)
     {
         $note = Note::findOrFail($id); // Find note or fail
         $note->delete();
 
-        return redirect()->route('admin.notes')->with('success', 'Note deleted successfully.');
+        return redirect()->back()->with('success', 'Note deleted successfully!');
     }
 
 
 
 
 
-    
+
+
+
 // SENARAI PEKERJA ROUTES
     public function staffList(Request $request)
     {
@@ -428,7 +444,7 @@ class AdminController extends Controller
             'selected_officer_id' => 'nullable|integer', // Add this line to validate officer selection
             'fullname' => 'nullable|string|max:255', // Added fullname validation
         ]);
-    
+
         // Create the new user
         User::create([
             'name' => $request->name,
@@ -448,14 +464,11 @@ class AdminController extends Controller
             'selected_officer_id' => $request->selected_officer_id, // Save selected officer ID here
             'fullname' => $request->fullname, // Added fullname field
         ]);
-    
+
         // Redirect back to admin with a success message
         // return redirect()->route('admin.stafflist')->with('success', 'Kakitangan/Pegawai baru berjaya ditambah!!');
         return redirect()->back()->with('success', 'New Staff/Officer added successfully!');
     }
-    
-
-
 
 
 // SENARAI KESELURUHAN PERMOHONAN ROUTES
@@ -475,11 +488,11 @@ class AdminController extends Controller
             $allApplicationsQuery->where('status', $statusFilter);
         }
         // Join with users table and apply role filter if provided
-    if ($roleFilter) {
-    $allApplicationsQuery->whereHas('user', function ($query) use ($roleFilter) {
-        $query->where('role', $roleFilter);
-    });
-}
+        if ($roleFilter) {
+        $allApplicationsQuery->whereHas('user', function ($query) use ($roleFilter) {
+            $query->where('role', $roleFilter);
+        });
+        }
         // Apply date filters if provided
         if ($startDateFilter) {
             $allApplicationsQuery->where('start_date', '>=', $startDateFilter);
@@ -597,12 +610,6 @@ class AdminController extends Controller
         ));
     }
 
-
-
-
-
-    
-
 // PROFILE ROUTES
     public function showProfile()
     {
@@ -659,18 +666,18 @@ class AdminController extends Controller
         }
 
        // Check if the password is filled and matches the confirmation password
-    if ($request->filled('password')) {
-        // Check if password confirmation is provided
-        if ($request->input('password') !== $request->input('password_confirmation')) {
-            return redirect()->back()->withErrors(['password' => 'Kata laluan tidak sepadan!']);
+        if ($request->filled('password')) {
+            // Check if password confirmation is provided
+            if ($request->input('password') !== $request->input('password_confirmation')) {
+                return redirect()->back()->withErrors(['password' => 'Kata laluan tidak sepadan!']);
+            }
+
+            // Hash the new password and save it
+            $user->password = Hash::make($request->password);
         }
 
-        // Hash the new password and save it
-        $user->password = Hash::make($request->password);
-    }
-
-        // Save changes to the database
-        $user->save();
+            // Save changes to the database
+            $user->save();
 
         // Redirect with success message
         return redirect()->back()->with('success', 'Your details have been updated successfully!');

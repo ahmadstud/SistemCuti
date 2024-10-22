@@ -43,16 +43,43 @@
               </a>
           </li>
 
-          <!-- Menu Pengurusan -->
-          <li class="nav-item" style="margin-bottom: 0;">
-              <form action="{{ route('admin.annoucement') }}" method="GET" id="annoucement-form" style="display:none;"></form>
-              <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('annoucement-form').submit();">
-                  <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                      <i class="ni ni-single-copy-04 text-primary text-sm opacity-10"></i>
-                  </div>
-                  <span class="nav-link-text ms-1">Pengurusan</span>
-              </a>
-          </li>
+        <!-- Menu Pengurusan -->
+        <li class="nav-item" style="margin-bottom: 0;">
+            <a class="nav-link" data-bs-toggle="collapse" href="#pengurusanSubmenu" role="button" aria-expanded="false" aria-controls="pengurusanSubmenu">
+                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                    <i class="ni ni-single-copy-04 text-primary text-sm opacity-10"></i>
+                </div>
+                <span class="nav-link-text ms-1">Pengurusan</span>
+            </a>
+            <div class="collapse" id="pengurusanSubmenu">
+                <ul class="navbar-nav ms-3">
+                    <!-- Pengumuman -->
+                    <li class="nav-item" style="margin-bottom: 0;">
+                        <form action="{{ route('admin.annoucement') }}" method="GET" id="pengumuman-form" style="display:none;"></form>
+                        <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('pengumuman-form').submit();">
+                            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="ni ni-bell-55 text-primary text-sm opacity-10"></i>
+                            </div>
+                            <span class="nav-link-text ms-1">Pengumuman</span>
+                        </a>
+                    </li>
+            
+                    <!-- Nota -->
+                    <li class="nav-item" style="margin-bottom: 0;">
+                        <form action="{{ route('admin.nota') }}" method="GET" id="nota-form" style="display:none;"></form>
+                        <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('nota-form').submit();">
+                            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                <i class="ni ni-note-03 text-primary text-sm opacity-10"></i>
+                            </div>
+                            <span class="nav-link-text ms-1">Nota</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+            
+        </li>
+
 
           <!-- Senarai Pekerja -->
           <li class="nav-item" style="margin-bottom: 0;">

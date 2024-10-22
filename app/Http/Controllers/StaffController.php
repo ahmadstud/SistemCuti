@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\McApplication;
 use App\Models\User;
 use App\Models\Announcement;
+use App\Models\Note;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash; // <-- For password hashing
@@ -206,17 +207,24 @@ class StaffController extends Controller
     {
         // Get today's date
         $today = now()->toDateString();
-        // Get the list of staff on MC today
-        $staffOnLeaveToday = McApplication::with('user')
-            ->where('start_date', '<=', $today)
-            ->where('end_date', '>=', $today)
-            ->where('status', 'approved') // Assuming you have a status column to check for approval
-            ->get();
+        // Get the list of staff on MC today along with their total_mc_days from users table
+        $staffOnLeaveToday = McApplication::with('user') // Assuming there's a 'user' relationship in McApplication model
+        ->join('users', 'mc_applications.user_id', '=', 'users.id') // Join the users table
+        ->where('mc_applications.start_date', '<=', $today)
+        ->where('mc_applications.end_date', '>=', $today)
+        ->where('mc_applications.status', 'approved') // Assuming you have a status column to check for approval
+        ->select('mc_applications.*', 'users.total_mc_days', 'users.total_annual', 'users.total_others') // Select fields from both tables
+        ->get();
+
         $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
         $officers = User::where('role', 'Penyelia')->get(); // Fetch officers
+
+        // Notes
+        $notes = Note::all(); // Adjust as necessary to fetch your notes
+
          // Fetch total users excluding admins
          $totalUsers = User::all();
-        return view('staff',compact('announcements','staffOnLeaveToday','totalUsers','officers'));
+        return view('staff',compact('announcements','staffOnLeaveToday','totalUsers','officers', 'notes',));
     }
 
     public function profile()
@@ -236,7 +244,7 @@ class StaffController extends Controller
        return view('partials.staffside.mc_apply', compact('mcApplications'));
     }
 
-    public function changePassword2(Request $request)
+    public function changePassword(Request $request)
     {
         $user = Auth::user(); // Get the currently authenticated user
 
