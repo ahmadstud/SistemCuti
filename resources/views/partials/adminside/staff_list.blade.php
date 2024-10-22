@@ -85,7 +85,12 @@
                                                                         <div class="modal-body">
                                                                             <form action="{{ route('storeUser') }}" method="POST">
                                                                                 @csrf
-
+                                                                                <div class="row g-3">
+                                                                                    <div class="col-md-12 mb-3">
+                                                                                        <label for="fullname" class="form-label">Nama Penuh<span class="text-danger">*</span></label>
+                                                                                        <input type="text" class="form-control" id="fullname" name="fullname" required>
+                                                                                    </div>
+                                                                                </div>
                                                                                 <div class="row g-3">
                                                                                     <div class="col-md-12 mb-3">
                                                                                         <label for="name" class="form-label">Nama<span class="text-danger">*</span></label>

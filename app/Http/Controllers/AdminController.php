@@ -370,12 +370,14 @@ class AdminController extends Controller
             'total_mc_days' => 'required|integer|min:0',
             'total_annual' => 'required|integer|min:0',
             'total_others' => 'required|integer|min:0',
+            'fullname' => 'required|string|max:255',
             'selected_officer_id' => 'nullable|integer', // Add this line to validate officer selection
         ]);
 
         // Create the new user
         User::create([
             'name' => $request->name,
+            'fullname' => $request->fullname,
             'email' => $request->email,
             'ic' => $request->ic,
             'phone_number' => $request->phone_number,
