@@ -11,62 +11,53 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/Erawhiz.png') }}">
-    <link rel="icon" type="image/png" href="{{ asset('assets/img/Erawhiz.png') }}">
-    <title>
-      Pegawai - Bahagian Permohonan
-    </title>
-    <!--     Fonts and icons     -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-    <!-- Nucleo Icons -->
-    <link href="{{ asset('assets/css/nucleo-icons.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
-    <!-- Font Awesome Icons -->
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-    <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
-    <!-- CSS Files -->
-    <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-  </head>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/Erawhiz.png') }}">
+        <link rel="icon" type="image/png" href="{{ asset('assets/img/Erawhiz.png') }}">
+        <title>
+        Pegawai - Bahagian Permohonan
+        </title>
+        <!--     Fonts and icons     -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+        <!-- Nucleo Icons -->
+        <link href="{{ asset('assets/css/nucleo-icons.css') }}" rel="stylesheet" />
+        <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
+        <!-- Font Awesome Icons -->
+        <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+        <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
+        <!-- CSS Files -->
+        <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    </head>
 
 
 <body class="g-sidenav-show bg-gray-100">
     <div class="min-height-500 position-absolute w-100" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-position: top;"></div>
     @include('partials.officerside.aside')
 
-    <main class="main-content position-relative border-radius-lg">
-        <div class="container-fluid py-4">
-            @include('partials.logout')
-            @include('partials.officerside.mcdays')
+        <main class="main-content position-relative border-radius-lg">
+            <div class="container-fluid py-4">
+                @include('partials.logout')
+                @include('partials.officerside.mcdays')
 
-            <div class="row mt-4">
-                <div class="col-lg-12 mb-lg-0 mb-4" > <!-- Adjust column to full width -->
-                    <div class="card">
-                        <div class="card-header pb-1 p-1">
+                <div class="row mt-4">
+                    <div class="col-lg-12 mb-lg-0 mb-4" > <!-- Adjust column to full width -->
+                        <div class="card">
+                            <div class="card-header pb-1 p-1">
 
-<!-- MC Apply Application Section -->
-    <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
-        <h4><b>PERMOHONAN CUTI<b></h4>
-    </nav>
+                                <!-- MC Apply Application Section -->
+                                <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
+                                    <h4><b>PERMOHONAN CUTI<b></h4>
+                                </nav>
 
-    <!-- MC Applications Table Section -->
-    <div class="row mt-4">
-        <div class="col-lg-12 mb-lg-0 mb-4">
-            <div class="container-fluid py-2">
-                <div class="row">
-                    <div class="card">
-                        <div class="card-header pb-0 p-3">
-                            <div class="d-flex justify-content-between">
-                                <h4 class="mb-2"></h4>
-                                <!-- Add MC Application Modal -->
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcApplicationModal">
-                                    Memohon Surat Cuti
-                                </button>
-                            </div>
-                        </div>
+                                <!-- MC Applications Table Section -->
+                                <div class="row mt-4">
+                                    <div class="col-lg-12 mb-lg-0 mb-4">
+                                        <div class="container-fluid py-2">
+                                            <div class="row">
+                                                <div class="card">
 
                        <!-- Add MC Application Modal -->
 <div class="modal fade" id="mcApplicationModal" tabindex="-1" aria-labelledby="mcApplicationModalLabel" aria-hidden="true">
@@ -210,11 +201,11 @@
                                                 </td>
                                                 <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
 
-                                                    @if ($mcApplication->status === 'pending')
-                                                        <!-- Edit button -->
-                                                        <button class="btn btn-md btn-primary" data-bs-toggle="modal" data-bs-target="#editMcModal{{ $mcApplication->id }}">
-                                                            <i class="fas fa-pencil-alt"></i>
-                                                        </button>
+                                                                                    @if ($mcApplication->status === 'pending')
+                                                                                        <!-- Edit button -->
+                                                                                        <button class="btn btn-md btn-primary" data-bs-toggle="modal" data-bs-target="#editMcModal{{ $mcApplication->id }}">
+                                                                                            <i class="fas fa-pencil-alt"></i>
+                                                                                        </button>
 
                                                         <!-- Edit MC Application Modal -->
                                                         <div class="modal fade" id="editMcModal{{ $mcApplication->id }}" tabindex="-1" aria-labelledby="editMcModalLabel{{ $mcApplication->id }}" aria-hidden="true">
@@ -238,101 +229,105 @@
                                                                                 </div>
                                                                             </div>
 
-                                                                            <div class="col-md-12 mb-3">
-                                                                                <label for="leave_type{{ $mcApplication->id }}" class="form-label">Jenis Cuti<span class="text-danger">*</span></label>
-                                                                                <select class="form-control" id="leave_type{{ $mcApplication->id }}" name="leave_type" required>
-                                                                                    <option value="mc" {{ $mcApplication->leave_type == 'mc' ? 'selected' : '' }}>Cuti Sakit (MC)</option>
-                                                                                    <option value="annual" {{ $mcApplication->leave_type == 'annual' ? 'selected' : '' }}>Cuti Tahunan</option>
-                                                                                    <option value="other" {{ $mcApplication->leave_type == 'other' ? 'selected' : '' }}>Lain-lain</option>
-                                                                                </select>
-                                                                            </div>
+                                                                                                                <div class="col-md-12 mb-3">
+                                                                                                                    <label for="leave_type{{ $mcApplication->id }}" class="form-label">Jenis Cuti<span class="text-danger">*</span></label>
+                                                                                                                    <select class="form-control" id="leave_type{{ $mcApplication->id }}" name="leave_type" required>
+                                                                                                                        <option value="mc" {{ $mcApplication->leave_type == 'mc' ? 'selected' : '' }}>Cuti Sakit (MC)</option>
+                                                                                                                        <option value="annual" {{ $mcApplication->leave_type == 'annual' ? 'selected' : '' }}>Cuti Tahunan</option>
+                                                                                                                        <option value="other" {{ $mcApplication->leave_type == 'other' ? 'selected' : '' }}>Lain-lain</option>
+                                                                                                                    </select>
+                                                                                                                </div>
 
-                                                                            <div class="mb-3">
-                                                                                <label for="document_path{{ $mcApplication->id }}" class="form-label">Dokumen MC (biarkan kosong jika tidak mengubah)</label>
-                                                                                <input type="file" class="form-control" id="document_path{{ $mcApplication->id }}" name="document_path">
-                                                                            </div>
-                                                                            <div class="mb-3">
-                                                                                <label for="reason{{ $mcApplication->id }}" class="form-label">Sebab</label>
-                                                                                <textarea class="form-control" id="reason{{ $mcApplication->id }}" name="reason" rows="3" required>{{ $mcApplication->reason }}</textarea>
-                                                                            </div>
-                                                                            <div class="modal-footer">
-                                                                                <button type="submit" class="btn btn-success">Simpan</button>
-                                                                            </div>
-                                                                        </form>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+
+                                                                                                                <div class="mb-3">
+                                                                                                                    <label for="document_path{{ $mcApplication->id }}" class="form-label">Dokumen MC (biarkan kosong jika tidak mengubah)</label>
+                                                                                                                    <input type="file" class="form-control" id="document_path{{ $mcApplication->id }}" name="document_path">
+                                                                                                                </div>
+                                                                                                                <div class="mb-3">
+                                                                                                                    <label for="reason{{ $mcApplication->id }}" class="form-label">Sebab</label>
+                                                                                                                    <textarea class="form-control" id="reason{{ $mcApplication->id }}" name="reason" rows="3" required>{{ $mcApplication->reason }}</textarea>
+                                                                                                                </div>
+
+                                                                                                                <div class="modal-footer">
+                                                                                                                    <button type="submit" class="btn btn-success">Simpan</button>
+                                                                                                                </div>
+                                                                                                        </form>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <!-- Delete button -->
+                                                                                        <form action="{{ route('officer.deleteMC', $mcApplication->id) }}" method="POST" style="display:inline;">
+                                                                                            @csrf
+                                                                                                @method('DELETE') <!-- Include this line to specify that the method is DELETE -->
+                                                                                                <button type="submit" class="btn btn-md btn-danger" onclick="return confirm('Adakah anda pasti ingin menghapus permohonan ini?');">
+                                                                                                    <i class="fas fa-trash-alt"></i>
+                                                                                                </button>
+                                                                                        </form>
+
+                                                                                    @elseif($mcApplication->status == 'rejected')
+                                                                                    {{ $mcApplication->rejection_reason }}
+                                                                                    @else
+                                                                                        <span>-</span>
+                                                                                    @endif
+                                                                                </td>
+
+                                                                            </tr>
+                                                                        @endforeach
+
+                                                                    </tbody>
+                                                                </table>
+                                                            @endif
+
                                                         </div>
+                                                    </div>
 
-                                                        <!-- Delete button -->
-                                                        <form action="{{ route('officer.deleteMC', $mcApplication->id) }}" method="POST" style="display:inline;">
-                                                            @csrf
-                                                            @method('DELETE') <!-- Include this line to specify that the method is DELETE -->
-                                                            <button type="submit" class="btn btn-md btn-danger" onclick="return confirm('Adakah anda pasti ingin menghapus permohonan ini?');">
-                                                                <i class="fas fa-trash-alt"></i>
-                                                            </button>
-                                                        </form>
-                                                    @elseif($mcApplication->status == 'rejected')
-                                                    {{ $mcApplication->rejection_reason }}
-                                                    @else
-                                                        <span>-</span>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
-
                     </div>
-
                 </div>
             </div>
-        </div>
-    </div>
+        </main>
+        <!-- Closing main-content -->
 
+        <!-- Core JS Files -->
+        <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
+        <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
+        <script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
+        <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
+        <!-- Most Important JS Files -->
+        <script src="{{ asset('js/app.js') }}"></script>
 
-</div>
-</div>
-    </div>
-        </div>
-</div>
-</main> <!-- Closing main-content -->
-
-<!-- Core JS Files -->
-<script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
-<script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
-<script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
-<script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
-<script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
-<!-- Most Important JS Files -->
-<script src="{{ asset('js/app.js') }}"></script>
-
-<!-- Github buttons -->
-<script async defer src="https://buttons.github.io/buttons.js"></script>
-<!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-<script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.0.4') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    @if(session('success'))
-        Swal.fire({
-            icon: 'success',
-            title: 'Berjaya!',
-            text: "{{ session('success') }}",
-            confirmButtonText: 'OK'
-        });
-    @elseif(session('error'))
-        Swal.fire({
-            icon: 'error',
-            title: 'Ralat!',
-            text: "{{ session('error') }}",
-            confirmButtonText: 'OK'
-        });
-    @endif
-</script>
-</body>
-
+        <!-- Github buttons -->
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+        <script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.0.4') }}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            @if(session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berjaya!',
+                    text: "{{ session('success') }}",
+                    confirmButtonText: 'OK'
+                });
+            @elseif(session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Ralat!',
+                    text: "{{ session('error') }}",
+                    confirmButtonText: 'OK'
+                });
+            @endif
+        </script>
+    </body>
 
 </html>

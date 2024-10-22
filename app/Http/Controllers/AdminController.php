@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use App\Models\Announcement;
 use App\Models\McApplication;
+use App\Models\Note;
 use App\Models\Staff;
 use App\Models\User; // <-- Import the User model
 use Carbon\Carbon;
@@ -100,8 +101,13 @@ class AdminController extends Controller
 
 
         $officers = User::where('role', 'officer')->get();
+
         // Annoucement
         $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
+        // Notes
+        $notes = Note::all(); // Adjust as necessary to fetch your notes
+
+
         $totalMcApplications = McApplication::count();
         $acceptedMcApplications = McApplication::where('status', 'approved')->count();
         $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
@@ -136,6 +142,7 @@ class AdminController extends Controller
             'acceptedMcApplications',
             'rejectedMcApplications',
             'announcements',
+            'notes',
             'allApplications',
             'staffOnLeaveToday',
             'leaveCountsByMonth',
@@ -148,7 +155,7 @@ class AdminController extends Controller
 
 
 
-// PENGURUSAN ROUTES
+// PENGUMUMAN ROUTES
     public function Annoucement()
     {
         // Fetch all announcements without filtering by user
@@ -158,10 +165,11 @@ class AdminController extends Controller
         $totalMcApplications = McApplication::count();
         $acceptedMcApplications = McApplication::where('status', 'approved')->count();
         $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
+        $notes = Note::all(); // Retrieve all notes
 
         // Return the announcements view for the admin
         return view('partials.adminside.announcement', compact('announcements','totalUsers','totalMcApplications',
-        'acceptedMcApplications','rejectedMcApplications'));
+        'acceptedMcApplications','rejectedMcApplications','notes'));
     }
 
     public function updateAnnouncement(Request $request, $id)
@@ -241,6 +249,69 @@ class AdminController extends Controller
 
         // return redirect()->back()->with('success', 'Announcement created successfully.');
     }
+
+
+// NOTE ROUTES
+    public function note()
+    {
+        $notes = Note::all(); // Fetch all notes
+
+        $totalUsers = User::where('role', '!=', 'admin')->count();
+        $totalMcApplications = McApplication::count();
+        $acceptedMcApplications = McApplication::where('status', 'approved')->count();
+        $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
+
+        return view('partials.adminside.note', compact('notes','totalUsers','totalMcApplications',
+        'acceptedMcApplications','rejectedMcApplications')); // Correct view path
+    }
+
+
+
+
+// Store a new note
+    public function storeNote(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+        ]);
+
+        Note::create([
+            'title' => $request->title,
+            'content' => $request->content,
+        ]);
+
+        return redirect()->back()->with('success', 'Note created successfully!');
+    }
+
+// Update an existing note
+    public function updateNote(Request $request, $id)
+    {
+        $note = Note::findOrFail($id); // Find note or fail
+
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+        ]);
+
+        $note->update([
+            'title' => $request->title,
+            'content' => $request->content,
+        ]);
+
+        return redirect()->back()->with('success', 'Note updated successfully!');
+    }
+
+// Delete a note
+    public function deleteNote($id)
+    {
+        $note = Note::findOrFail($id); // Find note or fail
+        $note->delete();
+
+        return redirect()->back()->with('success', 'Note deleted successfully!');
+    }
+
+
 
 
 
@@ -372,6 +443,7 @@ class AdminController extends Controller
             'total_others' => 'required|integer|min:0',
             'fullname' => 'required|string|max:255',
             'selected_officer_id' => 'nullable|integer', // Add this line to validate officer selection
+            'fullname' => 'nullable|string|max:255', // Added fullname validation
         ]);
 
         // Create the new user
@@ -392,6 +464,7 @@ class AdminController extends Controller
             'postcode' => $request->postcode,
             'state' => $request->state,
             'selected_officer_id' => $request->selected_officer_id, // Save selected officer ID here
+            'fullname' => $request->fullname, // Added fullname field
         ]);
 
         // Redirect back to admin with a success message
@@ -422,11 +495,11 @@ class AdminController extends Controller
             $allApplicationsQuery->where('leave_type', $leave_typeFilter);
         }
         // Join with users table and apply role filter if provided
-    if ($roleFilter) {
-    $allApplicationsQuery->whereHas('user', function ($query) use ($roleFilter) {
-        $query->where('role', $roleFilter);
-    });
-}
+        if ($roleFilter) {
+        $allApplicationsQuery->whereHas('user', function ($query) use ($roleFilter) {
+            $query->where('role', $roleFilter);
+        });
+        }
         // Apply date filters if provided
         if ($startDateFilter) {
             $allApplicationsQuery->where('start_date', '>=', $startDateFilter);
@@ -560,6 +633,7 @@ class AdminController extends Controller
             'postcode' => 'nullable|string|max:10',
             'state' => 'nullable|string|max:255',
             'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation for profile image
+            'fullname' => 'nullable|string|max:255',
         ]);
 
         // Update user details
@@ -571,6 +645,7 @@ class AdminController extends Controller
         $user->city = $request->city;
         $user->postcode = $request->postcode;
         $user->state = $request->state;
+        $user->fullname = $request->fullname;
 
             // Handle profile image upload
             if ($request->hasFile('profile_image')) {
@@ -583,18 +658,18 @@ class AdminController extends Controller
         }
 
        // Check if the password is filled and matches the confirmation password
-    if ($request->filled('password')) {
-        // Check if password confirmation is provided
-        if ($request->input('password') !== $request->input('password_confirmation')) {
-            return redirect()->back()->withErrors(['password' => 'Kata laluan tidak sepadan!']);
+        if ($request->filled('password')) {
+            // Check if password confirmation is provided
+            if ($request->input('password') !== $request->input('password_confirmation')) {
+                return redirect()->back()->withErrors(['password' => 'Kata laluan tidak sepadan!']);
+            }
+
+            // Hash the new password and save it
+            $user->password = Hash::make($request->password);
         }
 
-        // Hash the new password and save it
-        $user->password = Hash::make($request->password);
-    }
-
-        // Save changes to the database
-        $user->save();
+            // Save changes to the database
+            $user->save();
 
         // Redirect with success message
         return redirect()->back()->with('success', 'Your details have been updated successfully!');

@@ -39,9 +39,6 @@
 
         <main class="main-content position-relative border-radius-lg">
             <div class="container-fluid py-4">
-                    {{-- @include('partials.logout')
-                    @include('partials.adminside.mcdays')
-     --}}
                      @include('partials.logout')
                     @include('partials.adminside.mcdata')
 
@@ -52,9 +49,11 @@
 
 
                                 <!-- Senarai Permohonan Semua (Staf dan Pegawai) -->
-                                <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
-                                    <h4><b>SENARAI KESELURUHAN PERMOHONAN<b></h4>
-                                </nav>
+                                <div class="d-flex align-items-center justify-content-between mb-4 p-3" style="background-color: rgba(0, 0, 0, 0);">
+                                    <h4 class="mb-0 text-uppercase fw-bold "><b>
+                                        <i class="bi bi-speedometer2 me-2"></i> SENARAI KESELURUHAN PERMOHONAN</b>
+                                    </h4>
+                                </div>
 
                                 <div class="row mt-4">
                                     <div class="col-lg-12 mb-lg-0 mb-4">
@@ -147,10 +146,11 @@
                                                                             @endif
                                                                             </td>
                                                                             <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                <p class="text-m text-secondary">{{ $application->start_date }}</p>
+                                                                                <p class="text-m text-secondary">{{ \Carbon\Carbon::parse($application->start_date)->format('d/m/Y') }}</p>
+
                                                                             </td>
                                                                             <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                <p class="text-m text-secondary">{{ $application->end_date }}</p>
+                                                                                <p class="text-m text-secondary">{{ \Carbon\Carbon::parse($application->end_date)->format('d/m/Y') }}</p>
                                                                             </td>
                                                                             <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                 <p class="text-m text-secondary">{{ $application->reason }}</p>

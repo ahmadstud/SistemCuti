@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash; // <-- For password hashing
 use App\Models\McApplication;
 use App\Models\Announcement;
+use App\Models\Note;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 
@@ -31,6 +32,7 @@ class OfficerController extends Controller
         return redirect()->back()->with('success', 'Status permohonan telah dikemas kini!');
         return redirect()->back()->with('error', 'Status permohonan gagal dikemas kini!');
     }
+
 
     public function updateOwnDetails3(Request $request)
     {
@@ -232,8 +234,13 @@ class OfficerController extends Controller
          ->get();
 
      $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
-        return view('officer', compact('staffOnLeaveToday','announcements'));
+     // Notes
+     $notes = Note::all(); // Adjust as necessary to fetch your notes
+     
+        return view('officer', compact('staffOnLeaveToday','announcements','notes',));
     }
+   
+   
     public function changePassword(Request $request)
 {
     $user = Auth::user(); // Get the currently authenticated user

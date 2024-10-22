@@ -48,9 +48,11 @@
                             <div class="card-header pb-1 p-1">
 
                                 <!-- Separate Change Password Section -->
-                                <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
-                                <h4><b>TUKAR KATA LALUAN<b></h4>
-                                </nav>
+                                <div class="d-flex align-items-center justify-content-between mb-4 p-3" style="background-color: rgba(0, 0, 0, 0);">
+                                    <h4 class="mb-0 text-uppercase fw-bold "><b>
+                                        <i class="bi bi-speedometer2 me-2"></i> TUKAR KATA LALUAN </b>
+                                    </h4>
+                                </div>
 
                                 <div class="row mt-4">
                                 <div class="col-lg-12 mb-lg-0 mb-4">

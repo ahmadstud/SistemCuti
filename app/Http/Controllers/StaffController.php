@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\McApplication;
 use App\Models\User;
 use App\Models\Announcement;
+use App\Models\Note;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash; // <-- For password hashing
@@ -82,7 +83,6 @@ class StaffController extends Controller
             return redirect()->back()->with('error', 'Gagal menghantar permohonan MC. Sila cuba lagi.');
         }
     }
-
 
     public function updateOwnDetails2(Request $request)
     {
@@ -222,7 +222,7 @@ class StaffController extends Controller
         $officers = User::where('role', 'officer')->get(); // Fetch officers
          // Fetch total users excluding admins
          $totalUsers = User::all();
-        return view('staff',compact('announcements','staffOnLeaveToday','totalUsers','officers'));
+        return view('staff',compact('announcements','staffOnLeaveToday','totalUsers','officers', 'notes',));
     }
 
     public function profile()
@@ -243,24 +243,24 @@ class StaffController extends Controller
     }
 
     public function changePassword(Request $request)
-{
-    $user = Auth::user(); // Get the currently authenticated user
+    {
+        $user = Auth::user(); // Get the currently authenticated user
 
-    // Validate the password input data
-    $request->validate([
-        'password' => 'required|string|min:8|confirmed', // New password must be confirmed
-    ]);
+        // Validate the password input data
+        $request->validate([
+            'password' => 'required|string|min:8|confirmed', // New password must be confirmed
+        ]);
 
-    // Update the user's password
-    $user->password = Hash::make($request->password); // Hash the new password
+        // Update the user's password
+        $user->password = Hash::make($request->password); // Hash the new password
 
-    // Save changes to the database
-    $user->save();
+        // Save changes to the database
+        $user->save();
 
-    // Redirect with success message
-    return redirect()->back()->with('success', 'Kata laluan anda telah berjaya dikemas kini!');
-    return redirect()->back()->with('error', 'Kata laluan anda telah gagal dikemas kini!');
-}
+        // Redirect with success message
+        return redirect()->back()->with('success', 'Kata laluan anda telah berjaya dikemas kini!');
+        return redirect()->back()->with('error', 'Kata laluan anda telah gagal dikemas kini!');
+    }
 
 
 }

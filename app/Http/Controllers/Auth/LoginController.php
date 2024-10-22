@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User; // Import the User model
+use Illuminate\Support\Facades\Hash; // Import Hash for password hashing
+use Illuminate\Support\Facades\Validator; // Import Validator for validation
 
 class LoginController extends Controller
 {
@@ -37,6 +39,8 @@ class LoginController extends Controller
         return back()->withErrors(['username' => 'Invalid username or password']);
     }
 
+
+
     public function logout(Request $request)
     {
         Auth::logout();
@@ -46,4 +50,35 @@ class LoginController extends Controller
         return redirect('/');
     }
 
+
+    
+    // Show the form for password reset
+    public function showResetForm()
+    {
+        return view('auth.reset-password'); // Create this view for the reset form
+    }
+
+
+
+    // Handle the password reset request
+    public function resetPassword(Request $request)
+    {
+        // Validate the form data
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+            'new_password' => 'required|min:8|confirmed', // Ensure you have 'new_password_confirmation' field in the form
+        ]);
+
+        // Find the user by email
+        $user = User::where('email', $request->email)->first();
+        if ($user) {
+            // Update the user's password
+            $user->password = Hash::make($request->new_password);
+            $user->save();
+
+            return redirect()->route('login')->with('success', 'Kata laluan anda telah ditukar!');
+        }
+
+        return back()->withErrors(['email' => 'Emel tidak ditemukan.']);
+    }
 }

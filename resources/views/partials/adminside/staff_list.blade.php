@@ -53,9 +53,11 @@
 
 
                                 <!-- Senarai Pengguna section -->
-                                <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
-                                <h4><b>SENARAI PEKERJA<b></h4>
-                                </nav>
+                                <div class="d-flex align-items-center justify-content-between mb-4 p-3" style="background-color: rgba(0, 0, 0, 0);">
+                                    <h4 class="mb-0 text-uppercase fw-bold "><b>
+                                        <i class="bi bi-speedometer2 me-2"></i> SENARAI PEKERJA </b>
+                                    </h4>
+                                </div>
 
                                 <div class="row mt-4">
                                     <div class="col-lg-12 mb-lg-0 mb-4">
@@ -92,7 +94,11 @@
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="row g-3">
-                                                                                    <div class="col-md-12 mb-3">
+                                                                                    <div class="col-md-6 mb-3">
+                                                                                        <label for="fullname" class="form-label">Nama Penuh<span class="text-danger">*</span></label>
+                                                                                        <input type="text" class="form-control" id="fullname" name="fullname" value="{{ Auth::user()->fullname }}">
+                                                                                    </div>
+                                                                                    <div class="col-md-6 mb-3">
                                                                                         <label for="name" class="form-label">Nama<span class="text-danger">*</span></label>
                                                                                         <input type="text" class="form-control" id="name" name="name" required>
                                                                                     </div>
@@ -255,6 +261,7 @@
                                                                                 <p class="text-m text-secondary">{{ $loop->iteration }}</p>
                                                                             </td>
                                                                             <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                <p class="text-m text-secondary">{{ $user->fullname }}</p>
                                                                                 <p class="text-m text-secondary">{{ $user->name }}</p>
                                                                                 <p class="text-sm text-secondary">{{ $user->email }}</p>
                                                                             </td>
@@ -326,7 +333,11 @@
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     <div class="row g-3">
-                                                                                                        <div class="col-md-12 mb-3">
+                                                                                                        <div class="col-md-6 mb-3">
+                                                                                                            <label for="fullname{{ $user->id }}" class="form-label">Nama Penuh</label>
+                                                                                                            <input type="text" class="form-control" id="fullname{{ $user->id }}" name="fullname" value="{{ $user->fullname }}" required>
+                                                                                                        </div>
+                                                                                                        <div class="col-md-6 mb-3">
                                                                                                             <label for="name{{ $user->id }}" class="form-label">Nama</label>
                                                                                                             <input type="text" class="form-control" id="name{{ $user->id }}" name="name" value="{{ $user->name }}" required>
                                                                                                         </div>

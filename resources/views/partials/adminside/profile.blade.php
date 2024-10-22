@@ -49,9 +49,11 @@
 
 
                                 <!-- Profile Section -->
-                                <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
-                                    <h4><b>PROFIL PEKERJA<b></h4>
-                                </nav>
+                                <div class="d-flex align-items-center justify-content-between mb-4 p-3" style="background-color: rgba(0, 0, 0, 0);">
+                                    <h4 class="mb-0 text-uppercase fw-bold "><b>
+                                        <i class="bi bi-speedometer2 me-2"></i> PROFIL PEKERJA </b>
+                                    </h4>
+                                </div>
 
                                 <div class="row mt-4">
                                     <div class="col-lg-12 mb-lg-0 mb-4">
@@ -194,19 +196,20 @@
                                                     <div class="card-body">
 
                                                         <!-- Profile Image and Full Name -->
-                                                        <div class="row align-items-center mb-3">
+                                                        <div class="row align-items-center mt-3">
+                                                            <div class="col-md-10">
+                                                                <label for="full_name" class="form-label">NAMA PENUH</label>
+                                                                <p class="form-control" id="full_name">{{ Auth::user()->name }}</p>
+                                                            </div>
                                                             <div class="col-md-2 text-center">
                                                                 @if(Auth::user()->profile_image)
-                                                                    <img src="{{ asset('' . Auth::user()->profile_image) }}" alt="Profile Image" class="rounded-circle" width="120" height="120">
+                                                                    <img src="{{ asset('' . Auth::user()->profile_image) }}" alt="Profile Image" class="rounded-circle img-thumbnail" style="width: 120px; height: 120px; object-fit: cover;">
                                                                 @else
-                                                                    <img src="{{ asset('storage/profile_image/default.jpg') }}" alt="Default Profile Image" class="rounded-circle" width="120" height="120">
+                                                                    <img src="{{ asset('storage/profile_image/default.jpg') }}" alt="Default Profile Image" class="rounded-circle img-thumbnail" style="width: 120px; height: 120px; object-fit: cover;">
                                                                 @endif
                                                             </div>
-                                                            <div class="col-md-10">
-                                                                <label for="full_name" class="form-label" style="margin-left: 20px;">NAMA PENUH</label>
-                                                                <p class="form-control" id="full_name" style="margin-left: 20px;">{{ Auth::user()->name }}</p>
-                                                            </div>
                                                         </div>
+
 
                                                         <!-- Name and Email -->
                                                         <div class="row mt-3">
