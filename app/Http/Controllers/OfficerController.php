@@ -81,50 +81,41 @@ class OfficerController extends Controller
     }
 
     public function storeMcApplication(Request $request)
-{
-    // Validate the form input
-    $validatedData = $request->validate([
-        'start_date' => 'required|date',
-        'end_date' => 'required|date|after_or_equal:start_date',
-        'document_path' => 'nullable|mimes:pdf,jpg,png|max:2048', // Allow nullable file for non-MC types
-        'reason' => 'required|string',
-        'leave_type' => 'required|in:mc,annual,other', // Validate leave_type
-    ]);
-
-    // Calculate the number of days for the MC application
-    $startDate = Carbon::parse($request->start_date);
-    $endDate = Carbon::parse($request->end_date);
-    $daysRequested = $endDate->diffInDays($startDate) + 1; // Include both start and end dates
-
-    // Check if user has enough MC days left (only applicable for MC leave type)
-    $user = Auth::user();
-    if ($request->leave_type === 'mc' && $user->total_mc_days < $daysRequested) {
-        return redirect()->back()->with('error', 'Hari MC tidak mencukupi!');
-    }
-
-    // Handle file upload conditionally (only for MC leave type)
-    $documentPath = null;
-    if ($request->leave_type === 'mc' && $request->hasFile('document_path')) {
-        $documentPath = $request->file('document_path')->store('mc_documents', 'public');
-    }
-
-    try {
-        McApplication::create([
-            'user_id' => Auth::id(),  // Assign the currently authenticated user ID
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-            'reason' => $request->reason,
-            'document_path' => $documentPath, // Save document path if available
-            'status' => 'pending',
-            'leave_type' => $request->leave_type, // Store the leave_type
-            'direct_admin_approval' => true, // Indicate that this application is directly for admin approval
+    {
+        // Validate the form input
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'document_path' => 'nullable|mimes:pdf,jpg,png|max:2048', // Allow nullable file for non-MC types
+            'reason' => 'required|string',
+            'leave_type' => 'required|in:mc,annual,other', // Validate leave_type
         ]);
 
-        return redirect()->back()->with('success', 'Permohonan Cuti telah dihantar!');
-    } catch (\Exception $e) {
-        return redirect()->back()->with('error', 'Gagal menghantar permohonan Cuti. Sila cuba lagi.');
+        // Handle file upload conditionally (you may allow it for other leave types as well)
+        $documentPath = null;
+        if ($request->hasFile('document_path')) {
+            $documentPath = $request->file('document_path')->store('mc_documents', 'public');
+        }
+
+        try {
+            McApplication::create([
+                'user_id' => Auth::id(),  // Assign the currently authenticated user ID
+                'start_date' => $request->start_date,
+                'end_date' => $request->end_date,
+                'reason' => $request->reason,
+                'document_path' => $documentPath, // Save document path if available
+                'status' => 'pending',
+                'leave_type' => $request->leave_type, // Store the leave_type
+                'direct_admin_approval' => $request->input('direct_admin_approval', true), // Change to dynamic
+            ]);
+
+            return redirect()->back()->with('success', 'Permohonan Cuti telah dihantar!');
+        } catch (\Exception $e) {
+            Log::error('Error Creating MC Application:', ['message' => $e->getMessage()]);
+            return redirect()->back()->with('error', 'Gagal menghantar permohonan Cuti. Sila cuba lagi.');
+        }
     }
-}
+
     public function editMC(Request $request, $id)
     {
         // Retrieve the existing MC application
@@ -236,11 +227,11 @@ class OfficerController extends Controller
      $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
      // Notes
      $notes = Note::all(); // Adjust as necessary to fetch your notes
-     
+
         return view('officer', compact('staffOnLeaveToday','announcements','notes',));
     }
-   
-   
+
+
     public function changePassword(Request $request)
 {
     $user = Auth::user(); // Get the currently authenticated user

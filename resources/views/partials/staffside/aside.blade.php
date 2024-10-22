@@ -10,9 +10,6 @@
                 </div>
             </div>
         </a>
-    
-    
-
         <div class="text-center" style="margin-bottom: 1rem; width: 100%;">
 
             <!-- Papan Pemuka Staf -->

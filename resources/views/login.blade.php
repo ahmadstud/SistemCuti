@@ -52,12 +52,12 @@
   <main class="main-content mt-0">
     <!-- Full-screen header with background image -->
     <div class="page-header min-vh-100 d-flex flex-column justify-content-center align-items-center m-0 border-radius-none"
-         style="background-image: url('https://images.squarespace-cdn.com/content/v1/549d41a3e4b003c6ce131926/1473250081033-Z1HR2ON8Z4RMNSDWHN9V/Kuala_Lumpur-Web-107-20150501.jpg?format=1500w'); 
+         style="background-image: url('https://images.squarespace-cdn.com/content/v1/549d41a3e4b003c6ce131926/1473250081033-Z1HR2ON8Z4RMNSDWHN9V/Kuala_Lumpur-Web-107-20150501.jpg?format=1500w');
                 background-position: center; background-size: cover;">
-      
+
       <!-- Dark overlay for the background -->
       <span class="mask bg-gradient-dark opacity-6 position-absolute w-100 h-100"></span>
-      
+
       <!-- Logo and Title Section (Centered and excluded from opacity) -->
       <div class="text-center z-index-1">
         <h1 class="text-white mb-2 mt-5">
@@ -66,7 +66,7 @@
         </h1><br>
         <p class="text-lead text-white">Sistem Permohonan Cuti</p>
       </div>
-  
+
       <!-- Login Card Centered Vertically and Horizontally -->
       <div class="container d-flex justify-content-center align-items-center h-100 z-index-2">
         <div class="col-xl-4 col-lg-5 col-md-7">
@@ -75,7 +75,7 @@
               <h5>Daftar Masuk</h5>
               <p class="mb-0">Masukkan nama dan kata laluan</p>
             </div>
-  
+
             <div class="card-body">
               <form role="form" action="{{ route('login') }}" method="POST">
                 @csrf
@@ -85,16 +85,16 @@
                 <div class="mb-3">
                   <input type="password" class="form-control form-control-lg" placeholder="Kata Laluan" name="password" required>
                 </div>
-            
+
                 <div class="text-center">
                   <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">Log Masuk</button>
                 </div>
-                <p class="text-sm mt-3 mb-0 text-center">Lupa Kata Laluan? 
+                <p class="text-sm mt-3 mb-0 text-center">Lupa Kata Laluan?
                   <a href="#" class="text-dark font-weight-bolder" data-bs-toggle="modal" data-bs-target="#resetPasswordModal">Tukar Kata Laluan</a>
-                </p>                
+                </p>
               </form>
             </div>
-  
+
             <!-- Modal for Reset Password -->
             <div class="modal fade z-index-5" id="resetPasswordModal" tabindex="-1" aria-labelledby="resetPasswordModalLabel" aria-hidden="true">
               <div class="modal-dialog">
@@ -126,15 +126,15 @@
                 </div>
               </div>
             </div>
-  
+
           </div>
         </div>
       </div>
     </div>
   </main>
-  
-  
-  
+
+
+
 
   <!--   Core JS Files   -->
   <script src="../assets/js/core/popper.min.js"></script>

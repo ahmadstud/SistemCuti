@@ -210,16 +210,16 @@
                                                         -
                                                     @elseif($mcApplication->status == 'pending')
                                                         <!-- Button to trigger modal for editing -->
-                                                        <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#editMcModal{{ $mcApplication->id }}">
-                                                            <i class="fas fa-edit"></i>
+                                                        <button type="button" class="btn btn-md btn-primary" data-bs-toggle="modal" data-bs-target="#editMcModal{{ $mcApplication->id }}">
+                                                            <i class="fas fa-pencil-alt"></i>
                                                         </button>
 
                                                         <!-- Delete button -->
                                                         <form action="{{ route('staff.deleteMC', $mcApplication->id) }}" method="POST" style="display:inline;">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this application?');">
-                                                                <i class="fas fa-trash"></i>
+                                                            <button type="submit" class="btn btn-md btn-danger" onclick="return confirm('Are you sure you want to delete this application?');">
+                                                                <i class="fas fa-trash-alt"></i>
                                                             </button>
                                                         </form>
 

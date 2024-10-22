@@ -536,6 +536,7 @@ class AdminController extends Controller
     ->where('mc_applications.officer_approved', true)
     ->where('mc_applications.admin_approved', false)
     ->where('mc_applications.direct_admin_approval', false)
+    ->where('mc_applications.status', 'pending_admin')
     ->paginate(10); // Change 10 to the number of items per page you want
 
         // Fetch all MC applications for statistical purposes
@@ -691,75 +692,76 @@ class AdminController extends Controller
 
 
 // PERMOHONAN CUTI
-    public function approve($id)
-    {
-        $application = McApplication::find($id);
+public function approve($id)
+{
+    $application = McApplication::find($id);
 
-        if (!$application) {
-            return redirect()->back()->with('error', 'Application not found.');
-        }
-
-        // Check if it's direct admin approval or needs officer approval
-        if (!$application->direct_admin_approval && !$application->officer_approved) {
-            return redirect()->back()->with('error', 'MC must be approved by an officer first.');
-        }
-
-        $startDate = Carbon::parse($application->start_date);
-        $endDate = Carbon::parse($application->end_date);
-
-        // Calculate the number of days manually
-        $daysRequested = ($endDate->timestamp - $startDate->timestamp) / (60 * 60 * 24) + 1; // Convert seconds to days and add 1
-
-        // Ensure at least 1 day is requested
-        $daysRequested = max(1, (int)$daysRequested);
-
-        // Find the user who submitted the application
-        $user = User::find($application->user_id);
-
-        if (!$user) {
-            return redirect()->back()->with('error', 'User not found.');
-        }
-
-        // Deduct based on the leave type
-        switch ($application->leave_type) {
-            case 'annual':
-                if ($user->total_annual >= $daysRequested) {
-                    $user->total_annual -= $daysRequested;
-                } else {
-                    return redirect()->back()->with('error', 'Insufficient annual leave days available.');
-                }
-                break;
-
-            case 'mc':
-                if ($user->total_mc_days >= $daysRequested) {
-                    $user->total_mc_days -= $daysRequested;
-                } else {
-                    return redirect()->back()->with('error', 'Insufficient MC days available.');
-                }
-                break;
-
-            case 'other':
-                if ($user->total_others >= $daysRequested) {
-                    $user->total_others -= $daysRequested;
-                } else {
-                    return redirect()->back()->with('error', 'Insufficient other leave days available.');
-                }
-                break;
-
-            default:
-                return redirect()->back()->with('error', 'Invalid leave type.');
-        }
-
-        // Save the updated user information
-        $user->save();
-
-        // Update the application's status to approved
-        $application->admin_approved = true;
-        $application->status = 'approved';
-        $application->save();
-
-        return redirect()->back()->with('success', 'MC application approved by admin.');
+    if (!$application) {
+        return redirect()->back()->with('error', 'Application not found.');
     }
+
+    // Check if it's direct admin approval or needs officer approval
+    if (!$application->direct_admin_approval && !$application->officer_approved) {
+        return redirect()->back()->with('error', 'MC must be approved by an officer first.');
+    }
+
+    $startDate = Carbon::parse($application->start_date);
+    $endDate = Carbon::parse($application->end_date);
+
+    // Calculate the number of days requested
+    $daysRequested = $startDate->diffInDays($endDate) + 1; // Include the start day
+
+    // Ensure at least 1 day is requested
+    $daysRequested = max(1, $daysRequested);
+
+    // Find the user who submitted the application
+    $user = User::find($application->user_id);
+
+    if (!$user) {
+        return redirect()->back()->with('error', 'User not found.');
+    }
+
+    // Deduct based on the leave type
+    switch ($application->leave_type) {
+        case 'annual':
+            if ($user->total_annual >= $daysRequested) {
+                $user->total_annual -= $daysRequested;
+            } else {
+                return redirect()->back()->with('error', 'Insufficient annual leave days available.');
+            }
+            break;
+
+        case 'mc':
+            if ($user->total_mc_days >= $daysRequested) {
+                $user->total_mc_days -= $daysRequested;
+            } else {
+                return redirect()->back()->with('error', 'Insufficient MC days available.');
+            }
+            break;
+
+        case 'other':
+            if ($user->total_others >= $daysRequested) {
+                $user->total_others -= $daysRequested;
+            } else {
+                return redirect()->back()->with('error', 'Insufficient other leave days available.');
+            }
+            break;
+
+        default:
+            return redirect()->back()->with('error', 'Invalid leave type.');
+    }
+
+    // Save the updated user information
+    $user->save();
+
+    // Update the application's status to approved
+    $application->admin_approved = true;
+    $application->status = 'approved';
+    $application->save();
+
+    return redirect()->back()->with('success', 'MC application approved by admin.');
+}
+
 
 
     public function reject($id)

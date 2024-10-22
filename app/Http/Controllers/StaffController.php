@@ -28,27 +28,17 @@ class StaffController extends Controller
             'leave_type' => 'required|in:mc,annual,other',  // Ensure leave_type is one of the specified options
         ]);
 
-        // Calculate the number of days for the MC application
-        $startDate = Carbon::parse($request->start_date);
-        $endDate = Carbon::parse($request->end_date);
-        $daysRequested = $endDate->diffInDays($startDate) + 1; // Include both start and end dates
-
-        // Check if user has enough leave days left for the selected leave type
-        $user = Auth::user();
-        if ($request->leave_type === 'mc' && $user->total_mc_days < $daysRequested) {
-            return redirect()->back()->with('error', 'Hari MC tidak mencukupi!!');
-        } elseif ($request->leave_type === 'annual' && $user->total_annual < $daysRequested) {
-            return redirect()->back()->with('error', 'Cuti Tahunan tidak mencukupi!');
-        } elseif ($request->leave_type === 'other' && $user->total_others < $daysRequested) {
-            return redirect()->back()->with('error', 'Cuti lain-lain tidak mencukupi!');
-        }
-
         // Initialize document path as null
         $documentPath = null;
 
         // Handle file upload if a document is provided
         if ($request->hasFile('document_path')) {
-            $documentPath = $request->file('document_path')->store('mc_documents', 'public');
+            // Attempt to upload the document
+            try {
+                $documentPath = $request->file('document_path')->store('mc_documents', 'public');
+            } catch (\Exception $e) {
+                return redirect()->back()->with('error', 'Failed to upload document. Please try again.');
+            }
         }
 
         try {
@@ -61,28 +51,17 @@ class StaffController extends Controller
                 'document_path' => $documentPath, // This will be null if no document was uploaded
                 'status' => 'pending',
                 'leave_type' => $request->leave_type,  // Save the selected leave type
-                'direct_admin_approval' => $request->input('direct_admin_approval') == '1',
+                'direct_admin_approval' => $request->boolean('direct_admin_approval'), // Use boolean() helper
                 'officer_approved' => false,
             ]);
 
-            // Deduct days based on leave type
-            if ($request->leave_type === 'mc') {
-                $user->total_mc_days -= $daysRequested;
-            } elseif ($request->leave_type === 'annual') {
-                $user->total_annual -= $daysRequested;
-            } elseif ($request->leave_type === 'other') {
-                $user->total_others -= $daysRequested;
-            }
-
-            // Save the updated user information
-            $user->save();
-
             return redirect()->back()->with('success', 'Permohonan Cuti telah dihantar!');
         } catch (\Exception $e) {
-            Log::error('Error Creating MC Application:', ['message' => $e->getMessage()]);
+            Log::error('Error Creating MC Application:', ['message' => 'Failed to create MC Application: ' . $e->getMessage()]);
             return redirect()->back()->with('error', 'Gagal menghantar permohonan MC. Sila cuba lagi.');
         }
     }
+
 
     public function updateOwnDetails2(Request $request)
     {
