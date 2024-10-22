@@ -163,12 +163,6 @@
                                                                                         </button>
                                                                                     @endif
                                                                                 </td>
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> origin
                                                                             </tr>
                                                                         @endforeach
                                                                     @endif
