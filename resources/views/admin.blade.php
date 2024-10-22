@@ -143,10 +143,10 @@
                                                             <h6 class="text-white text-capitalize ps-3">SENARAI STAFF CUTI HARIAN</h6>
                                                         </div>
                                                         <br>
-                                                        <p class="text-sm mb-0">
-                                                            <i class="fa fa-arrow-up text-success"></i>
-                                                            <span class="font-weight-bold">pada </span>{{ now()->format('d F Y') }}
-                                                        </p>
+                                                        <p class="text-md mb-0">
+                                                            <i class="fa fa-bell text-warning"></i>
+                                                            <span class="font-weight-bold ms-2">pada </span>{{ now()->format('d F Y') }}
+                                                        </p>                                                                                                               
                                                     </div>
 
                                                     <div class="card-body pt-4 p-3">
@@ -199,6 +199,22 @@
                                                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                                                             <h6 class="text-white text-capitalize ps-3">PURATA KETIDAKHADIRAN</h6>
                                                         </div>
+                                                    </div>
+                                                    <br>
+                                                    <!-- Year Dropdown -->
+                                                    <div class="d-flex justify-content-end pe-3">
+                                                        <form method="GET" action="{{ route('admin.dashboard') }}" class="d-flex align-items-center">
+                                                            <div class="d-flex align-items-center mb-3">
+                                                                <label for="year" class="form-label me-2">Select Year:</label>
+                                                                <select name="year" id="year" class="form-select" style="width: 150px;" onchange="this.form.submit()">
+                                                                    @foreach ($yearRange as $availableYear)
+                                                                        <option value="{{ $availableYear }}" {{ $year == $availableYear ? 'selected' : '' }}>
+                                                                            {{ $availableYear }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>                                                       
+                                                        </form>
                                                     </div>
                                                     <div class="card-body p-3">
                                                         <div class="chart">
@@ -278,7 +294,51 @@
         {{-- Include CKEditor in the HTML Head --}}
         <script src="https://cdn.ckeditor.com/4.25.0/standard/ckeditor.js"></script>
 
+        <!-- Script to handle chart creation -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+        <script>
+            const ctx = document.getElementById('chart-line').getContext('2d');
+        
+            // Data for the monthly leave chart
+            const monthlyLeaveData = @json(array_values($leaveCountsByMonth)); // Get only the counts as an array
+        
+            const monthlyLeaveChart = new Chart(ctx, {
+                type: 'bar', // Change this to 'line' for a line chart
+                data: {
+                    labels: [
+                        'Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 
+                        'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'
+                    ],
+                    datasets: [{
+                        label: 'Bilangan Permohonan Yang Diterima',
+                        data: monthlyLeaveData,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)', // Light blue color
+                        borderColor: 'rgba(54, 162, 235, 1)', // Dark blue color
+                        borderWidth: 1,
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Bilangan Permohonan Yang Diterima'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Bulan'
+                            }
+                        }
+                    },
+                    responsive: true, // Ensure the chart is responsive
+                    maintainAspectRatio: false, // Optional: Maintain aspect ratio
+                }
+            });
+        </script>
     </body>
 
 </html>

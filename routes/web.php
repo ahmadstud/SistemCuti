@@ -56,12 +56,12 @@ use App\Http\Controllers\Auth\LoginController;
 
 
         // Note Management:
-            Route::get('/notes', [AdminController::class, 'note'])->name('admin.nota');
+        Route::get('/notes',                                        [AdminController::class, 'note'])->name('admin.nota');
 
-            Route::get('/admin/annoucement/notes',                               [AdminController::class, 'Notes'])->name('admin.notes');
-            Route::post('/admin/annoucement/notes',                              [AdminController::class, 'storeNote'])->name('admin.storeNote');
-            Route::put('/admin/annoucement/notes/{id}',                          [AdminController::class, 'updateNote'])->name('updateNote');
-            Route::delete('/admin/delete-note/{id}',                 [AdminController::class, 'deleteNote'])->name('deleteNote');
+            Route::get('/admin/annoucement/notes',                  [AdminController::class, 'Notes'])->name('admin.notes');
+            Route::post('/admin/annoucement/notes',                 [AdminController::class, 'storeNote'])->name('admin.storeNote');
+            Route::put('/admin/annoucement/notes/{id}',             [AdminController::class, 'updateNote'])->name('updateNote');
+            Route::delete('/admin/delete-note/{id}',                [AdminController::class, 'deleteNote'])->name('deleteNote');
 
 
 

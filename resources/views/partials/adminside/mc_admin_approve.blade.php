@@ -50,7 +50,7 @@
                                 <!-- Direct Admin Approval Section -->
                                 <div class="d-flex align-items-center justify-content-between mb-4 p-3" style="background-color: rgba(0, 0, 0, 0);">
                                     <h4 class="mb-0 text-uppercase fw-bold "><b>
-                                        <i class="bi bi-speedometer2 me-2"></i> KELULUSAN TERUS ADMIN UNTUK PERMOHONAN STAF DAN PEGAWAI </b>
+                                        <i class="bi bi-speedometer2 me-2"></i> KELULUSAN TERUS ADMIN UNTUK PERMOHONAN (STAF DAN PEGAWAI)</b>
                                     </h4>
                                 </div>
 
@@ -73,14 +73,14 @@
                                                             <table class="table" style="table-layout: fixed; width: 100%;">
                                                                 <thead style="background-color: #f0f0f0;">
                                                                     <tr>
-                                                                        <th style="width: 3%; position: sticky; left: 0; z-index: 1;  padding: 8px;">BIL</th>
+                                                                        <th style="width: 5%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">BIL</th>
                                                                         <th style="width: 17%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
                                                                         <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
                                                                         <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH AKHIR</th>
                                                                         <th style="width: 20%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
                                                                         <th style="width: 20%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
-                                                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN RUJUKAN</th>
-                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
+                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN RUJUKAN</th>
+                                                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -107,15 +107,15 @@
                                                                                 </td>
                                                                                 <td>
                                                                                 @switch($application->leave_type)
-                                                                                @case('mc')
-                                                                                    <span class="badge bg-success">Cuti Sakit</span>
-                                                                                    @break
-                                                                                @case('annual')
-                                                                                    <span class="badge bg-success">Cuti Tahunan</span>
-                                                                                    @break
-                                                                                @default
-                                                                                    <span class="badge bg-success">Cuti Lain-lain</span>
-                                                                            @endswitch
+                                                                                    @case('mc')
+                                                                                        <span class="badge bg-success">Cuti Sakit</span>
+                                                                                        @break
+                                                                                    @case('annual')
+                                                                                        <span class="badge bg-success">Cuti Tahunan</span>
+                                                                                        @break
+                                                                                    @default
+                                                                                        <span class="badge bg-success">Cuti Lain-lain</span>
+                                                                                @endswitch
                                                                                 </td>
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                     <p class="text-m text-secondary">{{ $application->reason }}</p>
@@ -125,6 +125,7 @@
                                                                                         <a href="{{ Storage::url($application->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</a>
                                                                                     @endif
                                                                                 </td>
+
                                                                                 {{-- <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                     <div class="d-flex justify-content-start"> <!-- Flex container for side-by-side buttons -->
                                                                                         <form action="{{ route('admin.approve', $application->id) }}" method="POST" style="margin-right: 5px;"> <!-- Add margin for spacing -->
@@ -144,6 +145,7 @@
 
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                     <div class="d-flex justify-content-start"> <!-- Flex container for side-by-side buttons -->
+                                                                                
                                                                                         <!-- Approve Button Form -->
                                                                                         <form action="{{ route('admin.approve', $application->id) }}" method="POST" style="margin-right: 5px;">
                                                                                             @csrf
@@ -151,40 +153,43 @@
                                                                                                 <i class="fas fa-check"></i>
                                                                                             </button>
                                                                                         </form>
-
+                                                                                
                                                                                         <!-- Reject Button Form -->
-                                                                                        <form action="{{ route('admin.reject', $application->id) }}" method="POST">
+                                                                                        <form action="{{ route('admin.reject', $application->id) }}" method="POST" id="reject-form-{{ $application->id }}">
                                                                                             @csrf
-                                                                                            <!-- Button to trigger the modal -->
-                                                                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectionReasonModal2{{ $application->id }}">
+                                                                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectionReasonModal{{ $application->id }}">
                                                                                                 <i class="fas fa-times"></i>
                                                                                             </button>
-
-                                                                                            <!-- Modal for Rejection Reason -->
-                                                                                            <div class="modal fade" id="rejectionReasonModal2{{ $application->id }}" tabindex="-1" role="dialog" aria-labelledby="rejectionReasonModal2Label{{ $application->id }}" aria-hidden="true">
-                                                                                                <div class="modal-dialog" role="document">
-                                                                                                    <div class="modal-content">
-                                                                                                        <div class="modal-header">
-                                                                                                            <h5 class="modal-title" id="rejectionReasonModal2Label{{ $application->id }}">Alasan Penolakan</h5>
-                                                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                                                <span aria-hidden="true">&times;</span>
-                                                                                                            </button>
-                                                                                                        </div>
-                                                                                                        <div class="modal-body">
-                                                                                                            <label for="rejection_reason_{{ $application->id }}">Alasan Penolakan:</label>
-                                                                                                            <textarea name="rejection_reason" id="rejection_reason_{{ $application->id }}" rows="3" class="form-control" required></textarea>
-                                                                                                        </div>
-                                                                                                        <div class="modal-footer">
-                                                                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                                                                                                            <!-- Submit rejection form with reason -->
-                                                                                                            <button type="submit" class="btn btn-danger">Hantar Tolakan</button>
-                                                                                                        </div>
+                                                                                        </form>
+                                                                                
+                                                                                        <!-- Modal for Rejection Reason -->
+                                                                                        <div class="modal fade" id="rejectionReasonModal{{ $application->id }}" tabindex="-1" role="dialog" aria-labelledby="rejectionReasonModalLabel{{ $application->id }}" aria-hidden="true">
+                                                                                            <div class="modal-dialog" role="document">
+                                                                                                <div class="modal-content">
+                                                                                                    <div class="modal-header">
+                                                                                                        <h5 class="modal-title" id="rejectionReasonModalLabel{{ $application->id }}">Alasan Penolakan</h5>
+                                                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                                            <span aria-hidden="true">&times;</span>
+                                                                                                        </button>
+                                                                                                    </div>
+                                                                                                    <div class="modal-body">
+                                                                                                        <label for="rejection_reason_{{ $application->id }}">Alasan Penolakan:</label>
+                                                                                                        <textarea name="rejection_reason" id="rejection_reason_{{ $application->id }}" rows="3" class="form-control" required></textarea>
+                                                                                                    </div>
+                                                                                                    <div class="modal-footer">
+                                                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                                                                                        <!-- Submit rejection form with reason -->
+                                                                                                        <button type="button" class="btn btn-danger" onclick="submitRejection({{ $application->id }})">
+                                                                                                            Hantar Tolakan
+                                                                                                        </button>
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
-                                                                                        </form>
+                                                                                        </div>
+                                                                                
                                                                                     </div>
                                                                                 </td>
+                                                                                
 
                                                                             </tr>
                                                                         @endforeach
@@ -214,6 +219,24 @@
         <script src="{{ asset('js/app.js') }}"></script>
         <script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.0.4') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <script>
+            function submitRejection(applicationId) {
+                const textarea = document.getElementById(`rejection_reason_${applicationId}`);
+                const form = document.getElementById(`reject-form-${applicationId}`);
+        
+                // Append the rejection reason to the form
+                const rejectionReasonInput = document.createElement('input');
+                rejectionReasonInput.type = 'hidden';
+                rejectionReasonInput.name = 'rejection_reason';
+                rejectionReasonInput.value = textarea.value;
+        
+                form.appendChild(rejectionReasonInput);
+        
+                // Submit the form
+                form.submit();
+            }
+        </script>
 
 
     </body>

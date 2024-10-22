@@ -199,6 +199,9 @@ class StaffController extends Controller
 
         $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
         $officers = User::where('role', 'officer')->get(); // Fetch officers
+        // Notes
+        $notes = Note::all(); // Adjust as necessary to fetch your notes
+        
          // Fetch total users excluding admins
          $totalUsers = User::all();
          $notes = Note::all(); // Adjust as necessary to fetch your notes

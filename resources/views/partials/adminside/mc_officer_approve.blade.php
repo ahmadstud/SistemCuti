@@ -50,7 +50,7 @@
                                 <!-- Admin Approval Section -->
                                 <div class="d-flex align-items-center justify-content-between mb-4 p-3" style="background-color: rgba(0, 0, 0, 0);">
                                     <h4 class="mb-0 text-uppercase fw-bold "><b>
-                                        <i class="bi bi-speedometer2 me-2"></i> KELULUSAN ADMIN UNTUK PERMOHONAN STAF</b>
+                                        <i class="bi bi-speedometer2 me-2"></i> KELULUSAN ADMIN UNTUK PERMOHONAN STAF (DARIPADA PEGAWAI)</b>
                                     </h4>
                                 </div>
 
@@ -73,17 +73,17 @@
                                                             <table class="table" style="table-layout: fixed; width: 100%;">
                                                                 <thead style="background-color: #f0f0f0;">
                                                                     <tr>
-                                                                        <th style="width: 5%; position: sticky; left: 0; z-index: 1;  padding: 8px;">BIL</th>
-                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
-                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
-                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH AKHIR</th>
-                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
-                                                                        <th style="width: 20%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
-                                                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN RUJUKAN</th>
-                                                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">KELULUSAN PEGAWAI</th>
-                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
+                                                                        <th style="width: 5%; position: sticky; left: 0; z-index: 1; padding: 8px;">BIL</th>
+                                                                        <th style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
+                                                                        <th style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
+                                                                        <th style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH AKHIR</th>
+                                                                        <th style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
+                                                                        <th style="width: 20%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
+                                                                        <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN RUJUKAN</th>
+                                                                        <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">KELULUSAN PEGAWAI</th>
+                                                                        <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th> <!-- Adjusted width here -->
                                                                     </tr>
-                                                                </thead>
+                                                                </thead>                                                                
                                                                 <tbody>
                                                                     @if($applications->isEmpty())
                                                                         <tr>
@@ -108,15 +108,15 @@
                                                                                 </td>
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                     @switch($application->leave_type)
-                                                                                    @case('mc')
-                                                                                        <span class="badge bg-success">Cuti Sakit</span>
-                                                                                        @break
-                                                                                    @case('annual')
-                                                                                        <span class="badge bg-success">Cuti Tahunan</span>
-                                                                                        @break
-                                                                                    @default
-                                                                                        <span class="badge bg-success">Cuti Lain-lain</span>
-                                                                                @endswitch
+                                                                                        @case('mc')
+                                                                                            <span class="badge bg-success">Cuti Sakit</span>
+                                                                                            @break
+                                                                                        @case('annual')
+                                                                                            <span class="badge bg-success">Cuti Tahunan</span>
+                                                                                            @break
+                                                                                        @default
+                                                                                            <span class="badge bg-success">Cuti Lain-lain</span>
+                                                                                    @endswitch
                                                                                 </td>
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                     <p class="text-m text-secondary">{{ $application->reason }}</p>
@@ -132,7 +132,8 @@
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                     {{ $application->officer_name ? $application->officer_name : 'Tiada Penyelia' }}
                                                                                 </td>
-                                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; white-space: normal;">
+                                                                                
+                                                                                {{-- <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; white-space: normal;">
                                                                                     @if($application->status === 'pending_admin')
                                                                                     <div class="d-flex justify-content-between">
                                                                                         <form action="{{ route('admin.approve', $application->id) }}" method="POST" class="d-inline">
@@ -162,7 +163,66 @@
                                                                                             <i class="fas fa-check-double"></i>
                                                                                         </button>
                                                                                     @endif
+                                                                                </td> --}}
+
+                                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                    @if($application->status === 'pending_admin')
+                                                                                    <div class="d-flex justify-content-between">
+
+                                                                                         <!-- Approve Button Form -->
+                                                                                        <form action="{{ route('admin.approve', $application->id) }}" method="POST" style="margin-right: 5px;">
+                                                                                            @csrf
+                                                                                            <button type="submit" class="btn btn-success" aria-label="Accept">
+                                                                                                <i class="fas fa-check"></i>
+                                                                                            </button>
+                                                                                        </form>
+                                                                                
+                                                                                        <!-- Reject Button Form -->
+                                                                                        <button type="button" class="btn btn-danger" aria-label="Reject" data-toggle="modal" data-target="#rejectModal-{{ $application->id }}">
+                                                                                            <i class="fas fa-times"></i>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                
+                                                                                    <!-- Modal for rejection reason -->
+                                                                                    <div class="modal fade" id="rejectModal-{{ $application->id }}" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel" aria-hidden="true">
+                                                                                        <div class="modal-dialog" role="document">
+                                                                                            <div class="modal-content">
+                                                                                                <div class="modal-header">
+                                                                                                    <h5 class="modal-title" id="rejectModalLabel">Rejection Reason</h5>
+                                                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                                        <span aria-hidden="true">&times;</span>
+                                                                                                    </button>
+                                                                                                </div>
+                                                                                                <form action="{{ route('admin.reject', $application->id) }}" method="POST">
+                                                                                                    @csrf
+                                                                                                    <div class="modal-body">
+                                                                                                        <div class="form-group">
+                                                                                                            <label for="reason">Please state the reason for rejection:</label>
+                                                                                                            <textarea id="reason" name="reason" class="form-control" required></textarea>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="modal-footer">
+                                                                                                        <button type="submit" class="btn btn-danger">Reject</button>
+                                                                                                    </div>
+                                                                                                </form>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    @elseif($application->status === 'accepted')
+                                                                                        <button type="button" class="btn btn-primary btn-sm" disabled aria-label="Accepted">
+                                                                                            <i class="fas fa-check-circle"></i>
+                                                                                        </button>
+                                                                                    @elseif($application->status === 'rejected')
+                                                                                        <button type="button" class="btn btn-secondary btn-sm" disabled aria-label="Rejected">
+                                                                                            <i class="fas fa-times-circle"></i>
+                                                                                        </button>
+                                                                                    @else
+                                                                                        <button type="button" class="btn btn-secondary btn-sm" disabled aria-label="Pending">
+                                                                                            <i class="fas fa-check-double"></i>
+                                                                                        </button>
+                                                                                    @endif
                                                                                 </td>
+                                                                                
                                                                             </tr>
                                                                         @endforeach
                                                                     @endif
@@ -184,12 +244,21 @@
         </main>
 
         <!-- Core JS Files -->
+
+        <!-- Core JS Files -->
         <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
         <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
         <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
         <script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
         <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
+        <!-- Most Important JS Files -->
         <script src="{{ asset('js/app.js') }}"></script>
+
+
+        <!-- jQuery and Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.6/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.0.4') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
