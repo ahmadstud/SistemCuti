@@ -74,7 +74,7 @@ use App\Http\Controllers\Auth\LoginController;
         // Admin reject route
             Route::post('/admin/mc-applications/{id}/admin-reject', [AdminController::class, 'reject'])->name('admin.reject');
 
-            
+
 
 
         // Admin Routes

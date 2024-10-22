@@ -141,7 +141,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    
+
                                                     <!-- View Profile Section -->
                                                     <div class="card-body">
                                                         <!-- Profile Information -->
@@ -183,7 +183,7 @@
                                                                     <p class="form-control" id="phone_number">{{ Auth::user()->phone_number }}</p>
                                                                 </div>
                                                             </div>
-                                                        
+
 
                                                             <!-- Address -->
                                                             <h5 class="mt-4">MAKLUMAT TEMPAT TINGGAL</h5>
@@ -256,23 +256,23 @@
                                                                  </div>
                                                              </div>
 
-                                                            
+
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
 
                                             </div>
-                                        </div>                                       
+                                        </div>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </main> 
+        </main>
         <!-- Closing main-content -->
 
         <!-- Core JS Files -->

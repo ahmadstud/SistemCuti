@@ -225,6 +225,7 @@ class StaffController extends Controller
         
          // Fetch total users excluding admins
          $totalUsers = User::all();
+         $notes = Note::all(); // Adjust as necessary to fetch your notes
         return view('staff',compact('announcements','staffOnLeaveToday','totalUsers','officers', 'notes',));
     }
 
