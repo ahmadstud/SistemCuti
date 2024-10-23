@@ -65,17 +65,17 @@
                                                         </div>
                                                     </div>
 
-                            <div class="card-body">
-                                <form action="{{ route('officer.changePassword') }}" method="POST" onsubmit="return validatePassword();">
-                                    @csrf
-                                    <div class="mb-3">
-                                        <label for="password" class="form-label">Kata Laluan Baru<span class="text-danger">*</span></label>
-                                        <input type="password" class="form-control" id="password" name="password" placeholder="Biarkan kosong jika tidak ingin mengubah">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="password_confirmation" class="form-label">Sahkan Kata Laluan Baru<span class="text-danger">*</span></label>
-                                        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" oninput="checkPasswordMatch();">
-                                    </div>
+                                                    <div class="card-body">
+                                                        <form action="{{ route('officer.changePassword') }}" method="POST" onsubmit="return validatePassword();">
+                                                            @csrf
+                                                            <div class="mb-3">
+                                                                <label for="password" class="form-label">Kata Laluan Baru<span class="text-danger">*</span></label>
+                                                                <input type="password" class="form-control" id="password" name="password" placeholder="Biarkan kosong jika tidak ingin mengubah">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="password_confirmation" class="form-label">Sahkan Kata Laluan Baru<span class="text-danger">*</span></label>
+                                                                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" oninput="checkPasswordMatch();">
+                                                            </div>
 
                                                             <div id="password-alert" class="alert alert-danger d-none">Kata laluan tidak sepadan!</div>
 

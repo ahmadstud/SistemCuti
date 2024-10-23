@@ -70,10 +70,10 @@
                             <div style="overflow-x: auto; position: relative;">
                                 @if($applications->isEmpty())
                                 <!-- Display a message when no applications exist inside the table -->
-                                <table class="table" style="table-layout: fixed; width: 100%;">
+                                <table class="table">
                                     <thead style="background-color: #f0f0f0;">
                                         <tr>
-                                            <th style="width: 5%; position: sticky; left: 0; z-index: 1; padding: 8px;">BIL</th>
+                                            <th style="width: 5%;padding: 8px;">BIL</th>
                                             <th style="width: 15%; padding: 8px;">NAMA</th>
                                             <th style="width: 15%; padding: 8px;">TARIKH MULA</th>
                                             <th style="width: 15%; padding: 8px;">TARIKH AKHIR</th>
@@ -92,7 +92,7 @@
                                     </tbody>
                                 </table>
                             @else
-                                <table class="table" style="table-layout: fixed; width: 100%;">
+                                <table class="table">
                                     <thead style="background-color: #f0f0f0;">
                                         <tr>
                                             <th style="width: 5%; position: sticky; left: 0; z-index: 1; padding: 8px;">BIL</th>

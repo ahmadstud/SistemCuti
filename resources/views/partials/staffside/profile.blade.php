@@ -150,16 +150,16 @@
                                                             <div class="row">
                                                                 <!-- Profile Image and Full Name -->
                                                                 <div class="row align-items-center mb-3">
+                                                                <div class="col-md-10">
+                                                                    <label for="fullname" class="form-label">NAMA PENUH<span class="text-danger">*</span></label>
+                                                                    <input type="text" class="form-control" id="fullname" name="fullname" value="{{ Auth::user()->fullname }}">
+                                                                </div>
                                                                 <div class="col-md-2 text-center">
                                                                     @if(Auth::user()->profile_image)
                                                                         <img src="{{ asset('' . Auth::user()->profile_image) }}" alt="Profile Image" class="rounded-circle" width="120" height="120">
                                                                     @else
                                                                         <img src="{{ asset('storage/profile_image/default.jpg') }}" alt="Default Profile Image" class="rounded-circle" width="120" height="120">
                                                                     @endif
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <label for="fullname" class="form-label">NAMA PENUH<span class="text-danger">*</span></label>
-                                                                    <input type="text" class="form-control" id="fullname" name="fullname" value="{{ Auth::user()->fullname }}">
                                                                 </div>
                                                             </div>
 

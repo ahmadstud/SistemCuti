@@ -2,12 +2,12 @@
   <div class="sidenav-header logo-section">
     <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
     <a class="navbar-brand m-0" href="#" target="_blank">
-      <div style="display: flex; align-items: center;">
-        <img src="{{ asset('assets/img/Erawhiz.png') }}" class="navbar-brand-img" alt="main_logo" style="width: 80; max-height: 80; object-fit: contain; border-radius: 10px; margin-right: 10px;">
-        <div>
-          <span style="font-weight: bold; font-size: 1.25rem;">Era Whiz ICT</span>
+        <div style="display: flex; align-items: center;">
+            <img src="{{ asset('assets/img/Erawhiz.png') }}" class="navbar-brand-img" alt="main_logo" style="width: 80px; max-height: 80px; object-fit: contain; border-radius: 10px; margin-right: 20px;"> <!-- Increased margin-right -->
+            <div style="max-width: 150px; word-wrap: break-word; white-space: normal;">
+                <span style="font-weight: bold; font-size: 1rem;">Sistem Pengurusan Cuti</span>
+            </div>
         </div>
-      </div>
     </a>
 
     <div class="text-center" style="margin-bottom: 1rem; width: 100%;">
@@ -63,7 +63,7 @@
                             <span class="nav-link-text ms-1">Pengumuman</span>
                         </a>
                     </li>
-            
+
                     <!-- Nota -->
                     <li class="nav-item" style="margin-bottom: 0;">
                         <form action="{{ route('admin.nota') }}" method="GET" id="nota-form" style="display:none;"></form>
@@ -76,7 +76,7 @@
                     </li>
                 </ul>
             </div>
-            
+
         </li>
 
 

@@ -124,14 +124,14 @@
 
 
                         <!-- List of MC Applications -->
-                        <div class="card-body d-flex justify-content-center">
+                        <div class="card-body ">
                             <div style="overflow-x: auto; position: relative;">
                             @if($mcApplications->isEmpty())
                                <!-- Display a message when no applications exist inside the table -->
-                               <table class="table" style="table-layout: fixed; width: 100%;">
+                               <table class="table">
                                 <thead style="background-color: #f0f0f0;">
                                     <tr>
-                                        <th style="width: 3%; position: sticky; left: 0; z-index: 1;  padding: 8px;">BIL</th>
+                                        <th style="width: 3%; padding: 8px;">BIL</th>
                                         <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
                                         <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH TAMAT</th>
                                         <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
@@ -144,13 +144,13 @@
                                 <tbody>
                                     <tr>
                                         <td colspan="8" class="text-center" style="padding: 20px;">
-                                            <p class="text-muted">Tiada Permohonan daripada staf</p>
+                                            <p class="text-muted">Tiada permohonan yang dibuat</p>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                             @else
-                                <table class="table" style="table-layout: fixed; width: 100%;">
+                                <table class="table">
                                     <thead style="background-color: #f0f0f0;">
                                         <tr>
                                             <th style="width: 3%; position: sticky; left: 0; z-index: 1;  padding: 8px;">BIL</th>

@@ -146,7 +146,7 @@
                                                         <p class="text-md mb-0">
                                                             <i class="fa fa-bell text-warning"></i>
                                                             <span class="font-weight-bold ms-2">pada </span>{{ now()->format('d F Y') }}
-                                                        </p>                                                                                                               
+                                                        </p>
                                                     </div>
 
                                                     <div class="card-body pt-4 p-3">
@@ -213,7 +213,7 @@
                                                                         </option>
                                                                     @endforeach
                                                                 </select>
-                                                            </div>                                                       
+                                                            </div>
                                                         </form>
                                                     </div>
                                                     <div class="card-body p-3">
@@ -299,15 +299,15 @@
 
         <script>
             const ctx = document.getElementById('chart-line').getContext('2d');
-        
+
             // Data for the monthly leave chart
             const monthlyLeaveData = @json(array_values($leaveCountsByMonth)); // Get only the counts as an array
-        
+
             const monthlyLeaveChart = new Chart(ctx, {
                 type: 'bar', // Change this to 'line' for a line chart
                 data: {
                     labels: [
-                        'Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 
+                        'Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun',
                         'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'
                     ],
                     datasets: [{

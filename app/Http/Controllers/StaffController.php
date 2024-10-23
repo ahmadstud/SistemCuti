@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash; // <-- For password hashing
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class StaffController extends Controller
 {
@@ -28,27 +29,17 @@ class StaffController extends Controller
             'leave_type' => 'required|in:mc,annual,other',  // Ensure leave_type is one of the specified options
         ]);
 
-        // Calculate the number of days for the MC application
-        $startDate = Carbon::parse($request->start_date);
-        $endDate = Carbon::parse($request->end_date);
-        $daysRequested = $endDate->diffInDays($startDate) + 1; // Include both start and end dates
-
-        // Check if user has enough leave days left for the selected leave type
-        $user = Auth::user();
-        if ($request->leave_type === 'mc' && $user->total_mc_days < $daysRequested) {
-            return redirect()->back()->with('error', 'Hari MC tidak mencukupi!!');
-        } elseif ($request->leave_type === 'annual' && $user->total_annual < $daysRequested) {
-            return redirect()->back()->with('error', 'Cuti Tahunan tidak mencukupi!');
-        } elseif ($request->leave_type === 'other' && $user->total_others < $daysRequested) {
-            return redirect()->back()->with('error', 'Cuti lain-lain tidak mencukupi!');
-        }
-
         // Initialize document path as null
         $documentPath = null;
 
         // Handle file upload if a document is provided
         if ($request->hasFile('document_path')) {
-            $documentPath = $request->file('document_path')->store('mc_documents', 'public');
+            // Attempt to upload the document
+            try {
+                $documentPath = $request->file('document_path')->store('mc_documents', 'public');
+            } catch (\Exception $e) {
+                return redirect()->back()->with('error', 'Failed to upload document. Please try again.');
+            }
         }
 
         try {
@@ -61,28 +52,17 @@ class StaffController extends Controller
                 'document_path' => $documentPath, // This will be null if no document was uploaded
                 'status' => 'pending',
                 'leave_type' => $request->leave_type,  // Save the selected leave type
-                'direct_admin_approval' => $request->input('direct_admin_approval') == '1',
+                'direct_admin_approval' => $request->boolean('direct_admin_approval'), // Use boolean() helper
                 'officer_approved' => false,
             ]);
 
-            // Deduct days based on leave type
-            if ($request->leave_type === 'mc') {
-                $user->total_mc_days -= $daysRequested;
-            } elseif ($request->leave_type === 'annual') {
-                $user->total_annual -= $daysRequested;
-            } elseif ($request->leave_type === 'other') {
-                $user->total_others -= $daysRequested;
-            }
-
-            // Save the updated user information
-            $user->save();
-
             return redirect()->back()->with('success', 'Permohonan Cuti telah dihantar!');
         } catch (\Exception $e) {
-            Log::error('Error Creating MC Application:', ['message' => $e->getMessage()]);
+            Log::error('Error Creating MC Application:', ['message' => 'Failed to create MC Application: ' . $e->getMessage()]);
             return redirect()->back()->with('error', 'Gagal menghantar permohonan MC. Sila cuba lagi.');
         }
     }
+
 
     public function updateOwnDetails2(Request $request)
     {
@@ -205,7 +185,7 @@ class StaffController extends Controller
         return redirect()->back()->with('error', 'Permohonan Cuti gagal dikemas kini!');
     }
 
-    public function dashboard()
+    public function dashboard(Request $request)
     {
         // Get today's date
         $today = now()->toDateString();
@@ -220,13 +200,36 @@ class StaffController extends Controller
 
         $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
         $officers = User::where('role', 'officer')->get(); // Fetch officers
-        // Notes
-        $notes = Note::all(); // Adjust as necessary to fetch your notes
-        
          // Fetch total users excluding admins
          $totalUsers = User::all();
          $notes = Note::all(); // Adjust as necessary to fetch your notes
-        return view('staff',compact('announcements','staffOnLeaveToday','totalUsers','officers', 'notes',));
+         // Get the current year and optionally the user-selected year
+        $currentYear = now()->year;
+        $year = $request->input('year', $currentYear); // Default to current year
+
+        // Generate a range of years, e.g., from 2020 to the current year + 1 (can adjust starting year as needed)
+        $yearRange = range(2020, $currentYear + 1);
+
+        // Query to get the monthly data of staff on leave (cuti) for the selected year
+        $monthlyLeaveData = McApplication::select(
+            DB::raw('MONTH(start_date) as month'),
+            DB::raw('COUNT(DISTINCT user_id) as total_staff')
+        )
+        ->whereYear('start_date', $year) // Use the selected year
+        ->where('status', 'approved') // Only count approved leaves
+        ->groupBy(DB::raw('MONTH(start_date)'))
+        ->orderBy(DB::raw('MONTH(start_date)')) // Ensure data is ordered by month
+        ->get();
+
+        // Prepare an array with all 12 months and set default values as 0
+        $leaveCountsByMonth = array_fill(1, 12, 0);
+
+        // Fill the actual values from the query into the leave counts
+        foreach ($monthlyLeaveData as $data) {
+            $leaveCountsByMonth[$data->month] = $data->total_staff;
+        }
+        return view('staff',compact('announcements','staffOnLeaveToday','totalUsers','officers',
+        'notes','leaveCountsByMonth','year','yearRange'));
     }
 
     public function profile()

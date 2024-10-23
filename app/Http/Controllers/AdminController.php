@@ -152,7 +152,7 @@ class AdminController extends Controller
         ));
     }
 
-    
+
 
 // PENGUMUMAN ROUTES
     public function Annoucement()
@@ -523,17 +523,18 @@ class AdminController extends Controller
 // PERMOHONAN CUTI TAPISAN PEGAWAI
     public function mcOfficerApprove(Request $request)
     {
-        $applications = McApplication::join('users as staff', 'mc_applications.user_id', '=', 'staff.id')
-        ->leftJoin('users as officers', 'staff.selected_officer_id', '=', 'officers.id')
-        ->select(
-            'mc_applications.*',
-            'staff.name as user_name',
-            'officers.name as officer_name'
-        )
-        ->where('mc_applications.officer_approved', true)
-        ->where('mc_applications.admin_approved', false)
-        ->where('mc_applications.direct_admin_approval', false)
-        ->paginate(10); // Change 10 to the number of items per page you want
+    $applications = McApplication::join('users as staff', 'mc_applications.user_id', '=', 'staff.id')
+    ->leftJoin('users as officers', 'staff.selected_officer_id', '=', 'officers.id')
+    ->select(
+        'mc_applications.*',
+        'staff.name as user_name',
+        'officers.name as officer_name'
+    )
+    ->where('mc_applications.officer_approved', true)
+    ->where('mc_applications.admin_approved', false)
+    ->where('mc_applications.direct_admin_approval', false)
+    ->where('mc_applications.status', 'pending_admin')
+    ->paginate(10); // Change 10 to the number of items per page you want
 
         // Fetch all MC applications for statistical purposes
         $totalUsers = User::where('role', '!=', 'admin')->count();
@@ -674,30 +675,30 @@ class AdminController extends Controller
     public function reject(Request $request, $id)
     {
         $application = McApplication::find($id);
-    
+
         if (!$application) {
             return redirect()->back()->with('error', 'Application not found.');
         }
-    
+
         // Optionally, check if the application can be rejected
         if ($application->status === 'approved') {
             return redirect()->back()->with('error', 'Cannot reject an already approved application.');
         }
-    
+
         // Validate the reason
         $request->validate([
             'reason' => 'required|string|max:255',
         ]);
-    
+
         // Update the application's status to rejected
         $application->status = 'rejected';
         $application->admin_approved = false; // Optionally set this to false
         $application->rejection_reason = $request->reason; // Save the reason for rejection
         $application->save();
-    
+
         return redirect()->back()->with('success', 'MC application rejected by admin. Reason: ' . $request->reason);
     }
-    
+
 
 
 
@@ -727,7 +728,6 @@ class AdminController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'ic' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:255',
-            'password' => 'nullable|string|min:8|confirmed', // password confirmation validation
             'address' => 'nullable|string|max:255',
             'city' => 'nullable|string|max:255',
             'postcode' => 'nullable|string|max:10',
@@ -757,17 +757,6 @@ class AdminController extends Controller
             $user->profile_image = 'storage/profile_image/' . $imageName;
         }
 
-       // Check if the password is filled and matches the confirmation password
-        if ($request->filled('password')) {
-            // Check if password confirmation is provided
-            if ($request->input('password') !== $request->input('password_confirmation')) {
-                return redirect()->back()->withErrors(['password' => 'Kata laluan tidak sepadan!']);
-            }
-
-            // Hash the new password and save it
-            $user->password = Hash::make($request->password);
-        }
-
             // Save changes to the database
             $user->save();
 
@@ -787,9 +776,23 @@ class AdminController extends Controller
         return view('partials.adminside.password',compact('totalUsers','totalMcApplications','acceptedMcApplications','rejectedMcApplications'));
     }
 
+    public function changePassword(Request $request)
+{
+    $user = Auth::user(); // Get the currently authenticated user
 
+    // Validate the password input data
+    $request->validate([
+        'password' => 'required|string|min:8|confirmed', // New password must be confirmed
+    ]);
 
+    // Update the user's password
+    $user->password = Hash::make($request->password); // Hash the new password
 
+    // Save changes to the database
+    $user->save();
 
-
+    // Redirect with success message
+    return redirect()->back()->with('success', 'Kata laluan anda telah berjaya dikemas kini!');
+    return redirect()->back()->with('error', 'Kata laluan anda telah gagal dikemas kini!');
+}
 }

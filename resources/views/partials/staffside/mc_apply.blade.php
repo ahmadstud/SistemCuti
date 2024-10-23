@@ -131,7 +131,7 @@
                             <div style="overflow-x: auto; position: relative;">
                                 @if($mcApplications->isEmpty())
                                  <!-- Display a message when no applications exist inside the table -->
-                               <table class="table" style="table-layout: fixed; width: 100%;">
+                               <table class="table">
                                 <thead style="background-color: #f0f0f0;">
                                     <tr>
                                         <th style="width: 3%; position: sticky; left: 0;">BIL</th>
@@ -147,13 +147,13 @@
                                 <tbody>
                                     <tr>
                                         <td colspan="8" class="text-center" style="padding: 20px;">
-                                            <p class="text-muted">Tiada Permohonan daripada staf</p>
+                                            <p class="text-muted">Tiada permohonan yang dibuat</p>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                             @else
-                                <table class="table" style="table-layout: fixed; width: 100%;">
+                                <table class="table">
                                     <thead style="background-color: #f0f0f0;">
                                         <tr>
                                             <th style="width: 5%; position: sticky; left: 0;">BIL</th>
@@ -210,16 +210,16 @@
                                                         -
                                                     @elseif($mcApplication->status == 'pending')
                                                         <!-- Button to trigger modal for editing -->
-                                                        <button type="button" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#editMcModal{{ $mcApplication->id }}">
-                                                            <i class="fas fa-edit"></i>
+                                                        <button type="button" class="btn btn-md btn-primary" data-bs-toggle="modal" data-bs-target="#editMcModal{{ $mcApplication->id }}">
+                                                            <i class="fas fa-pencil-alt"></i>
                                                         </button>
 
                                                         <!-- Delete button -->
                                                         <form action="{{ route('staff.deleteMC', $mcApplication->id) }}" method="POST" style="display:inline;">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this application?');">
-                                                                <i class="fas fa-trash"></i>
+                                                            <button type="submit" class="btn btn-md btn-danger" onclick="return confirm('Are you sure you want to delete this application?');">
+                                                                <i class="fas fa-trash-alt"></i>
                                                             </button>
                                                         </form>
 
@@ -289,7 +289,6 @@
                                     </tbody>
                                 </table>
                             @endif
-
                             </div>
                         </div>
                     </div>
@@ -297,8 +296,6 @@
             </div>
         </div>
     </div>
-
-
 </div>
 </div>
 </div>

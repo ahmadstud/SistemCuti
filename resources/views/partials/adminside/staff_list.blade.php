@@ -40,9 +40,6 @@
 
         <main class="main-content position-relative border-radius-lg">
             <div class="container-fluid py-4">
-                    {{-- @include('partials.logout')
-                    @include('partials.adminside.mcdays') --}}
-
                      @include('partials.logout')
                     @include('partials.adminside.mcdata')
 
@@ -234,18 +231,18 @@
                                                         </form>
 
                                                         <div style="overflow-x: auto; position: relative;">
-                                                            <table class="table" style="table-layout: fixed; width: 100%;">
+                                                            <table class="table">
                                                                 <thead style="background-color: #f0f0f0;">
                                                                     <tr>
-                                                                        <th style="width: 5%; position: sticky; left: 0; z-index: 1; padding: 8px;">BIL</th>
-                                                                        <th style="width: 17%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
-                                                                        <th style="width: 12%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NO TELEFON</th>
-                                                                        <th style="width: 12%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">PERANAN</th>
-                                                                        <th style="width: 12%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">KETUA BAHAGIAN</th>
-                                                                        <th style="width: 12%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS PEKERJAAN</th>
-                                                                        <th style="width: 12%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">BAKI JUMLAH CUTI</th>
-                                                                        <th style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
-                                                                    </tr>                                                                                                                                     
+                                                                        <th style="width: 5%;   padding: 8px;">BIL</th>
+                                                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
+                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NO TELEFON</th>
+                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">PERANAN</th>
+                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">KETUA BAHAGIAN</th>
+                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS PEKERJAAN</th>
+                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">BAKI JUMLAH CUTI</th>
+                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
+                                                                    </tr>
                                                                 </thead>
                                                                 <tbody>
                                                                     @foreach ($users as $user)
@@ -258,9 +255,6 @@
                                                                                 <p class="text-m text-secondary">{{ $user->name }}</p>
                                                                                 <p class="text-sm text-secondary">{{ $user->email }}</p>
                                                                             </td>
-                                                                            {{-- <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                <p class="text-m text-secondary">{{ $user->ic }}</p>
-                                                                            </td> --}}
                                                                             <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                 <p class="text-m text-secondary">{{ $user->phone_number }}</p>
                                                                             </td>
@@ -276,7 +270,6 @@
                                                                                 @endif
                                                                             </td>
                                                                             <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                {{-- <p class="text-m text-secondary">    {{ $user->officer ? $user->officer->name : 'Tiada Penyelia' }}</p> --}}
                                                                                 <p class="text-m text-secondary">
                                                                                     @if($user->officer)
                                                                                         {{ $user->officer->name }}
@@ -465,7 +458,6 @@
                                                                                 </script>
                                                                             </td>
                                                                         </tr>
-
                                                                     @endforeach
                                                                 </tbody>
                                                             </table>
@@ -474,7 +466,6 @@
                                                 </div> <!-- Closing for card -->
                                             </div>
                                         </div>
-
                                     </div> <!-- Closing for col-lg-12 -->
                                 </div> <!-- Closing for row -->
                             </div> <!-- Closing for col-lg-12 -->
