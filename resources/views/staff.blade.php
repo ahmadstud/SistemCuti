@@ -17,7 +17,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/Erawhiz.png') }}">
     <link rel="icon" type="image/png" href="{{ asset('assets/img/Erawhiz.png') }}">
     <title>
-      Sistem Permohonan Cuti - Staf
+      Sistem Permohonan Cuti - Pegawai
     </title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -30,8 +30,7 @@
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-</head>
+  </head>
 
 <body class="g-sidenav-show bg-gray-100">
 
@@ -145,9 +144,9 @@
                                                                       <h6 class="text-white text-capitalize ps-3">SENARAI STAFF CUTI HARIAN</h6>
                                                                   </div>
                                                                   <br>
-                                                                  <p class="text-sm mb-0">
-                                                                      <i class="fa fa-arrow-up text-success"></i>
-                                                                      <span class="font-weight-bold">pada </span>{{ now()->format('d F Y') }}
+                                                                  <p class="text-md mb-0">
+                                                                      <i class="fa fa-bell text-warning"></i>
+                                                                      <span class="font-weight-bold ms-2">pada </span>{{ now()->format('d F Y') }}
                                                                   </p>
                                                               </div>
 
@@ -201,6 +200,22 @@
                                                                   <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                                                                       <h6 class="text-white text-capitalize ps-3">PURATA KETIDAKHADIRAN</h6>
                                                                   </div>
+                                                              </div>
+                                                              <br>
+                                                              <!-- Year Dropdown -->
+                                                              <div class="d-flex justify-content-end pe-3">
+                                                                  <form method="GET" action="{{ route('admin.dashboard') }}" class="d-flex align-items-center">
+                                                                      <div class="d-flex align-items-center mb-3">
+                                                                          <label for="year" class="form-label me-2">Select Year:</label>
+                                                                          <select name="year" id="year" class="form-select" style="width: 150px;" onchange="this.form.submit()">
+                                                                              @foreach ($yearRange as $availableYear)
+                                                                                  <option value="{{ $availableYear }}" {{ $year == $availableYear ? 'selected' : '' }}>
+                                                                                      {{ $availableYear }}
+                                                                                  </option>
+                                                                              @endforeach
+                                                                          </select>
+                                                                      </div>
+                                                                  </form>
                                                               </div>
                                                               <div class="card-body p-3">
                                                                   <div class="chart">

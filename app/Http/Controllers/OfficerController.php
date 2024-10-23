@@ -10,6 +10,7 @@ use App\Models\Announcement;
 use App\Models\Note;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class OfficerController extends Controller
 {
@@ -212,7 +213,7 @@ class OfficerController extends Controller
      $mcApplications = McApplication::where('user_id', Auth::id())->get();
         return view('partials.officerside.mc_apply', compact('mcApplications'));
     }
-    public function dashboard()
+    public function dashboard(Request $request)
     {
          $today = now()->toDateString();
          // Get the list of staff on MC today along with their total_mc_days from users table
@@ -227,8 +228,32 @@ class OfficerController extends Controller
      $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
      // Notes
      $notes = Note::all(); // Adjust as necessary to fetch your notes
+      // Get the current year and optionally the user-selected year
+      $currentYear = now()->year;
+      $year = $request->input('year', $currentYear); // Default to current year
 
-        return view('officer', compact('staffOnLeaveToday','announcements','notes',));
+      // Generate a range of years, e.g., from 2020 to the current year + 1 (can adjust starting year as needed)
+      $yearRange = range(2020, $currentYear + 1);
+
+      // Query to get the monthly data of staff on leave (cuti) for the selected year
+      $monthlyLeaveData = McApplication::select(
+          DB::raw('MONTH(start_date) as month'),
+          DB::raw('COUNT(DISTINCT user_id) as total_staff')
+      )
+      ->whereYear('start_date', $year) // Use the selected year
+      ->where('status', 'approved') // Only count approved leaves
+      ->groupBy(DB::raw('MONTH(start_date)'))
+      ->orderBy(DB::raw('MONTH(start_date)')) // Ensure data is ordered by month
+      ->get();
+
+      // Prepare an array with all 12 months and set default values as 0
+      $leaveCountsByMonth = array_fill(1, 12, 0);
+
+      // Fill the actual values from the query into the leave counts
+      foreach ($monthlyLeaveData as $data) {
+          $leaveCountsByMonth[$data->month] = $data->total_staff;
+      }
+        return view('officer', compact('staffOnLeaveToday','announcements','notes','leaveCountsByMonth','year','yearRange'));
     }
 
 

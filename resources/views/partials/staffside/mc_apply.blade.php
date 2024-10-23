@@ -131,7 +131,7 @@
                             <div style="overflow-x: auto; position: relative;">
                                 @if($mcApplications->isEmpty())
                                  <!-- Display a message when no applications exist inside the table -->
-                               <table class="table" style="table-layout: fixed; width: 100%;">
+                               <table class="table">
                                 <thead style="background-color: #f0f0f0;">
                                     <tr>
                                         <th style="width: 3%; position: sticky; left: 0;">BIL</th>
@@ -147,13 +147,13 @@
                                 <tbody>
                                     <tr>
                                         <td colspan="8" class="text-center" style="padding: 20px;">
-                                            <p class="text-muted">Tiada Permohonan daripada staf</p>
+                                            <p class="text-muted">Tiada permohonan yang dibuat</p>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                             @else
-                                <table class="table" style="table-layout: fixed; width: 100%;">
+                                <table class="table">
                                     <thead style="background-color: #f0f0f0;">
                                         <tr>
                                             <th style="width: 5%; position: sticky; left: 0;">BIL</th>
@@ -289,7 +289,6 @@
                                     </tbody>
                                 </table>
                             @endif
-
                             </div>
                         </div>
                     </div>
@@ -297,8 +296,6 @@
             </div>
         </div>
     </div>
-
-
 </div>
 </div>
 </div>

@@ -728,7 +728,6 @@ class AdminController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'ic' => 'nullable|string|max:255',
             'phone_number' => 'nullable|string|max:255',
-            'password' => 'nullable|string|min:8|confirmed', // password confirmation validation
             'address' => 'nullable|string|max:255',
             'city' => 'nullable|string|max:255',
             'postcode' => 'nullable|string|max:10',
@@ -758,17 +757,6 @@ class AdminController extends Controller
             $user->profile_image = 'storage/profile_image/' . $imageName;
         }
 
-       // Check if the password is filled and matches the confirmation password
-        if ($request->filled('password')) {
-            // Check if password confirmation is provided
-            if ($request->input('password') !== $request->input('password_confirmation')) {
-                return redirect()->back()->withErrors(['password' => 'Kata laluan tidak sepadan!']);
-            }
-
-            // Hash the new password and save it
-            $user->password = Hash::make($request->password);
-        }
-
             // Save changes to the database
             $user->save();
 
@@ -787,4 +775,24 @@ class AdminController extends Controller
         $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
         return view('partials.adminside.password',compact('totalUsers','totalMcApplications','acceptedMcApplications','rejectedMcApplications'));
     }
+
+    public function changePassword(Request $request)
+{
+    $user = Auth::user(); // Get the currently authenticated user
+
+    // Validate the password input data
+    $request->validate([
+        'password' => 'required|string|min:8|confirmed', // New password must be confirmed
+    ]);
+
+    // Update the user's password
+    $user->password = Hash::make($request->password); // Hash the new password
+
+    // Save changes to the database
+    $user->save();
+
+    // Redirect with success message
+    return redirect()->back()->with('success', 'Kata laluan anda telah berjaya dikemas kini!');
+    return redirect()->back()->with('error', 'Kata laluan anda telah gagal dikemas kini!');
+}
 }

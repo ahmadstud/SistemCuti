@@ -22,33 +22,6 @@
   </head>
 
 <body>
-  @if(session('login_success'))
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            Swal.fire({
-                title: 'Login Successful!',
-                text: "Welcome to the Sistem Permohonan Cuti, {{ session('user_name') }}!",
-                icon: 'success',
-                confirmButtonText: 'OK'
-            });
-        });
-    </script>
-  @endif
-
-  @if ($errors->any())
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            Swal.fire({
-                title: 'Login Failed!',
-                text: "@foreach ($errors->all() as $error) {{ $error }} @endforeach",
-                icon: 'error',
-                confirmButtonText: 'OK'
-            });
-        });
-    </script>
-  @endif
-
-
   <main class="main-content mt-0">
     <!-- Full-screen header with background image -->
     <div class="page-header min-vh-100 d-flex flex-column justify-content-center align-items-center m-0 border-radius-none"
@@ -112,22 +85,22 @@
           </div>
           <div class="modal-body">
             <form id="resetPasswordForm" action="{{ route('reset.password') }}" method="POST">
-              @csrf
-              <div class="mb-3">
-                <label for="email" class="form-label">Emel</label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="Masukkan emel anda" required>
-              </div>
-              <div class="mb-3">
-                <label for="new_password" class="form-label">Kata Laluan Baru</label>
-                <input type="password" class="form-control" id="new_password" name="new_password" placeholder="Masukkan kata laluan baru" required>
-              </div>
-              <div class="mb-3">
-                <label for="confirm_password" class="form-label">Sahkan Kata Laluan Baru</label>
-                <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Sahkan kata laluan baru" required>
-              </div>
-              <div class="text-center">
-                <button type="submit" class="btn btn-primary w-100">Tukar Kata Laluan</button>
-              </div>
+                @csrf
+                <div class="mb-3">
+                    <label for="email" class="form-label">Emel</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Masukkan emel anda" required>
+                </div>
+                <div class="mb-3">
+                    <label for="new_password" class="form-label">Kata Laluan Baru</label>
+                    <input type="password" class="form-control" id="new_password" name="new_password" placeholder="Masukkan kata laluan baru" required>
+                </div>
+                <div class="mb-3">
+                    <label for="confirm_password" class="form-label">Sahkan Kata Laluan Baru</label>
+                    <input type="password" class="form-control" id="confirm_password" name="new_password_confirmation" placeholder="Sahkan kata laluan baru" required>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary w-100">Tukar Kata Laluan</button>
+                </div>
             </form>
           </div>
         </div>

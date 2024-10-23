@@ -70,7 +70,7 @@
                                                     <!-- View Applications Section -->
                                                     <div class="card-body">
                                                         <div style="overflow-x: auto; position: relative;">
-                                                            <table class="table" style="table-layout: fixed; width: 100%;">
+                                                            <table class="table">
                                                                 <thead style="background-color: #f0f0f0;">
                                                                     <tr>
                                                                         <th style="width: 5%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">BIL</th>
@@ -145,7 +145,7 @@
 
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                     <div class="d-flex justify-content-start"> <!-- Flex container for side-by-side buttons -->
-                                                                                
+
                                                                                         <!-- Approve Button Form -->
                                                                                         <form action="{{ route('admin.approve', $application->id) }}" method="POST" style="margin-right: 5px;">
                                                                                             @csrf
@@ -153,7 +153,7 @@
                                                                                                 <i class="fas fa-check"></i>
                                                                                             </button>
                                                                                         </form>
-                                                                                
+
                                                                                         <!-- Reject Button Form -->
                                                                                         <form action="{{ route('admin.reject', $application->id) }}" method="POST" id="reject-form-{{ $application->id }}">
                                                                                             @csrf
@@ -161,7 +161,7 @@
                                                                                                 <i class="fas fa-times"></i>
                                                                                             </button>
                                                                                         </form>
-                                                                                
+
                                                                                         <!-- Modal for Rejection Reason -->
                                                                                         <div class="modal fade" id="rejectionReasonModal{{ $application->id }}" tabindex="-1" role="dialog" aria-labelledby="rejectionReasonModalLabel{{ $application->id }}" aria-hidden="true">
                                                                                             <div class="modal-dialog" role="document">
@@ -186,10 +186,10 @@
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
-                                                                                
+
                                                                                     </div>
                                                                                 </td>
-                                                                                
+
 
                                                                             </tr>
                                                                         @endforeach
@@ -224,15 +224,15 @@
             function submitRejection(applicationId) {
                 const textarea = document.getElementById(`rejection_reason_${applicationId}`);
                 const form = document.getElementById(`reject-form-${applicationId}`);
-        
+
                 // Append the rejection reason to the form
                 const rejectionReasonInput = document.createElement('input');
                 rejectionReasonInput.type = 'hidden';
                 rejectionReasonInput.name = 'rejection_reason';
                 rejectionReasonInput.value = textarea.value;
-        
+
                 form.appendChild(rejectionReasonInput);
-        
+
                 // Submit the form
                 form.submit();
             }

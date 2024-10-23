@@ -182,7 +182,7 @@
                                                 {{-- List of Announcements --}}
                                                 <div class="card-body">
                                                     <div style="overflow-x: auto; position: relative;">
-                                                        <table class="table" style="table-layout: fixed; width: 100%;">
+                                                        <table class="table">
                                                             <thead style="background-color: #f0f0f0;">
                                                                 <tr>
                                                                     <th style="width: 5%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">BIL</th>

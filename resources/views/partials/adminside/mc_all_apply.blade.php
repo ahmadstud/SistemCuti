@@ -115,10 +115,10 @@
                                                         </form>
 
                                                         <div style="overflow-x: auto; position: relative;">
-                                                            <table class="table" style="table-layout: fixed; width: 100%;">
+                                                            <table class="table">
                                                                 <thead style="background-color: #f0f0f0;">
                                                                     <tr>
-                                                                        <th style="width: 3%; position: sticky; left: 0; z-index: 1;  padding: 8px;">BIL</th>
+                                                                        <th style="width: 5%;   padding: 8px;">BIL</th>
                                                                         <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
                                                                         <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JAWATAN</th>
                                                                         <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>

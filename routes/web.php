@@ -24,8 +24,6 @@ use App\Http\Controllers\Auth\LoginController;
         Route::
         post('/logout',                                  [LoginController::class, 'logout'])->name('logout');
 
-        // New routes for password reset
-        Route::get('/reset-password', [LoginController::class, 'showResetForm'])->name('reset.password.form');
         Route::post('/reset-password', [LoginController::class, 'resetPassword'])->name('reset.password');
 
     // Route after login
@@ -95,6 +93,7 @@ use App\Http\Controllers\Auth\LoginController;
 
         // Password Management:
         Route::get('/admin/password',                               [AdminController::class, 'password'])->name('admin.password');
+        Route::post('/change-password',                             [AdminController::class, 'changePassword'])->name('changePassword');
 
         // Staff List:
         Route::get('/admin/staff-list',                             [AdminController::class, 'staffList'])->name('admin.stafflist');

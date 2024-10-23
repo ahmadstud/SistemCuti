@@ -50,16 +50,6 @@ class LoginController extends Controller
         return redirect('/');
     }
 
-
-    
-    // Show the form for password reset
-    public function showResetForm()
-    {
-        return view('auth.reset-password'); // Create this view for the reset form
-    }
-
-
-
     // Handle the password reset request
     public function resetPassword(Request $request)
     {
@@ -76,7 +66,7 @@ class LoginController extends Controller
             $user->password = Hash::make($request->new_password);
             $user->save();
 
-            return redirect()->route('login')->with('success', 'Kata laluan anda telah ditukar!');
+            return redirect()->back()->with('success', 'Kata laluan anda telah ditukar!');
         }
 
         return back()->withErrors(['email' => 'Emel tidak ditemukan.']);

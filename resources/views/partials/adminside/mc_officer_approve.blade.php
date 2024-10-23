@@ -70,10 +70,10 @@
                                                     <!-- View Applications Section -->
                                                     <div class="card-body">
                                                         <div style="overflow-x: auto; position: relative;">
-                                                            <table class="table" style="table-layout: fixed; width: 100%;">
+                                                            <table class="table">
                                                                 <thead style="background-color: #f0f0f0;">
                                                                     <tr>
-                                                                        <th style="width: 5%; position: sticky; left: 0; z-index: 1; padding: 8px;">BIL</th>
+                                                                        <th style="width: 5%;  padding: 8px;">BIL</th>
                                                                         <th style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
                                                                         <th style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
                                                                         <th style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH AKHIR</th>
@@ -83,7 +83,7 @@
                                                                         <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">KELULUSAN PEGAWAI</th>
                                                                         <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th> <!-- Adjusted width here -->
                                                                     </tr>
-                                                                </thead>                                                                
+                                                                </thead>
                                                                 <tbody>
                                                                     @if($applications->isEmpty())
                                                                         <tr>
@@ -132,39 +132,6 @@
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                     {{ $application->officer_name ? $application->officer_name : 'Tiada Penyelia' }}
                                                                                 </td>
-                                                                                
-                                                                                {{-- <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; white-space: normal;">
-                                                                                    @if($application->status === 'pending_admin')
-                                                                                    <div class="d-flex justify-content-between">
-                                                                                        <form action="{{ route('admin.approve', $application->id) }}" method="POST" class="d-inline">
-                                                                                            @csrf
-                                                                                            <button type="submit" class="btn btn-success btn-sm" aria-label="Accept">
-                                                                                                <i class="fas fa-check"></i>
-                                                                                            </button>
-                                                                                        </form>
-
-                                                                                        <form action="{{ route('admin.reject', $application->id) }}" method="POST" class="d-inline">
-                                                                                            @csrf
-                                                                                            <button type="submit" class="btn btn-danger btn-sm" aria-label="Reject">
-                                                                                                <i class="fas fa-times"></i>
-                                                                                            </button>
-                                                                                        </form>
-                                                                                    </div>
-                                                                                    @elseif($application->status === 'accepted')
-                                                                                        <button type="button" class="btn btn-primary btn-sm" disabled aria-label="Accepted">
-                                                                                            <i class="fas fa-check-circle"></i>
-                                                                                        </button>
-                                                                                    @elseif($application->status === 'rejected')
-                                                                                        <button type="button" class="btn btn-secondary btn-sm" disabled aria-label="Rejected">
-                                                                                            <i class="fas fa-times-circle"></i>
-                                                                                        </button>
-                                                                                    @else
-                                                                                        <button type="button" class="btn btn-secondary btn-sm" disabled aria-label="Pending">
-                                                                                            <i class="fas fa-check-double"></i>
-                                                                                        </button>
-                                                                                    @endif
-                                                                                </td> --}}
-
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                     @if($application->status === 'pending_admin')
                                                                                     <div class="d-flex justify-content-between">
@@ -176,13 +143,13 @@
                                                                                                 <i class="fas fa-check"></i>
                                                                                             </button>
                                                                                         </form>
-                                                                                
+
                                                                                         <!-- Reject Button Form -->
                                                                                         <button type="button" class="btn btn-danger" aria-label="Reject" data-toggle="modal" data-target="#rejectModal-{{ $application->id }}">
                                                                                             <i class="fas fa-times"></i>
                                                                                         </button>
                                                                                     </div>
-                                                                                
+
                                                                                     <!-- Modal for rejection reason -->
                                                                                     <div class="modal fade" id="rejectModal-{{ $application->id }}" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel" aria-hidden="true">
                                                                                         <div class="modal-dialog" role="document">
@@ -222,7 +189,7 @@
                                                                                         </button>
                                                                                     @endif
                                                                                 </td>
-                                                                                
+
                                                                             </tr>
                                                                         @endforeach
                                                                     @endif

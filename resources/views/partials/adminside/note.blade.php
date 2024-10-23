@@ -123,14 +123,14 @@
                                                                     <div class="mb-3">
                                                                         <label for="content" class="form-label">Isi Kandungan<span class="text-danger">*</span></label>
                                                                         <textarea class="form-control summernote" id="content" name="content" rows="4" required></textarea>
-                                                                    </div>                                                                        
-                                                                    
+                                                                    </div>
+
 
                                                                     <div class="modal-footer">
                                                                         <button type="submit" class="btn btn-success">Simpan</button>
                                                                     </div>
                                                                 </form>
-                                                                
+
 
                                                                 <script>
                                                                     $(document).ready(function() {
@@ -154,11 +154,11 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
+
                                                 {{-- List of Notes --}}
                                                 <div class="card-body">
                                                     <div style="overflow-x: auto; position: relative;">
-                                                        <table class="table" style="table-layout: fixed; width: 100%;">
+                                                        <table class="table">
                                                             <thead style="background-color: #f0f0f0;">
                                                                 <tr>
                                                                     <th style="width: 5%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">BIL</th>
@@ -185,7 +185,7 @@
                                                                                 <button class="btn btn-md btn-primary me-2" data-bs-toggle="modal" data-bs-target="#editNoteModal{{ $note->id }}">
                                                                                     <i class="fas fa-pencil-alt"></i>
                                                                                 </button>
-                                                            
+
                                                                                 <!-- Delete button for note -->
                                                                                 <form action="{{ route('deleteNote', $note->id) }}" method="POST" style="margin: 0;"> <!-- Set margin to 0 for proper alignment -->
                                                                                     @csrf
@@ -197,7 +197,7 @@
                                                                             </div>
                                                                         </td>
                                                                     </tr>
-                                                            
+
                                                                     <!-- Edit Note Modal -->
                                                                     <div class="modal fade" id="editNoteModal{{ $note->id }}" tabindex="-1" aria-labelledby="editNoteLabel{{ $note->id }}" aria-hidden="true">
                                                                         <div class="modal-dialog modal-lg">
@@ -226,10 +226,10 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                            
+
                                                                 @endforeach
                                                             </tbody>
-                                                            
+
                                                         </table>
                                                     </div>
                                                 </div>
