@@ -96,6 +96,7 @@
                                             <div class="col-md-12 mb-3">
                                                 <label for="leave_type" class="form-label">Jenis Cuti<span class="text-danger">*</span></label>
                                                 <select class="form-control" id="leave_type" name="leave_type" required onchange="toggleDocumentField()">
+                                                    <option selected disabled>--- Pilih Jenis Cuti ---</option>
                                                     <option value="mc">Cuti Sakit (MC)</option>
                                                     <option value="annual">Cuti Tahunan</option>
                                                     <option value="other">Lain-lain</option>
@@ -131,13 +132,13 @@
                                <table class="table">
                                 <thead style="background-color: #f0f0f0;">
                                     <tr>
-                                        <th style="width: 3%; padding: 8px;">BIL</th>
-                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
-                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH TAMAT</th>
-                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
-                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN</th>
-                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
-                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS</th>
+                                        <th style="width: 5%; padding: 8px;">BIL</th>
+                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
+                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH TAMAT</th>
+                                        <th style="width: 30%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
+                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN</th>
+                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
+                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS</th>
                                         <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
                                     </tr>
                                 </thead>
@@ -153,13 +154,13 @@
                                 <table class="table">
                                     <thead style="background-color: #f0f0f0;">
                                         <tr>
-                                            <th style="width: 3%; position: sticky; left: 0; z-index: 1;  padding: 8px;">BIL</th>
-                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
-                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH TAMAT</th>
-                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
-                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN</th>
-                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
-                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS</th>
+                                            <th style="width: 5%;   padding: 8px;">BIL</th>
+                                            <th style="width: 10%;  padding: 8px; overflow-wrap:  white-space: normal;">TARIKH MULA</th>
+                                            <th style="width: 10%;  padding: 8px; overflow-wrap:  white-space: normal;">TARIKH TAMAT</th>
+                                            <th style="width: 30%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
+                                            <th style="width: 10%;  padding: 8px; overflow-wrap: white-space: normal;">DOKUMEN RUJUKAN</th>
+                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
+                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS</th>
                                             <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
                                         </tr>
                                     </thead>
@@ -209,12 +210,20 @@
                                                 @endif
                                                 </td>
                                                 <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                    @if ($mcApplication->status === 'pending')
+                                                        <!-- Edit button -->
+                                                        <button class="btn btn-md btn-primary me-2" data-bs-toggle="modal" data-bs-target="#editMcModal{{ $mcApplication->id }}">
+                                                            <i class="fas fa-pencil-alt"></i>
+                                                        </button>
 
-                                                                                    @if ($mcApplication->status === 'pending')
-                                                                                        <!-- Edit button -->
-                                                                                        <button class="btn btn-md btn-primary" data-bs-toggle="modal" data-bs-target="#editMcModal{{ $mcApplication->id }}">
-                                                                                            <i class="fas fa-pencil-alt"></i>
-                                                                                        </button>
+                                                        <!-- Delete button -->
+                                                        <form action="{{ route('officer.deleteMC', $mcApplication->id) }}" method="POST" style="display:inline;">
+                                                            @csrf
+                                                            @method('DELETE') <!-- Spoof DELETE method -->
+                                                            <button type="submit" class="btn btn-md btn-danger" onclick="return confirm('Adakah anda pasti ingin menghapus permohonan ini?');">
+                                                                <i class="fas fa-trash-alt"></i>
+                                                            </button>
+                                                        </form>
 
                                                         <!-- Edit MC Application Modal -->
                                                         <div class="modal fade" id="editMcModal{{ $mcApplication->id }}" tabindex="-1" aria-labelledby="editMcModalLabel{{ $mcApplication->id }}" aria-hidden="true">
@@ -238,60 +247,47 @@
                                                                                 </div>
                                                                             </div>
 
-                                                                                                                <div class="col-md-12 mb-3">
-                                                                                                                    <label for="leave_type{{ $mcApplication->id }}" class="form-label">Jenis Cuti<span class="text-danger">*</span></label>
-                                                                                                                    <select class="form-control" id="leave_type{{ $mcApplication->id }}" name="leave_type" required>
-                                                                                                                        <option value="mc" {{ $mcApplication->leave_type == 'mc' ? 'selected' : '' }}>Cuti Sakit (MC)</option>
-                                                                                                                        <option value="annual" {{ $mcApplication->leave_type == 'annual' ? 'selected' : '' }}>Cuti Tahunan</option>
-                                                                                                                        <option value="other" {{ $mcApplication->leave_type == 'other' ? 'selected' : '' }}>Lain-lain</option>
-                                                                                                                    </select>
-                                                                                                                </div>
+                                                                            <div class="col-md-12 mb-3">
+                                                                                <label for="leave_type{{ $mcApplication->id }}" class="form-label">Jenis Cuti<span class="text-danger">*</span></label>
+                                                                                <select class="form-control" id="leave_type{{ $mcApplication->id }}" name="leave_type" required>
+                                                                                    <option selected disabled>--- Pilih Jenis Cuti ---</option>
+                                                                                    <option value="mc" {{ $mcApplication->leave_type == 'mc' ? 'selected' : '' }}>Cuti Sakit (MC)</option>
+                                                                                    <option value="annual" {{ $mcApplication->leave_type == 'annual' ? 'selected' : '' }}>Cuti Tahunan</option>
+                                                                                    <option value="other" {{ $mcApplication->leave_type == 'other' ? 'selected' : '' }}>Lain-lain</option>
+                                                                                </select>
+                                                                            </div>
 
+                                                                            <div class="mb-3">
+                                                                                <label for="document_path{{ $mcApplication->id }}" class="form-label">Dokumen MC (biarkan kosong jika tidak mengubah)</label>
+                                                                                <input type="file" class="form-control" id="document_path{{ $mcApplication->id }}" name="document_path">
+                                                                            </div>
+                                                                            <div class="mb-3">
+                                                                                <label for="reason{{ $mcApplication->id }}" class="form-label">Sebab</label>
+                                                                                <textarea class="form-control" id="reason{{ $mcApplication->id }}" name="reason" rows="3" required>{{ $mcApplication->reason }}</textarea>
+                                                                            </div>
 
-                                                                                                                <div class="mb-3">
-                                                                                                                    <label for="document_path{{ $mcApplication->id }}" class="form-label">Dokumen MC (biarkan kosong jika tidak mengubah)</label>
-                                                                                                                    <input type="file" class="form-control" id="document_path{{ $mcApplication->id }}" name="document_path">
-                                                                                                                </div>
-                                                                                                                <div class="mb-3">
-                                                                                                                    <label for="reason{{ $mcApplication->id }}" class="form-label">Sebab</label>
-                                                                                                                    <textarea class="form-control" id="reason{{ $mcApplication->id }}" name="reason" rows="3" required>{{ $mcApplication->reason }}</textarea>
-                                                                                                                </div>
-
-                                                                                                                <div class="modal-footer">
-                                                                                                                    <button type="submit" class="btn btn-success">Simpan</button>
-                                                                                                                </div>
-                                                                                                        </form>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                        <!-- Delete button -->
-                                                                                        <form action="{{ route('officer.deleteMC', $mcApplication->id) }}" method="POST" style="display:inline;">
-                                                                                            @csrf
-                                                                                                @method('DELETE') <!-- Include this line to specify that the method is DELETE -->
-                                                                                                <button type="submit" class="btn btn-md btn-danger" onclick="return confirm('Adakah anda pasti ingin menghapus permohonan ini?');">
-                                                                                                    <i class="fas fa-trash-alt"></i>
-                                                                                                </button>
-                                                                                        </form>
-
-                                                                                    @elseif($mcApplication->status == 'rejected')
-                                                                                    {{ $mcApplication->rejection_reason }}
-                                                                                    @else
-                                                                                        <span>-</span>
-                                                                                    @endif
-                                                                                </td>
-
-                                                                            </tr>
-                                                                        @endforeach
-
-                                                                    </tbody>
-                                                                </table>
-                                                            @endif
-
+                                                                            <div class="modal-footer">
+                                                                                <button type="submit" class="btn btn-success">Simpan</button>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    @elseif($mcApplication->status == 'rejected')
+                                                        {{ $mcApplication->rejection_reason }}
+                                                    @else
+                                                        <span>-</span>
+                                                    @endif
+                                                </td>
+                                                </tr>
+                                                @endforeach
 
+                                                </tbody>
+                                                </table>
+                                                @endif
+                                                </div>
+                                                </div>
                                                 </div>
                                             </div>
                                         </div>

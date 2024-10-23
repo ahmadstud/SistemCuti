@@ -74,12 +74,12 @@
                                                                 <thead style="background-color: #f0f0f0;">
                                                                     <tr>
                                                                         <th style="width: 5%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">BIL</th>
-                                                                        <th style="width: 17%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
+                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
                                                                         <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
                                                                         <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH AKHIR</th>
-                                                                        <th style="width: 20%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
+                                                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
                                                                         <th style="width: 20%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
-                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN RUJUKAN</th>
+                                                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN RUJUKAN</th>
                                                                         <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
                                                                     </tr>
                                                                 </thead>
@@ -125,24 +125,6 @@
                                                                                         <a href="{{ Storage::url($application->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</a>
                                                                                     @endif
                                                                                 </td>
-
-                                                                                {{-- <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                    <div class="d-flex justify-content-start"> <!-- Flex container for side-by-side buttons -->
-                                                                                        <form action="{{ route('admin.approve', $application->id) }}" method="POST" style="margin-right: 5px;"> <!-- Add margin for spacing -->
-                                                                                            @csrf
-                                                                                            <button type="submit" class="btn btn-success" aria-label="Approve">
-                                                                                                <i class="fas fa-check"></i>
-                                                                                            </button>
-                                                                                        </form>
-                                                                                        <form action="{{ route('admin.reject', $application->id) }}" method="POST">
-                                                                                            @csrf
-                                                                                            <button type="submit" class="btn btn-danger" aria-label="Reject">
-                                                                                                <i class="fas fa-times"></i>
-                                                                                            </button>
-                                                                                        </form>
-                                                                                    </div>
-                                                                                </td> --}}
-
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                     <div class="d-flex justify-content-start"> <!-- Flex container for side-by-side buttons -->
 

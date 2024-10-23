@@ -219,22 +219,23 @@
                                                                             @endif
                                                                         </td>
                                                                         <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                            <div class="d-flex flex-wrap justify-content-start">
+                                                                            <div class="d-flex justify-content-start"> <!-- Flex container for side-by-side buttons -->
                                                                                 <!-- Edit button to open the modal -->
-                                                                                <button type="button" class="btn btn-md btn-primary me-2 mb-2" data-bs-toggle="modal" data-bs-target="#editAnnouncementModal{{ $announcement->id }}">
+                                                                                <button type="button" class="btn btn-md btn-primary me-2" data-bs-toggle="modal" data-bs-target="#editAnnouncementModal{{ $announcement->id }}">
                                                                                     <i class="fas fa-pencil-alt"></i>
                                                                                 </button>
-                                                                        
+
                                                                                 <!-- Delete button for announcement -->
-                                                                                <form id="delete-form-{{ $announcement->id }}" action="{{ route('deleteAnnouncement', $announcement->id) }}" method="POST" style="margin: 0;">
+                                                                                <form id="delete-form-{{ $announcement->id }}" action="{{ route('deleteAnnouncement', $announcement->id) }}" method="POST" style="margin: 0;"> <!-- Set margin to 0 for proper alignment -->
                                                                                     @csrf
                                                                                     @method('DELETE')
-                                                                                    <button type="button" class="btn btn-md btn-danger mb-2" title="Delete" onclick="confirmDelete({{ $announcement->id }})">
-                                                                                        <i class="fas fa-trash-alt"></i>
+                                                                                    <button type="submit" class="btn btn-md btn-danger" title="Delete">
+                                                                                        <i class="fas fa-trash-alt"></i> <!-- Delete symbol -->
                                                                                     </button>
                                                                                 </form>
                                                                             </div>
                                                                         </td>
+
 
                                                                         <!-- Edit Announcement Modal -->
                                                                         <div class="modal fade" id="editAnnouncementModal{{ $announcement->id }}" tabindex="-1" aria-labelledby="editAnnouncementLabel{{ $announcement->id }}" aria-hidden="true">
@@ -292,7 +293,7 @@
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        
+
                                                                         <script>
                                                                             function confirmEditSubmit(announcementId) {
                                                                                 Swal.fire({
@@ -327,7 +328,7 @@
                                                                                     }
                                                                                 });
                                                                             }
-                                                                        </script>                                                                       
+                                                                        </script>
                                                                     </tr>
                                                                 @endforeach
                                                             </tbody>

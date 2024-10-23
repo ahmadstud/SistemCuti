@@ -94,6 +94,7 @@
                                             <div class="col-md-12 mb-3">
                                                 <label for="leave_type" class="form-label">Jenis Cuti<span class="text-danger">*</span></label>
                                                 <select class="form-control" id="leave_type" name="leave_type" required onchange="toggleDocumentField()">
+                                                    <option selected disabled>--- Pilih Jenis Cuti ---</option>
                                                     <option value="mc">Cuti Sakit (MC)</option>
                                                     <option value="annual">Cuti Tahunan</option>
                                                     <option value="other">Lain-lain</option>
@@ -134,13 +135,13 @@
                                <table class="table">
                                 <thead style="background-color: #f0f0f0;">
                                     <tr>
-                                        <th style="width: 3%; position: sticky; left: 0;">BIL</th>
-                                            <th style="width: 15%;">TARIKH MULA</th>
-                                            <th style="width: 15%;">TARIKH TAMAT</th>
-                                            <th style="width: 15%;">ULASAN</th>
-                                            <th style="width: 15%;">DOKUMEN</th>
-                                            <th style="width: 15%;">JENIS CUTI</th>
-                                            <th style="width: 15%;">STATUS</th>
+                                        <th style="width: 5%;">BIL</th>
+                                            <th style="width: 10%;">TARIKH MULA</th>
+                                            <th style="width: 10%;">TARIKH TAMAT</th>
+                                            <th style="width: 30%;">ULASAN</th>
+                                            <th style="width: 10%;">DOKUMEN</th>
+                                            <th style="width: 10%;">JENIS CUTI</th>
+                                            <th style="width: 10%;">STATUS</th>
                                             <th style="width: 15%;">TINDAKAN</th>
                                     </tr>
                                 </thead>
@@ -156,14 +157,14 @@
                                 <table class="table">
                                     <thead style="background-color: #f0f0f0;">
                                         <tr>
-                                            <th style="width: 5%; position: sticky; left: 0;">BIL</th>
-                                            <th style="width: 15%;">TARIKH MULA</th>
-                                            <th style="width: 15%;">TARIKH TAMAT</th>
-                                            <th style="width: 15%;">ULASAN</th>
-                                            <th style="width: 15%;">DOKUMEN</th>
-                                            <th style="width: 15%;">JENIS CUTI</th>
-                                            <th style="width: 15%;">STATUS</th>
-                                            <th style="width: 15%;">TINDAKAN</th>
+                                            <th style="width: 5%;">BIL</th>
+                                            <th style="width: 10%; padding: 8px; overflow-wrap: white-space: normal;">TARIKH MULA</th>
+                                            <th style="width: 10%; padding: 8px; overflow-wrap: white-space: normal;">TARIKH TAMAT</th>
+                                            <th style="width: 30%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
+                                            <th style="width: 10%; padding: 8px; overflow-wrap: white-space: normal;">DOKUMEN RUJUKAN</th>
+                                            <th style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
+                                            <th style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS</th>
+                                            <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -206,14 +207,11 @@
                                                     @endif
                                                 </td>
                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                    @if($mcApplication->admin_approved && $mcApplication->officer_approved)
-                                                        -
-                                                    @elseif($mcApplication->status == 'pending')
+                                                    @if($mcApplication->status == 'pending')
                                                         <!-- Button to trigger modal for editing -->
                                                         <button type="button" class="btn btn-md btn-primary" data-bs-toggle="modal" data-bs-target="#editMcModal{{ $mcApplication->id }}">
                                                             <i class="fas fa-pencil-alt"></i>
                                                         </button>
-
                                                         <!-- Delete button -->
                                                         <form action="{{ route('staff.deleteMC', $mcApplication->id) }}" method="POST" style="display:inline;">
                                                             @csrf
@@ -222,7 +220,6 @@
                                                                 <i class="fas fa-trash-alt"></i>
                                                             </button>
                                                         </form>
-
                                                         <!-- Edit MC Application Modal -->
                                                         <div class="modal fade" id="editMcModal{{ $mcApplication->id }}" tabindex="-1" aria-labelledby="editMcModalLabel{{ $mcApplication->id }}" aria-hidden="true">
                                                             <div class="modal-dialog modal-lg">
@@ -249,6 +246,7 @@
                                                                             <div class="col-md-12 mb-3">
                                                                                 <label for="leave_type{{ $mcApplication->id }}" class="form-label">Jenis Cuti<span class="text-danger">*</span></label>
                                                                                 <select class="form-control" id="leave_type{{ $mcApplication->id }}" name="leave_type" required>
+                                                                                    <option selected disabled>--- Pilih Jenis Cuti ---</option>
                                                                                     <option value="mc" {{ $mcApplication->leave_type == 'mc' ? 'selected' : '' }}>Cuti Sakit (MC)</option>
                                                                                     <option value="annual" {{ $mcApplication->leave_type == 'annual' ? 'selected' : '' }}>Cuti Tahunan</option>
                                                                                     <option value="other" {{ $mcApplication->leave_type == 'other' ? 'selected' : '' }}>Lain-lain</option>
@@ -280,8 +278,10 @@
                                                         </div>
                                                         @elseif($mcApplication->status == 'pending_admin')
                                                         Menunggu kelulusan daripada admin
-                                                    @else
+                                                    @elseif($mcApplication->status == 'rejected')
                                                         {{ $mcApplication->rejection_reason }}
+                                                    @else
+                                                        Tiada Tindakan
                                                     @endif
                                                 </td>
                                             </tr>

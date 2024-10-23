@@ -170,13 +170,7 @@
                                                                           </div>
                                                                           <!-- Display leave balance based on leave type -->
                                                                           <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                                                                              @if($leave->leave_type == 'mc')
-                                                                              Baki cuti Sakit: {{ $leave->total_mc_days }}
-                                                                              @elseif($leave->leave_type == 'annual')
-                                                                              Baki cuti Tahunan: {{ $leave->total_annual }}
-                                                                              @else
-                                                                              Baki cuti Lain-lain: {{ $leave->total_others }}
-                                                                              @endif
+                                                                            Cuti yang diambil :<br>{{ \Carbon\Carbon::parse($leave->start_date)->diffInDays(\Carbon\Carbon::parse($leave->end_date)) + 1 }} hari
                                                                           </div>
                                                                       </li>
                                                                       @endforeach
