@@ -74,7 +74,6 @@
                             <span class="nav-link-text ms-1">Nota</span>
                         </a>
                     </li>
-
                 </ul>
             </div>
             

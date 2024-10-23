@@ -88,12 +88,6 @@
                                                                             <form action="{{ route('storeUser') }}" method="POST">
                                                                                 @csrf
                                                                                 <div class="row g-3">
-                                                                                    <div class="col-md-12 mb-3">
-                                                                                        <label for="fullname" class="form-label">Nama Penuh<span class="text-danger">*</span></label>
-                                                                                        <input type="text" class="form-control" id="fullname" name="fullname" required>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="row g-3">
                                                                                     <div class="col-md-6 mb-3">
                                                                                         <label for="fullname" class="form-label">Nama Penuh<span class="text-danger">*</span></label>
                                                                                         <input type="text" class="form-control" id="fullname" name="fullname" value="{{ Auth::user()->fullname }}">
@@ -215,7 +209,7 @@
 
                                                         <form action="{{ route('admin.stafflist') }}" method="GET" class="mb-3">
                                                             <div class="row g-3">
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-5">
                                                                     <label for="roleFilter" class="form-label">Peranan</label>
                                                                     <select class="form-select" id="roleFilter" name="role">
                                                                         <option value="">Semua Peranan</option>
@@ -224,7 +218,7 @@
                                                                         <option value="officer" {{ request('role') == 'officer' ? 'selected' : '' }}>Pegawai</option>
                                                                     </select>
                                                                 </div>
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-5">
                                                                     <label for="jobStatusFilter" class="form-label">Status Pekerjaan</label>
                                                                     <select class="form-select" id="jobStatusFilter" name="job_status">
                                                                         <option value="">Semua Status</option>
@@ -232,7 +226,7 @@
                                                                         <option value="Contract" {{ request('job_status') == 'Contract' ? 'selected' : '' }}>Kontrak</option>
                                                                     </select>
                                                                 </div>
-                                                                <div class="col-md-4">
+                                                                <div class="col-md-2">
                                                                     <label class="form-label">&nbsp;</label>
                                                                     <button type="submit" class="btn btn-primary w-100">Cari</button>
                                                                 </div>
@@ -243,16 +237,15 @@
                                                             <table class="table" style="table-layout: fixed; width: 100%;">
                                                                 <thead style="background-color: #f0f0f0;">
                                                                     <tr>
-                                                                        <th style="width: 3%; position: sticky; left: 0; z-index: 1;  padding: 8px;">BIL</th>
-                                                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
-                                                                        {{-- <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NO K/P</th> --}}
-                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NO TELEFON</th>
-                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">PERANAN</th>
-                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">KETUA BAHAGIAN</th>
-                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS PEKERJAAN</th>
-                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">BAKI JUMLAH CUTI</th>
-                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
-                                                                    </tr>
+                                                                        <th style="width: 5%; position: sticky; left: 0; z-index: 1; padding: 8px;">BIL</th>
+                                                                        <th style="width: 17%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
+                                                                        <th style="width: 12%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NO TELEFON</th>
+                                                                        <th style="width: 12%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">PERANAN</th>
+                                                                        <th style="width: 12%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">KETUA BAHAGIAN</th>
+                                                                        <th style="width: 12%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS PEKERJAAN</th>
+                                                                        <th style="width: 12%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">BAKI JUMLAH CUTI</th>
+                                                                        <th style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
+                                                                    </tr>                                                                                                                                     
                                                                 </thead>
                                                                 <tbody>
                                                                     @foreach ($users as $user)
@@ -261,7 +254,7 @@
                                                                                 <p class="text-m text-secondary">{{ $loop->iteration }}</p>
                                                                             </td>
                                                                             <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                <p class="text-m text-secondary">{{ $user->fullname }}</p>
+                                                                                <p class="text-m text-secondary"><strong>{{ $user->fullname }}</strong></p>
                                                                                 <p class="text-m text-secondary">{{ $user->name }}</p>
                                                                                 <p class="text-sm text-secondary">{{ $user->email }}</p>
                                                                             </td>
@@ -288,7 +281,7 @@
                                                                                     @if($user->officer)
                                                                                         {{ $user->officer->name }}
                                                                                     @else
-                                                                                        <span class="text-danger">Tiada Penyelia ( {{ $user->selected_officer_id }})</span>
+                                                                                        <span class="text-danger">Tiada Penyelia {{ $user->selected_officer_id }}</span>
                                                                                     @endif
                                                                                 </p>
 
@@ -304,9 +297,10 @@
                                                                             </td>
                                                                             <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                 <p class="text-m text-secondary">
-                                                                                    Tahunan :<br> {{ $user->total_annual }} Hari <br>
-                                                                                    Sakit :<br> {{ $user->total_mc_days }} Hari <br>
-                                                                                    Lain-Lain :<br> {{ $user->total_others }} Hari</p>
+                                                                                    <strong> Tahunan : </strong> <br> {{ $user->total_annual }} Hari <br>
+                                                                                    <strong> Sakit : </strong> <br> {{ $user->total_mc_days }} Hari <br>
+                                                                                    <strong> Lain-Lain : </strong> <br> {{ $user->total_others }} Hari
+                                                                                </p>
                                                                             </td>
                                                                             <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
 
@@ -326,12 +320,6 @@
                                                                                             <div class="modal-body">
                                                                                                 <form action="{{ route('updateUser', $user->id) }}" method="POST">
                                                                                                     @csrf
-                                                                                                    <div class="row g-3">
-                                                                                                        <div class="col-md-12 mb-3">
-                                                                                                            <label for="fullname{{ $user->id }}" class="form-label">Nama Penuh</label>
-                                                                                                            <input type="text" class="form-control" id="fullname{{ $user->id }}" name="fullname" value="{{ $user->fullname }}" required>
-                                                                                                        </div>
-                                                                                                    </div>
                                                                                                     <div class="row g-3">
                                                                                                         <div class="col-md-6 mb-3">
                                                                                                             <label for="fullname{{ $user->id }}" class="form-label">Nama Penuh</label>
@@ -438,7 +426,6 @@
                                                                                     </div>
                                                                                 </div>
 
-
                                                                                 <!-- Delete button -->
                                                                                 <form action="{{ route('deleteUser', $user->id) }}" method="POST" style="display:inline;" id="delete-form-{{ $user->id }}">
                                                                                     @csrf
@@ -450,17 +437,32 @@
 
                                                                                 <script>
                                                                                     function confirmDelete(userId) {
-                                                                                        // Simple confirmation dialog
-                                                                                        if (confirm("Are you sure you want to delete this user? This action cannot be undone.")) {
-                                                                                            // Submit the form to delete the user
-                                                                                            document.getElementById('delete-form-' + userId).submit();
-                                                                                        } else {
-                                                                                            alert("User deletion cancelled.");
-                                                                                        }
+                                                                                        // SweetAlert confirmation dialog in Bahasa Malaysia
+                                                                                        swal({
+                                                                                            title: "Adakah anda pasti?",
+                                                                                            text: "Tindakan ini tidak dapat dibatalkan.",
+                                                                                            icon: "warning",
+                                                                                            buttons: {
+                                                                                                cancel: "Batal",
+                                                                                                confirm: {
+                                                                                                    text: "Padam",
+                                                                                                    value: true,
+                                                                                                    visible: true,
+                                                                                                    className: "btn-danger",
+                                                                                                    closeModal: true
+                                                                                                }
+                                                                                            },
+                                                                                            dangerMode: true,
+                                                                                        }).then((willDelete) => {
+                                                                                            if (willDelete) {
+                                                                                                // Submit the form to delete the user
+                                                                                                document.getElementById('delete-form-' + userId).submit();
+                                                                                            } else {
+                                                                                                swal("Pemadaman pengguna dibatalkan.");
+                                                                                            }
+                                                                                        });
                                                                                     }
                                                                                 </script>
-
-
                                                                             </td>
                                                                         </tr>
 
@@ -491,6 +493,14 @@
         <script src="{{ asset('js/app.js') }}"></script>
         <script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.0.4') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <!-- SweetAlert CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+
+        <!-- SweetAlert JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+
+
 
     </body>
 </html>

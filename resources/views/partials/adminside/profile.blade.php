@@ -179,10 +179,10 @@
                                                                         <div class="row mt-3">
                                                                             <div class="col-md-4">
                                                                                 <label for="mc_days" class="form-label">JUMLAH CUTI</label>
-                                                                                <p class="form-control" id="mc_days" required min="1">{{ Auth::user()->total_mc_days }}</p>
+                                                                                <input type="text" class="form-control" id="mc_days" value="{{ Auth::user()->total_mc_days }}" readonly>
                                                                             </div>
-                                                                        </div>
-
+                                                                        </div>                                                                        
+                                                                        <br>
                                                                         <div class="modal-footer">
                                                                             <button type="submit" class="btn btn-success">Simpan</button>
                                                                         </div>

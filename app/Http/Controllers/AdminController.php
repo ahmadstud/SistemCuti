@@ -200,7 +200,7 @@ class AdminController extends Controller
 
         $announcement->save();
 
-        return redirect()->route('admin.annoucement')->with('success', 'Pengumuman berjaya dikemaskini!!');
+        return redirect()->route('admin.annoucement')->with('success', 'Pengumuman berjaya dikemaskini!');
 
         // return redirect()->back()->with('success', 'Announcement updated successfully!');
     }
@@ -230,12 +230,12 @@ class AdminController extends Controller
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
         ]);
-
+    
         $imagePath = null;
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('announcements', 'public');
         }
-
+    
         Announcement::create([
             'title' => $request->title,
             'content' => $request->content,
@@ -243,11 +243,11 @@ class AdminController extends Controller
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
         ]);
-
+    
         return redirect()->route('admin.annoucement')->with('success', 'Pengumuman berjaya disimpan!');
-
-        // return redirect()->back()->with('success', 'Announcement created successfully.');
     }
+    
+    
 
 
 
@@ -464,7 +464,7 @@ class AdminController extends Controller
 
         // Redirect back to admin with a success message
         // return redirect()->route('admin.stafflist')->with('success', 'Kakitangan/Pegawai baru berjaya ditambah!!');
-        return redirect()->back()->with('success', 'New Staff/Officer added successfully!');
+        return redirect()->back()->with('success', 'Kakitangan/Pegawai baru berjaya ditambah!');
     }
 
 

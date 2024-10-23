@@ -40,7 +40,10 @@
         <!-- jQuery (required for Summernote) -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+        <!-- SweetAlert2 -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
     </head>
 
@@ -104,79 +107,75 @@
                                                         </div>
                                                     @endif
 
-                                                <!-- Add Announcement Modal -->
-                                                <div class="modal fade" id="createAnnouncementModal" tabindex="-1" aria-labelledby="createAnnouncementLabel" aria-hidden="true">
-                                                    <div class="modal-dialog modal-lg">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header" style="background-color: #f0f0f0;">
-                                                                <h5 class="modal-title" id="createAnnouncementLabel">Tambah Pengumuman</h5>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <form action="{{ route('admin.storeAnnouncement') }}" method="POST" enctype="multipart/form-data">
-                                                                    @csrf
-                                                                    <div class="mb-3">
-                                                                        <label for="title" class="form-label">Tajuk<span class="text-danger">*</span></label>
-                                                                        <input type="text" class="form-control" id="title" name="title" required>
-                                                                    </div>
-                                                                    <div class="mb-3">
-                                                                        <label for="content" class="form-label">Isi Kandungan<span class="text-danger">*</span></label>
-                                                                        <textarea class="form-control summernote" id="content" name="content" rows="4" required></textarea>
-                                                                    </div>
-                                                                    <div class="row mb-3">
-                                                                        <div class="col-md-6">
-                                                                            <label for="start_date" class="form-label">Tarikh Mula<span class="text-danger">*</span></label>
-                                                                            <input type="date" class="form-control" id="start_date" name="start_date" required>
+                                                    <!-- Add Announcement Modal -->
+                                                    <div class="modal fade" id="createAnnouncementModal" tabindex="-1" aria-labelledby="createAnnouncementLabel" aria-hidden="true">
+                                                        <div class="modal-dialog modal-lg">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header" style="background-color: #f0f0f0;">
+                                                                    <h5 class="modal-title" id="createAnnouncementLabel">Tambah Pengumuman</h5>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <form id="announcementForm" action="{{ route('admin.storeAnnouncement') }}" method="POST" enctype="multipart/form-data">
+                                                                        @csrf
+                                                                        <div class="mb-3">
+                                                                            <label for="title" class="form-label">Tajuk<span class="text-danger">*</span></label>
+                                                                            <input type="text" class="form-control" id="title" name="title" required>
                                                                         </div>
-                                                                        <div class="col-md-6">
-                                                                            <label for="end_date" class="form-label">Tarikh Akhir<span class="text-danger">*</span></label>
-                                                                            <input type="date" class="form-control" id="end_date" name="end_date" required>
+                                                                        <div class="mb-3">
+                                                                            <label for="content" class="form-label">Isi Kandungan<span class="text-danger">*</span></label>
+                                                                            <textarea class="form-control summernote" id="content" name="content" rows="4" required></textarea>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="mb-3">
-                                                                        <label for="image" class="form-label">Gambar<span class="text-danger">*</span></label>
-                                                                        <input type="file" class="form-control" id="image" name="image" accept="image/*">
-                                                                    </div>
-                                                                    <p class="text-muted">
-                                                                        <em>Please upload images with the following specifications:
-                                                                        <br>
-                                                                        - Recommended size: **1200 x 675 pixels** (16:9 aspect ratio)
-                                                                        <br>
-                                                                        - Minimum width: **800 pixels**
-                                                                        <br>
-                                                                        - File formats: **JPG, PNG**
-                                                                        <br>
-                                                                        - Maximum file size: **2MB**</em>
-                                                                    </p>
+                                                                        <div class="row mb-3">
+                                                                            <div class="col-md-6">
+                                                                                <label for="start_date" class="form-label">Tarikh Mula<span class="text-danger">*</span></label>
+                                                                                <input type="date" class="form-control" id="start_date" name="start_date" required>
+                                                                            </div>
+                                                                            <div class="col-md-6">
+                                                                                <label for="end_date" class="form-label">Tarikh Akhir<span class="text-danger">*</span></label>
+                                                                                <input type="date" class="form-control" id="end_date" name="end_date" required>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <label for="image" class="form-label">Gambar</label>
+                                                                            <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                                                                        </div>
+                                                                        <p class="text-muted">
+                                                                            <em>Please upload images with the following specifications:
+                                                                                <br> - Recommended size: **1200 x 675 pixels** (16:9 aspect ratio)
+                                                                                <br> - Minimum width: **800 pixels**
+                                                                                <br> - File formats: **JPG, PNG**
+                                                                                <br> - Maximum file size: **2MB**</em>
+                                                                        </p>
 
-                                                                    <div class="modal-footer">
-                                                                        <button type="submit" class="btn btn-success">Simpan</button>
-                                                                    </div>
-                                                                </form>
-
-
-                                                                <script>
-                                                                    $(document).ready(function() {
-                                                                        $('#createAnnouncementModal').on('shown.bs.modal', function () {
-                                                                            $('.summernote').summernote({
-                                                                                height: 200, // Set editor height
-                                                                                toolbar: [
-                                                                                    ['style', ['style']],
-                                                                                    ['font', ['bold', 'underline', 'clear']],
-                                                                                    ['fontname', ['fontname']],
-                                                                                    ['para', ['ul', 'ol', 'paragraph']],
-                                                                                    ['insert', ['link', 'picture', 'video']],
-                                                                                    ['view', ['fullscreen', 'codeview', 'help']]
-                                                                                ]
-                                                                            });
-                                                                        });
-                                                                    });
-                                                                </script>
-
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-success" onclick="confirmSubmission()">Simpan</button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+
+                                                    <!-- Script to handle confirmation using SweetAlert2 -->
+                                                    <script>
+                                                        function confirmSubmission() {
+                                                            Swal.fire({
+                                                                title: 'Are you sure?',
+                                                                text: "Do you want to submit this announcement?",
+                                                                icon: 'warning',
+                                                                showCancelButton: true,
+                                                                confirmButtonColor: '#3085d6',
+                                                                cancelButtonColor: '#d33',
+                                                                confirmButtonText: 'Yes, submit it!'
+                                                            }).then((result) => {
+                                                                if (result.isConfirmed) {
+                                                                    // Submit the form
+                                                                    document.getElementById('announcementForm').submit();
+                                                                }
+                                                            });
+                                                        }
+                                                    </script>
 
 
                                                 {{-- List of Announcements --}}
@@ -220,82 +219,116 @@
                                                                             @endif
                                                                         </td>
                                                                         <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                            <div class="d-flex justify-content-start"> <!-- Flex container for side-by-side buttons -->
-                                                                                <!-- Edit Button -->
-                                                                                <button class="btn btn-md btn-primary me-2" data-bs-toggle="modal" data-bs-target="#editAnnouncementModal{{ $announcement->id }}">
+                                                                            <div class="d-flex flex-wrap justify-content-start">
+                                                                                <!-- Edit button to open the modal -->
+                                                                                <button type="button" class="btn btn-md btn-primary me-2 mb-2" data-bs-toggle="modal" data-bs-target="#editAnnouncementModal{{ $announcement->id }}">
                                                                                     <i class="fas fa-pencil-alt"></i>
                                                                                 </button>
-
+                                                                        
                                                                                 <!-- Delete button for announcement -->
-                                                                                <form action="{{ route('deleteAnnouncement', $announcement->id) }}" method="POST" style="margin: 0;"> <!-- Set margin to 0 for proper alignment -->
+                                                                                <form id="delete-form-{{ $announcement->id }}" action="{{ route('deleteAnnouncement', $announcement->id) }}" method="POST" style="margin: 0;">
                                                                                     @csrf
                                                                                     @method('DELETE')
-                                                                                    <button type="submit" class="btn btn-md btn-danger" title="Delete">
-                                                                                        <i class="fas fa-trash-alt"></i> <!-- Delete symbol -->
+                                                                                    <button type="button" class="btn btn-md btn-danger mb-2" title="Delete" onclick="confirmDelete({{ $announcement->id }})">
+                                                                                        <i class="fas fa-trash-alt"></i>
                                                                                     </button>
                                                                                 </form>
                                                                             </div>
                                                                         </td>
-                                                                    </tr>
 
-                                                                    <!-- Edit Announcement Modal -->
-                                                                    <div class="modal fade" id="editAnnouncementModal{{ $announcement->id }}" tabindex="-1" aria-labelledby="editAnnouncementLabel{{ $announcement->id }}" aria-hidden="true">
-                                                                        <div class="modal-dialog modal-lg">
-                                                                            <div class="modal-content">
-                                                                                <div class="modal-header" style="background-color: #f0f0f0;">
-                                                                                    <h5 class="modal-title" id="editAnnouncementLabel{{ $announcement->id }}">Kemaskini Pengumuman</h5>
-                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                                </div>
-                                                                                <div class="modal-body">
-                                                                                    <form action="{{ route('updateAnnouncement', $announcement->id) }}" method="POST" enctype="multipart/form-data">
-                                                                                        @csrf
-                                                                                        @method('PUT')
-                                                                                        <div class="mb-3">
-                                                                                            <label for="title{{ $announcement->id }}" class="form-label">Tajuk</label>
-                                                                                            <input type="text" class="form-control" id="title{{ $announcement->id }}" name="title" value="{{ $announcement->title }}">
-                                                                                        </div>
-                                                                                        <div class="mb-3">
-                                                                                            <label for="content{{ $announcement->id }}" class="form-label">Isi Kandungan</label>
-                                                                                            <textarea class="form-control" id="content{{ $announcement->id }}" name="content" rows="4" required>{{ $announcement->content }}</textarea>
-                                                                                        </div>
-                                                                                        <div class="row mb-3">
-                                                                                            <div class="col-md-6">
-                                                                                                <label for="start_date" class="form-label">Tarikh Mula Pengumuman</label>
-                                                                                                <input type="date" class="form-control" id="start_date{{ $announcement->id }}" name="start_date" value="{{ $announcement->start_date }}">
+                                                                        <!-- Edit Announcement Modal -->
+                                                                        <div class="modal fade" id="editAnnouncementModal{{ $announcement->id }}" tabindex="-1" aria-labelledby="editAnnouncementLabel{{ $announcement->id }}" aria-hidden="true">
+                                                                            <div class="modal-dialog modal-lg">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header" style="background-color: #f0f0f0;">
+                                                                                        <h5 class="modal-title" id="editAnnouncementLabel{{ $announcement->id }}">Kemaskini Pengumuman</h5>
+                                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+                                                                                        <form id="edit-form-{{ $announcement->id }}" action="{{ route('updateAnnouncement', $announcement->id) }}" method="POST" enctype="multipart/form-data">
+                                                                                            @csrf
+                                                                                            @method('PUT')
+                                                                                            <div class="mb-3">
+                                                                                                <label for="title{{ $announcement->id }}" class="form-label">Tajuk</label>
+                                                                                                <input type="text" class="form-control" id="title{{ $announcement->id }}" name="title" value="{{ $announcement->title }}">
                                                                                             </div>
-                                                                                            <div class="col-md-6">
-                                                                                                <label for="end_date" class="form-label">Tarikh Akhir Pengumuman</label>
-                                                                                                <input type="date" class="form-control" id="end_date{{ $announcement->id }}" name="end_date" value="{{ $announcement->end_date }}">
+                                                                                            <div class="mb-3">
+                                                                                                <label for="content{{ $announcement->id }}" class="form-label">Isi Kandungan</label>
+                                                                                                <textarea class="form-control" id="content{{ $announcement->id }}" name="content" rows="4" required>{{ $announcement->content }}</textarea>
                                                                                             </div>
-                                                                                        </div>
-                                                                                        <div class="mb-3">
-                                                                                            <label for="image{{ $announcement->id }}" class="form-label">Gambar (pilihan)</label>
-                                                                                            @if ($announcement->image_path)
-                                                                                                <img src="{{ asset('storage/' . $announcement->image_path) }}" class="d-block w-25 mb-2" alt="{{ $announcement->title }}">
-                                                                                            @endif
-                                                                                            <input type="file" class="form-control" id="image{{ $announcement->id }}" name="image_path" accept="image/*">
-                                                                                        </div>
-                                                                                        <p class="text-muted">
-                                                                                            <em>Please upload images with the following specifications:
-                                                                                            <br>
-                                                                                            - Recommended size: **1200 x 675 pixels** (16:9 aspect ratio)
-                                                                                            <br>
-                                                                                            - Minimum width: **800 pixels**
-                                                                                            <br>
-                                                                                            - File formats: **JPG, PNG**
-                                                                                            <br>
-                                                                                            - Maximum file size: **2MB**</em>
-                                                                                        </p>
-                                                                                        <div class="modal-footer">
-                                                                                            <button type="submit" class="btn btn-success">Simpan</button>
-                                                                                        </div>
-                                                                                    </form>
+                                                                                            <div class="row mb-3">
+                                                                                                <div class="col-md-6">
+                                                                                                    <label for="start_date" class="form-label">Tarikh Mula Pengumuman</label>
+                                                                                                    <input type="date" class="form-control" id="start_date{{ $announcement->id }}" name="start_date" value="{{ $announcement->start_date }}">
+                                                                                                </div>
+                                                                                                <div class="col-md-6">
+                                                                                                    <label for="end_date" class="form-label">Tarikh Akhir Pengumuman</label>
+                                                                                                    <input type="date" class="form-control" id="end_date{{ $announcement->id }}" name="end_date" value="{{ $announcement->end_date }}">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="mb-3">
+                                                                                                <label for="image{{ $announcement->id }}" class="form-label">Gambar (pilihan)</label>
+                                                                                                @if ($announcement->image_path)
+                                                                                                    <img src="{{ asset('storage/' . $announcement->image_path) }}" class="d-block w-25 mb-2" alt="{{ $announcement->title }}">
+                                                                                                @endif
+                                                                                                <input type="file" class="form-control" id="image{{ $announcement->id }}" name="image_path" accept="image/*">
+                                                                                            </div>
+                                                                                            <p class="text-muted">
+                                                                                                <em>Please upload images with the following specifications:
+                                                                                                <br>
+                                                                                                - Recommended size: **1200 x 675 pixels** (16:9 aspect ratio)
+                                                                                                <br>
+                                                                                                - Minimum width: **800 pixels**
+                                                                                                <br>
+                                                                                                - File formats: **JPG, PNG**
+                                                                                                <br>
+                                                                                                - Maximum file size: **2MB**</em>
+                                                                                            </p>
+                                                                                            <div class="modal-footer">
+                                                                                                <button type="button" class="btn btn-success" onclick="confirmEditSubmit({{ $announcement->id }})">Simpan</button>
+                                                                                            </div>
+                                                                                        </form>
+                                                                                    </div>
                                                                                 </div>
-
                                                                             </div>
                                                                         </div>
-                                                                    </div>
+                                                                        
+                                                                        <script>
+                                                                            function confirmEditSubmit(announcementId) {
+                                                                                Swal.fire({
+                                                                                    title: 'Are you sure?',
+                                                                                    text: "Do you want to save the changes?",
+                                                                                    icon: 'warning',
+                                                                                    showCancelButton: true,
+                                                                                    confirmButtonColor: '#3085d6',
+                                                                                    cancelButtonColor: '#d33',
+                                                                                    confirmButtonText: 'Yes, save it!'
+                                                                                }).then((result) => {
+                                                                                    if (result.isConfirmed) {
+                                                                                        // Submit the form after confirmation
+                                                                                        document.getElementById('edit-form-' + announcementId).submit();
+                                                                                    }
+                                                                                });
+                                                                            }
 
+                                                                            function confirmDelete(announcementId) {
+                                                                                Swal.fire({
+                                                                                    title: 'Are you sure?',
+                                                                                    text: "This action cannot be undone!",
+                                                                                    icon: 'warning',
+                                                                                    showCancelButton: true,
+                                                                                    confirmButtonColor: '#3085d6',
+                                                                                    cancelButtonColor: '#d33',
+                                                                                    confirmButtonText: 'Yes, delete it!'
+                                                                                }).then((result) => {
+                                                                                    if (result.isConfirmed) {
+                                                                                        // Submit the delete form after confirmation
+                                                                                        document.getElementById('delete-form-' + announcementId).submit();
+                                                                                    }
+                                                                                });
+                                                                            }
+                                                                        </script>                                                                       
+                                                                    </tr>
                                                                 @endforeach
                                                             </tbody>
                                                         </table>
