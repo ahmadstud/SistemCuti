@@ -73,13 +73,13 @@
                                 <table class="table">
                                     <thead style="background-color: #f0f0f0;">
                                         <tr>
-                                            <th style="width: 5%;padding: 8px;">BIL</th>
-                                            <th style="width: 15%; padding: 8px;">NAMA</th>
-                                            <th style="width: 15%; padding: 8px;">TARIKH MULA</th>
-                                            <th style="width: 15%; padding: 8px;">TARIKH AKHIR</th>
-                                            <th style="width: 15%; padding: 8px;">ULASAN</th>
-                                            <th style="width: 15%; padding: 8px;">DOKUMEN RUJUKAN</th>
-                                            <th style="width: 15%; padding: 8px;">JENIS CUTI</th>
+                                            <th style="width: 5%; padding: 8px;">BIL</th>
+                                            <th style="width: 10%; padding: 8px;">NAMA</th>
+                                            <th style="width: 10%; padding: 8px;">TARIKH MULA</th>
+                                            <th style="width: 10%; padding: 8px;">TARIKH AKHIR</th>
+                                            <th style="width: 30%; padding: 8px;">ULASAN</th>
+                                            <th style="width: 10%; padding: 8px;">DOKUMEN RUJUKAN</th>
+                                            <th style="width: 10%; padding: 8px;">JENIS CUTI</th>
                                             <th style="width: 15%; padding: 8px;">TINDAKAN</th>
                                         </tr>
                                     </thead>
@@ -95,13 +95,13 @@
                                 <table class="table">
                                     <thead style="background-color: #f0f0f0;">
                                         <tr>
-                                            <th style="width: 5%; position: sticky; left: 0; z-index: 1; padding: 8px;">BIL</th>
-                                            <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
-                                            <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
-                                            <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH AKHIR</th>
-                                            <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
-                                            <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN RUJUKAN</th>
-                                            <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
+                                            <th style="width: 5%;  padding: 8px;">BIL</th>
+                                            <th style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
+                                            <th style="width: 10%; padding: 8px; overflow-wrap:  white-space: normal;">TARIKH MULA</th>
+                                            <th style="width: 10%; padding: 8px; overflow-wrap:  white-space: normal;">TARIKH AKHIR</th>
+                                            <th style="width: 20%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
+                                            <th style="width: 10%; padding: 8px; overflow-wrap: white-space: normal;">DOKUMEN RUJUKAN</th>
+                                            <th style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
                                             <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
                                         </tr>
                                     </thead>
@@ -125,9 +125,11 @@
                                                 </td>
                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                     @if($application->document_path)
-                                                        <a href="{{ Storage::url($application->document_path) }}" target="_blank" class="btn btn-link p-0">
-                                                            <i class="fas fa-file-alt"></i> <!-- Document icon -->
+                                                        <a href="{{ Storage::url($application->document_path) }}" target="_blank">
+                                                            <i class="fas fa-file-pdf text-lg me-1"></i> PDF <!-- Document icon -->
                                                         </a>
+                                                        @else
+                                                        Tidak Ada Dokumen
                                                     @endif
                                                 </td>
                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">

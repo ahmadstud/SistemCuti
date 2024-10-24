@@ -14,8 +14,8 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/Erawhiz.png">
-        <link rel="icon" type="image/png" href="./assets/img/Erawhiz.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/Erawhiz.png') }}">
+        <link rel="icon" type="image/png" href="{{ asset('assets/img/Erawhiz.png') }}">
         <title>
             Sistem Permohonan Cuti - Admin
         </title>
@@ -167,13 +167,7 @@
                                                                 </div>
                                                                 <!-- Display leave balance based on leave type -->
                                                                 <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                                                                    @if($leave->leave_type == 'mc')
-                                                                    Baki cuti Sakit: {{ $leave->total_mc_days }}
-                                                                    @elseif($leave->leave_type == 'annual')
-                                                                    Baki cuti Tahunan: {{ $leave->total_annual }}
-                                                                    @else
-                                                                    Baki cuti Lain-lain: {{ $leave->total_others }}
-                                                                    @endif
+                                                                    Cuti yang diambil :<br>{{ \Carbon\Carbon::parse($leave->start_date)->diffInDays(\Carbon\Carbon::parse($leave->end_date)) + 1 }} hari
                                                                 </div>
                                                             </li>
                                                             @endforeach
