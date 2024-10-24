@@ -51,6 +51,13 @@
                                     <!-- Separate Change Password Section -->
                                     <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
                                         <h4><b>TUKAR KATA LALUAN</b></h4>
+                                        <!-- Breadcrumb -->
+                                        <nav aria-label="breadcrumb">
+                                            <ol class="breadcrumb mb-0">
+                                                <li class="breadcrumb-item"><a href="#">UTAMA</a></li>
+                                                <li class="breadcrumb-item active" aria-current="page">TUKAR KATA LALUAN</li>
+                                            </ol>
+                                        </nav>
                                     </nav>
 
                                     <div class="row mt-4">
@@ -77,12 +84,12 @@
                                                                     <label for="password_confirmation" class="form-label">Sahkan Kata Laluan Baru<span class="text-danger">*</span></label>
                                                                     <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" oninput="checkPasswordMatch();">
                                                                 </div>
-                                
+
                                                                 <div id="password-alert" class="alert alert-danger d-none">Kata laluan tidak sepadan!</div>
-                                
+
                                                                 <div class="modal-footer">
                                                                     <button type="submit" class="btn btn-primary">
-                                                                        <i class="fas fa-save"></i> Simpan
+                                                                        <i class="fas fa-save"></i>
                                                                     </button>
                                                                 </div>
                                                             </form>

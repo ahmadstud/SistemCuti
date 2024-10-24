@@ -49,7 +49,14 @@
 
                                 <!-- Separate Change Password Section -->
                                 <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
-                                    <h4><b>TUKAR KATA LALUAN<b></h4>
+                                    <h4><b>TUKAR KATA LALUAN</b></h4>
+                                    <!-- Breadcrumb -->
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb mb-0">
+                                            <li class="breadcrumb-item"><a href="#">UTAMA</a></li>
+                                            <li class="breadcrumb-item active" aria-current="page">TUKAR KATA LALUAN</li>
+                                        </ol>
+                                    </nav>
                                 </nav>
 
                                 <div class="row mt-4">
@@ -81,7 +88,7 @@
 
                                                             <div class="modal-footer">
                                                                 <button type="submit" class="btn btn-primary">
-                                                                    <i class="fas fa-save"></i> Simpan
+                                                                    <i class="fas fa-save"></i>
                                                                 </button>
                                                             </div>
                                                         </form>

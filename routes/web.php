@@ -123,6 +123,9 @@ use App\Http\Controllers\Auth\LoginController;
         // Route for updating own details
         Route::post('/officer/update-details',                [OfficerController::class, 'updateOwnDetails3'])->name('updateOwnDetails3');
 
+         // Dashboard:
+         Route::get('/officer/dashboard',                              [OfficerController::class, 'dashboard'])->name('officer.dashboard');
+
         // Routes for officers
         Route::prefix('officer')->name('officer.')->group(function () {
             Route::get('/profile', [OfficerController::class, 'profile'])->name('profile');
@@ -142,9 +145,6 @@ use App\Http\Controllers\Auth\LoginController;
         // Delete mc application for rejected only
         Route::delete('/staff/mc-application/{id}',           [StaffController::class, 'deleteMC'])->name('staff.deleteMC');
 
-        // Staff Routes
-        Route::get('/staff',                                   [StaffController::class, 'dashboard'])->name('staff'); // D (this replaces the previous '/staff' view route)
-
         // Route for submitting MC application
         Route::post('/staff/mc-application',                   [StaffController::class, 'storeMcApplication'])->name('staff.mc.submit');
 
@@ -153,6 +153,9 @@ use App\Http\Controllers\Auth\LoginController;
 
         // Route for updating own details
         Route::post('/staff/update-details',                   [StaffController::class, 'updateOwnDetails2'])->name('updateOwnDetails2');
+
+         // Dashboard:
+         Route::get('/staff/dashboard',                              [StaffController::class, 'dashboard'])->name('staff.dashboard');
 
         // Routes for officers
         Route::prefix('staff')->name('staff.')->group(function () {

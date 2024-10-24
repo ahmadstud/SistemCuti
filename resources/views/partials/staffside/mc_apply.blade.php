@@ -47,10 +47,18 @@
                 <div class="card">
                     <div class="card-header pb-1 p-1">
 
-<!-- MC Apply Application Section -->
-    <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
-        <h4><b>PERMOHONAN CUTI</b></h4>
-    </nav>
+                <!-- MC Apply Application Section -->
+                <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
+                    <h4><b>PERMOHONAN CUTI</b></h4>
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item"><a href="#">UTAMA</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">PERMOHONAN CUTI</li>
+                        </ol>
+                    </nav>
+                </nav>
+
 
     <!-- MC Applications Table Section -->
     <div class="row mt-4">

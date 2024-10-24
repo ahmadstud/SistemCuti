@@ -50,7 +50,14 @@
 
                                     <!-- Profile Section -->
                                     <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
-                                        <h4><b>PROFIL PEKERJA<b></h4>
+                                        <h4><b>PROFIL PENGGUNA</b></h4>
+                                        <!-- Breadcrumb -->
+                                        <nav aria-label="breadcrumb">
+                                            <ol class="breadcrumb mb-0">
+                                                <li class="breadcrumb-item"><a href="#">UTAMA</a></li>
+                                                <li class="breadcrumb-item active" aria-current="page">PROFIL PENGGUNA</li>
+                                            </ol>
+                                        </nav>
                                     </nav>
 
                                     <div class="row mt-4">

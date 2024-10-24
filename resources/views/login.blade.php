@@ -32,13 +32,15 @@
       <span class="mask bg-gradient-dark opacity-6 position-absolute w-100 h-100"></span>
 
       <!-- Logo and Title Section (Centered and excluded from opacity) -->
-      <div class="text-center z-index-1">
-        <h1 class="text-white mb-2 mt-5">
-          <img src="{{ asset('assets/img/Erawhiz.png') }}" alt="Logo"
-               style="width: 200px; height: auto; background-color: white; padding: 10px; border-radius: 10px;">
-        </h1><br>
-        <p class="text-lead text-white">Sistem Permohonan Cuti</p>
-      </div>
+        <div class="text-center z-index-1">
+            <h1 class="text-white mb-2 mt-5">
+                <a href="https://www.erawhizict.com.my/">
+                    <img src="{{ asset('assets/img/Erawhiz.png') }}" alt="Logo"
+                        style="width: 200px; height: auto; background-color: white; padding: 10px; border-radius: 10px;">
+                </a>
+            </h1><br>
+            <p class="text-lead text-white">Sistem Permohonan Cuti</p>
+        </div>
 
       <!-- Login Card Centered Vertically and Horizontally -->
       <div class="container d-flex justify-content-center align-items-center h-100 z-index-2">

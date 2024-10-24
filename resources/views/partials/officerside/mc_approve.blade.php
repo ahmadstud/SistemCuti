@@ -49,7 +49,14 @@
 
                                 <!-- MC Approve Application Section -->
                                 <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
-                                    <h4><b>SENARAI PERMOHONAN DARIPADA STAF</b></h4> <!-- Fixed the closing b tag -->
+                                    <h4><b>SENARAI PERMOHONAN DARIPADA STAF</b></h4>
+                                    <!-- Breadcrumb -->
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb mb-0">
+                                            <li class="breadcrumb-item"><a href="#">UTAMA</a></li>
+                                            <li class="breadcrumb-item active" aria-current="page">SENARAI PERMOHONAN DARIPADA STAF</li>
+                                        </ol>
+                                    </nav>
                                 </nav>
 
                                 <!-- Applications Table Section -->

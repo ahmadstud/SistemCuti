@@ -197,7 +197,7 @@
                                                     <br>
                                                     <!-- Year Dropdown -->
                                                     <div class="d-flex justify-content-end pe-3">
-                                                        <form method="GET" action="{{ route('admin.dashboard') }}" class="d-flex align-items-center">
+                                                        <form method="GET" action="{{ route('officer.dashboard') }}" class="d-flex align-items-center">
                                                             <div class="d-flex align-items-center mb-3">
                                                                 <label for="year" class="form-label me-2">Select Year:</label>
                                                                 <select name="year" id="year" class="form-select" style="width: 150px;" onchange="this.form.submit()">
@@ -261,20 +261,76 @@
         </div>
 </main> <!-- Closing main-content -->
 
-   <!-- Core JS Files -->
-<script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
-<script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
-<script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
-<script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
-<script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
-<!-- Most Important JS Files -->
-<script src="{{ asset('js/app.js') }}"></script>
+  <!--   Core JS Files   -->
+  <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
+  <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
+  <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
+  <script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
+  <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
 
-<!-- Github buttons -->
-<script async defer src="https://buttons.github.io/buttons.js"></script>
-<!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-<script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.0.4') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Most Important JS Files -->
+  <script src="{{ asset('js/app.js') }}"></script>
+
+  <!-- Github buttons -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.0.4') }}"></script>
+
+  <!-- Include Bootstrap JS and Popper.js -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- Bootstrap JS and Popper.js -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"></script>
+
+  {{-- Include CKEditor in the HTML Head --}}
+  <script src="https://cdn.ckeditor.com/4.25.0/standard/ckeditor.js"></script>
+
+  <!-- Script to handle chart creation -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+      const ctx = document.getElementById('chart-line').getContext('2d');
+
+      // Data for the monthly leave chart
+      const monthlyLeaveData = @json(array_values($leaveCountsByMonth)); // Get only the counts as an array
+
+      const monthlyLeaveChart = new Chart(ctx, {
+          type: 'bar', // Change this to 'line' for a line chart
+          data: {
+              labels: [
+                  'Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun',
+                  'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'
+              ],
+              datasets: [{
+                  label: 'Bilangan Permohonan Yang Diterima',
+                  data: monthlyLeaveData,
+                  backgroundColor: 'rgba(54, 162, 235, 0.2)', // Light blue color
+                  borderColor: 'rgba(54, 162, 235, 1)', // Dark blue color
+                  borderWidth: 1,
+              }]
+          },
+          options: {
+              scales: {
+                  y: {
+                      beginAtZero: true,
+                      title: {
+                          display: true,
+                          text: 'Bilangan Permohonan Yang Diterima'
+                      }
+                  },
+                  x: {
+                      title: {
+                          display: true,
+                          text: 'Bulan'
+                      }
+                  }
+              },
+              responsive: true, // Ensure the chart is responsive
+              maintainAspectRatio: false, // Optional: Maintain aspect ratio
+          }
+      });
+  </script>
 
 </body>
 

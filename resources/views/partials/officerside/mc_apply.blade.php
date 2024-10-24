@@ -49,7 +49,14 @@
 
                                 <!-- MC Apply Application Section -->
                                 <nav class="navbar navbar-light bg-light justify-content-between" style="border-radius: 10px;">
-                                    <h4><b>PERMOHONAN CUTI<b></h4>
+                                    <h4><b>PERMOHONAN CUTI</b></h4>
+                                    <!-- Breadcrumb -->
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb mb-0">
+                                            <li class="breadcrumb-item"><a href="#">UTAMA</a></li>
+                                            <li class="breadcrumb-item active" aria-current="page">PERMOHONAN CUTI</li>
+                                        </ol>
+                                    </nav>
                                 </nav>
 
                                 <!-- MC Applications Table Section -->
@@ -133,8 +140,8 @@
                                 <thead style="background-color: #f0f0f0;">
                                     <tr>
                                         <th style="width: 5%; padding: 8px;">BIL</th>
-                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
-                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH TAMAT</th>
+                                        <th style="width: 10%;  padding: 8px; overflow-wrap:  white-space: normal;">TARIKH MULA</th>
+                                        <th style="width: 10%;  padding: 8px; overflow-wrap:  white-space: normal;">TARIKH TAMAT</th>
                                         <th style="width: 30%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
                                         <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN</th>
                                         <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
