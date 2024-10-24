@@ -31,6 +31,10 @@
         <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
+        <!-- SweetAlert2 -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
     </head>
 
     <body class="g-sidenav-show bg-gray-100">
@@ -106,16 +110,16 @@
                                                                                     <p class="text-m text-secondary">{{ \Carbon\Carbon::parse($application->end_date)->format('d/m/Y') }}</p>
                                                                                 </td>
                                                                                 <td>
-                                                                                @switch($application->leave_type)
-                                                                                    @case('mc')
-                                                                                        <span class="badge bg-success">Cuti Sakit</span>
-                                                                                        @break
-                                                                                    @case('annual')
-                                                                                        <span class="badge bg-success">Cuti Tahunan</span>
-                                                                                        @break
-                                                                                    @default
-                                                                                        <span class="badge bg-success">Cuti Lain-lain</span>
-                                                                                @endswitch
+                                                                                    @switch($application->leave_type)
+                                                                                        @case('mc')
+                                                                                            <span class="badge bg-success">Cuti Sakit</span>
+                                                                                            @break
+                                                                                        @case('annual')
+                                                                                            <span class="badge bg-primary">Cuti Tahunan</span>
+                                                                                            @break
+                                                                                        @default
+                                                                                            <span class="badge bg-warning">Cuti Lain-lain</span>
+                                                                                    @endswitch
                                                                                 </td>
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                     <p class="text-m text-secondary">{{ $application->reason }}</p>
@@ -123,8 +127,10 @@
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                     @if($application->document_path)
                                                                                         <a href="{{ Storage::url($application->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</a>
+                                                                                    @else
+                                                                                        <span>Tiada dokumen</span>
                                                                                     @endif
-                                                                                </td>
+                                                                                </td>                                                                                
 
                                                                                 {{-- <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                     <div class="d-flex justify-content-start"> <!-- Flex container for side-by-side buttons -->
@@ -145,23 +151,20 @@
 
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                     <div class="d-flex justify-content-start"> <!-- Flex container for side-by-side buttons -->
-
+                                                                                
                                                                                         <!-- Approve Button Form -->
                                                                                         <form action="{{ route('admin.approve', $application->id) }}" method="POST" style="margin-right: 5px;">
                                                                                             @csrf
-                                                                                            <button type="submit" class="btn btn-success" aria-label="Approve">
+                                                                                            <button type="submit" class="btn btn-success" aria-label="Approve" onclick="console.log('Approve button clicked');">
                                                                                                 <i class="fas fa-check"></i>
                                                                                             </button>
                                                                                         </form>
-
+                                                                                
                                                                                         <!-- Reject Button Form -->
-                                                                                        <form action="{{ route('admin.reject', $application->id) }}" method="POST" id="reject-form-{{ $application->id }}">
-                                                                                            @csrf
-                                                                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectionReasonModal{{ $application->id }}">
-                                                                                                <i class="fas fa-times"></i>
-                                                                                            </button>
-                                                                                        </form>
-
+                                                                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectionReasonModal{{ $application->id }}">
+                                                                                            <i class="fas fa-times"></i>
+                                                                                        </button>
+                                                                                
                                                                                         <!-- Modal for Rejection Reason -->
                                                                                         <div class="modal fade" id="rejectionReasonModal{{ $application->id }}" tabindex="-1" role="dialog" aria-labelledby="rejectionReasonModalLabel{{ $application->id }}" aria-hidden="true">
                                                                                             <div class="modal-dialog" role="document">
@@ -186,10 +189,42 @@
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
-
+                                                                                
+                                                                                        <script>
+                                                                                            function submitRejection(applicationId) {
+                                                                                                // Get the textarea value
+                                                                                                const reason = document.getElementById(`rejection_reason_${applicationId}`).value;
+                                                                                
+                                                                                                // Check if reason is provided
+                                                                                                if (reason.trim() === '') {
+                                                                                                    alert('Sila nyatakan alasan penolakan.');
+                                                                                                    return;
+                                                                                                }
+                                                                                
+                                                                                                // Submit the form using AJAX or a standard form submission
+                                                                                                const form = document.createElement('form');
+                                                                                                form.method = 'POST';
+                                                                                                form.action = '{{ route('admin.reject', '') }}/' + applicationId; // Adjust route
+                                                                                                const input = document.createElement('input');
+                                                                                                input.type = 'hidden';
+                                                                                                input.name = 'rejection_reason';
+                                                                                                input.value = reason;
+                                                                                                form.appendChild(input);
+                                                                                
+                                                                                                // Append CSRF token
+                                                                                                const csrfInput = document.createElement('input');
+                                                                                                csrfInput.type = 'hidden';
+                                                                                                csrfInput.name = '_token';
+                                                                                                csrfInput.value = '{{ csrf_token() }}'; // Get CSRF token
+                                                                                                form.appendChild(csrfInput);
+                                                                                
+                                                                                                document.body.appendChild(form);
+                                                                                                form.submit();
+                                                                                            }
+                                                                                        </script>
                                                                                     </div>
                                                                                 </td>
-
+                                                                                
 
                                                                             </tr>
                                                                         @endforeach

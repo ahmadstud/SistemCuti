@@ -92,7 +92,7 @@
                                                             <!-- Title and Content Section -->
                                                             <div class="text-center mt-3">
                                                                 <h2 id="announcementTitle" style="text-transform: uppercase;">{{ $announcements[0]->title }}</h2>
-                                                                <p id="announcementContent">{{ $announcements[0]->content }}</p>
+                                                                <div id="announcementContent">{!! $announcements[0]->content !!}</div> <!-- Render Summernote content -->
                                                                 <p id="announcementDates">
                                                                     Tarikh Buka: <strong id="startDate">{{ $announcements[0]->start_date }}</strong><br>
                                                                     Tarikh Tutup: <strong id="endDate">{{ $announcements[0]->end_date }}</strong>
@@ -109,25 +109,23 @@
                                                         </div>
 
                                                         <script>
-                                                            document.addEventListener('DOMContentLoaded', function() {
-                                                                const carouselElement = document.getElementById('announcementCarousel');
+                                                            // JavaScript to update the content on slide change
+                                                            const carouselElement = document.getElementById('announcementCarousel');
 
-                                                                carouselElement.addEventListener('slide.bs.carousel', function(event) {
-                                                                    // Get the new active item
-                                                                    const nextItem = event.relatedTarget;
+                                                            carouselElement.addEventListener('slide.bs.carousel', function (event) {
+                                                                const nextItem = event.relatedTarget;
+                                                                
+                                                                // Update title and content based on the active slide
+                                                                const title = nextItem.getAttribute('data-title');
+                                                                const content = nextItem.getAttribute('data-content');
+                                                                const startDate = nextItem.getAttribute('data-start-date');
+                                                                const endDate = nextItem.getAttribute('data-end-date');
 
-                                                                    // Get data attributes
-                                                                    const title = nextItem.getAttribute('data-title');
-                                                                    const content = nextItem.getAttribute('data-content');
-                                                                    const startDate = nextItem.getAttribute('data-start-date');
-                                                                    const endDate = nextItem.getAttribute('data-end-date');
-
-                                                                    // Update the content
-                                                                    document.getElementById('announcementTitle').textContent = title;
-                                                                    document.getElementById('announcementContent').textContent = content;
-                                                                    document.getElementById('startDate').textContent = startDate;
-                                                                    document.getElementById('endDate').textContent = endDate;
-                                                                });
+                                                                // Update DOM elements
+                                                                document.getElementById('announcementTitle').innerText = title;
+                                                                document.getElementById('announcementContent').innerHTML = content; // Use innerHTML to render HTML
+                                                                document.getElementById('startDate').innerText = startDate;
+                                                                document.getElementById('endDate').innerText = endDate;
                                                             });
                                                         </script>
                                                     </div>
@@ -244,7 +242,8 @@
                                                                 </h2>
                                                                 <div id="collapse{{ $index }}" class="accordion-collapse collapse {{ $index === 0 ? 'show' : '' }}" aria-labelledby="heading{{ $index }}" data-bs-parent="#notesAccordion" style="color: #333; border: none;">
                                                                     <div class="accordion-body" style="padding: 1rem;">
-                                                                        <p>{{ $note->content }}</p>
+                                                                        <!-- Display Summernote content -->
+                                                                        {!! $note->content !!} 
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -253,6 +252,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
 
                                         </div>
                                     </div>

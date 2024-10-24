@@ -31,6 +31,10 @@
         <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
+        <!-- SweetAlert2 -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+                
     </head>
 
     <body class="g-sidenav-show bg-gray-100">
@@ -112,10 +116,10 @@
                                                                                             <span class="badge bg-success">Cuti Sakit</span>
                                                                                             @break
                                                                                         @case('annual')
-                                                                                            <span class="badge bg-success">Cuti Tahunan</span>
+                                                                                            <span class="badge bg-primary">Cuti Tahunan</span>
                                                                                             @break
                                                                                         @default
-                                                                                            <span class="badge bg-success">Cuti Lain-lain</span>
+                                                                                            <span class="badge bg-warning">Cuti Lain-lain</span>
                                                                                     @endswitch
                                                                                 </td>
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
@@ -135,46 +139,47 @@
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                     @if($application->status === 'pending_admin')
                                                                                     <div class="d-flex justify-content-between">
-
-                                                                                         <!-- Approve Button Form -->
-                                                                                        <form action="{{ route('admin.approve', $application->id) }}" method="POST" style="margin-right: 5px;">
+                                                                                
+                                                                                        <!-- Approve Button Form -->
+                                                                                        <form action="{{ route('admin.approve', $application->id) }}" method="POST" style="margin-right: 5px;" class="approve-form">
                                                                                             @csrf
                                                                                             <button type="submit" class="btn btn-success" aria-label="Accept">
                                                                                                 <i class="fas fa-check"></i>
                                                                                             </button>
                                                                                         </form>
-
+                                                                                
                                                                                         <!-- Reject Button Form -->
                                                                                         <button type="button" class="btn btn-danger" aria-label="Reject" data-toggle="modal" data-target="#rejectModal-{{ $application->id }}">
                                                                                             <i class="fas fa-times"></i>
                                                                                         </button>
                                                                                     </div>
-
+                                                                                
                                                                                     <!-- Modal for rejection reason -->
                                                                                     <div class="modal fade" id="rejectModal-{{ $application->id }}" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel" aria-hidden="true">
                                                                                         <div class="modal-dialog" role="document">
                                                                                             <div class="modal-content">
                                                                                                 <div class="modal-header">
-                                                                                                    <h5 class="modal-title" id="rejectModalLabel">Rejection Reason</h5>
-                                                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                                    <h5 class="modal-title" id="rejectModalLabel">Sebab Penolakan</h5>
+                                                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Tutup">
                                                                                                         <span aria-hidden="true">&times;</span>
                                                                                                     </button>
                                                                                                 </div>
-                                                                                                <form action="{{ route('admin.reject', $application->id) }}" method="POST">
+                                                                                                <form action="{{ route('admin.reject', $application->id) }}" method="POST" class="reject-form">
                                                                                                     @csrf
                                                                                                     <div class="modal-body">
                                                                                                         <div class="form-group">
-                                                                                                            <label for="reason">Please state the reason for rejection:</label>
+                                                                                                            <label for="reason">Sila nyatakan sebab penolakan:</label>
                                                                                                             <textarea id="reason" name="reason" class="form-control" required></textarea>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     <div class="modal-footer">
-                                                                                                        <button type="submit" class="btn btn-danger">Reject</button>
+                                                                                                        <button type="submit" class="btn btn-danger">Tolak</button>
                                                                                                     </div>
                                                                                                 </form>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
+
                                                                                     @elseif($application->status === 'accepted')
                                                                                         <button type="button" class="btn btn-primary btn-sm" disabled aria-label="Accepted">
                                                                                             <i class="fas fa-check-circle"></i>
@@ -189,7 +194,51 @@
                                                                                         </button>
                                                                                     @endif
                                                                                 </td>
-
+                                                                                
+                                                                                <script>
+                                                                                    // SweetAlert for rejection confirmation
+                                                                                    document.querySelectorAll('.reject-form').forEach(form => {
+                                                                                        form.addEventListener('submit', function(event) {
+                                                                                            event.preventDefault(); // Prevent the default form submission
+                                                                                            const reason = document.getElementById('reason').value; // Get the reason value
+                                                                                
+                                                                                            Swal.fire({
+                                                                                                title: 'Sahkan Penolakan',
+                                                                                                text: `Anda pasti ingin menolak permohonan ini? Sebab: ${reason}`,
+                                                                                                icon: 'warning',
+                                                                                                showCancelButton: true,
+                                                                                                confirmButtonColor: '#d33',
+                                                                                                cancelButtonColor: '#3085d6',
+                                                                                                confirmButtonText: 'Ya, Tolak!',
+                                                                                                cancelButtonText: 'Batal'
+                                                                                            }).then((result) => {
+                                                                                                if (result.isConfirmed) {
+                                                                                                    this.submit(); // Submit the form if confirmed
+                                                                                                }
+                                                                                            });
+                                                                                        });
+                                                                                    });
+                                                                                </script>
+                                                                                
+                                                                                <script>
+                                                                                    // SweetAlert for success and error messages
+                                                                                    @if (session('success'))
+                                                                                        Swal.fire({
+                                                                                            icon: 'success',
+                                                                                            title: 'Berjaya',
+                                                                                            text: '{{ session('success') }}',
+                                                                                            confirmButtonText: 'OK'
+                                                                                        });
+                                                                                    @elseif (session('error'))
+                                                                                        Swal.fire({
+                                                                                            icon: 'error',
+                                                                                            title: 'Ralat',
+                                                                                            text: '{{ session('error') }}',
+                                                                                            confirmButtonText: 'OK'
+                                                                                        });
+                                                                                    @endif
+                                                                                </script>
+                                                                                
                                                                             </tr>
                                                                         @endforeach
                                                                     @endif

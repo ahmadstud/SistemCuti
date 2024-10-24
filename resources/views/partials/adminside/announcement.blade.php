@@ -31,18 +31,13 @@
         <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
-        <!-- Summernote CSS -->
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" rel="stylesheet">
-
-        <!-- Summernote JS -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js"></script>
-
-        <!-- jQuery (required for Summernote) -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- Include Summernote CSS and JS -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.js"></script>
 
         <!-- SweetAlert2 -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
     </head>
@@ -84,8 +79,8 @@
                                                 </div>
                                                 <br>
 
+                                                <!-- Add Pengumuman Button -->
                                                 <div class="d-flex justify-content-end pe-3">
-                                                    <!-- Add Pengumuman Button -->
                                                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createAnnouncementModal">
                                                         Tambah Pengumuman
                                                     </button>
@@ -107,76 +102,99 @@
                                                         </div>
                                                     @endif
 
-                                                    <!-- Add Announcement Modal -->
-                                                    <div class="modal fade" id="createAnnouncementModal" tabindex="-1" aria-labelledby="createAnnouncementLabel" aria-hidden="true">
-                                                        <div class="modal-dialog modal-lg">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header" style="background-color: #f0f0f0;">
-                                                                    <h5 class="modal-title" id="createAnnouncementLabel">Tambah Pengumuman</h5>
-                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <form id="announcementForm" action="{{ route('admin.storeAnnouncement') }}" method="POST" enctype="multipart/form-data">
-                                                                        @csrf
-                                                                        <div class="mb-3">
-                                                                            <label for="title" class="form-label">Tajuk<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control" id="title" name="title" required>
+                                                <!-- Add Announcement Modal -->
+                                                <div class="modal fade" id="createAnnouncementModal" tabindex="-1" aria-labelledby="createAnnouncementLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-lg">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header" style="background-color: #f0f0f0;">
+                                                                <h5 class="modal-title" id="createAnnouncementLabel">Tambah Pengumuman</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form id="announcementForm" action="{{ route('admin.storeAnnouncement') }}" method="POST" enctype="multipart/form-data">
+                                                                    @csrf
+                                                                    <div class="mb-3">
+                                                                        <label for="title" class="form-label">Tajuk<span class="text-danger">*</span></label>
+                                                                        <input type="text" class="form-control" id="title" name="title" required>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="content" class="form-label">Isi Kandungan<span class="text-danger">*</span></label>
+                                                                        <textarea class="form-control summernote" id="content" name="content" rows="4" required></textarea>
+                                                                    </div>
+                                                                    <div class="row mb-3">
+                                                                        <div class="col-md-6">
+                                                                            <label for="start_date" class="form-label">Tarikh Mula<span class="text-danger">*</span></label>
+                                                                            <input type="date" class="form-control" id="start_date" name="start_date" required>
                                                                         </div>
-                                                                        <div class="mb-3">
-                                                                            <label for="content" class="form-label">Isi Kandungan<span class="text-danger">*</span></label>
-                                                                            <textarea class="form-control summernote" id="content" name="content" rows="4" required></textarea>
+                                                                        <div class="col-md-6">
+                                                                            <label for="end_date" class="form-label">Tarikh Akhir<span class="text-danger">*</span></label>
+                                                                            <input type="date" class="form-control" id="end_date" name="end_date" required>
                                                                         </div>
-                                                                        <div class="row mb-3">
-                                                                            <div class="col-md-6">
-                                                                                <label for="start_date" class="form-label">Tarikh Mula<span class="text-danger">*</span></label>
-                                                                                <input type="date" class="form-control" id="start_date" name="start_date" required>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <label for="end_date" class="form-label">Tarikh Akhir<span class="text-danger">*</span></label>
-                                                                                <input type="date" class="form-control" id="end_date" name="end_date" required>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="mb-3">
-                                                                            <label for="image" class="form-label">Gambar</label>
-                                                                            <input type="file" class="form-control" id="image" name="image" accept="image/*">
-                                                                        </div>
-                                                                        <p class="text-muted">
-                                                                            <em>Please upload images with the following specifications:
-                                                                                <br> - Recommended size: **1200 x 675 pixels** (16:9 aspect ratio)
-                                                                                <br> - Minimum width: **800 pixels**
-                                                                                <br> - File formats: **JPG, PNG**
-                                                                                <br> - Maximum file size: **2MB**</em>
-                                                                        </p>
-
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-success" onclick="confirmSubmission()">Simpan</button>
-                                                                        </div>
-                                                                    </form>
-                                                                </div>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="image" class="form-label">Gambar</label>
+                                                                        <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                                                                    </div>
+                                                                    <p class="text-muted">
+                                                                        <em>Please upload images with the following specifications:
+                                                                            <br> - Recommended size: **1200 x 675 pixels** (16:9 aspect ratio)
+                                                                            <br> - Minimum width: **800 pixels**
+                                                                            <br> - File formats: **JPG, PNG**
+                                                                            <br> - Maximum file size: **2MB**</em>
+                                                                    </p>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-success" onclick="confirmSubmission()">Simpan</button>
+                                                                    </div>
+                                                                </form>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                </div>
 
                                                     <!-- Script to handle confirmation using SweetAlert2 -->
                                                     <script>
                                                         function confirmSubmission() {
                                                             Swal.fire({
-                                                                title: 'Are you sure?',
-                                                                text: "Do you want to submit this announcement?",
+                                                                title: 'Adakah anda pasti?',
+                                                                text: "Adakah anda ingin menghantar pengumuman ini?",
                                                                 icon: 'warning',
                                                                 showCancelButton: true,
                                                                 confirmButtonColor: '#3085d6',
                                                                 cancelButtonColor: '#d33',
-                                                                confirmButtonText: 'Yes, submit it!'
+                                                                confirmButtonText: 'Ya, hantar!'
                                                             }).then((result) => {
                                                                 if (result.isConfirmed) {
-                                                                    // Submit the form
+                                                                    // Hantar borang
                                                                     document.getElementById('announcementForm').submit();
                                                                 }
                                                             });
                                                         }
                                                     </script>
 
+                                                    <!-- Initialize Summernote -->
+                                                    <script>
+                                                        $(document).ready(function() {
+                                                            $('#content').summernote({
+                                                                placeholder: 'Masukkan isi kandungan di sini...',
+                                                                tabsize: 2,
+                                                                height: 150, // Set height of the editor
+                                                                toolbar: [ // Customize the toolbar
+                                                                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                                                                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                                                                    ['fontsize', ['fontsize']],
+                                                                    ['color', ['color']],
+                                                                    ['para', ['ul', 'ol', 'paragraph']],
+                                                                    ['insert', ['picture', 'link']],
+                                                                    ['view', ['fullscreen', 'codeview', 'help']]
+                                                                ]
+                                                            });
+
+                                                            // Re-initialize Summernote when the modal is opened
+                                                            $('#createAnnouncementModal').on('shown.bs.modal', function () {
+                                                                $('#content').summernote('reset'); // Reset content
+                                                            });
+                                                        });
+                                                    </script>
 
                                                 {{-- List of Announcements --}}
                                                 <div class="card-body">
@@ -220,6 +238,7 @@
                                                                         </td>
                                                                         <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                             <div class="d-flex flex-wrap justify-content-start">
+
                                                                                 <!-- Edit button to open the modal -->
                                                                                 <button type="button" class="btn btn-md btn-primary me-2 mb-2" data-bs-toggle="modal" data-bs-target="#editAnnouncementModal{{ $announcement->id }}">
                                                                                     <i class="fas fa-pencil-alt"></i>
@@ -292,37 +311,55 @@
                                                                                 </div>
                                                                             </div>
                                                                         </div>
+
+                                                                        <!-- Script to initialize Summernote -->
+                                                                        <script>
+                                                                            // Initialize Summernote when the modal opens
+                                                                            $('#editAnnouncementModal{{ $announcement->id }}').on('shown.bs.modal', function () {
+                                                                                $('#content{{ $announcement->id }}').summernote({
+                                                                                    height: 200, // Set editor height
+                                                                                    toolbar: [ // Customize toolbar
+                                                                                        ['style', ['bold', 'italic', 'underline', 'clear']],
+                                                                                        ['font', ['strikethrough', 'superscript', 'subscript']],
+                                                                                        ['color', ['color']],
+                                                                                        ['para', ['ul', 'ol', 'paragraph']],
+                                                                                        ['insert', ['link', 'picture', 'video']],
+                                                                                        ['view', ['fullscreen', 'codeview', 'help']]
+                                                                                    ]
+                                                                                });
+                                                                            });
+                                                                        </script>
                                                                         
                                                                         <script>
                                                                             function confirmEditSubmit(announcementId) {
                                                                                 Swal.fire({
-                                                                                    title: 'Are you sure?',
-                                                                                    text: "Do you want to save the changes?",
+                                                                                    title: 'Adakah anda pasti?',
+                                                                                    text: "Adakah anda ingin menyimpan perubahan ini?",
                                                                                     icon: 'warning',
                                                                                     showCancelButton: true,
                                                                                     confirmButtonColor: '#3085d6',
                                                                                     cancelButtonColor: '#d33',
-                                                                                    confirmButtonText: 'Yes, save it!'
+                                                                                    confirmButtonText: 'Ya, simpan!'
                                                                                 }).then((result) => {
                                                                                     if (result.isConfirmed) {
-                                                                                        // Submit the form after confirmation
+                                                                                        // Hantar borang selepas pengesahan
                                                                                         document.getElementById('edit-form-' + announcementId).submit();
                                                                                     }
                                                                                 });
                                                                             }
-
+                                                                        
                                                                             function confirmDelete(announcementId) {
                                                                                 Swal.fire({
-                                                                                    title: 'Are you sure?',
-                                                                                    text: "This action cannot be undone!",
+                                                                                    title: 'Adakah anda pasti?',
+                                                                                    text: "Tindakan ini tidak boleh dibatalkan!",
                                                                                     icon: 'warning',
                                                                                     showCancelButton: true,
                                                                                     confirmButtonColor: '#3085d6',
                                                                                     cancelButtonColor: '#d33',
-                                                                                    confirmButtonText: 'Yes, delete it!'
+                                                                                    confirmButtonText: 'Ya, padam!'
                                                                                 }).then((result) => {
                                                                                     if (result.isConfirmed) {
-                                                                                        // Submit the delete form after confirmation
+                                                                                        // Hantar borang padam selepas pengesahan
                                                                                         document.getElementById('delete-form-' + announcementId).submit();
                                                                                     }
                                                                                 });
@@ -343,7 +380,6 @@
                                 </div>
                             </div>
 
-
                         </div>
                     </div>
                 </div>
@@ -359,10 +395,6 @@
         <script src="{{ asset('js/app.js') }}"></script>
         <script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.0.4') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
-
-
 
     </body>
 </html>

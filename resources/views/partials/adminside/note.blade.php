@@ -31,14 +31,14 @@
         <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
-        <!-- Summernote CSS -->
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.css" rel="stylesheet">
+        <!-- Include Summernote CSS and JS -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.js"></script>
 
-        <!-- Summernote JS -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.min.js"></script>
-
-        <!-- jQuery (required for Summernote) -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- SweetAlert2 -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
 
 
@@ -82,8 +82,8 @@
                                                 </div>
                                                 <br>
 
+                                                <!-- Add Nota Button -->
                                                 <div class="d-flex justify-content-end pe-3">
-                                                    <!-- Add Nota Button -->
                                                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createNoteModal">
                                                         Tambah Nota
                                                     </button>
@@ -105,55 +105,78 @@
                                                         </div>
                                                     @endif
 
-                                                <!-- Add Note Modal -->
-                                                <div class="modal fade" id="createNoteModal" tabindex="-1" aria-labelledby="createNoteLabel" aria-hidden="true">
-                                                    <div class="modal-dialog modal-lg">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header" style="background-color: #f0f0f0;">
-                                                                <h5 class="modal-title" id="createNoteLabel">Tambah Nota</h5>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <form action="{{ route('admin.storeNote') }}" method="POST" enctype="multipart/form-data">
-                                                                    @csrf
-                                                                    <div class="mb-3">
-                                                                        <label for="title" class="form-label">Tajuk<span class="text-danger">*</span></label>
-                                                                        <input type="text" class="form-control" id="title" name="title" required>
-                                                                    </div>
-                                                                    <div class="mb-3">
-                                                                        <label for="content" class="form-label">Isi Kandungan<span class="text-danger">*</span></label>
-                                                                        <textarea class="form-control summernote" id="content" name="content" rows="4" required></textarea>
-                                                                    </div>
-
-
-                                                                    <div class="modal-footer">
-                                                                        <button type="submit" class="btn btn-success">Simpan</button>
-                                                                    </div>
-                                                                </form>
-
-
-                                                                <script>
-                                                                    $(document).ready(function() {
-                                                                        $('#createNoteModal').on('shown.bs.modal', function () {
-                                                                            $('.summernote').summernote({
-                                                                                height: 200, // Set editor height
-                                                                                toolbar: [
-                                                                                    ['style', ['style']],
-                                                                                    ['font', ['bold', 'underline', 'clear']],
-                                                                                    ['fontname', ['fontname']],
-                                                                                    ['para', ['ul', 'ol', 'paragraph']],
-                                                                                    ['insert', ['link', 'picture', 'video']],
-                                                                                    ['view', ['fullscreen', 'codeview', 'help']]
-                                                                                ]
-                                                                            });
-                                                                        });
-                                                                    });
-                                                                </script>
-
+                                                    <!-- Add Note Modal -->
+                                                    <div class="modal fade" id="createNoteModal" tabindex="-1" aria-labelledby="createNoteLabel" aria-hidden="true">
+                                                        <div class="modal-dialog modal-lg">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header" style="background-color: #f0f0f0;">
+                                                                    <h5 class="modal-title" id="createNoteLabel">Tambah Nota</h5>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <form id="announcementForm" action="{{ route('admin.storeNote') }}" method="POST" enctype="multipart/form-data">
+                                                                        @csrf
+                                                                        <div class="mb-3">
+                                                                            <label for="title" class="form-label">Tajuk<span class="text-danger">*</span></label>
+                                                                            <input type="text" class="form-control" id="title" name="title" required>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <label for="content" class="form-label">Isi Kandungan<span class="text-danger">*</span></label>
+                                                                            <textarea class="form-control summernote" id="content" name="content" rows="4" required></textarea>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-success" onclick="confirmSubmission()">Simpan</button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+
+                                                    <!-- Script to handle confirmation using SweetAlert2 -->
+                                                    <script>
+                                                        function confirmSubmission() {
+                                                            Swal.fire({
+                                                                title: 'Adakah anda pasti?',
+                                                                text: "Adakah anda ingin menghantar nota ini?",
+                                                                icon: 'warning',
+                                                                showCancelButton: true,
+                                                                confirmButtonColor: '#3085d6',
+                                                                cancelButtonColor: '#d33',
+                                                                confirmButtonText: 'Ya, hantar!'
+                                                            }).then((result) => {
+                                                                if (result.isConfirmed) {
+                                                                    // Hantar borang
+                                                                    document.getElementById('announcementForm').submit();
+                                                                }
+                                                            });
+                                                        }
+                                                    </script>
+
+                                                    <!-- Initialize Summernote -->
+                                                    <script>
+                                                        $(document).ready(function() {
+                                                            $('#content').summernote({
+                                                                placeholder: 'Masukkan isi kandungan di sini...',
+                                                                tabsize: 2,
+                                                                height: 150, // Set height of the editor
+                                                                toolbar: [ // Customize the toolbar
+                                                                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                                                                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                                                                    ['fontsize', ['fontsize']],
+                                                                    ['color', ['color']],
+                                                                    ['para', ['ul', 'ol', 'paragraph']],
+                                                                    ['insert', ['picture', 'link']],
+                                                                    ['view', ['fullscreen', 'codeview', 'help']]
+                                                                ]
+                                                            });
+
+                                                            // Re-initialize Summernote when the modal is opened
+                                                            $('#createNoteModal').on('shown.bs.modal', function () {
+                                                                $('#content').summernote('reset'); // Reset content
+                                                            });
+                                                        });
+                                                    </script>
 
                                                 {{-- List of Notes --}}
                                                 <div class="card-body">
@@ -181,52 +204,111 @@
                                                                         </td>
                                                                         <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                             <div class="d-flex justify-content-start"> <!-- Flex container for side-by-side buttons -->
+                                                                                
                                                                                 <!-- Edit Button -->
                                                                                 <button class="btn btn-md btn-primary me-2" data-bs-toggle="modal" data-bs-target="#editNoteModal{{ $note->id }}">
                                                                                     <i class="fas fa-pencil-alt"></i>
                                                                                 </button>
-
+                                                                        
                                                                                 <!-- Delete button for note -->
-                                                                                <form action="{{ route('deleteNote', $note->id) }}" method="POST" style="margin: 0;"> <!-- Set margin to 0 for proper alignment -->
+                                                                                <form id="delete-form-{{ $note->id }}" action="{{ route('deleteNote', $note->id) }}" method="POST" style="margin: 0;"> 
                                                                                     @csrf
                                                                                     @method('DELETE')
-                                                                                    <button type="submit" class="btn btn-md btn-danger" title="Delete">
+                                                                                    <button type="submit" class="btn btn-md btn-danger" title="Delete" onclick="return confirmDelete(event, {{ $note->id }})">
                                                                                         <i class="fas fa-trash-alt"></i> <!-- Delete symbol -->
                                                                                     </button>
                                                                                 </form>
+
                                                                             </div>
                                                                         </td>
-                                                                    </tr>
-
-                                                                    <!-- Edit Note Modal -->
-                                                                    <div class="modal fade" id="editNoteModal{{ $note->id }}" tabindex="-1" aria-labelledby="editNoteLabel{{ $note->id }}" aria-hidden="true">
-                                                                        <div class="modal-dialog modal-lg">
-                                                                            <div class="modal-content">
-                                                                                <div class="modal-header" style="background-color: #f0f0f0;">
-                                                                                    <h5 class="modal-title" id="editNoteLabel{{ $note->id }}">Kemaskini Nota</h5>
-                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                                </div>
-                                                                                <div class="modal-body">
-                                                                                    <form action="{{ route('updateNote', $note->id) }}" method="POST" enctype="multipart/form-data">
-                                                                                        @csrf
-                                                                                        @method('PUT')
-                                                                                        <div class="mb-3">
-                                                                                            <label for="title{{ $note->id }}" class="form-label">Tajuk</label>
-                                                                                            <input type="text" class="form-control" id="title{{ $note->id }}" name="title" value="{{ $note->title }}">
-                                                                                        </div>
-                                                                                        <div class="mb-3">
-                                                                                            <label for="content{{ $note->id }}" class="form-label">Isi Kandungan</label>
-                                                                                            <textarea class="form-control" id="content{{ $note->id }}" name="content" rows="4" required>{{ $note->content }}</textarea>
-                                                                                        </div>
-                                                                                        <div class="modal-footer">
-                                                                                            <button type="submit" class="btn btn-success">Simpan</button>
-                                                                                        </div>
-                                                                                    </form>
+                                                                        
+                                                                        <!-- Edit Note Modal -->
+                                                                        <div class="modal fade" id="editNoteModal{{ $note->id }}" tabindex="-1" aria-labelledby="editNoteLabel{{ $note->id }}" aria-hidden="true">
+                                                                            <div class="modal-dialog modal-lg">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header" style="background-color: #f0f0f0;">
+                                                                                        <h5 class="modal-title" id="editNoteLabel{{ $note->id }}">Kemaskini Nota</h5>
+                                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+                                                                                        <form id="edit-form-{{ $note->id }}" action="{{ route('updateNote', $note->id) }}" method="POST" enctype="multipart/form-data">
+                                                                                            @csrf
+                                                                                            @method('PUT')
+                                                                                            <div class="mb-3">
+                                                                                                <label for="title{{ $note->id }}" class="form-label">Tajuk</label>
+                                                                                                <input type="text" class="form-control" id="title{{ $note->id }}" name="title" value="{{ $note->title }}">
+                                                                                            </div>
+                                                                                            <div class="mb-3">
+                                                                                                <label for="content{{ $note->id }}" class="form-label">Isi Kandungan</label>
+                                                                                                <textarea class="form-control" id="content{{ $note->id }}" name="content" rows="4" required>{{ $note->content }}</textarea>
+                                                                                            </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <button type="button" class="btn btn-success" onclick="confirmEditSubmit({{ $note->id }})">Simpan</button>
+                                                                                            </div>
+                                                                                        </form>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
+                                                                        
+                                                                        <!-- Script to initialize Summernote -->
+                                                                        <script>
+                                                                            // Initialize Summernote when the modal opens
+                                                                            $('#editNoteModal{{ $note->id }}').on('shown.bs.modal', function () {
+                                                                                $('#content{{ $note->id }}').summernote({
+                                                                                    height: 200, // Set editor height
+                                                                                    toolbar: [ // Customize toolbar
+                                                                                        ['style', ['bold', 'italic', 'underline', 'clear']],
+                                                                                        ['font', ['strikethrough', 'superscript', 'subscript']],
+                                                                                        ['color', ['color']],
+                                                                                        ['para', ['ul', 'ol', 'paragraph']],
+                                                                                        ['insert', ['link', 'picture', 'video']],
+                                                                                        ['view', ['fullscreen', 'codeview', 'help']]
+                                                                                    ]
+                                                                                });
+                                                                            });
+                                                                        </script>
+                                                                        
+                                                                        <script>
+                                                                            // Function to confirm edit submit
+                                                                            function confirmEditSubmit(noteId) {
+                                                                                Swal.fire({
+                                                                                    title: 'Adakah anda pasti?',
+                                                                                    text: "Adakah anda ingin menyimpan perubahan ini?",
+                                                                                    icon: 'warning',
+                                                                                    showCancelButton: true,
+                                                                                    confirmButtonColor: '#3085d6',
+                                                                                    cancelButtonColor: '#d33',
+                                                                                    confirmButtonText: 'Ya, simpan!'
+                                                                                }).then((result) => {
+                                                                                    if (result.isConfirmed) {
+                                                                                        // Hantar borang selepas pengesahan
+                                                                                        document.getElementById('edit-form-' + noteId).submit();
+                                                                                    }
+                                                                                });
+                                                                            }
+                                                                        
+                                                                            // Script to confirm delete
+                                                                            function confirmDelete(event, noteId) {
+                                                                                event.preventDefault(); // Prevent the form from submitting immediately
+                                                                                Swal.fire({
+                                                                                    title: 'Adakah anda pasti?',
+                                                                                    text: "Tindakan ini tidak boleh dibatalkan!",
+                                                                                    icon: 'warning',
+                                                                                    showCancelButton: true,
+                                                                                    confirmButtonColor: '#3085d6',
+                                                                                    cancelButtonColor: '#d33',
+                                                                                    confirmButtonText: 'Ya, padam!'
+                                                                                }).then((result) => {
+                                                                                    if (result.isConfirmed) {
+                                                                                        // Submit the form if confirmed
+                                                                                        document.getElementById('delete-form-' + noteId).submit();
+                                                                                    }
+                                                                                });
+                                                                            }
 
+                                                                        </script>
+                                                                    </tr>
                                                                 @endforeach
                                                             </tbody>
 

@@ -31,6 +31,9 @@
         <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
+        <!-- SweetAlert2 -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     </head>
 
     <body class="g-sidenav-show bg-gray-100">
@@ -73,16 +76,7 @@
                                                     <div class="card-body">
                                                         <form method="GET" action="{{ route('admin.mcAllApply') }}" class="mb-3">
                                                             <div class="row g-3">
-                                                                <div class="col-md-3">
-                                                                    <label for="statusFilter" class="form-label">Status</label>
-                                                                    <select name="status" id="statusFilter" class="form-select">
-                                                                        <option value="">Semua Status</option>
-                                                                        <option value="approved">Lulus</option>
-                                                                        <option value="rejected">Gagal</option>
-                                                                        <option value="pending">Pending</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="col-md-3">
+                                                                <div class="col-md-2">
                                                                     <label for="roleFilter" class="form-label">Peranan</label>
                                                                     <select name="role" id="roleFilter" class="form-select">
                                                                         <option value="">Semua Peranan</option>
@@ -100,6 +94,15 @@
                                                                     </select>
                                                                 </div>
                                                                 <div class="col-md-2">
+                                                                    <label for="statusFilter" class="form-label">Status</label>
+                                                                    <select name="status" id="statusFilter" class="form-select">
+                                                                        <option value="">Semua Status</option>
+                                                                        <option value="approved">Lulus</option>
+                                                                        <option value="rejected">Gagal</option>
+                                                                        <option value="pending">Pending</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-md-2">
                                                                     <label for="start_date" class="form-label">Tarikh Mula</label>
                                                                     <input type="date" name="start_date" class="form-control" placeholder="Start Date">
                                                                 </div>
@@ -107,7 +110,7 @@
                                                                     <label for="end_date" class="form-label">Tarikh Akhir</label>
                                                                     <input type="date" name="end_date" class="form-control" placeholder="End Date">
                                                                 </div>
-                                                                <div class="col-md-12">
+                                                                <div class="col-md-2">
                                                                     <label class="form-label">&nbsp;</label>
                                                                     <button type="submit" class="btn btn-primary w-100">Cari</button>
                                                                 </div>
@@ -160,7 +163,7 @@
                                                                                 @if($application->document_path)
                                                                                     <a href="{{ asset($application->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</a>
                                                                                 @else
-                                                                                    No Document
+                                                                                    Tiada Dokumen
                                                                                 @endif
                                                                                 </p>
                                                                             </td>
@@ -170,10 +173,10 @@
                                                                                     <span class="badge bg-success">Cuti Sakit</span>
                                                                                     @break
                                                                                 @case('annual')
-                                                                                    <span class="badge bg-success">Cuti Tahunan</span>
+                                                                                    <span class="badge bg-primary">Cuti Tahunan</span>
                                                                                     @break
                                                                                 @default
-                                                                                    <span class="badge bg-success">Cuti Lain-lain</span>
+                                                                                    <span class="badge bg-warning">Cuti Lain-lain</span>
                                                                             @endswitch
                                                                             </td>
                                                                             <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">

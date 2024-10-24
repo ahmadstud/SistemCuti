@@ -279,7 +279,7 @@ class AdminController extends Controller
             'content' => $request->content,
         ]);
 
-        return redirect()->back()->with('success', 'Note created successfully!');
+        return redirect()->back()->with('success', 'Nota berjaya disimpan!');
     }
 
     // Update an existing note
@@ -297,7 +297,7 @@ class AdminController extends Controller
             'content' => $request->content,
         ]);
 
-        return redirect()->back()->with('success', 'Note updated successfully!');
+        return redirect()->back()->with('success', 'Nota berjaya dikemaskini!');
     }
 
     // Delete a note
@@ -306,7 +306,7 @@ class AdminController extends Controller
         $note = Note::findOrFail($id); // Find note or fail
         $note->delete();
 
-        return redirect()->back()->with('success', 'Note deleted successfully!');
+        return redirect()->back()->with('success', 'Nota berjaya dipadam!');
     }
 
 
@@ -405,7 +405,7 @@ class AdminController extends Controller
 
         // Redirect with success message
         // return redirect()->route('admin.stafflist')->with('success', 'User updated successfully!');
-        return redirect()->back()->with('success', 'User updated successfully!');
+        return redirect()->back()->with('success', 'Pengguna berjaya dikemaskini!');
     }
 
     public function deleteUser($id)
@@ -414,7 +414,7 @@ class AdminController extends Controller
         $user->delete(); // Delete the user
 
         // return redirect()->route('admin.stafflist')->with('success', 'User deleted successfully!');
-        return redirect()->back()->with('success', 'User deleted successfully!');
+        return redirect()->back()->with('success', 'Pengguna berjaya dipadam!');
     }
 
 
@@ -604,72 +604,73 @@ class AdminController extends Controller
     public function approve($id)
     {
         $application = McApplication::find($id);
-
+    
         if (!$application) {
-            return redirect()->back()->with('error', 'Application not found.');
+            return redirect()->back()->with('error', 'Permohonan tidak ditemui.');
         }
-
-        // Check if it's direct admin approval or needs officer approval
+    
+        // Semak sama ada ia kelulusan langsung admin atau memerlukan kelulusan pegawai
         if (!$application->direct_admin_approval && !$application->officer_approved) {
-            return redirect()->back()->with('error', 'MC must be approved by an officer first.');
+            return redirect()->back()->with('error', 'MC mesti diluluskan oleh pegawai terlebih dahulu.');
         }
-
+    
         $startDate = Carbon::parse($application->start_date);
         $endDate = Carbon::parse($application->end_date);
-
-        // Calculate the number of days manually
-        $daysRequested = ($endDate->timestamp - $startDate->timestamp) / (60 * 60 * 24) + 1; // Convert seconds to days and add 1
-
-        // Ensure at least 1 day is requested
+    
+        // Kira bilangan hari secara manual
+        $daysRequested = ($endDate->timestamp - $startDate->timestamp) / (60 * 60 * 24) + 1; // Tukar saat ke hari dan tambah 1
+    
+        // Pastikan sekurang-kurangnya 1 hari diminta
         $daysRequested = max(1, (int)$daysRequested);
-
-        // Find the user who submitted the application
+    
+        // Cari pengguna yang menghantar permohonan
         $user = User::find($application->user_id);
-
+    
         if (!$user) {
-            return redirect()->back()->with('error', 'User not found.');
+            return redirect()->back()->with('error', 'Pengguna tidak ditemui.');
         }
-
-        // Deduct based on the leave type
+    
+        // Tolak berdasarkan jenis cuti
         switch ($application->leave_type) {
             case 'annual':
                 if ($user->total_annual >= $daysRequested) {
                     $user->total_annual -= $daysRequested;
                 } else {
-                    return redirect()->back()->with('error', 'Insufficient annual leave days available.');
+                    return redirect()->back()->with('error', 'Hari cuti tahunan tidak mencukupi.');
                 }
                 break;
-
+    
             case 'mc':
                 if ($user->total_mc_days >= $daysRequested) {
                     $user->total_mc_days -= $daysRequested;
                 } else {
-                    return redirect()->back()->with('error', 'Insufficient MC days available.');
+                    return redirect()->back()->with('error', 'Hari cuti MC tidak mencukupi.');
                 }
                 break;
-
+    
             case 'other':
                 if ($user->total_others >= $daysRequested) {
                     $user->total_others -= $daysRequested;
                 } else {
-                    return redirect()->back()->with('error', 'Insufficient other leave days available.');
+                    return redirect()->back()->with('error', 'Hari cuti lain tidak mencukupi.');
                 }
                 break;
-
+    
             default:
-                return redirect()->back()->with('error', 'Invalid leave type.');
+                return redirect()->back()->with('error', 'Jenis cuti tidak sah.');
         }
-
-        // Save the updated user information
+    
+        // Simpan maklumat pengguna yang dikemas kini
         $user->save();
-
-        // Update the application's status to approved
+    
+        // Kemas kini status permohonan kepada diluluskan
         $application->admin_approved = true;
         $application->status = 'approved';
         $application->save();
-
-        return redirect()->back()->with('success', 'MC application approved by admin.');
+    
+        return redirect()->back()->with('success', 'Permohonan MC telah diluluskan oleh admin.'); // Mesej kejayaan
     }
+    
 
 
     public function reject(Request $request, $id)

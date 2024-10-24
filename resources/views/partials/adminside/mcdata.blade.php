@@ -5,7 +5,7 @@
             <div class="card h-100 d-flex align-items-center justify-content-center">
                 <div class="card-body p-5 text-center">
                     <div class="numbers">
-                        <p class="text-md mb-0 text-uppercase font-weight-bold">Jumlah Pengguna</p>
+                        <p class="text-md mb-0 text-uppercase font-weight-bold">Jumlah Pengguna Sistem</p>
                         <h5 class="font-weight-bolder">{{ $totalUsers }}</h5>
                     </div>
                     <div class="icon icon-shape bg-gradient-info shadow-primary text-center rounded-circle" style="width: 50px; height: 50px; margin-top: 10px;">
@@ -20,7 +20,7 @@
             <div class="card h-100 d-flex align-items-center justify-content-center">
                 <div class="card-body p-5 text-center">
                     <div class="numbers">
-                        <p class="text-md mb-0 text-uppercase font-weight-bold">Jumlah Permohonan</p>
+                        <p class="text-md mb-0 text-uppercase font-weight-bold">Jumlah Permohonan Cuti</p>
                         <h5 class="font-weight-bolder">{{ $totalMcApplications }}</h5>
                     </div>
                     <div class="icon icon-shape bg-gradient-warning shadow-primary text-center rounded-circle" style="width: 50px; height: 50px; margin-top: 10px;">
