@@ -1,23 +1,5 @@
   // Staff JS ////////////////////////////////////////////////////////////////////////////////////////////////////////
-  function toggleDocumentField() {
-    var leaveType = document.getElementById('leave_type').value;
-    var documentField = document.getElementById('document_upload_field');
-    var documentInput = document.getElementById('document_path');
-
-    if (leaveType === 'mc') {
-        documentField.style.display = 'block';  // Show the document field
-        documentInput.required = true;         // Make it required
-    } else {
-        documentField.style.display = 'none';  // Hide the document field
-        documentInput.required = false;        // Remove the required attribute
-        documentInput.value = '';              // Clear the file input
-    }
-}
-
 // Run the function when the page loads to ensure correct state
-document.addEventListener('DOMContentLoaded', function() {
-    toggleDocumentField();
-});
 
 var win = navigator.platform.indexOf('Win') > -1;
 if (win && document.querySelector('#sidenav-scrollbar')) {

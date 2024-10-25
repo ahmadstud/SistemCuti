@@ -12,7 +12,8 @@ class Note extends Model
     protected $table = 'notes'; // Set the table name
 
     protected $fillable = [
-        'title', 
+        'title',
+        'id',
         'content'
     ]; // Define fillable fields
 }

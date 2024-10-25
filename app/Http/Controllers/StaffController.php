@@ -20,49 +20,40 @@ class StaffController extends Controller
     public function storeMcApplication(Request $request)
     {
         // Validate the form input
-        $validatedData = $request->validate([
+        $request->validate([
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
-            'document_path' => 'nullable|mimes:pdf,jpg,png|max:2048', // Allow null for document_path
+            'document_path' => 'nullable|mimes:pdf,jpg,png|max:2048', // Allow nullable file for non-MC types
             'reason' => 'required|string',
-            'direct_admin_approval' => 'nullable|boolean',
-            'leave_type' => 'required|in:mc,annual,other',  // Ensure leave_type is one of the specified options
+            'leave_type' => 'required|string',  // Adjusted validation
         ]);
 
-        // Initialize document path as null
+        // Handle file upload conditionally
         $documentPath = null;
-
-        // Handle file upload if a document is provided
         if ($request->hasFile('document_path')) {
-            // Attempt to upload the document
-            try {
-                $documentPath = $request->file('document_path')->store('mc_documents', 'public');
-            } catch (\Exception $e) {
-                return redirect()->back()->with('error', 'Failed to upload document. Please try again.');
-            }
+            $documentPath = $request->file('document_path')->store('mc_documents', 'public');
         }
 
         try {
-            // Create the MC application
+            Log::info('Creating MC Application:', $request->all());  // Log request data
+
             McApplication::create([
-                'user_id' => Auth::id(),  // Assign the currently authenticated user ID
+                'user_id' => Auth::id(),
                 'start_date' => $request->start_date,
                 'end_date' => $request->end_date,
                 'reason' => $request->reason,
-                'document_path' => $documentPath, // This will be null if no document was uploaded
+                'document_path' => $documentPath,
                 'status' => 'pending',
-                'leave_type' => $request->leave_type,  // Save the selected leave type
-                'direct_admin_approval' => $request->boolean('direct_admin_approval'), // Use boolean() helper
-                'officer_approved' => false,
+                'leave_type' => $request->leave_type, // Storing title directly
+                'direct_admin_approval' => $request->input('direct_admin_approval', true),
             ]);
 
             return redirect()->back()->with('success', 'Permohonan Cuti telah dihantar!');
         } catch (\Exception $e) {
-            Log::error('Error Creating MC Application:', ['message' => 'Failed to create MC Application: ' . $e->getMessage()]);
-            return redirect()->back()->with('error', 'Gagal menghantar permohonan MC. Sila cuba lagi.');
+            Log::error('Error Creating MC Application:', ['message' => $e->getMessage()]);
+            return redirect()->back()->with('error', 'Gagal menghantar permohonan Cuti. Sila cuba lagi.');
         }
     }
-
 
     public function updateOwnDetails2(Request $request)
     {
@@ -136,19 +127,8 @@ class StaffController extends Controller
             'document_path' => 'nullable|mimes:pdf,jpg,png|max:2048', // Make this optional
             'reason' => 'required|string',
             'direct_admin_approval' => 'nullable|boolean',
-            'leave_type' => 'required|in:mc,annual,other', // Ensure leave_type is one of the specified options
+            'leave_type' => 'required|string', // Ensure leave_type matches note title
         ]);
-
-        // Calculate the number of days for the MC application
-        $startDate = Carbon::parse($request->start_date);
-        $endDate = Carbon::parse($request->end_date);
-        $daysRequested = $endDate->diffInDays($startDate) + 1; // Include both start and end dates
-
-        // Check if user has enough MC days left
-        $user = Auth::user();
-        if ($user->total_mc_days < $daysRequested) {
-            return redirect()->back()->with('error', 'Hari MC tidak mencukupi!!');
-        }
 
         // Update MC application fields
         $mcApplication->start_date = $request->start_date;
@@ -156,16 +136,15 @@ class StaffController extends Controller
         $mcApplication->reason = $request->reason;
         $mcApplication->leave_type = $request->leave_type; // Save the leave type
 
-        // Instead of selecting officer_id from this table, retrieve from users table
+        // If selected_officer_id is passed, process it (if needed)
         if ($request->has('selected_officer_id')) {
             $officer = User::find($request->selected_officer_id);
             if ($officer) {
-                // If officer exists, you might want to store something or process it
-                // However, you're not updating mcApplication with selected_officer_id
+                // Store officer-related logic if necessary
             }
         }
 
-        $mcApplication->direct_admin_approval = $request->input('direct_admin_approval') == '1' ? true : false;
+        $mcApplication->direct_admin_approval = $request->input('direct_admin_approval') == '1';
 
         // Handle file upload if a new document is provided
         if ($request->hasFile('document_path')) {
@@ -179,11 +158,13 @@ class StaffController extends Controller
         }
 
         // Save changes to the database
-        $mcApplication->save();
-
-        return redirect()->back()->with('success', 'Permohonan Cuti telah dikemas kini!');
-        return redirect()->back()->with('error', 'Permohonan Cuti gagal dikemas kini!');
+        if ($mcApplication->save()) {
+            return redirect()->back()->with('success', 'Permohonan Cuti telah dikemas kini!');
+        } else {
+            return redirect()->back()->with('error', 'Permohonan Cuti gagal dikemas kini!');
+        }
     }
+
 
     public function dashboard(Request $request)
     {
@@ -244,10 +225,27 @@ class StaffController extends Controller
 
     public function McApply()
     {
-         // Fetch all MC applications for the logged-in user
-         $mcApplications = McApplication::where('user_id', Auth::id())->get();
-       return view('partials.staffside.mc_apply', compact('mcApplications'));
+        // Fetch all MC applications for the logged-in user
+        $mcApplications = McApplication::where('user_id', Auth::id())->get();
+        $notes = Note::all(); // Fetch all notes
+
+        // Create an array to hold selected leave types
+        $selectedLeaveTypes = [];
+
+        foreach ($mcApplications as $application) {
+            // Find the note where the title matches the leave_type
+            $note = $notes->firstWhere('title', $application->leave_type);
+            if ($note) {
+                // Store the title of the selected leave type
+                $selectedLeaveTypes[$application->id] = $note->title;
+            } else {
+                $selectedLeaveTypes[$application->id] = 'Tidak ada catatan dipilih';
+            }
+        }
+
+        return view('partials.staffside.mc_apply', compact('mcApplications', 'selectedLeaveTypes','notes'));
     }
+
 
     public function changePassword(Request $request)
     {

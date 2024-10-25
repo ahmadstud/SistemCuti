@@ -81,41 +81,43 @@ class OfficerController extends Controller
         return redirect()->back()->with('error', 'Maklumat anda gagal dikemas kini!');
     }
 
-    public function storeMcApplication(Request $request)
-    {
-        // Validate the form input
-        $request->validate([
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
-            'document_path' => 'nullable|mimes:pdf,jpg,png|max:2048', // Allow nullable file for non-MC types
-            'reason' => 'required|string',
-            'leave_type' => 'required|in:mc,annual,other', // Validate leave_type
+    // In your storeMcApplication method
+public function storeMcApplication(Request $request)
+{
+    // Validate the form input
+    $request->validate([
+        'start_date' => 'required|date',
+        'end_date' => 'required|date|after_or_equal:start_date',
+        'document_path' => 'nullable|mimes:pdf,jpg,png|max:2048', // Allow nullable file for non-MC types
+        'reason' => 'required|string',
+        'leave_type' => 'required|string',  // Change to title validation
+    ]);
+
+    // Handle file upload conditionally
+    $documentPath = null;
+    if ($request->hasFile('document_path')) {
+        $documentPath = $request->file('document_path')->store('mc_documents', 'public');
+    }
+
+    try {
+        McApplication::create([
+            'user_id' => Auth::id(),  // Assign the currently authenticated user ID
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'reason' => $request->reason,
+            'document_path' => $documentPath, // Save document path if available
+            'status' => 'pending',
+            'leave_type' => $request->leave_type, // Store the title directly
+            'direct_admin_approval' => $request->input('direct_admin_approval', true), // Change to dynamic
         ]);
 
-        // Handle file upload conditionally (you may allow it for other leave types as well)
-        $documentPath = null;
-        if ($request->hasFile('document_path')) {
-            $documentPath = $request->file('document_path')->store('mc_documents', 'public');
-        }
-
-        try {
-            McApplication::create([
-                'user_id' => Auth::id(),  // Assign the currently authenticated user ID
-                'start_date' => $request->start_date,
-                'end_date' => $request->end_date,
-                'reason' => $request->reason,
-                'document_path' => $documentPath, // Save document path if available
-                'status' => 'pending',
-                'leave_type' => $request->leave_type, // Store the leave_type
-                'direct_admin_approval' => $request->input('direct_admin_approval', true), // Change to dynamic
-            ]);
-
-            return redirect()->back()->with('success', 'Permohonan Cuti telah dihantar!');
-        } catch (\Exception $e) {
-            Log::error('Error Creating MC Application:', ['message' => $e->getMessage()]);
-            return redirect()->back()->with('error', 'Gagal menghantar permohonan Cuti. Sila cuba lagi.');
-        }
+        return redirect()->back()->with('success', 'Permohonan Cuti telah dihantar!');
+    } catch (\Exception $e) {
+        Log::error('Error Creating MC Application:', ['message' => $e->getMessage()]);
+        return redirect()->back()->with('error', 'Gagal menghantar permohonan Cuti. Sila cuba lagi.');
     }
+}
+
 
     public function editMC(Request $request, $id)
     {
@@ -128,19 +130,8 @@ class OfficerController extends Controller
             'end_date' => 'required|date|after_or_equal:start_date',
             'document_path' => 'nullable|mimes:pdf,jpg,png|max:2048', // Make this optional
             'reason' => 'required|string',
-            'leave_type' => 'required|in:mc,annual,other', // Add validation for leave_type
+            'leave_type' => 'required|string|exists:notes,title', // Ensure leave_type matches note title
         ]);
-
-        // Calculate the number of days for the MC application
-        $startDate = Carbon::parse($request->start_date);
-        $endDate = Carbon::parse($request->end_date);
-        $daysRequested = $endDate->diffInDays($startDate) + 1; // Include both start and end dates
-
-        // Check if user has enough MC days left
-        $user = Auth::user();
-        if ($user->total_mc_days < $daysRequested) {
-            return redirect()->back()->with('error', 'Hari MC tidak mencukupi!');
-        }
 
         // Update MC application fields
         $mcApplication->start_date = $request->start_date;
@@ -193,25 +184,61 @@ class OfficerController extends Controller
     {
         // Get the currently authenticated officer
         $officer = Auth::user();
-         // Fetch all pending MC applications with user names, filtered by selected officer and direct admin approval status
-         $applications = McApplication::where('mc_applications.status', 'pending')
-         ->where('mc_applications.direct_admin_approval', false) // Only fetch those not yet approved by admin
-         ->whereHas('user', function ($query) use ($officer) {
-             // Filter where the selected officer for the staff is the logged-in officer
-             $query->where('selected_officer_id', $officer->id);
-         })
-         ->join('users', 'mc_applications.user_id', '=', 'users.id') // Join with users table
-         ->select('mc_applications.*', 'users.name as user_name') // Select necessary fields
-         ->get();
 
-        return view('partials.officerside.mc_approve', compact('applications'));
+        // Fetch all pending MC applications with user names, filtered by selected officer and direct admin approval status
+        $applications = McApplication::where('mc_applications.status', 'pending')
+            ->where('mc_applications.direct_admin_approval', false) // Only fetch those not yet approved by admin
+            ->whereHas('user', function ($query) use ($officer) {
+                // Filter where the selected officer for the staff is the logged-in officer
+                $query->where('selected_officer_id', $officer->id);
+            })
+            ->join('users', 'mc_applications.user_id', '=', 'users.id') // Join with users table
+            ->select('mc_applications.*', 'users.name as user_name') // Select necessary fields
+            ->get();
+
+        // Fetch all notes
+        $notes = Note::all();
+
+        // Create an array to hold selected leave types
+        $selectedLeaveTypes = [];
+
+        foreach ($applications as $application) {
+            // Find the note where the title matches the leave_type (assuming leave_type is stored as a title in your notes)
+            $note = $notes->firstWhere('title', $application->leave_type);
+
+            // Check if note exists and store the title of the selected leave type
+            if ($note) {
+                $selectedLeaveTypes[$application->id] = $note->title;
+            } else {
+                $selectedLeaveTypes[$application->id] = 'Tidak ada catatan dipilih';
+            }
+        }
+
+        // Pass applications and selectedLeaveTypes to the view
+        return view('partials.officerside.mc_approve', compact('applications', 'selectedLeaveTypes'));
     }
+
 
     public function McApply()
     {
-         // Fetch all MC applications for the logged-in user
+    // Fetch all MC applications for the logged-in user
      $mcApplications = McApplication::where('user_id', Auth::id())->get();
-        return view('partials.officerside.mc_apply', compact('mcApplications'));
+     $notes = Note::all(); // Fetch all notes
+
+     // Create an array to hold selected leave types
+     $selectedLeaveTypes = [];
+
+     foreach ($mcApplications as $application) {
+         // Find the note where the title matches the leave_type
+         $note = $notes->firstWhere('title', $application->leave_type);
+         if ($note) {
+             // Store the title of the selected leave type
+             $selectedLeaveTypes[$application->id] = $note->title;
+         } else {
+             $selectedLeaveTypes[$application->id] = 'Tidak ada catatan dipilih';
+         }
+     }
+        return view('partials.officerside.mc_apply', compact('mcApplications','notes','selectedLeaveTypes'));
     }
     public function dashboard(Request $request)
     {
@@ -253,7 +280,8 @@ class OfficerController extends Controller
       foreach ($monthlyLeaveData as $data) {
           $leaveCountsByMonth[$data->month] = $data->total_staff;
       }
-        return view('officer', compact('staffOnLeaveToday','announcements','notes','leaveCountsByMonth','year','yearRange'));
+
+        return view('officer', compact('staffOnLeaveToday','announcements','leaveCountsByMonth','year','yearRange'));
     }
 
 

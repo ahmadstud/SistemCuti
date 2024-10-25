@@ -102,11 +102,11 @@
                                             <!-- Leave Type Selection -->
                                             <div class="col-md-12 mb-3">
                                                 <label for="leave_type" class="form-label">Jenis Cuti<span class="text-danger">*</span></label>
-                                                <select class="form-control" id="leave_type" name="leave_type" required onchange="toggleDocumentField()">
+                                                <select class="form-control" id="leave_type" name="leave_type" required>
                                                     <option selected disabled>--- Pilih Jenis Cuti ---</option>
-                                                    <option value="mc">Cuti Sakit (MC)</option>
-                                                    <option value="annual">Cuti Tahunan</option>
-                                                    <option value="other">Lain-lain</option>
+                                                    @foreach($notes as $jeniscuti)
+                                                        <option value="{{ $jeniscuti->title }}">{{ $jeniscuti->title }}</option>  <!-- Ensure this is the ID -->
+                                                    @endforeach
                                                 </select>
                                             </div>
 
@@ -194,16 +194,11 @@
                                                     @endif
                                                 </td>
                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                    @switch($mcApplication->leave_type)
-                                                    @case('mc')
-                                                        <span class="badge bg-success">Cuti Sakit</span>
-                                                        @break
-                                                    @case('annual')
-                                                        <span class="badge bg-success">Cuti Tahunan</span>
-                                                        @break
-                                                    @default
-                                                        <span class="badge bg-success">Cuti Lain-lain</span>
-                                                @endswitch
+
+                                                    <span class="badge bg-success">
+                                                        {{ $selectedLeaveTypes[$application->id] ?? 'Tiada Cuti Dipilih' }}
+                                                    </span>
+
                                                 </td>
                                                 <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                     @if($mcApplication->status == 'approved')
@@ -258,9 +253,11 @@
                                                                                 <label for="leave_type{{ $mcApplication->id }}" class="form-label">Jenis Cuti<span class="text-danger">*</span></label>
                                                                                 <select class="form-control" id="leave_type{{ $mcApplication->id }}" name="leave_type" required>
                                                                                     <option selected disabled>--- Pilih Jenis Cuti ---</option>
-                                                                                    <option value="mc" {{ $mcApplication->leave_type == 'mc' ? 'selected' : '' }}>Cuti Sakit (MC)</option>
-                                                                                    <option value="annual" {{ $mcApplication->leave_type == 'annual' ? 'selected' : '' }}>Cuti Tahunan</option>
-                                                                                    <option value="other" {{ $mcApplication->leave_type == 'other' ? 'selected' : '' }}>Lain-lain</option>
+                                                                                    @foreach($notes as $note) <!-- Fetch notes dynamically -->
+                                                                                        <option value="{{ $note->title }}" {{ $mcApplication->leave_type == $note->title ? 'selected' : '' }}>
+                                                                                            {{ $note->title }}
+                                                                                        </option>
+                                                                                    @endforeach
                                                                                 </select>
                                                                             </div>
 
