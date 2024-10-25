@@ -79,7 +79,6 @@
                                                             <h6 class="text-white text-capitalize ps-3">NOTA</h6>
                                                         </div>
                                                     </div>
-                                                </div>
                                                 <br>
 
                                                 <!-- Add Nota Button -->
@@ -88,22 +87,6 @@
                                                         Tambah Nota
                                                     </button>
                                                 </div>
-
-                                                    <!-- Display success message -->
-                                                    @if(session('success'))
-                                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                                            {{ session('success') }}
-                                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                                        </div>
-                                                    @endif
-
-                                                    <!-- Display error message -->
-                                                    @if(session('error'))
-                                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                                            {{ session('error') }}
-                                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                                        </div>
-                                                    @endif
 
                                                     <!-- Add Note Modal -->
                                                     <div class="modal fade" id="createNoteModal" tabindex="-1" aria-labelledby="createNoteLabel" aria-hidden="true">
@@ -185,7 +168,7 @@
                                                             <thead style="background-color: #f0f0f0;">
                                                                 <tr>
                                                                     <th style="width: 5%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">BIL</th>
-                                                                    <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TAJUK</th>
+                                                                    <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
                                                                     <th style="width: 30%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ISI KANDUNGAN</th>
                                                                     <th style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
                                                                 </tr>
@@ -308,6 +291,27 @@
                                                                             }
 
                                                                         </script>
+
+                                                                        @if(session('success'))
+                                                                        <script>
+                                                                            Swal.fire({
+                                                                                icon: 'success',
+                                                                                title: 'Berjaya',
+                                                                                text: '{{ session('success') }}',
+                                                                            });
+                                                                        </script>
+                                                                        @endif
+
+                                                                        @if(session('error'))
+                                                                        <script>
+                                                                            Swal.fire({
+                                                                                icon: 'error',
+                                                                                title: 'Oops...',
+                                                                                text: '{{ session('error') }}',
+                                                                            });
+                                                                        </script>
+                                                                        @endif
+
                                                                     </tr>
                                                                 @endforeach
                                                             </tbody>

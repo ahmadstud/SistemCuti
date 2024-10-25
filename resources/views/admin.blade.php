@@ -57,12 +57,12 @@
                             <div class="row mt-4">
                                 <div class="col-lg-12 mb-lg-0 mb-4">
 
-                                <!-- First Row -->
+                                    <!-- First Row -->
                                     <div class="container-fluid py-2">
                                         <div class="row">
-                                            <div class="col-lg-7 d-flex">
 
-                                                {{-- Card Pengumuman --}}
+                                            {{-- Card Pengumuman --}}
+                                            <div class="col-lg-7 d-flex">
                                                 <div class="card my-4 flex-fill">
                                                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                                                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
@@ -71,15 +71,15 @@
                                                     </div>
                                                     <div class="card-body p-3">
 
-                                                        <!-- Announcement Carousel -->
+                                                       <!-- Announcement Carousel -->
                                                         <div id="announcementCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
                                                             <div class="carousel-inner">
                                                                 @foreach($announcements as $index => $announcement)
                                                                 <div class="carousel-item {{ $index === 0 ? 'active' : '' }}"
                                                                     data-title="{{ $announcement->title }}"
                                                                     data-content="{{ $announcement->content }}"
-                                                                    data-start-date="{{ $announcement->start_date }}"
-                                                                    data-end-date="{{ $announcement->end_date }}">
+                                                                    data-start-date="{{ \Carbon\Carbon::parse($announcement->start_date)->format('d-m-y') }}"
+                                                                    data-end-date="{{ \Carbon\Carbon::parse($announcement->end_date)->format('d-m-y') }}">
                                                                     <div style="width: 100%; height: 0; padding-bottom: 40%; position: relative;">
                                                                         <img src="{{ asset(Storage::url($announcement->image_path)) }}"
                                                                             alt="{{ $announcement->title }}"
@@ -92,10 +92,10 @@
                                                             <!-- Title and Content Section -->
                                                             <div class="text-center mt-3">
                                                                 <h2 id="announcementTitle" style="text-transform: uppercase;">{{ $announcements[0]->title }}</h2>
-                                                                <div id="announcementContent">{!! $announcements[0]->content !!}</div> <!-- Render Summernote content -->
+                                                                <div id="announcementContent">{!! $announcements[0]->content !!}</div> <!-- Render Summernote content --> <br>
                                                                 <p id="announcementDates">
-                                                                    Tarikh Buka: <strong id="startDate">{{ $announcements[0]->start_date }}</strong><br>
-                                                                    Tarikh Tutup: <strong id="endDate">{{ $announcements[0]->end_date }}</strong>
+                                                                    Tarikh Buka: <strong id="startDate">{{ \Carbon\Carbon::parse($announcements[0]->start_date)->format('d-m-y') }}</strong><br>
+                                                                    Tarikh Tutup: <strong id="endDate">{{ \Carbon\Carbon::parse($announcements[0]->end_date)->format('d-m-y') }}</strong>
                                                                 </p>
                                                             </div>
                                                             <button class="carousel-control-prev" type="button" data-bs-target="#announcementCarousel" data-bs-slide="prev">
@@ -149,29 +149,38 @@
 
                                                     <div class="card-body pt-4 p-3">
                                                         <ul class="list-group" id="leaveList">
+
                                                             @if($staffOnLeaveToday->isEmpty())
-                                                            <li class="list-group-item">Tiada staff yang cuti hari ini.</li>
+                                                                <li class="list-group-item">Tiada staff yang cuti hari ini.</li>
                                                             @else
-                                                            @foreach($staffOnLeaveToday as $leave)
-                                                            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                                                <div class="d-flex align-items-center">
-                                                                    <!-- Icon button -->
-                                                                    <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
-                                                                        <i class="fas fa-arrow-down"></i>
-                                                                    </button>
-                                                                    <div class="d-flex flex-column">
-                                                                        <!-- Staff name and leave dates -->
-                                                                        <h6 class="mb-1 text-dark text-md">{{ $leave->user->name }}</h6>
-                                                                        <span class="text-xs">Cuti sehingga {{ \Carbon\Carbon::parse($leave->end_date)->format('d F Y') }}</span>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- Display leave balance based on leave type -->
-                                                                <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                                                                    Cuti yang diambil :<br>{{ \Carbon\Carbon::parse($leave->start_date)->diffInDays(\Carbon\Carbon::parse($leave->end_date)) + 1 }} hari
-                                                                </div>
-                                                            </li>
-                                                            @endforeach
+
+                                                                @foreach($staffOnLeaveToday as $leave)
+                                                                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                                                        <div class="d-flex align-items-center">
+                                                                            <!-- Icon button -->
+                                                                            <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                                                                <i class="fas fa-arrow-down"></i>
+                                                                            </button>
+                                                                            <div class="d-flex align-items-center">
+                                                                                <!-- Profile Image -->
+                                                                                <img src="{{ asset('path_to_image/' . $leave->user->profile_image) }}" alt="Profile Image" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover; margin-right: 10px;">
+    
+                                                                                
+                                                                                <!-- Staff name and leave dates -->
+                                                                                <div class="d-flex flex-column">
+                                                                                    <h6 class="mb-1 text-dark text-md">{{ $leave->user->name }}</h6>
+                                                                                    <span class="text-xs">Cuti {{ \Carbon\Carbon::parse($leave->start_date)->format('d F Y') }} sehingga {{ \Carbon\Carbon::parse($leave->end_date)->format('d F Y') }}</span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- Display leave balance based on leave type -->
+                                                                        <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
+                                                                            Cuti yang diambil :<br>{{ \Carbon\Carbon::parse($leave->start_date)->diffInDays(\Carbon\Carbon::parse($leave->end_date)) + 1 }} hari
+                                                                        </div>
+                                                                    </li>
+                                                                @endforeach
                                                             @endif
+
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -292,44 +301,33 @@
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
         <script>
+            // Get the data from the PHP variable
+            const leaveData = {!! $leaveCountsByMonthJson !!};
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        
+            // Initialize the chart
             const ctx = document.getElementById('chart-line').getContext('2d');
-
-            // Data for the monthly leave chart
-            const monthlyLeaveData = @json(array_values($leaveCountsByMonth)); // Get only the counts as an array
-
-            const monthlyLeaveChart = new Chart(ctx, {
-                type: 'bar', // Change this to 'line' for a line chart
+            const chart = new Chart(ctx, {
+                type: 'line', // You can also change this to 'bar'
                 data: {
-                    labels: [
-                        'Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun',
-                        'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'
-                    ],
+                    labels: months, // X-axis labels
                     datasets: [{
-                        label: 'Bilangan Permohonan Yang Diterima',
-                        data: monthlyLeaveData,
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)', // Light blue color
-                        borderColor: 'rgba(54, 162, 235, 1)', // Dark blue color
-                        borderWidth: 1,
+                        label: 'Jumlah Permohonan Cuti Bulanan yang Lulus',
+                        data: leaveData, // Y-axis data
+                        borderColor: 'rgba(75, 192, 192, 1)', // Line color
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)', // Fill color
+                        borderWidth: 2,
+                        fill: true // Fill area under the line
                     }]
                 },
                 options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
                     scales: {
                         y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Bilangan Permohonan Yang Diterima'
-                            }
-                        },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Bulan'
-                            }
+                            beginAtZero: true // Start y-axis at zero
                         }
-                    },
-                    responsive: true, // Ensure the chart is responsive
-                    maintainAspectRatio: false, // Optional: Maintain aspect ratio
+                    }
                 }
             });
         </script>

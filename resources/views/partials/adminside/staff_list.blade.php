@@ -73,22 +73,6 @@
                                                     </button>
                                                 </div>
 
-                                                    <!-- Display success message -->
-                                                    @if(session('success'))
-                                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                                            {{ session('success') }}
-                                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                                        </div>
-                                                    @endif
-
-                                                    <!-- Display error message -->
-                                                    @if(session('error'))
-                                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                                            {{ session('error') }}
-                                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                                        </div>
-                                                    @endif
-
                                                 <!-- Add Staff/Officer Modal -->
                                                 <div class="modal fade" id="addStaffModal" tabindex="-1" aria-labelledby="addStaffModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog modal-lg">
@@ -165,15 +149,15 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="row g-3">
-                                                                        <div class="col-md-6 mb-3">
+                                                                        <div class="col-md-4 mb-3">
                                                                             <label for="total_annual" class="form-label">Jumlah Cuti Tahunan<span class="text-danger">*</span></label>
                                                                             <input type="number" class="form-control" id="total_annual" name="total_annual" required min="1">
                                                                         </div>
-                                                                        <div class="col-md-6 mb-3">
+                                                                        <div class="col-md-4 mb-3">
                                                                             <label for="total_mc_days" class="form-label">Jumlah Cuti Sakit<span class="text-danger">*</span></label>
                                                                             <input type="number" class="form-control" id="total_mc_days" name="total_mc_days" required min="1">
                                                                         </div>
-                                                                        <div class="col-md-6 mb-3">
+                                                                        <div class="col-md-4 mb-3">
                                                                             <label for="total_others" class="form-label">Jumlah Cuti lain-lain<span class="text-danger">*</span></label>
                                                                             <input type="number" class="form-control" id="total_others" name="total_others" required min="1">
                                                                         </div>
@@ -202,7 +186,25 @@
                                                                     <div class="row g-3">
                                                                         <div class="col-md-6 mb-3">
                                                                             <label for="state" class="form-label">Negeri<span class="text-danger">*</span></label>
-                                                                            <input type="text" class="form-control" id="state" name="state" required>
+                                                                            <select class="form-select" id="state" name="state" required>
+                                                                                <option value="" disabled selected>--- Pilih Negeri ---</option>
+                                                                                <option value="Johor">Johor</option>
+                                                                                <option value="Kedah">Kedah</option>
+                                                                                <option value="Kelantan">Kelantan</option>
+                                                                                <option value="Malacca">Melaka</option>
+                                                                                <option value="Negeri Sembilan">Negeri Sembilan</option>
+                                                                                <option value="Pahang">Pahang</option>
+                                                                                <option value="Penang">Pulau Pinang</option>
+                                                                                <option value="Perak">Perak</option>
+                                                                                <option value="Perlis">Perlis</option>
+                                                                                <option value="Selangor">Selangor</option>
+                                                                                <option value="Terengganu">Terengganu</option>
+                                                                                <option value="Sabah">Sabah</option>
+                                                                                <option value="Sarawak">Sarawak</option>
+                                                                                <option value="Kuala Lumpur">Kuala Lumpur</option>
+                                                                                <option value="Putrajaya">Putrajaya</option>
+                                                                                <option value="Labuan">Labuan</option>
+                                                                            </select>
                                                                         </div>
                                                                     </div>
 
@@ -253,6 +255,8 @@
                                                     }
                                                 </script>
 
+                                                
+
 
                                                 {{-- List of staff --}}
                                                 <div class="card-body">
@@ -288,13 +292,13 @@
                                                         <table class="table">
                                                             <thead style="background-color: #f0f0f0;">
                                                                 <tr>
-                                                                    <th style="width: 5%;   padding: 8px;">BIL</th>
-                                                                    <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
+                                                                    <th style="width: 3%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">BIL</th>
+                                                                    <th style="width: 20%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
                                                                     <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NO TELEFON</th>
                                                                     <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">PERANAN</th>
                                                                     <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">KETUA BAHAGIAN</th>
                                                                     <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS PEKERJAAN</th>
-                                                                    <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">BAKI JUMLAH CUTI</th>
+                                                                    <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">BAKI JUMLAH CUTI</th>
                                                                     <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
                                                                 </tr>
                                                             </thead>
@@ -304,11 +308,18 @@
                                                                         <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                             <p class="text-m text-secondary">{{ $loop->iteration }}</p>
                                                                         </td>
-                                                                        <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                            <p class="text-m text-secondary"><strong>{{ $user->fullname }}</strong></p>
-                                                                            <p class="text-m text-secondary">{{ $user->name }}</p>
-                                                                            <p class="text-sm text-secondary">{{ $user->email }}</p>
-                                                                        </td>
+                                                                        <td style="border: 1px solid #dee2e6; padding: 8px; display: flex; align-items: center; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                            @if($user->profile_image) <!-- Check if the profile image exists -->
+                                                                                <img src="{{ asset($user->profile_image) }}" alt="Profile Image" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 30px;"> <!-- Increased margin for gap -->
+                                                                            @else
+                                                                                <div style="width: 40px; height: 40px; background-color: black; border-radius: 50%; margin-right: 30px;"></div> <!-- Black square for no image with increased margin -->
+                                                                            @endif
+                                                                            <div>
+                                                                                <p class="text-m text-secondary"><strong>{{ $user->fullname }}</strong></p>
+                                                                                <p class="text-m text-secondary">{{ $user->name }}</p>
+                                                                                <p class="text-sm text-secondary">{{ $user->email }}</p>
+                                                                            </div>
+                                                                        </td>      
                                                                         <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                             <p class="text-m text-secondary">{{ $user->phone_number }}</p>
                                                                         </td>
@@ -344,16 +355,16 @@
                                                                         </td>
                                                                         <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                             <p class="text-m text-secondary">
-                                                                                <strong> Tahunan : </strong> <br> {{ $user->total_annual }} Hari <br>
-                                                                                <strong> Sakit : </strong> <br> {{ $user->total_mc_days }} Hari <br>
-                                                                                <strong> Lain-Lain : </strong> <br> {{ $user->total_others }} Hari
+                                                                                <strong> Tahunan : </strong> {{ $user->total_annual }} Hari <br>
+                                                                                <strong> Sakit : </strong>  {{ $user->total_mc_days }} Hari <br>
+                                                                                <strong> Lain-Lain : </strong> {{ $user->total_others }} Hari
                                                                             </p>
                                                                         </td>
                                                                         <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                             <div class="d-flex justify-content-start">
 
                                                                                 <!-- Edit Button -->
-                                                                                <button class="btn btn-md btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $user->id }}">
+                                                                                <button type="button" class="btn btn-md btn-primary me-2" data-bs-toggle="modal" data-bs-target="#editModal{{ $user->id }}">
                                                                                     <i class="fas fa-pencil-alt"></i>
                                                                                 </button>
 
@@ -473,10 +484,27 @@
                                                                                             <div class="row g-3">
                                                                                                 <div class="col-md-6 mb-3">
                                                                                                     <label for="state{{ $user->id }}" class="form-label">Negeri</label>
-                                                                                                    <input type="text" class="form-control" id="state{{ $user->id }}" name="state" value="{{ $user->state }}" required>
+                                                                                                    <select class="form-select" id="state{{ $user->id }}" name="state" required>
+                                                                                                        <option value="" disabled selected>Pilih Negeri</option>
+                                                                                                        <option value="Johor" {{ $user->state == 'Johor' ? 'selected' : '' }}>Johor</option>
+                                                                                                        <option value="Kedah" {{ $user->state == 'Kedah' ? 'selected' : '' }}>Kedah</option>
+                                                                                                        <option value="Kelantan" {{ $user->state == 'Kelantan' ? 'selected' : '' }}>Kelantan</option>
+                                                                                                        <option value="Melaka" {{ $user->state == 'Melaka' ? 'selected' : '' }}>Melaka</option>
+                                                                                                        <option value="Negeri Sembilan" {{ $user->state == 'Negeri Sembilan' ? 'selected' : '' }}>Negeri Sembilan</option>
+                                                                                                        <option value="Pahang" {{ $user->state == 'Pahang' ? 'selected' : '' }}>Pahang</option>
+                                                                                                        <option value="Pulau Pinang" {{ $user->state == 'Pulau Pinang' ? 'selected' : '' }}>Pulau Pinang</option>
+                                                                                                        <option value="Perak" {{ $user->state == 'Perak' ? 'selected' : '' }}>Perak</option>
+                                                                                                        <option value="Perlis" {{ $user->state == 'Perlis' ? 'selected' : '' }}>Perlis</option>
+                                                                                                        <option value="Selangor" {{ $user->state == 'Selangor' ? 'selected' : '' }}>Selangor</option>
+                                                                                                        <option value="Terengganu" {{ $user->state == 'Terengganu' ? 'selected' : '' }}>Terengganu</option>
+                                                                                                        <option value="Sabah" {{ $user->state == 'Sabah' ? 'selected' : '' }}>Sabah</option>
+                                                                                                        <option value="Sarawak" {{ $user->state == 'Sarawak' ? 'selected' : '' }}>Sarawak</option>
+                                                                                                        <option value="Kuala Lumpur" {{ $user->state == 'Kuala Lumpur' ? 'selected' : '' }}>Kuala Lumpur</option>
+                                                                                                        <option value="Putrajaya" {{ $user->state == 'Putrajaya' ? 'selected' : '' }}>Putrajaya</option>
+                                                                                                        <option value="Labuan" {{ $user->state == 'Labuan' ? 'selected' : '' }}>Labuan</option>
+                                                                                                    </select>
                                                                                                 </div>
-                                                                                            </div>
-
+                                                                                            </div>                                                                                            
                                                                                             <div class="modal-footer">
                                                                                                 <button type="button" class="btn btn-success" onclick="confirmEditSubmit({{ $user->id }})">Simpan</button>
                                                                                             </div>
@@ -504,26 +532,46 @@
                                                                                     }
                                                                                 });
                                                                             }
+                                                                        </script>
                                                                         
-                                                                            // Function to confirm delete action
-                                                                            function confirmDelete(userId) {
+                                                                        <script>
+                                                                            function confirmDelete(id) {
                                                                                 Swal.fire({
                                                                                     title: 'Adakah anda pasti?',
-                                                                                    text: "Tindakan ini tidak boleh dibatalkan!",
+                                                                                    text: "Anda tidak akan dapat memulihkan ini!",
                                                                                     icon: 'warning',
                                                                                     showCancelButton: true,
                                                                                     confirmButtonColor: '#3085d6',
                                                                                     cancelButtonColor: '#d33',
-                                                                                    confirmButtonText: 'Ya, padam!'
+                                                                                    confirmButtonText: 'Ya, padamkan!',
+                                                                                    cancelButtonText: 'Batal'
                                                                                 }).then((result) => {
                                                                                     if (result.isConfirmed) {
-                                                                                        // Submit the delete form after confirmation
-                                                                                        document.getElementById('delete-form-' + userId).submit();
+                                                                                        document.getElementById('delete-form-' + id).submit();
                                                                                     }
-                                                                                });
+                                                                                })
                                                                             }
                                                                         </script>
                                                                         
+                                                                        @if(session('success'))
+                                                                        <script>
+                                                                            Swal.fire({
+                                                                                icon: 'success',
+                                                                                title: 'Berjaya',
+                                                                                text: '{{ session('success') }}',
+                                                                            });
+                                                                        </script>
+                                                                        @endif
+                                                                        
+                                                                        @if(session('error'))
+                                                                        <script>
+                                                                            Swal.fire({
+                                                                                icon: 'error',
+                                                                                title: 'Oops...',
+                                                                                text: '{{ session('error') }}',
+                                                                            });
+                                                                        </script>
+                                                                        @endif
                                                                         
                                                                     
                                                                     </tr>

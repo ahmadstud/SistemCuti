@@ -97,6 +97,12 @@
 
                                                                         <!-- Profile Information -->
                                                                         <h5 class="mt-4">MAKLUMAT DIRI</h5>
+                                                                        <div class="row mt-3">
+                                                                            <div class="col-md-6">
+                                                                                <label for="ic" class="form-label">NAMA PENUH</label>
+                                                                                <input type="text" class="form-control" id="ic" name="ic" value="{{ Auth::user()->fullname }}">
+                                                                            </div>
+                                                                        </div>
                                                                         <div class="row">
                                                                             <div class="col-md-6">
                                                                                 <label for="name" class="form-label">NAMA</label>
@@ -198,8 +204,8 @@
                                                         <!-- Profile Image and Full Name -->
                                                         <div class="row align-items-center mt-3">
                                                             <div class="col-md-10">
-                                                                <label for="full_name" class="form-label">NAMA PENUH</label>
-                                                                <p class="form-control" id="full_name">{{ Auth::user()->name }}</p>
+                                                                <label for="fullname" class="form-label">NAMA PENUH</label>
+                                                                <p class="form-control" id="fullname">{{ Auth::user()->fullname }}</p>
                                                             </div>
                                                             <div class="col-md-2 text-center">
                                                                 @if(Auth::user()->profile_image)

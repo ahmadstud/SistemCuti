@@ -113,10 +113,10 @@ class AdminController extends Controller
         $acceptedMcApplications = McApplication::where('status', 'approved')->count();
         $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
 
-        // Query to get the monthly data of staff on leave (cuti) for the selected year
+        // Query to get the monthly data of all staff leave applications (cuti) for the selected year
         $monthlyLeaveData = McApplication::select(
             DB::raw('MONTH(start_date) as month'),
-            DB::raw('COUNT(DISTINCT user_id) as total_staff')
+            DB::raw('COUNT(*) as total_applications') // Count all applications regardless of user role
         )
         ->whereYear('start_date', $year) // Use the selected year
         ->where('status', 'approved') // Only count approved leaves
@@ -124,15 +124,20 @@ class AdminController extends Controller
         ->orderBy(DB::raw('MONTH(start_date)')) // Ensure data is ordered by month
         ->get();
 
+
         // Prepare an array with all 12 months and set default values as 0
         $leaveCountsByMonth = array_fill(1, 12, 0);
 
         // Fill the actual values from the query into the leave counts
         foreach ($monthlyLeaveData as $data) {
-            $leaveCountsByMonth[$data->month] = $data->total_staff;
+            $leaveCountsByMonth[$data->month] = $data->total_applications; // Use total_applications
         }
 
-        // Return the view with all collected data, including year and yearRange for the dropdown
+        // Convert leave counts to a JSON format for the chart
+        $leaveCountsByMonthJson = json_encode(array_values($leaveCountsByMonth));
+
+
+        // Return the view with all collected data
         return view('admin', compact(
             'directAdminApplications',
             'totalUsers',
@@ -145,11 +150,13 @@ class AdminController extends Controller
             'notes',
             'allApplications',
             'staffOnLeaveToday',
-            'leaveCountsByMonth',
+            'leaveCountsByMonth', // Keep this if you need it in the view
+            'leaveCountsByMonthJson', // Pass the JSON encoded data to the view
             'officers',
             'year', // Pass selected year to view
             'yearRange' // Pass the year range to view
         ));
+
     }
 
 
@@ -517,24 +524,40 @@ class AdminController extends Controller
         ,'totalMcApplications','acceptedMcApplications','rejectedMcApplications'));
     }
 
-
+    public function deleteMcApplication($id)
+    {
+        // Find the application by ID
+        $application = McApplication::find($id);
+    
+        // Check if the application exists
+        if (!$application) {
+            return redirect()->back()->with('error', 'Permohonan tidak ditemui.');
+        }
+    
+        // Delete the application
+        $application->delete();
+    
+        // Redirect back with a success message
+        return redirect()->back()->with('success', 'Permohonan berjaya dipadam!');
+    }
+    
 
 
 // PERMOHONAN CUTI TAPISAN PEGAWAI
     public function mcOfficerApprove(Request $request)
     {
-    $applications = McApplication::join('users as staff', 'mc_applications.user_id', '=', 'staff.id')
-    ->leftJoin('users as officers', 'staff.selected_officer_id', '=', 'officers.id')
-    ->select(
-        'mc_applications.*',
-        'staff.name as user_name',
-        'officers.name as officer_name'
-    )
-    ->where('mc_applications.officer_approved', true)
-    ->where('mc_applications.admin_approved', false)
-    ->where('mc_applications.direct_admin_approval', false)
-    ->where('mc_applications.status', 'pending_admin')
-    ->paginate(10); // Change 10 to the number of items per page you want
+        $applications = McApplication::join('users as staff', 'mc_applications.user_id', '=', 'staff.id')
+        ->leftJoin('users as officers', 'staff.selected_officer_id', '=', 'officers.id')
+        ->select(
+            'mc_applications.*',
+            'staff.name as user_name',
+            'officers.name as officer_name'
+        )
+        ->where('mc_applications.officer_approved', true)
+        ->where('mc_applications.admin_approved', false)
+        ->where('mc_applications.direct_admin_approval', false)
+        ->where('mc_applications.status', 'pending_admin')
+        ->paginate(10); // Change 10 to the number of items per page you want
 
         // Fetch all MC applications for statistical purposes
         $totalUsers = User::where('role', '!=', 'admin')->count();
@@ -600,7 +623,7 @@ class AdminController extends Controller
         ));
     }
 
-    // PERMOHONAN CUTI
+// PERMOHONAN CUTI
     public function approve($id)
     {
         $application = McApplication::find($id);
@@ -668,7 +691,7 @@ class AdminController extends Controller
         $application->status = 'approved';
         $application->save();
     
-        return redirect()->back()->with('success', 'Permohonan MC telah diluluskan oleh admin.'); // Mesej kejayaan
+        return redirect()->back()->with('success', 'Permohonan cuti telah diluluskan oleh admin.'); // Mesej kejayaan
     }
     
 

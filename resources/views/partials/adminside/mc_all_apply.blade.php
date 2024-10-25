@@ -77,9 +77,9 @@
                                                         <form method="GET" action="{{ route('admin.mcAllApply') }}" class="mb-3">
                                                             <div class="row g-3">
                                                                 <div class="col-md-2">
-                                                                    <label for="roleFilter" class="form-label">Peranan</label>
+                                                                    <label for="roleFilter" class="form-label">Jawatan</label>
                                                                     <select name="role" id="roleFilter" class="form-select">
-                                                                        <option value="">Semua Peranan</option>
+                                                                        <option value="">Semua Jawatan</option>
                                                                         <option value="staff">Staf</option>
                                                                         <option value="officer">Pegawai</option>
                                                                     </select>
@@ -126,10 +126,12 @@
                                                                         <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JAWATAN</th>
                                                                         <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
                                                                         <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH AKHIR</th>
-                                                                        <th style="width: 20%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
-                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN RUJUKAN</th>
-                                                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
-                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">KEPUTUSAN</th>
+                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JUMLAH HARI</th>
+                                                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
+                                                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN RUJUKAN</th>
+                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
+                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS</th>
+                                                                        <th style="width: 12%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -156,15 +158,27 @@
                                                                                 <p class="text-m text-secondary">{{ \Carbon\Carbon::parse($application->end_date)->format('d/m/Y') }}</p>
                                                                             </td>
                                                                             <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                <p class="text-m text-secondary">
+                                                                                    @php
+                                                                                        // Calculate the difference in days and add 1 to ensure the last day is included
+                                                                                        $startDate = \Carbon\Carbon::parse($application->start_date);
+                                                                                        $endDate = \Carbon\Carbon::parse($application->end_date);
+                                                                                        $daysDifference = $startDate->diffInDays($endDate) + 1; // Add 1 to include both start and end dates
+                                                                                    @endphp
+                                                                                    {{ $daysDifference }} hari
+                                                                                </p>
+                                                                            </td>
+                                                                            
+                                                                            <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                 <p class="text-m text-secondary">{{ $application->reason }}</p>
                                                                             </td>
                                                                             <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                 <p class="text-m text-secondary">
-                                                                                @if($application->document_path)
-                                                                                    <a href="{{ asset($application->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</a>
-                                                                                @else
-                                                                                    Tiada Dokumen
-                                                                                @endif
+                                                                                    @if($application->document_path)
+                                                                                        <a href="{{ asset('storage/' . $application->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1 text-primary "></i> PDF</a>
+                                                                                    @else
+                                                                                        <span class="text-danger">Tiada Dokumen</span>
+                                                                                    @endif
                                                                                 </p>
                                                                             </td>
                                                                             <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
@@ -189,6 +203,56 @@
                                                                                     <span class="badge badge-md bg-gradient-warning" id="statusPending">Pending</span>
                                                                                 @endif
                                                                                 </p>
+                                                                            </td>
+                                                                            <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                <form id="delete-form-{{ $application->id }}" action="{{ route('applications.delete', $application->id) }}" method="POST">
+                                                                                    @csrf
+                                                                                    @method('DELETE')
+                                                                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete({{ $application->id }})">
+                                                                                        <i class="fas fa-trash-alt"></i> 
+                                                                                    </button>
+                                                                                </form>
+                                                                                      
+                                                                                <script>
+                                                                                    function confirmDelete(id) {
+                                                                                        Swal.fire({
+                                                                                            title: 'Adakah anda pasti?',
+                                                                                            text: "Anda tidak akan dapat memulihkan ini!",
+                                                                                            icon: 'warning',
+                                                                                            showCancelButton: true,
+                                                                                            confirmButtonColor: '#3085d6',
+                                                                                            cancelButtonColor: '#d33',
+                                                                                            confirmButtonText: 'Ya, padamkan!',
+                                                                                            cancelButtonText: 'Batal'
+                                                                                        }).then((result) => {
+                                                                                            if (result.isConfirmed) {
+                                                                                                document.getElementById('delete-form-' + id).submit();
+                                                                                            }
+                                                                                        })
+                                                                                    }
+                                                                                </script>
+                                                                                
+                                                                                @if(session('success'))
+                                                                                <script>
+                                                                                    Swal.fire({
+                                                                                        icon: 'success',
+                                                                                        title: 'Berjaya',
+                                                                                        text: '{{ session('success') }}',
+                                                                                    });
+                                                                                </script>
+                                                                                @endif
+                                                                                
+                                                                                @if(session('error'))
+                                                                                <script>
+                                                                                    Swal.fire({
+                                                                                        icon: 'error',
+                                                                                        title: 'Oops...',
+                                                                                        text: '{{ session('error') }}',
+                                                                                    });
+                                                                                </script>
+                                                                                @endif
+                                                                                
+                                                                                
                                                                             </td>
                                                                         </tr>
                                                                     @endforeach

@@ -65,6 +65,9 @@ use App\Http\Controllers\Auth\LoginController;
 
         // MC Application Approval (Admin Side):
             Route::get('/admin/mc-all-apply',                       [AdminController::class, 'showAllMcApplications'])->name('admin.mcAllApply');
+            
+            Route::delete('/applications/{id}', [AdminController::class, 'deleteMcApplication'])->name('applications.delete');
+
         // Routes for approving or rejecting MC applications by both admins and officers.
             Route::post('/admin/approve/{id}',                      [AdminController::class, 'approveMcApplication'])->name('admin.approveMcApplication');
         // Admin approval route
