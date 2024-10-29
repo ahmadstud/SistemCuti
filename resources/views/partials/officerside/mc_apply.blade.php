@@ -113,7 +113,7 @@
                                             <!-- Document Upload Field -->
                                             <div class="col-md-12 mb-3" id="document_upload_field">
                                                 <label for="document_path" class="form-label">Dokumen MC<span class="text-danger">*</span></label>
-                                                <input type="file" class="form-control" id="document_path" name="document_path" required>
+                                                <input type="file" class="form-control" id="document_path" name="document_path">
                                             </div>
 
                                             <div class="col-md-12 mb-3">
@@ -194,11 +194,9 @@
                                                     @endif
                                                 </td>
                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-
                                                     <span class="badge bg-success">
-                                                        {{ $selectedLeaveTypes[$application->id] ?? 'Tiada Cuti Dipilih' }}
+                                                        {{ $selectedLeaveTypes[$mcApplication->id] ?? 'Tiada Cuti Dipilih' }}
                                                     </span>
-
                                                 </td>
                                                 <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                     @if($mcApplication->status == 'approved')

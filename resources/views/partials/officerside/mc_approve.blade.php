@@ -140,11 +140,9 @@
                                                     @endif
                                                 </td>
                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                    @foreach($applications as $application)
                                                         <span class="badge bg-success">
                                                             {{ $selectedLeaveTypes[$application->id] ?? 'Tiada Cuti Dipilih' }}
                                                         </span>
-                                                    @endforeach
                                                 </td>
                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                     <!-- Accept or Reject Buttons -->

@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 
 
 class User extends Authenticatable
@@ -50,6 +52,14 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
+    public function getFillable()
+    {
+        // Fetch all column names from the users table dynamically
+        $columns = Schema::getColumnListing($this->table);
+
+        return $columns;
+    }
+
     protected function casts(): array
     {
         return [];

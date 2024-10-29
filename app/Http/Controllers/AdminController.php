@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash; // <-- For password hashing
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Str;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AdminController extends Controller
 {
@@ -230,12 +232,12 @@ class AdminController extends Controller
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
         ]);
-    
+
         $imagePath = null;
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('announcements', 'public');
         }
-    
+
         Announcement::create([
             'title' => $request->title,
             'content' => $request->content,
@@ -243,11 +245,11 @@ class AdminController extends Controller
             'start_date' => $request->start_date,
             'end_date' => $request->end_date,
         ]);
-    
+
         return redirect()->route('admin.annoucement')->with('success', 'Pengumuman berjaya disimpan!');
     }
-    
-    
+
+
 
 
 
@@ -267,51 +269,76 @@ class AdminController extends Controller
     }
 
     // Store a new note
-    public function storeNote(Request $request)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-        ]);
+public function storeNote(Request $request)
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'content' => 'required|string',
+    ]);
 
-        Note::create([
-            'title' => $request->title,
-            'content' => $request->content,
-        ]);
+    // Generate a column name from the note title
+    $columnName = Str::slug($request->title, '_');
 
-        return redirect()->back()->with('success', 'Note created successfully!');
+    // Check if the column already exists to avoid duplication
+    if (!Schema::hasColumn('users', $columnName)) {
+        // Alter the table to add a new column as an integer
+        DB::statement("ALTER TABLE users ADD COLUMN {$columnName} INT NULL DEFAULT 0");
     }
 
-    // Update an existing note
-    public function updateNote(Request $request, $id)
-    {
-        $note = Note::findOrFail($id); // Find note or fail
+    // Store the note content or other relevant information
+    Note::create([
+        'title' => $request->title,
+        'content' => $request->content,
+    ]);
 
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-        ]);
+    return redirect()->back()->with('success', 'Note created and integer column added to users table successfully!');
+}
 
-        $note->update([
-            'title' => $request->title,
-            'content' => $request->content,
-        ]);
+// Update an existing note
+public function updateNote(Request $request, $id)
+{
+    $note = Note::findOrFail($id); // Find note or fail
 
-        return redirect()->back()->with('success', 'Note updated successfully!');
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'content' => 'required|string',
+    ]);
+
+    // Get the old column name and the new column name
+    $oldColumnName = Str::slug($note->title, '_');
+    $newColumnName = Str::slug($request->title, '_');
+
+    // If the title has changed, rename the column
+    if ($oldColumnName !== $newColumnName && Schema::hasColumn('users', $oldColumnName)) {
+        // Rename the column directly
+        Schema::table('users', function (Blueprint $table) use ($oldColumnName, $newColumnName) {
+            $table->renameColumn($oldColumnName, $newColumnName);
+        });
     }
 
-    // Delete a note
-    public function deleteNote($id)
-    {
-        $note = Note::findOrFail($id); // Find note or fail
-        $note->delete();
+    // Update the note's title and content
+    $note->update([
+        'title' => $request->title,
+        'content' => $request->content,
+    ]);
 
-        return redirect()->back()->with('success', 'Note deleted successfully!');
-    }
-
-
+    return redirect()->back()->with('success', 'Note updated and column renamed successfully!');
+}
 
 
+// Delete a note
+public function deleteNote($id)
+{
+    $note = Note::findOrFail($id); // Find note or fail
+
+    // Remove the corresponding column from the users table
+    $columnName = Str::slug($note->title, '_');
+    DB::statement("ALTER TABLE users DROP COLUMN {$columnName}");
+
+    $note->delete();
+
+    return redirect()->back()->with('success', 'Note deleted successfully and corresponding column removed from users table.');
+}
 
 // SENARAI PEKERJA ROUTES
     public function staffList(Request $request)
@@ -342,7 +369,7 @@ class AdminController extends Controller
         $totalMcApplications = McApplication::count();
         $acceptedMcApplications = McApplication::where('status', 'approved')->count();
         $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
-
+        $notes = Note::all(); // Adjust as necessary to fetch notes
         // Pass the users and officers data to the view
         return view('partials.adminside.staff_list', [
             'users' => $users, // Now using 'users' instead of 'staff'
@@ -351,7 +378,7 @@ class AdminController extends Controller
             'totalMcApplications' =>  $totalMcApplications,
             'acceptedMcApplications' => $acceptedMcApplications,
             'rejectedMcApplications' => $rejectedMcApplications,
-
+            'notes' => $notes,
         ]);
     }
 
@@ -363,50 +390,41 @@ class AdminController extends Controller
 
     public function updateUser(Request $request, $id)
     {
+        \Log::info($request->all()); // Log all incoming request data
+
+        // Validate the incoming request data (basic fields)
+        $request->validate([
+            'fullname' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'ic' => 'nullable|string|max:255',
+            'phone_number' => 'nullable|string|max:255',
+            'role' => 'required|string',
+            'job_status' => 'required|string',
+            'selected_officer_id' => 'nullable|exists:users,id',
+            'total_mc_days' => 'required|integer|min:0',
+            'total_annual' => 'required|integer|min:0',
+            'total_others' => 'required|integer|min:0',
+            'address' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'postcode' => 'required|string|max:255',
+            'state' => 'required|string|max:255',
+        ]);
+
+        // Find the user by ID
         $user = User::findOrFail($id);
 
-        // Validate input fields
-        $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|unique:users,email,' . $id,
-        'ic' => 'nullable|string',
-        'phone_number' => 'nullable|string',
-        'role' => 'required|string',
-        'job_status' => 'required|string',
-        'selected_officer_id' => 'nullable|integer',
-        'total_mc_days' => 'required|integer|min:0',
-        'total_annual' => 'required|integer|min:0',
-        'total_others' => 'required|integer|min:0',
-        'address' => 'required|string',
-        'city' => 'required|string',
-        'postcode' => 'required|string',
-        'state' => 'required|string',
-        'fullname' => 'required|string',
-        ]);
+        // Automatically fill user data from the request, including dynamic fields
+        $user->fill($request->all());
 
-        // Update user information
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'ic' => $request->ic,
-            'phone_number' => $request->phone_number,
-            'role' => $request->role,
-            'job_status' => $request->job_status,
-            'address' => $request->address,
-            'city' => $request->city,
-            'postcode' => $request->postcode,
-            'state' => $request->state,
-            'selected_officer_id' => $request->selected_officer_id, // Add this line
-            'total_mc_days' => $request->total_mc_days, // Ensure this matches the input name
-            'total_annual' => $request->total_annual, // Ensure this matches the input name
-            'total_others' => $request->total_others, // Ensure this matches the input name
-            'fullname' => $request->fullname,
-        ]);
+        // Save the updated user information
+        $user->save();
 
-        // Redirect with success message
-        // return redirect()->route('admin.stafflist')->with('success', 'User updated successfully!');
         return redirect()->back()->with('success', 'User updated successfully!');
     }
+
+
+
 
     public function deleteUser($id)
     {
@@ -437,12 +455,12 @@ class AdminController extends Controller
             'total_annual' => 'required|integer|min:0',
             'total_others' => 'required|integer|min:0',
             'fullname' => 'required|string|max:255',
-            'selected_officer_id' => 'nullable|integer', // Add this line to validate officer selection
-            'fullname' => 'nullable|string|max:255', // Added fullname validation
+            'selected_officer_id' => 'nullable|integer',
+            // Removed duplicate fullname validation
         ]);
 
         // Create the new user
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'fullname' => $request->fullname,
             'email' => $request->email,
@@ -450,7 +468,7 @@ class AdminController extends Controller
             'phone_number' => $request->phone_number,
             'role' => $request->role,
             'job_status' => $request->job_status,
-            'password' => bcrypt($request->password),  // Encrypt the password
+            'password' => bcrypt($request->password),
             'total_annual' => $request->total_annual,
             'total_others' => $request->total_others,
             'total_mc_days' => $request->total_mc_days,
@@ -458,14 +476,23 @@ class AdminController extends Controller
             'city' => $request->city,
             'postcode' => $request->postcode,
             'state' => $request->state,
-            'selected_officer_id' => $request->selected_officer_id, // Save selected officer ID here
-            'fullname' => $request->fullname, // Added fullname field
+            'selected_officer_id' => $request->selected_officer_id,
         ]);
 
-        // Redirect back to admin with a success message
-        // return redirect()->route('admin.stafflist')->with('success', 'Kakitangan/Pegawai baru berjaya ditambah!!');
+        // Handle notes
+        $notes = Note::all(); // Assuming you have a Note model to retrieve all notes
+        foreach ($notes as $note) {
+            $columnName = Str::slug($note->title, '_');
+            if ($request->has($columnName)) {
+                $user->$columnName = $request->input($columnName); // Set the note value
+            }
+        }
+
+        $user->save(); // Save the user with the notes
+
         return redirect()->back()->with('success', 'Kakitangan/Pegawai baru berjaya ditambah!');
     }
+
 
 
 
@@ -511,10 +538,25 @@ class AdminController extends Controller
         $totalMcApplications = McApplication::count();
         $acceptedMcApplications = McApplication::where('status', 'approved')->count();
         $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
+        $notes = Note::all(); // Fetch all notes
+
+        // Create an array to hold selected leave types
+        $selectedLeaveTypes = [];
+
+        foreach ($allApplications as $application) {
+            // Find the note where the title matches the leave_type
+            $note = $notes->firstWhere('title', $application->leave_type);
+            if ($note) {
+                // Store the title of the selected leave type
+                $selectedLeaveTypes[$application->id] = $note->title;
+            } else {
+                $selectedLeaveTypes[$application->id] = 'Tidak ada catatan dipilih';
+            }
+        }
 
         // Pass the data to the view
         return view('partials.adminside.mc_all_apply', compact('allApplications','totalUsers'
-        ,'totalMcApplications','acceptedMcApplications','rejectedMcApplications'));
+        ,'totalMcApplications','acceptedMcApplications','rejectedMcApplications','notes','selectedLeaveTypes'));
     }
 
 
@@ -541,14 +583,30 @@ class AdminController extends Controller
         $totalMcApplications = McApplication::count();
         $acceptedMcApplications = McApplication::where('status', 'approved')->count();
         $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
+        $notes = Note::all(); // Fetch all notes
 
+        // Create an array to hold selected leave types
+        $selectedLeaveTypes = [];
+
+        foreach ($applications as $application) {
+            // Find the note where the title matches the leave_type
+            $note = $notes->firstWhere('title', $application->leave_type);
+            if ($note) {
+                // Store the title of the selected leave type
+                $selectedLeaveTypes[$application->id] = $note->title;
+            } else {
+                $selectedLeaveTypes[$application->id] = 'Tidak ada catatan dipilih';
+            }
+        }
         // Pass the data to the view
         return view('partials.adminside.mc_officer_approve', compact(
             'applications',
             'totalUsers',
             'totalMcApplications',
             'acceptedMcApplications',
-            'rejectedMcApplications'
+            'rejectedMcApplications',
+            'notes',
+            'selectedLeaveTypes'
         ));
     }
 
@@ -592,11 +650,26 @@ class AdminController extends Controller
         $totalMcApplications = McApplication::count();
         $acceptedMcApplications = McApplication::where('status', 'approved')->count();
         $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
+        $notes = Note::all(); // Fetch all notes
 
+        // Create an array to hold selected leave types
+        $selectedLeaveTypes = [];
+
+        foreach ($directAdminApplications as $application) {
+            // Find the note where the title matches the leave_type
+            $note = $notes->firstWhere('title', $application->leave_type);
+            if ($note) {
+                // Store the title of the selected leave type
+                $selectedLeaveTypes[$application->id] = $note->title;
+            } else {
+                $selectedLeaveTypes[$application->id] = 'Tidak ada catatan dipilih';
+            }
+        }
         // Pass the data to the view
         return view('partials.adminside.mc_admin_approve', compact(
             'directAdminApplications', 'allApplications', 'totalUsers',
-            'totalMcApplications', 'acceptedMcApplications', 'rejectedMcApplications'
+            'totalMcApplications', 'acceptedMcApplications', 'rejectedMcApplications',
+            'notes','selectedLeaveTypes'
         ));
     }
 
@@ -606,11 +679,13 @@ class AdminController extends Controller
         $application = McApplication::find($id);
 
         if (!$application) {
+            Log::error('Application not found.', ['application_id' => $id]);
             return redirect()->back()->with('error', 'Application not found.');
         }
 
         // Check if it's direct admin approval or needs officer approval
         if (!$application->direct_admin_approval && !$application->officer_approved) {
+            Log::warning('MC application not approved by officer.', ['application_id' => $id]);
             return redirect()->back()->with('error', 'MC must be approved by an officer first.');
         }
 
@@ -627,15 +702,18 @@ class AdminController extends Controller
         $user = User::find($application->user_id);
 
         if (!$user) {
+            Log::error('User not found.', ['user_id' => $application->user_id, 'application_id' => $id]);
             return redirect()->back()->with('error', 'User not found.');
         }
 
-        // Deduct based on the leave type
+        // Deduct based on the leave type and notes
         switch ($application->leave_type) {
             case 'annual':
                 if ($user->total_annual >= $daysRequested) {
                     $user->total_annual -= $daysRequested;
+                    Log::info('Deducted annual leave days.', ['user_id' => $user->id, 'days_deducted' => $daysRequested]);
                 } else {
+                    Log::warning('Insufficient annual leave days.', ['user_id' => $user->id, 'requested' => $daysRequested, 'available' => $user->total_annual]);
                     return redirect()->back()->with('error', 'Insufficient annual leave days available.');
                 }
                 break;
@@ -643,7 +721,9 @@ class AdminController extends Controller
             case 'mc':
                 if ($user->total_mc_days >= $daysRequested) {
                     $user->total_mc_days -= $daysRequested;
+                    Log::info('Deducted MC leave days.', ['user_id' => $user->id, 'days_deducted' => $daysRequested]);
                 } else {
+                    Log::warning('Insufficient MC leave days.', ['user_id' => $user->id, 'requested' => $daysRequested, 'available' => $user->total_mc_days]);
                     return redirect()->back()->with('error', 'Insufficient MC days available.');
                 }
                 break;
@@ -651,13 +731,35 @@ class AdminController extends Controller
             case 'other':
                 if ($user->total_others >= $daysRequested) {
                     $user->total_others -= $daysRequested;
+                    Log::info('Deducted other leave days.', ['user_id' => $user->id, 'days_deducted' => $daysRequested]);
                 } else {
+                    Log::warning('Insufficient other leave days.', ['user_id' => $user->id, 'requested' => $daysRequested, 'available' => $user->total_others]);
                     return redirect()->back()->with('error', 'Insufficient other leave days available.');
                 }
                 break;
 
-            default:
-                return redirect()->back()->with('error', 'Invalid leave type.');
+                default:
+                // Handle notes deduction dynamically
+                $notes = Note::all(); // Retrieve all notes
+                $noteColumn = Str::slug($application->leave_type, '_'); // Slug the leave type for matching
+
+                // Check if the requested leave type corresponds to any note
+                foreach ($notes as $note) {
+                    $columnName = Str::slug($note->title, '_'); // Slug the note title
+
+                    if ($columnName === $noteColumn && isset($user->$columnName) && $user->$columnName >= $daysRequested) {
+                        $user->$columnName -= $daysRequested; // Deduct the requested days from the notes column
+                        Log::info('Deducted notes days.', ['user_id' => $user->id, 'days_deducted' => $daysRequested, 'note_type' => $note->title]);
+                        break; // Exit the loop once the deduction is made
+                    }
+                }
+
+                // Check if the deduction was successful
+                if (!isset($user->$noteColumn) || $user->$noteColumn < $daysRequested) {
+                    Log::warning('Insufficient notes available.', ['user_id' => $user->id, 'requested' => $daysRequested, 'available' => $user->$noteColumn ?? 0]);
+                    return redirect()->back()->with('error', 'Insufficient notes available.');
+                }
+                break;
         }
 
         // Save the updated user information
@@ -668,9 +770,10 @@ class AdminController extends Controller
         $application->status = 'approved';
         $application->save();
 
+        Log::info('MC application approved.', ['application_id' => $id, 'user_id' => $user->id]);
+
         return redirect()->back()->with('success', 'MC application approved by admin.');
     }
-
 
     public function reject(Request $request, $id)
     {

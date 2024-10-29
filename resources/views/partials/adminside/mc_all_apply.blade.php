@@ -165,16 +165,9 @@
                                                                                 </p>
                                                                             </td>
                                                                             <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                @switch($application->leave_type)
-                                                                                @case('mc')
-                                                                                    <span class="badge bg-success">Cuti Sakit</span>
-                                                                                    @break
-                                                                                @case('annual')
-                                                                                    <span class="badge bg-success">Cuti Tahunan</span>
-                                                                                    @break
-                                                                                @default
-                                                                                    <span class="badge bg-success">Cuti Lain-lain</span>
-                                                                            @endswitch
+                                                                                <span class="badge bg-success">
+                                                                                    {{ $selectedLeaveTypes[$application->id] ?? 'Tiada Cuti Dipilih' }}
+                                                                                </span>
                                                                             </td>
                                                                             <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                 <p class="text-m text-secondary">

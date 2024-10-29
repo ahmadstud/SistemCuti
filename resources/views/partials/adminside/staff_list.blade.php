@@ -87,7 +87,7 @@
                                                                                 <div class="row g-3">
                                                                                     <div class="col-md-6 mb-3">
                                                                                         <label for="fullname" class="form-label">Nama Penuh<span class="text-danger">*</span></label>
-                                                                                        <input type="text" class="form-control" id="fullname" name="fullname" value="{{ Auth::user()->fullname }}">
+                                                                                        <input type="text" class="form-control" id="fullname" name="fullname">
                                                                                     </div>
                                                                                     <div class="col-md-6 mb-3">
                                                                                         <label for="name" class="form-label">Nama<span class="text-danger">*</span></label>
@@ -164,6 +164,19 @@
                                                                                     <p class="text-muted">
                                                                                         <em>Nota: Cuti sakit dan cuti tahunan adalah berbeza. Cuti sakit memerlukan sijil cuti sakit (MC), manakala cuti tahunan adalah cuti berbayar yang diperoleh setelah bekerja selama 12 bulan.</em>
                                                                                     </p>
+                                                                                </div>
+                                                                                <div class="row g-3">
+                                                                                    <h5 class="mt-4">Notes Section</h5>
+                                                                                    @foreach ($notes as $note)
+                                                                                        @php
+                                                                                            $columnName = Str::slug($note->title, '_');
+                                                                                            $noteValue = isset($user) ? $user->$columnName : ''; // Retrieve existing note value for the user
+                                                                                        @endphp
+                                                                                        <div class="col-md-6 mb-3">
+                                                                                            <label for="{{ $columnName }}" class="form-label">{{ $note->title }}</label>
+                                                                                            <input type="text" class="form-control" id="{{ $columnName }}" name="{{ $columnName }}" value="{{ old($columnName, $noteValue) }}">
+                                                                                        </div>
+                                                                                    @endforeach
                                                                                 </div>
                                                                                 <hr>
 
@@ -386,6 +399,18 @@
                                                                                                             <input type="number" class="form-control" id="total_others{{ $user->id }}" name="total_others" value="{{ $user->total_others }}" required min="0">
                                                                                                         </div>
                                                                                                     </div>
+                                                                                                    <div class="row g-3">
+                                                                                                        <h5 class="mt-4">Notes Section</h5>
+                                                                                                        @foreach ($notes as $note)
+                                                                                                            @php
+                                                                                                                $columnName = Str::slug($note->title, '_');
+                                                                                                            @endphp
+                                                                                                            <div class="col-md-6 mb-3">
+                                                                                                                <label for="{{ $columnName }}" class="form-label">{{ $note->title }}</label>
+                                                                                                                <input type="text" class="form-control" id="{{ $columnName }}" name="{{ $columnName }}" value="{{ old($columnName, $user->$columnName ?? '') }}">
+                                                                                                            </div>
+                                                                                                        @endforeach
+                                                                                                    </div>
                                                                                                     <hr>
                                                                                                     <div class="row g-3">
                                                                                                         <div class="col-md-12 mb-3">
@@ -490,9 +515,7 @@
 
         <!-- SweetAlert JS -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-
-
-
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     </body>
 </html>
 

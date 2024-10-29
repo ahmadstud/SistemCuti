@@ -113,7 +113,7 @@
                                             <!-- Document Upload Field -->
                                             <div class="col-md-12 mb-3" id="document_upload_field">
                                                 <label for="document_path" class="form-label">Dokumen MC<span class="text-danger">*</span></label>
-                                                <input type="file" class="form-control" id="document_path" name="document_path" required>
+                                                <input type="file" class="form-control" id="document_path" name="document_path">
                                             </div>
 
                                             <div class="col-md-12 mb-3">
@@ -280,7 +280,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                         @elseif($mcApplication->status == 'pending_admin')
                                                         Menunggu kelulusan daripada admin
                                                     @elseif($mcApplication->status == 'rejected')

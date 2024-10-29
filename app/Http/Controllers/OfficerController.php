@@ -172,12 +172,14 @@ public function storeMcApplication(Request $request)
 
     public function profile()
     {
-        return view('partials.officerside.profile');
+        $notes = Note::all();
+        return view('partials.officerside.profile',compact('notes'));
     }
 
     public function password()
     {
-        return view('partials.officerside.password');
+        $notes = Note::all();
+        return view('partials.officerside.password',compact('notes'));
     }
 
     public function McApprove()
@@ -215,7 +217,7 @@ public function storeMcApplication(Request $request)
         }
 
         // Pass applications and selectedLeaveTypes to the view
-        return view('partials.officerside.mc_approve', compact('applications', 'selectedLeaveTypes'));
+        return view('partials.officerside.mc_approve', compact('applications', 'selectedLeaveTypes','notes'));
     }
 
 
@@ -238,7 +240,7 @@ public function storeMcApplication(Request $request)
              $selectedLeaveTypes[$application->id] = 'Tidak ada catatan dipilih';
          }
      }
-        return view('partials.officerside.mc_apply', compact('mcApplications','notes','selectedLeaveTypes'));
+        return view('partials.officerside.mc_apply', compact('mcApplications','selectedLeaveTypes','notes'));
     }
     public function dashboard(Request $request)
     {
@@ -280,8 +282,8 @@ public function storeMcApplication(Request $request)
       foreach ($monthlyLeaveData as $data) {
           $leaveCountsByMonth[$data->month] = $data->total_staff;
       }
-
-        return view('officer', compact('staffOnLeaveToday','announcements','leaveCountsByMonth','year','yearRange'));
+      $notes = Note::all();
+        return view('officer', compact('staffOnLeaveToday','announcements','leaveCountsByMonth','year','yearRange','notes'));
     }
 
 
