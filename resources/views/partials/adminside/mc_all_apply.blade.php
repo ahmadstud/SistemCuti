@@ -94,9 +94,9 @@
                                                                     <label for="leave_typeFilter" class="form-label">Jenis Cuti</label>
                                                                     <select name="leave_type" id="leave_typeFilter" class="form-select">
                                                                         <option value="">Semua Cuti</option>
-                                                                        <option value="mc">Sakit</option>
-                                                                        <option value="annual">Tahunan</option>
-                                                                        <option value="other">Lain-lain</option>
+                                                                        @foreach ($notes as $note)
+                                                                        <option value="{{ $note->title }}">{{ $note->title }}</option>
+                                                                    @endforeach
                                                                     </select>
                                                                 </div>
                                                                 <div class="col-md-2">

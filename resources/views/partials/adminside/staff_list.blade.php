@@ -70,7 +70,7 @@
 
                                                             <!-- Add Staff/Officer Button -->
                                                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStaffModal">
-                                                                Tambah Staff / Pegawai
+                                                                Tambah Staf / Pegawai
                                                             </button>
 
                                                             <!-- Add Staff/Officer Modal -->
@@ -141,32 +141,15 @@
                                                                                         <label for="selected_officer_id" class="form-label">Ketua Bahagian/Pegawai <span class="text-danger">*</span></label>
                                                                                         <select class="form-select" id="selected_officer_id" name="selected_officer_id" required>
                                                                                             <option selected disabled>--- Pilih Ketua Bahagian ---</option>
+                                                                                            <option value="">Tiada Ketua Bahagian</option>
                                                                                             @foreach($officers as $officer)
                                                                                                 <option value="{{ $officer->id }}">{{ $officer->name }}</option>
                                                                                             @endforeach
-                                                                                            <option value="">Tiada Penyelia</option>
                                                                                         </select>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="row g-3">
-                                                                                    <div class="col-md-6 mb-3">
-                                                                                        <label for="total_annual" class="form-label">Jumlah Cuti Tahunan<span class="text-danger">*</span></label>
-                                                                                        <input type="number" class="form-control" id="total_annual" name="total_annual" required min="1">
-                                                                                    </div>
-                                                                                    <div class="col-md-6 mb-3">
-                                                                                        <label for="total_mc_days" class="form-label">Jumlah Cuti Sakit<span class="text-danger">*</span></label>
-                                                                                        <input type="number" class="form-control" id="total_mc_days" name="total_mc_days" required min="1">
-                                                                                    </div>
-                                                                                    <div class="col-md-6 mb-3">
-                                                                                        <label for="total_others" class="form-label">Jumlah Cuti lain-lain<span class="text-danger">*</span></label>
-                                                                                        <input type="number" class="form-control" id="total_others" name="total_others" required min="1">
-                                                                                    </div>
-                                                                                    <p class="text-muted">
-                                                                                        <em>Nota: Cuti sakit dan cuti tahunan adalah berbeza. Cuti sakit memerlukan sijil cuti sakit (MC), manakala cuti tahunan adalah cuti berbayar yang diperoleh setelah bekerja selama 12 bulan.</em>
-                                                                                    </p>
-                                                                                </div>
-                                                                                <div class="row g-3">
-                                                                                    <h5 class="mt-4">Notes Section</h5>
+                                                                                    <h5 class="mt-4">Jenis Cuti</h5>
                                                                                     @foreach ($notes as $note)
                                                                                         @php
                                                                                             $columnName = Str::slug($note->title, '_');
@@ -303,9 +286,12 @@
                                                                             </td>
                                                                             <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                 <p class="text-m text-secondary">
-                                                                                    <strong> Tahunan : </strong> <br> {{ $user->total_annual }} Hari <br>
-                                                                                    <strong> Sakit : </strong> <br> {{ $user->total_mc_days }} Hari <br>
-                                                                                    <strong> Lain-Lain : </strong> <br> {{ $user->total_others }} Hari
+                                                                                    @foreach ($notes as $note)
+                                                                                    @php
+                                                                                        $columnName = Str::slug($note->title, '_');
+                                                                                    @endphp
+                                                                                    <strong>{{ $note->title }}: </strong> <br> {{ $user->$columnName ?? '0' }} Hari <br>
+                                                                                @endforeach
                                                                                 </p>
                                                                             </td>
                                                                             <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
@@ -386,21 +372,7 @@
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     <div class="row g-3">
-                                                                                                        <div class="col-md-4 mb-3">
-                                                                                                            <label for="total_mc_days{{ $user->id }}" class="form-label">Jumlah MC</label>
-                                                                                                            <input type="number" class="form-control" id="total_mc_days{{ $user->id }}" name="total_mc_days" value="{{ $user->total_mc_days }}" required min="0">
-                                                                                                        </div>
-                                                                                                        <div class="col-md-4 mb-3">
-                                                                                                            <label for="total_annual{{ $user->id }}" class="form-label">Jumlah Cuti Tahunan</label>
-                                                                                                            <input type="number" class="form-control" id="total_annual{{ $user->id }}" name="total_annual" value="{{ $user->total_annual }}" required min="0">
-                                                                                                        </div>
-                                                                                                        <div class="col-md-4 mb-3">
-                                                                                                            <label for="total_others{{ $user->id }}" class="form-label">Jumlah Cuti Lain</label>
-                                                                                                            <input type="number" class="form-control" id="total_others{{ $user->id }}" name="total_others" value="{{ $user->total_others }}" required min="0">
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                    <div class="row g-3">
-                                                                                                        <h5 class="mt-4">Notes Section</h5>
+                                                                                                        <h5 class="mt-4">Jenis Cuti</h5>
                                                                                                         @foreach ($notes as $note)
                                                                                                             @php
                                                                                                                 $columnName = Str::slug($note->title, '_');

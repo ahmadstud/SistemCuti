@@ -29,9 +29,6 @@ class User extends Authenticatable
         'city',
         'postcode',
         'state',
-       'total_mc_days',  // Ensure this is fillable
-       'total_annual',
-       'total_others',
        'job_status',
        'profile_image',
        'selected_officer_id',

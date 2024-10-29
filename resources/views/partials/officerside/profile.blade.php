@@ -34,8 +34,7 @@
 
 
 <body class="g-sidenav-show bg-gray-100">
-    <div class="min-height-500 position-absolute w-100" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-position: top;"></div>
-    @include('partials.officerside.aside')
+    <div class="min-height-500 position-absolute w-100" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-attachment: fixed; background-position: center; background-repeat: no-repeat; background-size: cover;"></div>    @include('partials.officerside.aside')
 
         <main class="main-content position-relative border-radius-lg">
             <div class="container-fluid py-4">
@@ -249,21 +248,16 @@
                                                                          {{ $roleMapping[Auth::user()->job_status] ?? Auth::user()->job_status }}
                                                                      </p>
                                                                  </div>
+                                                                 @foreach ($notes as $note)
                                                                  <div class="col-md-4">
-                                                                     <label for="mc_days" class="form-label">JUMLAH CUTI</label>
-                                                                     <p class="form-control" id="mc_days">{{ Auth::user()->total_mc_days }}</p>
+                                                                     @php
+                                                                         $columnName = Str::slug($note->title, '_');
+                                                                     @endphp
+                                                                     <label for="{{ $columnName }}" class="form-label">{{ $note->title }}</label>
+                                                                     <p class="form-control" id="{{ $columnName }}">{{ old($columnName, Auth::user()->$columnName ?? '0') }}</p>
                                                                  </div>
-                                                                 <div class="col-md-4">
-                                                                     <label for="mc_days" class="form-label">CUTI TAHUNAN</label>
-                                                                     <p class="form-control" id="mc_days">{{ Auth::user()->total_annual }}</p>
-                                                                 </div>
-                                                                 <div class="col-md-4">
-                                                                     <label for="mc_days" class="form-label">CUTI LAIN-LAIN</label>
-                                                                     <p class="form-control" id="mc_days">{{ Auth::user()->total_others }}</p>
-                                                                 </div>
+                                                             @endforeach
                                                              </div>
-
-
                                                             </div>
                                                         </div>
                                                     </div>

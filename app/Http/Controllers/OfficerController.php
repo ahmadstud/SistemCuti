@@ -182,11 +182,12 @@ public function storeMcApplication(Request $request)
         return view('partials.officerside.password',compact('notes'));
     }
 
-    public function McApprove()
+    public function McApprove(Request $request)
     {
         // Get the currently authenticated officer
         $officer = Auth::user();
-
+        $sort = $request->input('sort', 'created_at'); // Default sorting by created_at
+         $order = $request->input('order', 'asc'); // Default order is ascending
         // Fetch all pending MC applications with user names, filtered by selected officer and direct admin approval status
         $applications = McApplication::where('mc_applications.status', 'pending')
             ->where('mc_applications.direct_admin_approval', false) // Only fetch those not yet approved by admin
@@ -196,7 +197,8 @@ public function storeMcApplication(Request $request)
             })
             ->join('users', 'mc_applications.user_id', '=', 'users.id') // Join with users table
             ->select('mc_applications.*', 'users.name as user_name') // Select necessary fields
-            ->get();
+            ->orderBy($sort, $order)
+            ->paginate(10);
 
         // Fetch all notes
         $notes = Note::all();
@@ -221,10 +223,14 @@ public function storeMcApplication(Request $request)
     }
 
 
-    public function McApply()
+    public function McApply(Request $request)
     {
+    $sort = $request->input('sort', 'created_at'); // Default sorting by created_at
+    $order = $request->input('order', 'asc'); // Default order is ascending
     // Fetch all MC applications for the logged-in user
-     $mcApplications = McApplication::where('user_id', Auth::id())->get();
+     $mcApplications = McApplication::where('user_id', Auth::id())
+     ->orderBy($sort, $order)
+     ->paginate(10);
      $notes = Note::all(); // Fetch all notes
 
      // Create an array to hold selected leave types

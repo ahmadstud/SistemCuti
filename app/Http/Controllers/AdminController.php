@@ -402,9 +402,6 @@ public function deleteNote($id)
             'role' => 'required|string',
             'job_status' => 'required|string',
             'selected_officer_id' => 'nullable|exists:users,id',
-            'total_mc_days' => 'required|integer|min:0',
-            'total_annual' => 'required|integer|min:0',
-            'total_others' => 'required|integer|min:0',
             'address' => 'required|string|max:255',
             'city' => 'required|string|max:255',
             'postcode' => 'required|string|max:255',
@@ -451,9 +448,6 @@ public function deleteNote($id)
             'city' => 'nullable|string|max:255',
             'postcode' => 'nullable|string|max:10',
             'state' => 'nullable|string|max:255',
-            'total_mc_days' => 'required|integer|min:0',
-            'total_annual' => 'required|integer|min:0',
-            'total_others' => 'required|integer|min:0',
             'fullname' => 'required|string|max:255',
             'selected_officer_id' => 'nullable|integer',
             // Removed duplicate fullname validation
@@ -469,9 +463,6 @@ public function deleteNote($id)
             'role' => $request->role,
             'job_status' => $request->job_status,
             'password' => bcrypt($request->password),
-            'total_annual' => $request->total_annual,
-            'total_others' => $request->total_others,
-            'total_mc_days' => $request->total_mc_days,
             'address' => $request->address,
             'city' => $request->city,
             'postcode' => $request->postcode,
@@ -673,107 +664,70 @@ public function deleteNote($id)
         ));
     }
 
-    // PERMOHONAN CUTI
-    public function approve($id)
-    {
-        $application = McApplication::find($id);
+   // PERMOHONAN CUTI
+public function approve($id)
+{
+    $application = McApplication::find($id);
 
-        if (!$application) {
-            Log::error('Application not found.', ['application_id' => $id]);
-            return redirect()->back()->with('error', 'Application not found.');
-        }
-
-        // Check if it's direct admin approval or needs officer approval
-        if (!$application->direct_admin_approval && !$application->officer_approved) {
-            Log::warning('MC application not approved by officer.', ['application_id' => $id]);
-            return redirect()->back()->with('error', 'MC must be approved by an officer first.');
-        }
-
-        $startDate = Carbon::parse($application->start_date);
-        $endDate = Carbon::parse($application->end_date);
-
-        // Calculate the number of days manually
-        $daysRequested = ($endDate->timestamp - $startDate->timestamp) / (60 * 60 * 24) + 1; // Convert seconds to days and add 1
-
-        // Ensure at least 1 day is requested
-        $daysRequested = max(1, (int)$daysRequested);
-
-        // Find the user who submitted the application
-        $user = User::find($application->user_id);
-
-        if (!$user) {
-            Log::error('User not found.', ['user_id' => $application->user_id, 'application_id' => $id]);
-            return redirect()->back()->with('error', 'User not found.');
-        }
-
-        // Deduct based on the leave type and notes
-        switch ($application->leave_type) {
-            case 'annual':
-                if ($user->total_annual >= $daysRequested) {
-                    $user->total_annual -= $daysRequested;
-                    Log::info('Deducted annual leave days.', ['user_id' => $user->id, 'days_deducted' => $daysRequested]);
-                } else {
-                    Log::warning('Insufficient annual leave days.', ['user_id' => $user->id, 'requested' => $daysRequested, 'available' => $user->total_annual]);
-                    return redirect()->back()->with('error', 'Insufficient annual leave days available.');
-                }
-                break;
-
-            case 'mc':
-                if ($user->total_mc_days >= $daysRequested) {
-                    $user->total_mc_days -= $daysRequested;
-                    Log::info('Deducted MC leave days.', ['user_id' => $user->id, 'days_deducted' => $daysRequested]);
-                } else {
-                    Log::warning('Insufficient MC leave days.', ['user_id' => $user->id, 'requested' => $daysRequested, 'available' => $user->total_mc_days]);
-                    return redirect()->back()->with('error', 'Insufficient MC days available.');
-                }
-                break;
-
-            case 'other':
-                if ($user->total_others >= $daysRequested) {
-                    $user->total_others -= $daysRequested;
-                    Log::info('Deducted other leave days.', ['user_id' => $user->id, 'days_deducted' => $daysRequested]);
-                } else {
-                    Log::warning('Insufficient other leave days.', ['user_id' => $user->id, 'requested' => $daysRequested, 'available' => $user->total_others]);
-                    return redirect()->back()->with('error', 'Insufficient other leave days available.');
-                }
-                break;
-
-                default:
-                // Handle notes deduction dynamically
-                $notes = Note::all(); // Retrieve all notes
-                $noteColumn = Str::slug($application->leave_type, '_'); // Slug the leave type for matching
-
-                // Check if the requested leave type corresponds to any note
-                foreach ($notes as $note) {
-                    $columnName = Str::slug($note->title, '_'); // Slug the note title
-
-                    if ($columnName === $noteColumn && isset($user->$columnName) && $user->$columnName >= $daysRequested) {
-                        $user->$columnName -= $daysRequested; // Deduct the requested days from the notes column
-                        Log::info('Deducted notes days.', ['user_id' => $user->id, 'days_deducted' => $daysRequested, 'note_type' => $note->title]);
-                        break; // Exit the loop once the deduction is made
-                    }
-                }
-
-                // Check if the deduction was successful
-                if (!isset($user->$noteColumn) || $user->$noteColumn < $daysRequested) {
-                    Log::warning('Insufficient notes available.', ['user_id' => $user->id, 'requested' => $daysRequested, 'available' => $user->$noteColumn ?? 0]);
-                    return redirect()->back()->with('error', 'Insufficient notes available.');
-                }
-                break;
-        }
-
-        // Save the updated user information
-        $user->save();
-
-        // Update the application's status to approved
-        $application->admin_approved = true;
-        $application->status = 'approved';
-        $application->save();
-
-        Log::info('MC application approved.', ['application_id' => $id, 'user_id' => $user->id]);
-
-        return redirect()->back()->with('success', 'MC application approved by admin.');
+    if (!$application) {
+        Log::error('Application not found.', ['application_id' => $id]);
+        return redirect()->back()->with('error', 'Application not found.');
     }
+
+    // Check if it's direct admin approval or needs officer approval
+    if (!$application->direct_admin_approval && !$application->officer_approved) {
+        Log::warning('MC application not approved by officer.', ['application_id' => $id]);
+        return redirect()->back()->with('error', 'MC must be approved by an officer first.');
+    }
+
+    $startDate = Carbon::parse($application->start_date);
+    $endDate = Carbon::parse($application->end_date);
+
+    // Calculate the number of days manually
+    $daysRequested = ($endDate->timestamp - $startDate->timestamp) / (60 * 60 * 24) + 1; // Convert seconds to days and add 1
+    $daysRequested = max(1, (int)$daysRequested); // Ensure at least 1 day is requested
+
+    // Find the user who submitted the application
+    $user = User::find($application->user_id);
+
+    if (!$user) {
+        Log::error('User not found.', ['user_id' => $application->user_id, 'application_id' => $id]);
+        return redirect()->back()->with('error', 'User not found.');
+    }
+
+    // Handle notes deduction dynamically
+    $notes = Note::all(); // Retrieve all notes
+    $noteColumn = Str::slug($application->leave_type, '_'); // Slug the leave type for matching
+
+    // Check if the requested leave type corresponds to any note
+    foreach ($notes as $note) {
+        $columnName = Str::slug($note->title, '_'); // Slug the note title
+
+        if ($columnName === $noteColumn && isset($user->$columnName) && $user->$columnName >= $daysRequested) {
+            $user->$columnName -= $daysRequested; // Deduct the requested days from the notes column
+            Log::info('Deducted notes days.', ['user_id' => $user->id, 'days_deducted' => $daysRequested, 'note_type' => $note->title]);
+            break; // Exit the loop once the deduction is made
+        }
+    }
+
+    // Check if the deduction was successful
+    if (!isset($user->$noteColumn) || $user->$noteColumn < $daysRequested) {
+        Log::warning('Insufficient notes available.', ['user_id' => $user->id, 'requested' => $daysRequested, 'available' => $user->$noteColumn ?? 0]);
+        return redirect()->back()->with('error', 'Insufficient notes available.');
+    }
+
+    // Save the updated user information
+    $user->save();
+
+    // Update the application's status to approved
+    $application->admin_approved = true;
+    $application->status = 'approved';
+    $application->save();
+
+    Log::info('MC application approved.', ['application_id' => $id, 'user_id' => $user->id]);
+
+    return redirect()->back()->with('success', 'MC application approved by admin.');
+}
 
     public function reject(Request $request, $id)
     {

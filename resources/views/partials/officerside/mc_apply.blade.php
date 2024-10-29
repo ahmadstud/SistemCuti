@@ -34,8 +34,7 @@
 
 
 <body class="g-sidenav-show bg-gray-100">
-    <div class="min-height-500 position-absolute w-100" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-position: top;"></div>
-    @include('partials.officerside.aside')
+    <div class="min-height-500 position-absolute w-100" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-attachment: fixed; background-position: center; background-repeat: no-repeat; background-size: cover;"></div>    @include('partials.officerside.aside')
 
         <main class="main-content position-relative border-radius-lg">
             <div class="container-fluid py-4">
@@ -162,8 +161,34 @@
                                     <thead style="background-color: #f0f0f0;">
                                         <tr>
                                             <th style="width: 5%;   padding: 8px;">BIL</th>
-                                            <th style="width: 10%;  padding: 8px; overflow-wrap:  white-space: normal;">TARIKH MULA</th>
-                                            <th style="width: 10%;  padding: 8px; overflow-wrap:  white-space: normal;">TARIKH TAMAT</th>
+                                           <th style="width: 10%; padding: 8px; overflow-wrap: white-space: normal;">
+                                                <a href="{{ route('officer.mc_application', ['sort' => 'start_date', 'order' => request('order') == 'asc' ? 'desc' : 'asc']) }}">
+                                                    TARIKH MULA
+                                                    @if(request('sort') == 'start_date')
+                                                        @if(request('order') == 'asc')
+                                                            <i class="fas fa-sort-up"></i> <!-- Ascending icon -->
+                                                        @else
+                                                            <i class="fas fa-sort-down"></i> <!-- Descending icon -->
+                                                        @endif
+                                                    @else
+                                                        <i class="fas fa-sort"></i> <!-- Neutral sort icon when not sorted -->
+                                                    @endif
+                                                </a>
+                                            </th>
+                                            <th style="width: 10%; padding: 8px; overflow-wrap: white-space: normal;">
+                                                <a href="{{ route('officer.mc_application', ['sort' => 'end_date', 'order' => request('order') == 'asc' ? 'desc' : 'asc']) }}">
+                                                    TARIKH TAMAT
+                                                    @if(request('sort') == 'end_date')
+                                                        @if(request('order') == 'asc')
+                                                            <i class="fas fa-sort-up"></i> <!-- Ascending icon -->
+                                                        @else
+                                                            <i class="fas fa-sort-down"></i> <!-- Descending icon -->
+                                                        @endif
+                                                    @else
+                                                        <i class="fas fa-sort"></i> <!-- Neutral sort icon when not sorted -->
+                                                    @endif
+                                                </a>
+                                            </th>
                                             <th style="width: 30%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
                                             <th style="width: 10%;  padding: 8px; overflow-wrap: white-space: normal;">DOKUMEN RUJUKAN</th>
                                             <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
@@ -284,9 +309,19 @@
                                                 </td>
                                                 </tr>
                                                 @endforeach
-
                                                 </tbody>
                                                 </table>
+                                                @endif
+                                                <!-- Pagination Links -->
+                                                    @if($mcApplications->hasPages())
+                                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                                        <div>
+                                                            Showing {{ $mcApplications->firstItem() }} to {{ $mcApplications->lastItem() }} of {{ $mcApplications->total() }} results
+                                                        </div>
+                                                        <div>
+                                                            {{ $mcApplications->links() }}
+                                                        </div>
+                                                    </div>
                                                 @endif
                                                 </div>
                                                 </div>

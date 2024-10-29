@@ -215,18 +215,26 @@ class StaffController extends Controller
 
     public function profile()
     {
-        return view('partials.staffside.profile');
+        $notes = Note::all(); // Adjust as necessary to fetch notes
+        return view('partials.staffside.profile',compact('notes'));
     }
 
     public function password()
     {
-        return view('partials.staffside.password');
+        $notes = Note::all(); // Adjust as necessary to fetch notes
+        return view('partials.staffside.password',compact('notes'));
     }
 
-    public function McApply()
+    public function McApply(Request $request)
     {
-        // Fetch all MC applications for the logged-in user
-        $mcApplications = McApplication::where('user_id', Auth::id())->get();
+    // Get the sort and order parameters from the request
+    $sort = $request->input('sort', 'created_at'); // Default sorting by created_at
+    $order = $request->input('order', 'asc'); // Default order is ascending
+
+    // Fetch all MC applications for the logged-in user with sorting
+    $mcApplications = McApplication::where('user_id', Auth::id())
+        ->orderBy($sort, $order)
+        ->paginate(10);
         $notes = Note::all(); // Fetch all notes
 
         // Create an array to hold selected leave types
@@ -242,6 +250,7 @@ class StaffController extends Controller
                 $selectedLeaveTypes[$application->id] = 'Tidak ada catatan dipilih';
             }
         }
+        
 
         return view('partials.staffside.mc_apply', compact('mcApplications', 'selectedLeaveTypes','notes'));
     }
@@ -266,6 +275,5 @@ class StaffController extends Controller
         return redirect()->back()->with('success', 'Kata laluan anda telah berjaya dikemas kini!');
         return redirect()->back()->with('error', 'Kata laluan anda telah gagal dikemas kini!');
     }
-
 
 }
