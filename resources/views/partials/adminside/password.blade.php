@@ -12,23 +12,41 @@
 <html lang="en">
 
     <head>
+        <!-- Meta Information -->
+        <!-- Sets the character encoding to UTF-8, ensuring proper display of text and symbols -->
         <meta charset="utf-8" />
+        <!-- Configures the page for responsive design, adjusting layout based on device screen size -->
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/Erawhiz.png') }}">
-        <link rel="icon" type="image/png" href="{{ asset('assets/img/Erawhiz.png') }}">
-        <title>
-            Sistem Permohonan Cuti - Staf
-        </title>
 
-        <!--     Fonts and icons     -->
+        <!-- App Icon Settings -->
+        <!-- Specifies an Apple Touch Icon for iOS devices -->
+        <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/Erawhiz.png') }}">
+        <!-- Specifies the favicon for browser tabs -->
+        <link rel="icon" type="image/png" href="{{ asset('assets/img/Erawhiz.png') }}">
+
+        <!-- Page Title -->
+        <!-- Sets the title that appears on the browser tab -->
+        <title>Sistem Permohonan Cuti - Staf</title>
+
+        <!-- Fonts and Icons -->
+        <!-- Links Google Fonts with Open Sans font family for better typography -->
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-        <!-- Nucleo Icons -->
+
+        <!-- Nucleo Icons for Argon Dashboard UI -->
+        <!-- Provides Nucleo icon styles, specific to Argon Dashboard components -->
         <link href="{{ asset('assets/css/nucleo-icons.css') }}" rel="stylesheet" />
         <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
+
         <!-- Font Awesome Icons -->
+        <!-- Links Font Awesome, allowing access to a wide range of icons -->
         <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+
         <!-- CSS Files -->
+        <!-- Argon Dashboard's main stylesheet -->
         <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet" />
+
+        <!-- SweetAlert2 Styles -->
+        <!-- Links SweetAlert2 CSS for styled alert pop-ups -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
     </head>
@@ -103,18 +121,29 @@
         </main>
 
         <!-- Core JS Files -->
+        <!-- Core Popper.js library to manage popper elements, tooltips, and popovers -->
         <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
+        <!-- Core Bootstrap JS for Bootstrap-based UI components and functionality -->
         <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
+        <!-- Plugin for smooth and responsive scrolling in containers -->
         <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
+        <!-- Plugin to enable smooth scrolling transitions -->
         <script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
+        <!-- Chart.js plugin to create data visualizations and charts -->
         <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
 
-        <!-- Most Important JS Files -->
+        <!-- Primary Application JS -->
+        <!-- Main application-specific JavaScript file, for custom scripts and functionalities -->
         <script src="{{ asset('js/app.js') }}"></script>
 
-        <!-- Github buttons -->
+        <!-- Argon Dashboard JS -->
+        <!-- Main script for Argon Dashboard, including parallax effects and example page scripts -->
         <script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.0.4') }}"></script>
+
+        <!-- SweetAlert2 Library -->
+        <!-- External library for custom-styled alert boxes and notifications -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
     </body>
 </html>

@@ -1,6 +1,6 @@
 @if ($paginator->hasPages())
-    <nav class="d-flex justify-items-center justify-content-between">
-        <div class="d-flex justify-content-between flex-fill d-sm-none">
+    <nav class="d-flex justify-content-between align-items-center">
+        <div class="flex-fill d-sm-none">
             <ul class="pagination">
                 {{-- Previous Page Link --}}
                 @if ($paginator->onFirstPage())
@@ -26,9 +26,9 @@
             </ul>
         </div>
 
-        <div class="d-none flex-sm-fill d-sm-flex align-items-sm-center justify-content-sm-between">
-            <div>
-                <p class="small text-muted">
+        <div class="d-none d-sm-flex justify-content-between align-items-center flex-fill">
+            {{-- <div class="text-start"> <!-- Align text to the left -->
+                <p class="small text-muted mb-0">
                     {!! __('Showing') !!}
                     <span class="fw-semibold">{{ $paginator->firstItem() }}</span>
                     {!! __('to') !!}
@@ -37,10 +37,10 @@
                     <span class="fw-semibold">{{ $paginator->total() }}</span>
                     {!! __('results') !!}
                 </p>
-            </div>
+            </div> --}}
 
-            <div>
-                <ul class="pagination">
+            <div class="ms-auto"> <!-- Margin start auto to push to right -->
+                <ul class="pagination mb-0">
                     {{-- Previous Page Link --}}
                     @if ($paginator->onFirstPage())
                         <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">

@@ -97,6 +97,12 @@
 
                                                                         <!-- Profile Information -->
                                                                         <h5 class="mt-4">MAKLUMAT DIRI</h5>
+                                                                        <div class="row mt-3">
+                                                                            <div class="col-md-12">
+                                                                                <label for="ic" class="form-label">NAMA PENUH</label>
+                                                                                <input type="text" class="form-control" id="ic" name="ic" value="{{ Auth::user()->fullname }}">
+                                                                            </div>
+                                                                        </div>
                                                                         <div class="row">
                                                                             <div class="col-md-6">
                                                                                 <label for="name" class="form-label">NAMA</label>
@@ -137,8 +143,26 @@
                                                                             </div>
                                                                             <div class="col-md-4">
                                                                                 <label for="state" class="form-label">NEGERI</label>
-                                                                                <input type="text" class="form-control" id="state" name="state" value="{{ Auth::user()->state }}">
-                                                                            </div>
+                                                                                <select class="form-control" id="state" name="state">
+                                                                                    <option value="">-- Pilih Negeri --</option>
+                                                                                    <option value="Johor" {{ Auth::user()->state == 'Johor' ? 'selected' : '' }}>Johor</option>
+                                                                                    <option value="Kedah" {{ Auth::user()->state == 'Kedah' ? 'selected' : '' }}>Kedah</option>
+                                                                                    <option value="Kelantan" {{ Auth::user()->state == 'Kelantan' ? 'selected' : '' }}>Kelantan</option>
+                                                                                    <option value="Melaka" {{ Auth::user()->state == 'Melaka' ? 'selected' : '' }}>Melaka</option>
+                                                                                    <option value="Negeri Sembilan" {{ Auth::user()->state == 'Negeri Sembilan' ? 'selected' : '' }}>Negeri Sembilan</option>
+                                                                                    <option value="Pahang" {{ Auth::user()->state == 'Pahang' ? 'selected' : '' }}>Pahang</option>
+                                                                                    <option value="Perak" {{ Auth::user()->state == 'Perak' ? 'selected' : '' }}>Perak</option>
+                                                                                    <option value="Perlis" {{ Auth::user()->state == 'Perlis' ? 'selected' : '' }}>Perlis</option>
+                                                                                    <option value="Pulau Pinang" {{ Auth::user()->state == 'Pulau Pinang' ? 'selected' : '' }}>Pulau Pinang</option>
+                                                                                    <option value="Sabah" {{ Auth::user()->state == 'Sabah' ? 'selected' : '' }}>Sabah</option>
+                                                                                    <option value="Sarawak" {{ Auth::user()->state == 'Sarawak' ? 'selected' : '' }}>Sarawak</option>
+                                                                                    <option value="Selangor" {{ Auth::user()->state == 'Selangor' ? 'selected' : '' }}>Selangor</option>
+                                                                                    <option value="Terengganu" {{ Auth::user()->state == 'Terengganu' ? 'selected' : '' }}>Terengganu</option>
+                                                                                    <option value="Wilayah Persekutuan Kuala Lumpur" {{ Auth::user()->state == 'Wilayah Persekutuan Kuala Lumpur' ? 'selected' : '' }}>Wilayah Persekutuan Kuala Lumpur</option>
+                                                                                    <option value="Wilayah Persekutuan Labuan" {{ Auth::user()->state == 'Wilayah Persekutuan Labuan' ? 'selected' : '' }}>Wilayah Persekutuan Labuan</option>
+                                                                                    <option value="Wilayah Persekutuan Putrajaya" {{ Auth::user()->state == 'Wilayah Persekutuan Putrajaya' ? 'selected' : '' }}>Wilayah Persekutuan Putrajaya</option>
+                                                                                </select>
+                                                                            </div>                                                                            
                                                                         </div>
 
                                                                         {{-- Pekerjaan --}}
@@ -198,8 +222,8 @@
                                                         <!-- Profile Image and Full Name -->
                                                         <div class="row align-items-center mt-3">
                                                             <div class="col-md-10">
-                                                                <label for="full_name" class="form-label">NAMA PENUH</label>
-                                                                <p class="form-control" id="full_name">{{ Auth::user()->name }}</p>
+                                                                <label for="fullname" class="form-label">NAMA PENUH</label>
+                                                                <p class="form-control" id="fullname">{{ Auth::user()->fullname }}</p>
                                                             </div>
                                                             <div class="col-md-2 text-center">
                                                                 @if(Auth::user()->profile_image)
