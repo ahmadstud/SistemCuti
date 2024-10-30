@@ -12,28 +12,44 @@
 <html lang="en">
 
 <head>
+    <!-- Meta Information -->
+    <!-- Sets the character encoding to UTF-8 for better compatibility with various languages and symbols -->
     <meta charset="utf-8" />
+    <!-- Ensures responsive scaling for mobile devices -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/Erawhiz.png') }}">
-    <link rel="icon" type="image/png" href="{{ asset('assets/img/Erawhiz.png') }}">
-    <title>
-        Sistem Permohonan Cuti - Staf
-    </title>
 
-    <!--     Fonts and icons     -->
+    <!-- App Icon Settings -->
+    <!-- Defines the icon for iOS devices -->
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/Erawhiz.png') }}">
+    <!-- Defines the favicon for browsers -->
+    <link rel="icon" type="image/png" href="{{ asset('assets/img/Erawhiz.png') }}">
+
+    <!-- Page Title -->
+    <title>Sistem Permohonan Cuti - Staf</title>
+
+    <!-- Fonts and Icons -->
+    <!-- Open Sans font from Google Fonts (weights: 300, 400, 600, 700) -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-    <!-- Nucleo Icons -->
+
+    <!-- Nucleo Icons for Argon Dashboard styling -->
     <link href="{{ asset('assets/css/nucleo-icons.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
-    <!-- Font Awesome Icons -->
+
+    <!-- Font Awesome Icons for various icon options -->
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+
     <!-- CSS Files -->
+    <!-- Main Argon Dashboard styling -->
     <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet" />
+
+    <!-- SweetAlert2 Styles -->
+    <!-- Includes SweetAlert2 styling for customizable alert modals -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
-    <!-- SweetAlert2 -->
+    <!-- SweetAlert2 JavaScript -->
+    <!-- Loads the SweetAlert2 library for creating alerts and notifications -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
 
 </head>
 

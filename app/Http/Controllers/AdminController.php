@@ -340,8 +340,8 @@ class AdminController extends Controller
             $usersQuery->where('job_status', $jobStatusFilter);
         }
 
-        // Fetch all users based on the applied filters
-        $users = $usersQuery->get();
+        // Fetch users with pagination (10 users per page)
+        $users = $usersQuery->paginate(10);
 
         // Fetch all officers (users with 'officer' role)
         $officers = User::where('role', 'officer')->get();
@@ -355,12 +355,12 @@ class AdminController extends Controller
             'users' => $users, // Now using 'users' instead of 'staff'
             'officers' => $officers,
             'totalUsers' => $totalUsers,
-            'totalMcApplications' =>  $totalMcApplications,
+            'totalMcApplications' => $totalMcApplications,
             'acceptedMcApplications' => $acceptedMcApplications,
             'rejectedMcApplications' => $rejectedMcApplications,
-
         ]);
     }
+
 
     public function editUser($id)
     {
@@ -480,49 +480,61 @@ class AdminController extends Controller
 // SENARAI KESELURUHAN PERMOHONAN ROUTES
     public function showAllMcApplications(Request $request)
     {
-        // Get filter inputs (if needed for future search functionality)
+        // Get filter inputs for search functionality
         $statusFilter = $request->input('status');
-        $startDateFilter = $request->input('start_date');
-        $endDateFilter = $request->input('end_date');
+        $monthFilter = $request->input('month');
+        $yearFilter = $request->input('year');
         $roleFilter = $request->input('role');
-        $leave_typeFilter = $request->input('leave_type');
+        $leaveTypeFilter = $request->input('leave_type');
 
         // Prepare the query for all applications along with their user data
         $allApplicationsQuery = McApplication::with('user');
 
-        // Apply status filter if provided
+        // Apply filters if provided
         if ($statusFilter) {
             $allApplicationsQuery->where('status', $statusFilter);
         }
-         // Apply status filter if provided
-         if ($leave_typeFilter) {
-            $allApplicationsQuery->where('leave_type', $leave_typeFilter);
-        }
-        // Join with users table and apply role filter if provided
-        if ($roleFilter) {
-        $allApplicationsQuery->whereHas('user', function ($query) use ($roleFilter) {
-            $query->where('role', $roleFilter);
-        });
-        }
-        // Apply date filters if provided
-        if ($startDateFilter) {
-            $allApplicationsQuery->where('start_date', '>=', $startDateFilter);
-        }
-        if ($endDateFilter) {
-            $allApplicationsQuery->where('end_date', '<=', $endDateFilter);
+
+        if ($leaveTypeFilter) {
+            $allApplicationsQuery->where('leave_type', $leaveTypeFilter);
         }
 
-        // Get the filtered applications
-        $allApplications = $allApplicationsQuery->get();
+        if ($roleFilter) {
+            $allApplicationsQuery->whereHas('user', function ($query) use ($roleFilter) {
+                $query->where('role', $roleFilter);
+            });
+        }
+
+        if ($monthFilter) {
+            $allApplicationsQuery->whereMonth('start_date', $monthFilter);
+        }
+
+        if ($yearFilter) {
+            $allApplicationsQuery->whereYear('start_date', $yearFilter);
+        }
+
+        // Get items per page from the request, default to 10 if not provided
+        $perPage = $request->input('per_page', 10);
+
+        // Paginate the results based on the per_page value
+        $allApplications = $allApplicationsQuery->paginate($perPage);
+
+        // Calculate total statistics
         $totalUsers = User::where('role', '!=', 'admin')->count();
         $totalMcApplications = McApplication::count();
         $acceptedMcApplications = McApplication::where('status', 'approved')->count();
         $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
 
         // Pass the data to the view
-        return view('partials.adminside.mc_all_apply', compact('allApplications','totalUsers'
-        ,'totalMcApplications','acceptedMcApplications','rejectedMcApplications'));
+        return view('partials.adminside.mc_all_apply', [
+            'allApplications' => $allApplications,
+            'totalUsers' => $totalUsers,
+            'totalMcApplications' => $totalMcApplications,
+            'acceptedMcApplications' => $acceptedMcApplications,
+            'rejectedMcApplications' => $rejectedMcApplications,
+        ]);
     }
+
 
     public function deleteMcApplication($id)
     {

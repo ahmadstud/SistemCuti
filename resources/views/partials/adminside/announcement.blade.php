@@ -12,36 +12,46 @@
 <html lang="en">
 
     <head>
+        <!-- Character Encoding and Viewport Settings -->
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Favicon and Apple Touch Icon -->
         <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/Erawhiz.png') }}">
         <link rel="icon" type="image/png" href="{{ asset('assets/img/Erawhiz.png') }}">
-        <title>
-            Sistem Permohonan Cuti - Staf
-        </title>
 
-        <!--     Fonts and icons     -->
+        <!-- Page Title -->
+        <title>Sistem Permohonan Cuti - Staf</title>
+
+        <!-- Fonts and Icons -->
+        <!-- Google Fonts (Open Sans) -->
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-        <!-- Nucleo Icons -->
+
+        <!-- Nucleo Icons (for various UI elements) -->
         <link href="{{ asset('assets/css/nucleo-icons.css') }}" rel="stylesheet" />
         <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
-        <!-- Font Awesome Icons -->
+
+        <!-- Font Awesome Icons (for additional icons) -->
         <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-        <!-- CSS Files -->
+
+        <!-- Main CSS for Argon Dashboard -->
         <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet" />
+
+        <!-- SweetAlert2 CSS (for alert modals) -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
-        <!-- Include Summernote CSS and JS -->
+        <!-- Summernote CSS (for text editor styling) -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.css" rel="stylesheet">
+
+        <!-- jQuery (required for Summernote) -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <!-- Summernote JavaScript (for text editor functionality) -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.js"></script>
 
-        <!-- SweetAlert2 -->
+        <!-- SweetAlert2 JavaScript (for alert modals) -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-
     </head>
-
 
     <body class="g-sidenav-show bg-gray-100">
         <div class="min-height-500 bg-primary position-absolute w-100" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-position: top;"></div>
@@ -49,7 +59,7 @@
 
         <main class="main-content position-relative border-radius-lg">
             <div class="container-fluid py-4">
-                    @include('partials.logout')
+                @include('partials.logout')
                 @include('partials.adminside.mcdata')
 
                 <div class="row mt-4">
@@ -72,11 +82,13 @@
 
                                                 <!-- List of Announcements -->
                                                 <div class="card my-4">
+
                                                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                                                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
                                                             <h6 class="text-white text-capitalize ps-3">PENGUMUMAN</h6>
                                                         </div>
                                                     </div>
+
                                                     <br>
 
                                                     <!-- Add Pengumuman Button -->
@@ -293,6 +305,35 @@
                                                                                 </div>
                                                                             </div>
 
+                                                                           <!-- Initialize Summernote -->
+                                                                            <script>
+                                                                                $(document).ready(function() {
+                                                                                    // Initialize Summernote for each modal
+                                                                                    $('[id^=content]').each(function() {
+                                                                                        $(this).summernote({
+                                                                                            placeholder: 'Masukkan isi kandungan di sini...',
+                                                                                            tabsize: 2,
+                                                                                            height: 150, // Set height of the editor
+                                                                                            toolbar: [ // Customize the toolbar
+                                                                                                ['style', ['bold', 'italic', 'underline', 'clear']],
+                                                                                                ['font', ['strikethrough', 'superscript', 'subscript']],
+                                                                                                ['fontsize', ['fontsize']],
+                                                                                                ['color', ['color']],
+                                                                                                ['para', ['ul', 'ol', 'paragraph']],
+                                                                                                ['insert', ['picture', 'link']],
+                                                                                                ['view', ['fullscreen', 'codeview', 'help']]
+                                                                                            ]
+                                                                                        });
+                                                                                    });
+
+                                                                                    // Re-initialize Summernote when the modal is shown
+                                                                                    $('[id^=editAnnouncementModal]').on('shown.bs.modal', function () {
+                                                                                        const modalId = $(this).attr('id').replace('editAnnouncementModal', '');
+                                                                                        $('#content' + modalId).summernote();
+                                                                                    });
+                                                                                });
+                                                                            </script>
+
                                                                             <script>
                                                                                 function confirmEditSubmit(announcementId) {
                                                                                     Swal.fire({
@@ -374,7 +415,9 @@
                                                             </table>
                                                         </div>
                                                     </div>
+
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -384,18 +427,36 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </main>
 
-        <!-- Core JS Files -->
-        <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
+        <!-- Core JavaScript Files -->
+            <!-- Popper.js (required for Bootstrap tooltips and popovers) -->
+            <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
+
+        <!-- Bootstrap JavaScript (for responsive layout and UI components) -->
         <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
+
+        <!-- Perfect Scrollbar (for custom scrollbars) -->
         <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
+
+        <!-- Smooth Scrollbar (for smooth scrolling effects) -->
         <script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
+
+        <!-- Chart.js (for data visualization, e.g., charts) -->
         <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
+
+        <!-- App.js (custom JavaScript specific to the application) -->
         <script src="{{ asset('js/app.js') }}"></script>
+
+        <!-- Argon Dashboard JavaScript (core scripts for dashboard functionalities) -->
         <script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.0.4') }}"></script>
+
+        <!-- SweetAlert2 (for custom alert modals) -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+
     </body>
+    
 </html>

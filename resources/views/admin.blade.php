@@ -12,25 +12,33 @@
 <html lang="en">
 
     <head>
+        <!-- Character Encoding and Viewport Settings -->
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Favicon and Apple Touch Icon -->
         <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/Erawhiz.png') }}">
         <link rel="icon" type="image/png" href="{{ asset('assets/img/Erawhiz.png') }}">
-        <title>
-            Sistem Permohonan Cuti - Admin
-        </title>
 
-        <!--     Fonts and icons     -->
+        <!-- Page Title -->
+        <title>Sistem Permohonan Cuti - Admin</title>
+
+        <!-- Fonts and Icons -->
+        <!-- Google Fonts (Open Sans) -->
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-        <!-- Nucleo Icons -->
+
+        <!-- Nucleo Icons (For UI elements) -->
         <link href="{{ asset('assets/css/nucleo-icons.css') }}" rel="stylesheet" />
         <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
-        <!-- Font Awesome Icons -->
-        <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-        <!-- CSS Files -->
-        <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
+        <!-- Font Awesome Icons (For additional icons) -->
+        <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+
+        <!-- Main CSS for Argon Dashboard -->
+        <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet" />
+
+        <!-- SweetAlert2 CSS (For alert modals) -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     </head>
 
     <body class="g-sidenav-show   bg-gray-100">
@@ -94,17 +102,17 @@
                                                                 <h2 id="announcementTitle" style="text-transform: uppercase;">{{ $announcements[0]->title }}</h2>
                                                                 <div id="announcementContent">{!! $announcements[0]->content !!}</div> <!-- Render Summernote content --> <br>
                                                                 <p id="announcementDates">
-                                                                    Tarikh Buka: <strong id="startDate">{{ \Carbon\Carbon::parse($announcements[0]->start_date)->format('d-m-y') }}</strong><br>
+                                                                    Tarikh Buka: <strong id="startDate">{{ \Carbon\Carbon::parse($announcements[0]->start_date)->format('d-m-y') }}</strong> |
                                                                     Tarikh Tutup: <strong id="endDate">{{ \Carbon\Carbon::parse($announcements[0]->end_date)->format('d-m-y') }}</strong>
                                                                 </p>
                                                             </div>
                                                             <button class="carousel-control-prev" type="button" data-bs-target="#announcementCarousel" data-bs-slide="prev">
                                                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                                <span class="visually-hidden">Previous</span>
+                                                                <span class="visually-hidden">Sebelum</span>
                                                             </button>
                                                             <button class="carousel-control-next" type="button" data-bs-target="#announcementCarousel" data-bs-slide="next">
                                                                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                                <span class="visually-hidden">Next</span>
+                                                                <span class="visually-hidden">Seterus</span>
                                                             </button>
                                                         </div>
 
@@ -151,7 +159,7 @@
                                                         <ul class="list-group" id="leaveList">
 
                                                             @if($staffOnLeaveToday->isEmpty())
-                                                                <li class="list-group-item">Tiada staff yang cuti hari ini.</li>
+                                                                <li class="list-group-item">Tiada staf yang cuti hari ini.</li>
                                                             @else
 
                                                                 @foreach($staffOnLeaveToday as $leave)
@@ -163,7 +171,7 @@
                                                                             </button>
                                                                             <div class="d-flex align-items-center">
                                                                                 <!-- Profile Image -->
-                                                                                <img src="{{ asset('path_to_image/' . $leave->user->profile_image) }}" alt="Profile Image" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover; margin-right: 10px;">
+                                                                                <img src="{{ asset($leave->user->profile_image) }}" alt="Profile Image" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover; margin-right: 10px;">
     
                                                                                 
                                                                                 <!-- Staff name and leave dates -->
@@ -206,7 +214,7 @@
                                                     <div class="d-flex justify-content-end pe-3">
                                                         <form method="GET" action="{{ route('admin.dashboard') }}" class="d-flex align-items-center">
                                                             <div class="d-flex align-items-center mb-3">
-                                                                <label for="year" class="form-label me-2">Select Year:</label>
+                                                                <label for="year" class="form-label me-2">Plih Tahun:</label>
                                                                 <select name="year" id="year" class="form-select" style="width: 150px;" onchange="this.form.submit()">
                                                                     @foreach ($yearRange as $availableYear)
                                                                         <option value="{{ $availableYear }}" {{ $year == $availableYear ? 'selected' : '' }}>
@@ -272,65 +280,69 @@
         </main>
 
 
-        <!--   Core JS Files   -->
+        <!-- Core JS Files -->
         <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
         <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
         <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
         <script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
         <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
 
-        <!-- Most Important JS Files -->
+        <!-- Main Application JS File -->
         <script src="{{ asset('js/app.js') }}"></script>
 
-        <!-- Github buttons -->
+        <!-- GitHub Buttons (Async Loading) -->
         <script async defer src="https://buttons.github.io/buttons.js"></script>
-        <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+
+        <!-- Control Center for Soft Dashboard: Includes parallax effects and other scripts -->
         <script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.0.4') }}"></script>
 
-        <!-- Include Bootstrap JS and Popper.js -->
+        <!-- jQuery Library -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-        <!-- Bootstrap JS and Popper.js -->
+        <!-- Bootstrap JS and Popper.js (from CDN) -->
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"></script>
 
-        {{-- Include CKEditor in the HTML Head --}}
+        <!-- CKEditor Library -->
         <script src="https://cdn.ckeditor.com/4.25.0/standard/ckeditor.js"></script>
 
-        <!-- Script to handle chart creation -->
+        <!-- Chart.js Library (for creating charts) -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
         <script>
-            // Get the data from the PHP variable
+            // Define leave data from a PHP variable (as JSON)
             const leaveData = {!! $leaveCountsByMonthJson !!};
+
+            // Array representing months for the chart's X-axis
             const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        
-            // Initialize the chart
+
+            // Initialize chart on the canvas with ID 'chart-line'
             const ctx = document.getElementById('chart-line').getContext('2d');
             const chart = new Chart(ctx, {
-                type: 'line', // You can also change this to 'bar'
+                type: 'line', // Type of chart (line, bar, etc.)
                 data: {
-                    labels: months, // X-axis labels
+                    labels: months, // X-axis labels (months)
                     datasets: [{
-                        label: 'Jumlah Permohonan Cuti Bulanan yang Lulus',
-                        data: leaveData, // Y-axis data
+                        label: 'Jumlah Permohonan Cuti Bulanan yang Lulus', // Chart label
+                        data: leaveData, // Data for Y-axis
                         borderColor: 'rgba(75, 192, 192, 1)', // Line color
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)', // Fill color
-                        borderWidth: 2,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)', // Fill color below the line
+                        borderWidth: 2, // Line thickness
                         fill: true // Fill area under the line
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                    responsive: true, // Make chart responsive
+                    maintainAspectRatio: false, // Don't maintain aspect ratio
                     scales: {
                         y: {
-                            beginAtZero: true // Start y-axis at zero
+                            beginAtZero: true // Start Y-axis from zero
                         }
                     }
                 }
             });
         </script>
+
     </body>
 
 </html>

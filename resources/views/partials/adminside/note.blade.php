@@ -12,36 +12,52 @@
 <html lang="en">
 
     <head>
+        <!-- Meta Information -->
+        <!-- Character encoding for the document -->
         <meta charset="utf-8" />
+        <!-- Responsive viewport for mobile and tablet devices -->
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/Erawhiz.png') }}">
-        <link rel="icon" type="image/png" href="{{ asset('assets/img/Erawhiz.png') }}">
-        <title>
-            Sistem Permohonan Cuti - Staf
-        </title>
 
-        <!--     Fonts and icons     -->
+        <!-- Favicon and Touch Icon -->
+        <!-- Apple touch icon for mobile devices -->
+        <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/Erawhiz.png') }}">
+        <!-- Favicon for browsers -->
+        <link rel="icon" type="image/png" href="{{ asset('assets/img/Erawhiz.png') }}">
+
+        <!-- Page Title -->
+        <title>Sistem Permohonan Cuti - Staf</title>
+
+        <!-- Fonts and Icons -->
+        <!-- Google Fonts (Open Sans) for consistent typography -->
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-        <!-- Nucleo Icons -->
+
+        <!-- Nucleo Icons for enhanced UI elements -->
         <link href="{{ asset('assets/css/nucleo-icons.css') }}" rel="stylesheet" />
         <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
-        <!-- Font Awesome Icons -->
+
+        <!-- Font Awesome Icons for scalable vector icons -->
         <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-        <!-- CSS Files -->
+
+        <!-- Core CSS Files -->
+        <!-- Argon Dashboard styling for layout and UI components -->
         <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet" />
+
+        <!-- SweetAlert2 CSS for custom alert modals styling -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
-        <!-- Include Summernote CSS and JS -->
+        <!-- Summernote CSS and JS -->
+        <!-- Summernote CSS for rich text editor styling -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.css" rel="stylesheet">
+        <!-- jQuery, required for Summernote functionality -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!-- Summernote JavaScript for rich text editor functionality -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.js"></script>
 
-        <!-- SweetAlert2 -->
+        <!-- SweetAlert2 JavaScript -->
+        <!-- SweetAlert2 for alert modals -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <!-- SweetAlert2 CSS for styling -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-
-
-
     </head>
 
 
@@ -333,14 +349,29 @@
             </div>
         </main>
 
-        <!-- Core JS Files -->
+        <!-- Core JavaScript Files -->
+        <!-- Popper.js for tooltip and popover positioning -->
         <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
+
+        <!-- Bootstrap JavaScript for responsive UI components -->
         <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
+
+        <!-- Perfect Scrollbar for custom scrollbar styling -->
         <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
+
+        <!-- Smooth Scrollbar for smooth scrolling effects -->
         <script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
+
+        <!-- Chart.js for creating responsive charts -->
         <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
+
+        <!-- Main application JavaScript file -->
         <script src="{{ asset('js/app.js') }}"></script>
+
+        <!-- Argon Dashboard JavaScript for overall layout and functionality -->
         <script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.0.4') }}"></script>
+        
+        <!-- SweetAlert2 for customizable alert modals -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
