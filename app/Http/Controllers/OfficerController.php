@@ -257,7 +257,6 @@ public function storeMcApplication(Request $request)
          ->where('mc_applications.start_date', '<=', $today)
          ->where('mc_applications.end_date', '>=', $today)
          ->where('mc_applications.status', 'approved') // Assuming you have a status column to check for approval
-         ->select('mc_applications.*', 'users.total_mc_days', 'users.total_annual', 'users.total_others') // Select fields from both tables
          ->get();
 
      $announcements = Announcement::all(); // Adjust as necessary to fetch your announcements
@@ -288,7 +287,6 @@ public function storeMcApplication(Request $request)
       foreach ($monthlyLeaveData as $data) {
           $leaveCountsByMonth[$data->month] = $data->total_staff;
       }
-      $notes = Note::all();
         return view('officer', compact('staffOnLeaveToday','announcements','leaveCountsByMonth','year','yearRange','notes'));
     }
 

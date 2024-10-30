@@ -11,7 +11,10 @@
                     $columnName = Str::slug($note->title, '_');
                 @endphp
                 <p class="text-md mb-0 text-uppercase font-weight-bold">{{ $note->title }}</p>
-                <h5 class="font-weight-bolder">{{ old($columnName, Auth::user()->$columnName ?? '0') }} Hari</h5>
+                <h5 class="font-weight-bolder">Baki cuti <br>
+                    {{ old($columnName, Auth::user()->$columnName ?? '0') }} Hari/
+                    {{ old($columnName, Auth::user()->$columnName ?? '0') }} Hari
+                </h5>
             </div>
             <div class="icon icon-shape bg-gradient-warning shadow-primary text-center rounded-circle" style="width: 50px; height: 50px; margin-top: 10px;">
                 <i class="fas fa-umbrella-beach" style="font-size: 1.5rem; opacity: 10;" aria-hidden="true" aria-label="{{ $note->title }} icon"></i>
