@@ -90,13 +90,13 @@
                                                                         @csrf
 
                                                                         <!-- Profile Image Upload -->
+                                                                        <h5 class="mt-4">MAKLUMAT DIRI</h5>
                                                                         <div class="mb-3">
                                                                             <label for="profile_image" class="form-label">Muat Naik Gambar Profil</label>
                                                                             <input type="file" class="form-control" id="profile_image" name="profile_image">
                                                                         </div>
 
                                                                         <!-- Profile Information -->
-                                                                        <h5 class="mt-4">MAKLUMAT DIRI</h5>
                                                                         <div class="row mt-3">
                                                                             <div class="col-md-12">
                                                                                 <label for="ic" class="form-label">NAMA PENUH</label>
@@ -205,7 +205,8 @@
                                                                                 <label for="mc_days" class="form-label">JUMLAH CUTI</label>
                                                                                 <input type="text" class="form-control" id="mc_days" value="{{ Auth::user()->total_mc_days }}" readonly>
                                                                             </div>
-                                                                        </div>                                                                        
+                                                                        </div> 
+                                                                                                                                                 
                                                                         <br>
                                                                         <div class="modal-footer">
                                                                             <button type="submit" class="btn btn-success">Simpan</button>
