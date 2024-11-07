@@ -287,6 +287,34 @@ function validatePassword() {
     }
     return true; // Allow form submission
 }
+    $(document).ready(function() {
+        // Initialize Summernote
+        $('.summernote').summernote({
+            height: 150, // Set editor height
+            toolbar: [ // Customize the toolbar as needed
+                ['style', ['bold', 'italic', 'underline']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['insert', ['link', 'picture']],
+                ['view', ['fullscreen', 'codeview']]
+            ],
+            callbacks: {
+                onChange: function(contents, $editable) {
+                    // Update the hidden textarea with the content
+                    $('#hidden_rejection_reason').val(contents);
+                }
+            }
+        });
+
+        // When the modal is shown, clear and reset Summernote
+        $('#rejectionReasonModal-{{ $application->id }}').on('show.bs.modal', function () {
+            $('.summernote').summernote('reset');
+            $('#hidden_rejection_reason').val('');
+        });
+    });
+    
+
+
+
 
 
 

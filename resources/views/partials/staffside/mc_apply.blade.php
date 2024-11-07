@@ -31,7 +31,10 @@
     <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-  </head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.js"></script>
+</head>
 
 <body class="g-sidenav-show bg-gray-100">
     <div class="min-height-500 position-absolute w-100" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-attachment: fixed; background-position: center; background-repeat: no-repeat; background-size: cover;"></div>                @include('partials.staffside.aside')
@@ -111,13 +114,13 @@
 
                                             <!-- Document Upload Field -->
                                             <div class="col-md-12 mb-3" id="document_upload_field">
-                                                <label for="document_path" class="form-label">Dokumen MC<span class="text-danger">*</span></label>
+                                                <label for="document_path" class="form-label">Dokumen MC</label>
                                                 <input type="file" class="form-control" id="document_path" name="document_path">
                                             </div>
 
                                             <div class="col-md-12 mb-3">
                                                 <label for="reason" class="form-label">Ulasan<span class="text-danger">*</span></label>
-                                                <textarea class="form-control" id="reason" name="reason" rows="3" required></textarea>
+                                                <textarea class="form-control summernote" id="reason" name="reason" rows="3" required></textarea>
                                             </div>
                                             <div class="col-md-12 mb-3">
                                                 <label>Permohonan terus ke Admin:</label><br>
@@ -325,7 +328,7 @@
                                         Showing {{ $mcApplications->firstItem() }} to {{ $mcApplications->lastItem() }} of {{ $mcApplications->total() }} results
                                     </div>
                                     <div>
-                                        {{ $mcApplications->links('vendor.pagination.bootstrap-4') }} 
+                                        {{ $mcApplications->links('vendor.pagination.bootstrap-4') }}
                                     </div>
                                 </div>
                                 @endif
@@ -350,6 +353,7 @@
 <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
 <script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
 <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
+
 <!-- Most Important JS Files -->
 <script src="{{ asset('js/app.js') }}"></script>
 

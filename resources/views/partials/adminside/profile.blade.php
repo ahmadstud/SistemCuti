@@ -162,7 +162,7 @@
                                                                                     <option value="Wilayah Persekutuan Labuan" {{ Auth::user()->state == 'Wilayah Persekutuan Labuan' ? 'selected' : '' }}>Wilayah Persekutuan Labuan</option>
                                                                                     <option value="Wilayah Persekutuan Putrajaya" {{ Auth::user()->state == 'Wilayah Persekutuan Putrajaya' ? 'selected' : '' }}>Wilayah Persekutuan Putrajaya</option>
                                                                                 </select>
-                                                                            </div>                                                                            
+                                                                            </div>
                                                                         </div>
 
                                                                         {{-- Pekerjaan --}}
@@ -205,7 +205,7 @@
                                                                                 <label for="mc_days" class="form-label">JUMLAH CUTI</label>
                                                                                 <input type="text" class="form-control" id="mc_days" value="{{ Auth::user()->total_mc_days }}" readonly>
                                                                             </div>
-                                                                        </div>                                                                        
+                                                                        </div>
                                                                         <br>
                                                                         <div class="modal-footer">
                                                                             <button type="submit" class="btn btn-success">Simpan</button>
@@ -287,19 +287,36 @@
                                                         <div class="row mt-3">
                                                             <div class="col-md-4">
                                                                 <label for="role" class="form-label">PERANAN</label>
-                                                                <p class="form-control" id="role">{{ Auth::user()->role }}</p>
+                                                               <p class="form-control" id="role">
+                                                                        @php
+                                                                            $roleMapping = [
+                                                                                'admin' => 'Admin',
+                                                                                'staff' => 'Staf',
+                                                                                'officer' => 'Pegawai',
+                                                                            ];
+                                                                        @endphp
+                                                                        {{ $roleMapping[Auth::user()->role] ?? Auth::user()->role }}
+                                                                    </p>
                                                             </div>
 
                                                             <div class="col-md-4">
                                                                 <label for="job_status" class="form-label">STATUS PEKERJAAN</label>
-                                                                <p class="form-control" id="role">{{ Auth::user()->job_status }}</p>
+                                                                <p class="form-control" id="job_status">
+                                                                    @php
+                                                                        $roleMapping = [
+                                                                            'Contract' => 'Kontrak',
+                                                                            'Permenant' => 'Tetap',
+                                                                        ];
+                                                                    @endphp
+                                                                    {{ $roleMapping[Auth::user()->job_status] ?? Auth::user()->job_status }}
+                                                                </p>
                                                             </div>
                                                             <div class="col-md-4">
                                                                 <label for="role" class="form-label">KETUA BAHAGIAN</label>
                                                                 <p class="form-control" id="role">{{ Auth::user()->role }}</p>
                                                             </div>
                                                         </div>
-        
+
                                                     </div>
                                                 </div>
                                             </div>

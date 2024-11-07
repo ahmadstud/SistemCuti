@@ -188,38 +188,37 @@
                                               <div class="container-fluid py-2">
                                                   <div class="row">
 
-                                                      {{-- Card Purata Ketidakhadiran --}}
-                                                      <div class="col-lg-7 mb-4 d-flex">
-                                                          <div class="card z-index-2 w-100 h-100">
-                                                              <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                                                                  <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                                                      <h6 class="text-white text-capitalize ps-3">PURATA KETIDAKHADIRAN</h6>
-                                                                  </div>
-                                                              </div>
-                                                              <br>
-                                                              <!-- Year Dropdown -->
-                                                              <div class="d-flex justify-content-end pe-3">
-                                                                  <form method="GET" action="{{ route('staff.dashboard') }}" class="d-flex align-items-center">
-                                                                      <div class="d-flex align-items-center mb-3">
-                                                                          <label for="year" class="form-label me-2">Select Year:</label>
-                                                                          <select name="year" id="year" class="form-select" style="width: 150px;" onchange="this.form.submit()">
-                                                                              @foreach ($yearRange as $availableYear)
-                                                                                  <option value="{{ $availableYear }}" {{ $year == $availableYear ? 'selected' : '' }}>
-                                                                                      {{ $availableYear }}
-                                                                                  </option>
-                                                                              @endforeach
-                                                                          </select>
-                                                                      </div>
-                                                                  </form>
-                                                              </div>
-                                                              <div class="card-body p-3">
-                                                                  <div class="chart">
-                                                                      <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
-                                                                  </div>
-                                                              </div>
-                                                          </div>
-                                                      </div>
-
+                                                     {{-- Card Purata Ketidakhadiran --}}
+                                             <div class="col-lg-7 mb-4 d-flex">
+                                                <div class="card z-index-2 w-100 h-100">
+                                                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                                                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                                                            <h6 class="text-white text-capitalize ps-3">PURATA KETIDAKHADIRAN</h6>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <!-- Year Dropdown -->
+                                                    <div class="d-flex justify-content-end pe-3">
+                                                        <form method="GET" action="{{ route('staff') }}" class="d-flex align-items-center">
+                                                            <div class="d-flex align-items-center mb-3">
+                                                                <label for="year" class="form-label me-2">Plih Tahun:</label>
+                                                                <select name="year" id="year" class="form-select" style="width: 150px;" onchange="this.form.submit()">
+                                                                    @foreach ($yearRange as $availableYear)
+                                                                        <option value="{{ $availableYear }}" {{ $year == $availableYear ? 'selected' : '' }}>
+                                                                            {{ $availableYear }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="card-body p-3">
+                                                        <div class="chart">
+                                                            <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                                       {{-- Card Nota --}}
                                                       <div class="col-lg-5 mb-4 d-flex">
                                                           <div class="card z-index-2 w-100 h-100">
@@ -292,46 +291,37 @@
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
       <script>
-          const ctx = document.getElementById('chart-line').getContext('2d');
+         // Define leave data from a PHP variable (as JSON)
+         const leaveData = {!! $leaveCountsByMonthJson !!};
 
-          // Data for the monthly leave chart
-          const monthlyLeaveData = @json(array_values($leaveCountsByMonth)); // Get only the counts as an array
+        // Array representing months for the chart's X-axis
+        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-          const monthlyLeaveChart = new Chart(ctx, {
-              type: 'bar', // Change this to 'line' for a line chart
-              data: {
-                  labels: [
-                      'Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun',
-                      'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'
-                  ],
-                  datasets: [{
-                      label: 'Bilangan Permohonan Yang Diterima',
-                      data: monthlyLeaveData,
-                      backgroundColor: 'rgba(54, 162, 235, 0.2)', // Light blue color
-                      borderColor: 'rgba(54, 162, 235, 1)', // Dark blue color
-                      borderWidth: 1,
-                  }]
-              },
-              options: {
-                  scales: {
-                      y: {
-                          beginAtZero: true,
-                          title: {
-                              display: true,
-                              text: 'Bilangan Permohonan Yang Diterima'
-                          }
-                      },
-                      x: {
-                          title: {
-                              display: true,
-                              text: 'Bulan'
-                          }
-                      }
-                  },
-                  responsive: true, // Ensure the chart is responsive
-                  maintainAspectRatio: false, // Optional: Maintain aspect ratio
-              }
-          });
+// Initialize chart on the canvas with ID 'chart-line'
+const ctx = document.getElementById('chart-line').getContext('2d');
+const chart = new Chart(ctx, {
+    type: 'line', // Type of chart (line, bar, etc.)
+    data: {
+        labels: months, // X-axis labels (months)
+        datasets: [{
+            label: 'Jumlah Permohonan Cuti Bulanan yang Lulus', // Chart label
+            data: leaveData, // Data for Y-axis
+            borderColor: 'rgba(75, 192, 192, 1)', // Line color
+            backgroundColor: 'rgba(75, 192, 192, 0.2)', // Fill color below the line
+            borderWidth: 2, // Line thickness
+            fill: true // Fill area under the line
+        }]
+    },
+    options: {
+        responsive: true, // Make chart responsive
+        maintainAspectRatio: false, // Don't maintain aspect ratio
+        scales: {
+            y: {
+                beginAtZero: true // Start Y-axis from zero
+            }
+        }
+    }
+});
       </script>
     </body>
 
