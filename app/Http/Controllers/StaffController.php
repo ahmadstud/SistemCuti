@@ -169,7 +169,7 @@ class StaffController extends Controller
     public function dashboard(Request $request)
     {
         $today = now()->toDateString();
-
+    
         // Fetch list of staff on leave today, including their `total_mc_days`, joining with `users` table
         $staffOnLeaveToday = McApplication::with('user') // Assuming there's a 'user' relationship in McApplication model
             ->join('users', 'mc_applications.user_id', '=', 'users.id') // Join the users table
@@ -177,18 +177,18 @@ class StaffController extends Controller
             ->where('mc_applications.end_date', '>=', $today)
             ->where('mc_applications.status', 'approved') // Only approved leaves
             ->get();
-
+    
         // Fetch announcements and notes as needed
         $announcements = Announcement::all();
         $notes = Note::all();
-
+    
         // Get the current year and optionally use the year selected by the user
         $currentYear = now()->year;
         $year = $request->input('year', $currentYear); // Defaults to the current year if not specified
-
+    
         // Generate a range of years for the dropdown, from 2020 to the next year
         $yearRange = range(2020, $currentYear + 1);
-
+    
         // Query to get monthly data of staff on leave for the selected year
         $monthlyLeaveData = McApplication::select(
             DB::raw('MONTH(start_date) as month'),
@@ -199,25 +199,30 @@ class StaffController extends Controller
         ->groupBy(DB::raw('MONTH(start_date)'))
         ->orderBy(DB::raw('MONTH(start_date)')) // Order by month
         ->get();
-
+    
         // Prepare an array with all 12 months, defaulting to 0 leave count for each month
         $leaveCountsByMonth = array_fill(1, 12, 0);
-
+    
         // Populate the array with actual data from the query
         foreach ($monthlyLeaveData as $data) {
             $leaveCountsByMonth[$data->month] = $data->total_staff;
         }
-
-        // Pass the data to the officer dashboard view
-        return view('officer', compact(
+    
+        // Convert leave counts to JSON format for the chart (if required on the staff view)
+        $leaveCountsByMonthJson = json_encode(array_values($leaveCountsByMonth));
+    
+        // Pass the data to the staff dashboard view
+        return view('staff', compact(
             'staffOnLeaveToday',
             'announcements',
             'leaveCountsByMonth',
+            'leaveCountsByMonthJson',
             'year',
             'yearRange',
             'notes'
         ));
     }
+    
     
 
     public function profile()

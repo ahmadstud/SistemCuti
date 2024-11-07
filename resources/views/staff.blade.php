@@ -61,9 +61,9 @@
                                             <!-- First Row -->
                                             <div class="container-fluid py-2">
                                                 <div class="row">
-                                                    <div class="col-lg-7 d-flex">
 
-                                                        {{-- Card Pengumuman --}}
+                                                    {{-- Card Pengumuman --}}
+                                                    <div class="col-lg-7 d-flex">
                                                         <div class="card my-4 flex-fill">
                                                             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                                                                 <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
@@ -72,15 +72,15 @@
                                                             </div>
                                                             <div class="card-body p-3">
 
-                                                                <!-- Announcement Carousel -->
+                                                            <!-- Announcement Carousel -->
                                                                 <div id="announcementCarousel" class="carousel slide mt-4" data-bs-ride="carousel">
                                                                     <div class="carousel-inner">
                                                                         @foreach($announcements as $index => $announcement)
                                                                         <div class="carousel-item {{ $index === 0 ? 'active' : '' }}"
                                                                             data-title="{{ $announcement->title }}"
                                                                             data-content="{{ $announcement->content }}"
-                                                                            data-start-date="{{ $announcement->start_date }}"
-                                                                            data-end-date="{{ $announcement->end_date }}">
+                                                                            data-start-date="{{ \Carbon\Carbon::parse($announcement->start_date)->format('d-m-y') }}"
+                                                                            data-end-date="{{ \Carbon\Carbon::parse($announcement->end_date)->format('d-m-y') }}">
                                                                             <div style="width: 100%; height: 0; padding-bottom: 40%; position: relative;">
                                                                                 <img src="{{ asset(Storage::url($announcement->image_path)) }}"
                                                                                     alt="{{ $announcement->title }}"
@@ -93,92 +93,98 @@
                                                                     <!-- Title and Content Section -->
                                                                     <div class="text-center mt-3">
                                                                         <h2 id="announcementTitle" style="text-transform: uppercase;">{{ $announcements[0]->title }}</h2>
-                                                                        <p id="announcementContent">{{ $announcements[0]->content }}</p>
+                                                                        <div id="announcementContent">{!! $announcements[0]->content !!}</div> <!-- Render Summernote content --> <br>
                                                                         <p id="announcementDates">
-                                                                            Tarikh Buka: <strong id="startDate">{{ $announcements[0]->start_date }}</strong><br>
-                                                                            Tarikh Tutup: <strong id="endDate">{{ $announcements[0]->end_date }}</strong>
+                                                                            Tarikh Buka: <strong id="startDate">{{ \Carbon\Carbon::parse($announcements[0]->start_date)->format('d-m-y') }}</strong> |
+                                                                            Tarikh Tutup: <strong id="endDate">{{ \Carbon\Carbon::parse($announcements[0]->end_date)->format('d-m-y') }}</strong>
                                                                         </p>
                                                                     </div>
                                                                     <button class="carousel-control-prev" type="button" data-bs-target="#announcementCarousel" data-bs-slide="prev">
                                                                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                                        <span class="visually-hidden">Previous</span>
+                                                                        <span class="visually-hidden">Sebelum</span>
                                                                     </button>
                                                                     <button class="carousel-control-next" type="button" data-bs-target="#announcementCarousel" data-bs-slide="next">
                                                                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                                        <span class="visually-hidden">Next</span>
+                                                                        <span class="visually-hidden">Seterus</span>
                                                                     </button>
                                                                 </div>
 
                                                                 <script>
-                                                                    document.addEventListener('DOMContentLoaded', function() {
-                                                                        const carouselElement = document.getElementById('announcementCarousel');
+                                                                    // JavaScript to update the content on slide change
+                                                                    const carouselElement = document.getElementById('announcementCarousel');
 
-                                                                        carouselElement.addEventListener('slide.bs.carousel', function(event) {
-                                                                            // Get the new active item
-                                                                            const nextItem = event.relatedTarget;
+                                                                    carouselElement.addEventListener('slide.bs.carousel', function (event) {
+                                                                        const nextItem = event.relatedTarget;
+                                                                        
+                                                                        // Update title and content based on the active slide
+                                                                        const title = nextItem.getAttribute('data-title');
+                                                                        const content = nextItem.getAttribute('data-content');
+                                                                        const startDate = nextItem.getAttribute('data-start-date');
+                                                                        const endDate = nextItem.getAttribute('data-end-date');
 
-                                                                            // Get data attributes
-                                                                            const title = nextItem.getAttribute('data-title');
-                                                                            const content = nextItem.getAttribute('data-content');
-                                                                            const startDate = nextItem.getAttribute('data-start-date');
-                                                                            const endDate = nextItem.getAttribute('data-end-date');
-
-                                                                            // Update the content
-                                                                            document.getElementById('announcementTitle').textContent = title;
-                                                                            document.getElementById('announcementContent').textContent = content;
-                                                                            document.getElementById('startDate').textContent = startDate;
-                                                                            document.getElementById('endDate').textContent = endDate;
-                                                                        });
+                                                                        // Update DOM elements
+                                                                        document.getElementById('announcementTitle').innerText = title;
+                                                                        document.getElementById('announcementContent').innerHTML = content; // Use innerHTML to render HTML
+                                                                        document.getElementById('startDate').innerText = startDate;
+                                                                        document.getElementById('endDate').innerText = endDate;
                                                                     });
                                                                 </script>
                                                             </div>
                                                         </div>
+                                                    </div>
 
-                                                        {{-- Card Senarai Staff Cuti Harian --}}
-                                                        <div class="col-lg-5 d-flex">
-                                                            <div class="card my-4 flex-fill">
+                                                    {{-- Card Senarai Staff Cuti Harian --}}
+                                                    <div class="col-lg-5 d-flex">
+                                                        <div class="card my-4 flex-fill">
 
-                                                                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                                                                    <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                                                        <h6 class="text-white text-capitalize ps-3">SENARAI STAFF CUTI HARIAN</h6>
-                                                                    </div>
-                                                                    <br>
-                                                                    <p class="text-md mb-0">
-                                                                        <i class="fa fa-bell text-warning"></i>
-                                                                        <span class="font-weight-bold ms-2">pada </span>{{ now()->format('d F Y') }}
-                                                                    </p>
+                                                            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                                                                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                                                                    <h6 class="text-white text-capitalize ps-3">SENARAI STAFF CUTI HARIAN</h6>
                                                                 </div>
+                                                                <br>
+                                                                <p class="text-md mb-0">
+                                                                    <i class="fa fa-bell text-warning"></i>
+                                                                    <span class="font-weight-bold ms-2">pada </span>{{ now()->format('d F Y') }}
+                                                                </p>
+                                                            </div>
 
-                                                                <div class="card-body pt-4 p-3">
-                                                                    <ul class="list-group" id="leaveList">
-                                                                        @if($staffOnLeaveToday->isEmpty())
-                                                                        <li class="list-group-item">Tiada staff yang cuti hari ini.</li>
-                                                                        @else
+                                                            <div class="card-body pt-4 p-3">
+                                                                <ul class="list-group" id="leaveList">
+
+                                                                    @if($staffOnLeaveToday->isEmpty())
+                                                                        <li class="list-group-item">Tiada staf yang cuti hari ini.</li>
+                                                                    @else
+
                                                                         @foreach($staffOnLeaveToday as $leave)
-                                                                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                                                                            <div class="d-flex align-items-center">
-                                                                                <!-- Icon button -->
-                                                                                <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
-                                                                                    <i class="fas fa-arrow-down"></i>
-                                                                                </button>
-                                                                                <div class="d-flex flex-column">
-                                                                                    <!-- Staff name and leave dates -->
-                                                                                    <h6 class="mb-1 text-dark text-md">{{ $leave->user->name }}</h6>
-                                                                                    <span class="text-xs">Cuti sehingga {{ \Carbon\Carbon::parse($leave->end_date)->format('d F Y') }}</span>
+                                                                            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                                                                <div class="d-flex align-items-center">
+                                                                                    <!-- Icon button -->
+                                                                                    <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 btn-sm d-flex align-items-center justify-content-center">
+                                                                                        <i class="fas fa-arrow-down"></i>
+                                                                                    </button>
+                                                                                    <div class="d-flex align-items-center">
+                                                                                        <!-- Profile Image -->
+                                                                                        <img src="{{ asset($leave->user->profile_image) }}" alt="Profile Image" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover; margin-right: 10px;">
+            
+                                                                                        
+                                                                                        <!-- Staff name and leave dates -->
+                                                                                        <div class="d-flex flex-column">
+                                                                                            <h6 class="mb-1 text-dark text-md">{{ $leave->user->name }}</h6>
+                                                                                            <span class="text-xs">Cuti {{ \Carbon\Carbon::parse($leave->start_date)->format('d F Y') }} sehingga {{ \Carbon\Carbon::parse($leave->end_date)->format('d F Y') }}</span>
+                                                                                        </div>
+                                                                                    </div>
                                                                                 </div>
-                                                                            </div>
-                                                                            <!-- Display leave balance based on leave type -->
-                                                                            <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                                                                            Cuti yang diambil :<br>{{ \Carbon\Carbon::parse($leave->start_date)->diffInDays(\Carbon\Carbon::parse($leave->end_date)) + 1 }} hari
-                                                                            </div>
-                                                                        </li>
+                                                                                <!-- Display leave balance based on leave type -->
+                                                                                <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
+                                                                                    Cuti yang diambil :<br>{{ \Carbon\Carbon::parse($leave->start_date)->diffInDays(\Carbon\Carbon::parse($leave->end_date)) + 1 }} hari
+                                                                                </div>
+                                                                            </li>
                                                                         @endforeach
-                                                                        @endif
-                                                                    </ul>
-                                                                </div>
+                                                                    @endif
+
+                                                                </ul>
                                                             </div>
                                                         </div>
-
                                                     </div>
                                                 </div>
                                             </div>
@@ -292,39 +298,40 @@
       <!-- Script to handle chart creation -->
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-        <script>
-            // Define leave data from a PHP variable (as JSON)
-            const leaveData = {!! $leaveCountsByMonthJson !!};
+      <script>
+        // Define leave data from a PHP variable (as JSON)
+        const leaveData = {!! $leaveCountsByMonthJson !!};
 
-            // Array representing months for the chart's X-axis
-            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        // Array representing months for the chart's X-axis
+        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-            // Initialize chart on the canvas with ID 'chart-line'
-            const ctx = document.getElementById('chart-line').getContext('2d');
-            const chart = new Chart(ctx, {
-                type: 'line', // Type of chart (line, bar, etc.)
-                data: {
-                    labels: months, // X-axis labels (months)
-                    datasets: [{
-                        label: 'Jumlah Permohonan Cuti Bulanan yang Lulus', // Chart label
-                        data: leaveData, // Data for Y-axis
-                        borderColor: 'rgba(75, 192, 192, 1)', // Line color
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)', // Fill color below the line
-                        borderWidth: 2, // Line thickness
-                        fill: true // Fill area under the line
-                    }]
-                },
-                options: {
-                    responsive: true, // Make chart responsive
-                    maintainAspectRatio: false, // Don't maintain aspect ratio
-                    scales: {
-                        y: {
-                            beginAtZero: true // Start Y-axis from zero
-                        }
+        // Initialize chart on the canvas with ID 'chart-line'
+        const ctx = document.getElementById('chart-line').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'line', // Type of chart (line, bar, etc.)
+            data: {
+                labels: months, // X-axis labels (months)
+                datasets: [{
+                    label: 'Jumlah Permohonan Cuti Bulanan yang Lulus', // Chart label
+                    data: leaveData, // Data for Y-axis
+                    borderColor: 'rgba(75, 192, 192, 1)', // Line color
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)', // Fill color below the line
+                    borderWidth: 2, // Line thickness
+                    fill: true // Fill area under the line
+                }]
+            },
+            options: {
+                responsive: true, // Make chart responsive
+                maintainAspectRatio: false, // Don't maintain aspect ratio
+                scales: {
+                    y: {
+                        beginAtZero: true // Start Y-axis from zero
                     }
                 }
-            });
-        </script>
+            }
+        });
+    </script>
+    
     </body>
 
 

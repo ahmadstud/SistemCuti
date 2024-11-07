@@ -305,14 +305,14 @@
 
         <!-- Chart.js Library (for creating charts) -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        
+ 
         <script>
             // Define leave data from a PHP variable (as JSON)
             const leaveData = {!! $leaveCountsByMonthJson !!};
-        
+
             // Array representing months for the chart's X-axis
             const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        
+
             // Initialize chart on the canvas with ID 'chart-line'
             const ctx = document.getElementById('chart-line').getContext('2d');
             const chart = new Chart(ctx, {
@@ -339,7 +339,6 @@
                 }
             });
         </script>
-        
 
 </body>
 
