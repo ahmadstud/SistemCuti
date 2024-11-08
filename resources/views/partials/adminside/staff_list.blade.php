@@ -23,7 +23,7 @@
         <link rel="icon" type="image/png" href="{{ asset('assets/img/Erawhiz.png') }}">
 
         <!-- Page Title -->
-        <title>Sistem Permohonan Cuti - Staf</title>
+        <title>Admin - Bahagian Senarai Staf/Pegawai</title>
 
         <!-- Fonts and Icons -->
         <!-- Google Fonts - Open Sans for a modern, clean typeface -->
@@ -391,12 +391,12 @@
                                                                         </td>
                                                                         <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                             <div class="d-flex justify-content-start">
-                                                                    
+
                                                                                 <!-- Edit Button -->
                                                                                 <button type="button" class="btn btn-md btn-primary me-2" data-bs-toggle="modal" data-bs-target="#editModal{{ $user->id }}">
                                                                                     <i class="fas fa-pencil-alt"></i>
                                                                                 </button>
-                                                                    
+
                                                                                 <!-- Delete button -->
                                                                                 <form action="{{ route('deleteUser', $user->id) }}" method="POST" style="display:inline;" id="delete-form-{{ $user->id }}">
                                                                                     @csrf
@@ -405,7 +405,7 @@
                                                                                         <i class="fas fa-trash-alt"></i> <!-- Delete symbol -->
                                                                                     </button>
                                                                                 </form>
-                                                                    
+
                                                                             </div>
                                                                         </td>
 
@@ -506,7 +506,7 @@
                                                                                                         <label for="postcode{{ $user->id }}" class="form-label">Poskod</label>
                                                                                                         <input type="text"  class="form-control" id="postcode{{ $user->id }}" name="postcode" value="{{ $user->postcode }}" required>
                                                                                                     </div>
-                                                                                                
+
                                                                                                     <div class="col-md-4 mb-3">
                                                                                                         <label for="state{{ $user->id }}" class="form-label">Negeri</label>
                                                                                                         <select class="form-select" id="state{{ $user->id }}" name="state" required>

@@ -17,7 +17,7 @@
         <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/Erawhiz.png') }}">
         <link rel="icon" type="image/png" href="{{ asset('assets/img/Erawhiz.png') }}">
         <title>
-            Sistem Permohonan Cuti - Staf
+            Admin - Bahagian Profil Pengguna
         </title>
 
         <!--     Fonts and icons     -->

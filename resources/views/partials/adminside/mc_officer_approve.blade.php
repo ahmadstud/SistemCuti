@@ -24,7 +24,7 @@
             <link rel="icon" type="image/png" href="{{ asset('assets/img/Erawhiz.png') }}">
 
             <!-- Page Title -->
-            <title>Sistem Permohonan Cuti - Staf</title>
+            <title>Admin - Bahagian Kelulusan Tapisan Pegawai</title>
 
             <!-- Fonts and Icons -->
             <!-- Google Fonts - Open Sans for consistent typography across devices -->

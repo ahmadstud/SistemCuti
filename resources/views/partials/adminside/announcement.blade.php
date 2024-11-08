@@ -21,7 +21,7 @@
         <link rel="icon" type="image/png" href="{{ asset('assets/img/Erawhiz.png') }}">
 
         <!-- Page Title -->
-        <title>Sistem Permohonan Cuti - Staf</title>
+        <title>Admin - Bahagian Pengumuman</title>
 
         <!-- Fonts and Icons -->
         <!-- Google Fonts (Open Sans) -->
@@ -137,7 +137,7 @@
                                                                                 <br> - Lebar minimum: **800 piksel**
                                                                                 <br> - Format fail: **JPG, PNG**
                                                                                 <br> - Saiz fail maksimum: **2MB**</em>
-                                                                        </p>                                                                        
+                                                                        </p>
                                                                         <div class="modal-footer">
                                                                             <button type="button" class="btn btn-success" onclick="confirmSubmission()">Simpan</button>
                                                                         </div>
@@ -234,7 +234,7 @@
                                                                             </td>
                                                                             <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                 <div class="d-flex justify-content-start"> <!-- Flex container for side-by-side buttons -->
-                                                                                    
+
                                                                                     <!-- Edit button to open the modal -->
                                                                                     <button type="button" class="btn btn-md btn-primary me-2" data-bs-toggle="modal" data-bs-target="#editAnnouncementModal{{ $announcement->id }}">
                                                                                         <i class="fas fa-pencil-alt"></i>
@@ -295,7 +295,7 @@
                                                                                                         <br> - Lebar minimum: **800 piksel**
                                                                                                         <br> - Format fail: **JPG, PNG**
                                                                                                         <br> - Saiz fail maksimum: **2MB**</em>
-                                                                                                </p>                                                                                                
+                                                                                                </p>
                                                                                                 <div class="modal-footer">
                                                                                                     <button type="button" class="btn btn-success" onclick="confirmEditSubmit({{ $announcement->id }})">Simpan</button>
                                                                                                 </div>
@@ -351,7 +351,7 @@
                                                                                         }
                                                                                     });
                                                                                 }
-                                                                            
+
                                                                                 function confirmDelete(announcementId) {
                                                                                     Swal.fire({
                                                                                         title: 'Adakah anda pasti?',
@@ -458,5 +458,5 @@
 
 
     </body>
-    
+
 </html>

@@ -26,7 +26,7 @@
 
         <!-- Page Title -->
         <!-- Sets the title that appears on the browser tab -->
-        <title>Sistem Permohonan Cuti - Staf</title>
+        <title>Admin - Bahagian Tukar Kata Laluan</title>
 
         <!-- Fonts and Icons -->
         <!-- Links Google Fonts with Open Sans font family for better typography -->
