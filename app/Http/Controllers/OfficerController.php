@@ -82,41 +82,41 @@ class OfficerController extends Controller
     }
 
     // In your storeMcApplication method
-public function storeMcApplication(Request $request)
-{
-    // Validate the form input
-    $request->validate([
-        'start_date' => 'required|date',
-        'end_date' => 'required|date|after_or_equal:start_date',
-        'document_path' => 'nullable|mimes:pdf,jpg,png|max:2048', // Allow nullable file for non-MC types
-        'reason' => 'required|string',
-        'leave_type' => 'required|string',  // Change to title validation
-    ]);
-
-    // Handle file upload conditionally
-    $documentPath = null;
-    if ($request->hasFile('document_path')) {
-        $documentPath = $request->file('document_path')->store('mc_documents', 'public');
-    }
-
-    try {
-        McApplication::create([
-            'user_id' => Auth::id(),  // Assign the currently authenticated user ID
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-            'reason' => $request->reason,
-            'document_path' => $documentPath, // Save document path if available
-            'status' => 'pending',
-            'leave_type' => $request->leave_type, // Store the title directly
-            'direct_admin_approval' => $request->input('direct_admin_approval', true), // Change to dynamic
+    public function storeMcApplication(Request $request)
+    {
+        // Validate the form input
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'document_path' => 'nullable|mimes:pdf,jpg,png|max:2048', // Allow nullable file for non-MC types
+            'reason' => 'required|string',
+            'leave_type' => 'required|string',  // Change to title validation
         ]);
 
-        return redirect()->back()->with('success', 'Permohonan Cuti telah dihantar!');
-    } catch (\Exception $e) {
-        Log::error('Error Creating MC Application:', ['message' => $e->getMessage()]);
-        return redirect()->back()->with('error', 'Gagal menghantar permohonan Cuti. Sila cuba lagi.');
+        // Handle file upload conditionally
+        $documentPath = null;
+        if ($request->hasFile('document_path')) {
+            $documentPath = $request->file('document_path')->store('mc_documents', 'public');
+        }
+
+        try {
+            McApplication::create([
+                'user_id' => Auth::id(),  // Assign the currently authenticated user ID
+                'start_date' => $request->start_date,
+                'end_date' => $request->end_date,
+                'reason' => $request->reason,
+                'document_path' => $documentPath, // Save document path if available
+                'status' => 'pending',
+                'leave_type' => $request->leave_type, // Store the title directly
+                'direct_admin_approval' => $request->input('direct_admin_approval', true), // Change to dynamic
+            ]);
+
+            return redirect()->back()->with('success', 'Permohonan Cuti telah dihantar!');
+        } catch (\Exception $e) {
+            Log::error('Error Creating MC Application:', ['message' => $e->getMessage()]);
+            return redirect()->back()->with('error', 'Gagal menghantar permohonan Cuti. Sila cuba lagi.');
+        }
     }
-}
 
 
     public function editMC(Request $request, $id)
@@ -225,109 +225,107 @@ public function storeMcApplication(Request $request)
 
     public function McApply(Request $request)
     {
-    $sort = $request->input('sort', 'created_at'); // Default sorting by created_at
-    $order = $request->input('order', 'asc'); // Default order is ascending
-    // Fetch all MC applications for the logged-in user
-     $mcApplications = McApplication::where('user_id', Auth::id())
-     ->orderBy($sort, $order)
-     ->paginate(10);
-     $notes = Note::all(); // Fetch all notes
+        $sort = $request->input('sort', 'created_at'); // Default sorting by created_at
+        $order = $request->input('order', 'asc'); // Default order is ascending
+        // Fetch all MC applications for the logged-in user
+        $mcApplications = McApplication::where('user_id', Auth::id())
+        ->orderBy($sort, $order)
+        ->paginate(10);
+        $notes = Note::all(); // Fetch all notes
 
-     // Create an array to hold selected leave types
-     $selectedLeaveTypes = [];
+        // Create an array to hold selected leave types
+        $selectedLeaveTypes = [];
 
-     foreach ($mcApplications as $application) {
-         // Find the note where the title matches the leave_type
-         $note = $notes->firstWhere('title', $application->leave_type);
-         if ($note) {
-             // Store the title of the selected leave type
-             $selectedLeaveTypes[$application->id] = $note->title;
-         } else {
-             $selectedLeaveTypes[$application->id] = 'Tidak ada catatan dipilih';
-         }
-     }
-        return view('partials.officerside.mc_apply', compact('mcApplications','selectedLeaveTypes','notes'));
+        foreach ($mcApplications as $application) {
+            // Find the note where the title matches the leave_type
+            $note = $notes->firstWhere('title', $application->leave_type);
+            if ($note) {
+                // Store the title of the selected leave type
+                $selectedLeaveTypes[$application->id] = $note->title;
+            } else {
+                $selectedLeaveTypes[$application->id] = 'Tidak ada catatan dipilih';
+            }
+        }
+            return view('partials.officerside.mc_apply', compact('mcApplications','selectedLeaveTypes','notes'));
     }
-    
+
     public function dashboard(Request $request)
     {
         $today = now()->toDateString();
-        $currentUserId = auth()->id(); // Get the ID of the logged-in officer or staff member
 
-        // Get the list of the logged-in user's MC applications for today
-        $staffOnLeaveToday = McApplication::with('user')
-            ->join('users', 'mc_applications.user_id', '=', 'users.id')
-            ->where('mc_applications.user_id', $currentUserId) // Only show data for the logged-in user
+        // Fetch list of staff on leave today, including their `total_mc_days`, joining with `users` table
+        $staffOnLeaveToday = McApplication::with('user') // Assuming there's a 'user' relationship in McApplication model
+            ->join('users', 'mc_applications.user_id', '=', 'users.id') // Join the users table
             ->where('mc_applications.start_date', '<=', $today)
             ->where('mc_applications.end_date', '>=', $today)
-            ->where('mc_applications.status', 'approved')
+            ->where('mc_applications.status', 'approved') // Only approved leaves
             ->get();
 
-        // Fetch announcements and notes
+        // Fetch announcements and notes as needed
         $announcements = Announcement::all();
         $notes = Note::all();
 
-        // Get the current year and optionally the user-selected year
-        $currentYear = now()->year;
-        $year = $request->input('year', $currentYear); // Default to current year
+          // Get the current year and optionally use the year selected by the user
+          $currentYear = now()->year;
+          $year = $request->input('year', $currentYear); // Defaults to the current year if not specified
 
-        // Generate a range of years, e.g., from 2020 to the current year + 1
-        $yearRange = range(2020, $currentYear + 1);
+          // Generate a range of years for the dropdown, from 2020 to the next year
+          $yearRange = range(2020, $currentYear + 1);
 
-        // Query to get the monthly data of the logged-in user's leave applications for the selected year
-        $monthlyLeaveData = McApplication::select(
-            DB::raw('MONTH(start_date) as month'),
-            DB::raw('COUNT(*) as total_applications')
-        )
-        ->where('user_id', $currentUserId) // Only count applications for the logged-in user
-        ->whereYear('start_date', $year) // Use the selected year
-        ->where('status', 'approved') // Only count approved leaves
-        ->groupBy(DB::raw('MONTH(start_date)'))
-        ->orderBy(DB::raw('MONTH(start_date)'), 'asc') // Ensure data is ordered by month
-        ->get();
+          // Query to get monthly data of staff on leave for the selected year
+          $monthlyLeaveData = McApplication::select(
+              DB::raw('MONTH(start_date) as month'),
+              DB::raw('COUNT(*) as total_applications')
+          )
+          ->whereYear('start_date', $year) // Filter by the selected year
+          ->where('status', 'approved') // Only count approved leaves
+          ->groupBy(DB::raw('MONTH(start_date)'))
+          ->orderBy(DB::raw('MONTH(start_date)')) // Order by month
+          ->get();
 
-        // Prepare an array with all 12 months and set default values as 0
-        $leaveCountsByMonth = array_fill(1, 12, 0);
+          // Prepare an array with all 12 months, defaulting to 0 leave count for each month
+          $leaveCountsByMonth = array_fill(1, 12, 0);
 
-        // Fill the actual values from the query into the leave counts
-        foreach ($monthlyLeaveData as $data) {
-            $leaveCountsByMonth[$data->month] = $data->total_applications;
-        }
+          // Populate the array with actual data from the query
+          foreach ($monthlyLeaveData as $data) {
+              $leaveCountsByMonth[$data->month] = $data->total_applications;
+          }
 
-        // Convert leave counts to a JSON format for the chart
-        $leaveCountsByMonthJson = json_encode(array_values($leaveCountsByMonth));
+          // Convert leave counts to JSON format for the chart (if required on the staff view)
+          $leaveCountsByMonthJson = json_encode(array_values($leaveCountsByMonth));
 
-        // Return the view with all collected data
+        // Pass the data to the officer dashboard view
         return view('officer', compact(
             'staffOnLeaveToday',
             'announcements',
             'leaveCountsByMonth',
+            'leaveCountsByMonthJson',
             'year',
             'yearRange',
-            'notes',
-            'leaveCountsByMonthJson'
+            'notes'
         ));
     }
 
 
 
+
     public function changePassword(Request $request)
-{
-    $user = Auth::user(); // Get the currently authenticated user
+    {
+        $user = Auth::user(); // Get the currently authenticated user
 
-    // Validate the password input data
-    $request->validate([
-        'password' => 'required|string|min:8|confirmed', // New password must be confirmed
-    ]);
+        // Validate the password input data
+        $request->validate([
+            'password' => 'required|string|min:8|confirmed', // New password must be confirmed
+        ]);
 
-    // Update the user's password
-    $user->password = Hash::make($request->password); // Hash the new password
+        // Update the user's password
+        $user->password = Hash::make($request->password); // Hash the new password
 
-    // Save changes to the database
-    $user->save();
+        // Save changes to the database
+        $user->save();
 
-    // Redirect with success message
-    return redirect()->back()->with('success', 'Kata laluan anda telah berjaya dikemas kini!');
-    return redirect()->back()->with('error', 'Kata laluan anda telah gagal dikemas kini!');
-}
+        // Redirect with success message
+        return redirect()->back()->with('success', 'Kata laluan anda telah berjaya dikemas kini!');
+        return redirect()->back()->with('error', 'Kata laluan anda telah gagal dikemas kini!');
+    }
 }

@@ -103,6 +103,7 @@
                                                                     <form id="addStaffForm" action="{{ route('storeUser') }}" method="POST">
                                                                         @csrf
                                                                         <div class="row g-3">
+                                                                            <h5 class="mt-4">Maklumat Peribadi</h5>
                                                                             <div class="col-md-6 mb-3">
                                                                                 <label for="fullname" class="form-label">Nama Penuh<span class="text-danger">*</span></label>
                                                                                 <input type="text" class="form-control" id="fullname" name="fullname" value="{{ Auth::user()->fullname }}">
@@ -132,9 +133,8 @@
                                                                                 <input type="text" class="form-control" id="phone_number" name="phone_number">
                                                                             </div>
                                                                         </div>
-                                                                        <hr>
-
                                                                         <div class="row g-3">
+                                                                            <h5 class="mt-4">Maklumat Pekerjaan</h5>
                                                                             <div class="col-md-6 mb-3">
                                                                                 <label for="role" class="form-label">Peranan<span class="text-danger">*</span></label>
                                                                                 <select class="form-select" id="role" name="role" required>
@@ -173,32 +173,29 @@
                                                                                     $columnName = Str::slug($note->title, '_');
                                                                                     $noteValue = isset($user) ? $user->$columnName : ''; // Retrieve existing note value for the user
                                                                                 @endphp
-                                                                                <div class="col-md-6 mb-3">
+                                                                                <div class="col-md-3 mb-3">
                                                                                     <label for="{{ $columnName }}" class="form-label">{{ $note->title }}</label>
                                                                                     <input type="text" class="form-control" id="{{ $columnName }}" name="{{ $columnName }}" value="{{ old($columnName, $noteValue) }}">
                                                                                 </div>
                                                                             @endforeach
                                                                         </div>
-                                                                        <hr>
-
                                                                         <div class="row g-3">
+                                                                            <h5 class="mt-4">Maklumat Kediaman</h5>
                                                                             <div class="col-md-12 mb-3">
                                                                                 <label for="address" class="form-label">Alamat<span class="text-danger">*</span></label>
                                                                                 <input type="text" class="form-control" id="address" name="address" required>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row g-3">
-                                                                            <div class="col-md-6 mb-3">
+                                                                            <div class="col-md-4 mb-3">
                                                                                 <label for="city" class="form-label">Bandar<span class="text-danger">*</span></label>
                                                                                 <input type="text" class="form-control" id="city" name="city" required>
                                                                             </div>
-                                                                            <div class="col-md-6 mb-3">
+                                                                            <div class="col-md-4 mb-3">
                                                                                 <label for="postcode" class="form-label">Poskod<span class="text-danger">*</span></label>
                                                                                 <input type="text" class="form-control" id="postcode" name="postcode" required>
                                                                             </div>
-                                                                        </div>
-                                                                        <div class="row g-3">
-                                                                            <div class="col-md-6 mb-3">
+                                                                            <div class="col-md-4 mb-3">
                                                                                 <label for="state" class="form-label">Negeri<span class="text-danger">*</span></label>
                                                                                 <select class="form-select" id="state" name="state" required>
                                                                                     <option value="" disabled selected>--- Pilih Negeri ---</option>
@@ -326,112 +323,115 @@
                                                                 </thead>
                                                                 <tbody>
                                                                     @foreach ($users as $user)
-                                                                        <tr>
-                                                                            @php
-                                                                                $itemsPerPage = 10; // The number of items per page as per your pagination setting
-                                                                                $currentPage = $users->currentPage(); // The current page from the paginated collection
-                                                                                $startingIndex = ($currentPage - 1) * $itemsPerPage;
-                                                                            @endphp
-                                                                            <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                <p class="text-m text-secondary">{{ $startingIndex + $loop->iteration }}</p>
-                                                                            </td>
-                                                                            <td style="border: 1px solid #dee2e6; padding: 8px; display: flex; align-items: center; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                @if($user->profile_image) <!-- Check if the profile image exists -->
-                                                                                    <img src="{{ asset($user->profile_image) }}" alt="Profile Image" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 30px;"> <!-- Increased margin for gap -->
+                                                                    <tr>
+                                                                        @php
+                                                                            $itemsPerPage = 10; // The number of items per page as per your pagination setting
+                                                                            $currentPage = $users->currentPage(); // The current page from the paginated collection
+                                                                            $startingIndex = ($currentPage - 1) * $itemsPerPage;
+                                                                        @endphp
+                                                                        <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                            <p class="text-m text-secondary">{{ $startingIndex + $loop->iteration }}</p>
+                                                                        </td>
+                                                                        <td style="border: 1px solid #dee2e6; padding: 8px;">
+                                                                            <div style="display: flex; align-items: center; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                @if($user->profile_image)
+                                                                                    <img src="{{ asset($user->profile_image) }}" alt="Profile Image" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 30px;">
                                                                                 @else
-                                                                                    <div style="width: 40px; height: 40px; background-color: black; border-radius: 50%; margin-right: 30px;"></div> <!-- Black square for no image with increased margin -->
+                                                                                    <div style="width: 40px; height: 40px; background-color: black; border-radius: 50%; margin-right: 30px;"></div>
                                                                                 @endif
                                                                                 <div>
-                                                                                    <p class="text-m text-secondary"><strong>{{ $user->fullname }}</strong></p>
+                                                                                    <!-- Display Fullname -->
+                                                                                    <p class="text-m text-secondary"><strong>{{ $user->fullname ?? 'No Full Name' }}</strong></p> <!-- Ensure fullname is shown, fallback if not available -->
                                                                                     <p class="text-m text-secondary">{{ $user->name }}</p>
                                                                                     <p class="text-sm text-secondary">{{ $user->email }}</p>
                                                                                 </div>
-                                                                            </td>
-                                                                            <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                <p class="text-m text-secondary">{{ $user->phone_number }}</p>
-                                                                            </td>
-                                                                            <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                @if($user->role == 'admin')
-                                                                                    <span class="badge badge-md bg-gradient-danger">{{ $user->role }}</span>
-                                                                                @elseif($user->role == 'staff')
-                                                                                    <span class="badge badge-md bg-gradient-info">Staf</span>
-                                                                                @elseif($user->role == 'officer')
-                                                                                    <span class="badge badge-md bg-gradient-warning">Pegawai</span>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                            <p class="text-m text-secondary">{{ $user->phone_number }}</p>
+                                                                        </td>
+                                                                        <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                            @if($user->role == 'admin')
+                                                                                <span class="badge badge-md bg-gradient-danger">{{ $user->role }}</span>
+                                                                            @elseif($user->role == 'staff')
+                                                                                <span class="badge badge-md bg-gradient-info">Staf</span>
+                                                                            @elseif($user->role == 'officer')
+                                                                                <span class="badge badge-md bg-gradient-warning">Pegawai</span>
+                                                                            @else
+                                                                                <span class="badge badge-md bg-gradient-secondary">{{ $user->role }}</span>
+                                                                            @endif
+                                                                        </td>
+                                                                        <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                            <p class="text-m text-secondary">
+                                                                                @if($user->officer)
+                                                                                    {{ $user->officer->name }}
                                                                                 @else
-                                                                                    <span class="badge badge-md bg-gradient-secondary">{{ $user->role }}</span>
+                                                                                    <span class="text-danger">Tiada Penyelia {{ $user->selected_officer_id }}</span>
                                                                                 @endif
-                                                                            </td>
-                                                                            <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                <p class="text-m text-secondary">
-                                                                                    @if($user->officer)
-                                                                                        {{ $user->officer->name }}
-                                                                                    @else
-                                                                                        <span class="text-danger">Tiada Penyelia {{ $user->selected_officer_id }}</span>
-                                                                                    @endif
-                                                                                </p>
-
-                                                                            </td>
-                                                                            <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                @if($user->job_status == 'Permenant')
-                                                                                    <span class="badge badge-md bg-gradient-warning">Tetap</span>
-                                                                                @elseif($user->job_status == 'Contract')
-                                                                                    <span class="badge badge-md bg-gradient-info">Kontrak</span>
-                                                                                @else
-                                                                                    <span class="text-secondary">{{ $user->job_status }}</span>
-                                                                                @endif
-                                                                            </td>
-                                                                            <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                <p class="text-m text-secondary">
-                                                                                    @foreach ($notes as $note)
-                                                                                    @php
-                                                                                        $columnName = Str::slug($note->title, '_');
-                                                                                    @endphp
-                                                                                    <strong>{{ $note->title }}: </strong> <br> {{ $user->$columnName ?? '0' }} Hari <br>
+                                                                            </p>
+                                                                        </td>
+                                                                        <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                            @if($user->job_status == 'Permenant')
+                                                                                <span class="badge badge-md bg-gradient-warning">Tetap</span>
+                                                                            @elseif($user->job_status == 'Contract')
+                                                                                <span class="badge badge-md bg-gradient-info">Kontrak</span>
+                                                                            @else
+                                                                                <span class="text-secondary">{{ $user->job_status }}</span>
+                                                                            @endif
+                                                                        </td>
+                                                                        <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                            <p class="text-m text-secondary">
+                                                                                @foreach ($notes as $note)
+                                                                                @php
+                                                                                    $columnName = Str::slug($note->title, '_');
+                                                                                @endphp
+                                                                                <strong>{{ $note->title }}: </strong> {{ $user->$columnName ?? '0' }} Hari <br>
                                                                                 @endforeach
-                                                                                </p>
-                                                                            </td>
-                                                                            <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                <div class="d-flex justify-content-start">
-
-                                                                                    <!-- Edit Button -->
-                                                                                    <button type="button" class="btn btn-md btn-primary me-2" data-bs-toggle="modal" data-bs-target="#editModal{{ $user->id }}">
-                                                                                        <i class="fas fa-pencil-alt"></i>
+                                                                            </p>
+                                                                        </td>
+                                                                        <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                            <div class="d-flex justify-content-start">
+                                                                    
+                                                                                <!-- Edit Button -->
+                                                                                <button type="button" class="btn btn-md btn-primary me-2" data-bs-toggle="modal" data-bs-target="#editModal{{ $user->id }}">
+                                                                                    <i class="fas fa-pencil-alt"></i>
+                                                                                </button>
+                                                                    
+                                                                                <!-- Delete button -->
+                                                                                <form action="{{ route('deleteUser', $user->id) }}" method="POST" style="display:inline;" id="delete-form-{{ $user->id }}">
+                                                                                    @csrf
+                                                                                    @method('DELETE')
+                                                                                    <button type="button" class="btn btn-md btn-danger" title="Delete" onclick="confirmDelete({{ $user->id }})">
+                                                                                        <i class="fas fa-trash-alt"></i> <!-- Delete symbol -->
                                                                                     </button>
-
-                                                                                    <!-- Delete button -->
-                                                                                    <form action="{{ route('deleteUser', $user->id) }}" method="POST" style="display:inline;" id="delete-form-{{ $user->id }}">
-                                                                                        @csrf
-                                                                                        @method('DELETE')
-                                                                                        <button type="button" class="btn btn-md btn-danger" title="Delete" onclick="confirmDelete({{ $user->id }})">
-                                                                                            <i class="fas fa-trash-alt"></i> <!-- Delete symbol -->
-                                                                                        </button>
-                                                                                    </form>
-
-                                                                                </div>
-                                                                            </td>
+                                                                                </form>
+                                                                    
+                                                                            </div>
+                                                                        </td>
 
                                                                             <!-- Edit User Modal -->
                                                                             <div class="modal fade" id="editModal{{ $user->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $user->id }}" aria-hidden="true">
                                                                                 <div class="modal-dialog modal-lg">
                                                                                     <div class="modal-content">
                                                                                         <div class="modal-header" style="background-color: #f0f0f0;">
-                                                                                            <h5 class="modal-title" id="editModalLabel{{ $user->id }}">Edit User - {{ $user->name }}</h5>
+                                                                                            <h5 class="modal-title" id="editModalLabel{{ $user->id }}">Kemaskini Maklumat - {{ $user->name }}</h5>
                                                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                                         </div>
                                                                                         <div class="modal-body">
                                                                                             <form id="edit-form-{{ $user->id }}" action="{{ route('updateUser', $user->id) }}" method="POST">
                                                                                                 @csrf
                                                                                                 <div class="row g-3">
-                                                                                                    <div class="col-md-6 mb-3">
+                                                                                                    <h5 class="mt-4">Maklumat Diri</h5>
+                                                                                                    <div class="col-md-12 mb-3">
                                                                                                         <label for="fullname{{ $user->id }}" class="form-label">Nama Penuh</label>
                                                                                                         <input type="text" class="form-control" id="fullname{{ $user->id }}" name="fullname" value="{{ $user->fullname }}" required>
                                                                                                     </div>
+                                                                                                </div>
+                                                                                                <div class="row g-3">
                                                                                                     <div class="col-md-6 mb-3">
                                                                                                         <label for="name{{ $user->id }}" class="form-label">Nama</label>
                                                                                                         <input type="text" class="form-control" id="name{{ $user->id }}" name="name" value="{{ $user->name }}" required>
                                                                                                     </div>
-                                                                                                </div>
-                                                                                                <div class="row g-3">
                                                                                                     <div class="col-md-6 mb-3">
                                                                                                         <label for="email{{ $user->id }}" class="form-label">E-mel</label>
                                                                                                         <input type="email" class="form-control" id="email{{ $user->id }}" name="email" value="{{ $user->email }}" required>
@@ -447,8 +447,8 @@
                                                                                                         <input type="text" class="form-control" id="phone_number{{ $user->id }}" name="phone_number" value="{{ $user->phone_number }}">
                                                                                                     </div>
                                                                                                 </div>
-                                                                                                <hr>
                                                                                                 <div class="row g-3">
+                                                                                                    <h5 class="mt-4">Maklumat Pekerjaan</h5>
                                                                                                     <div class="col-md-6 mb-3">
                                                                                                         <label for="role{{ $user->id }}" class="form-label">Peranan</label>
                                                                                                         <select class="form-select" id="role{{ $user->id }}" name="role">
@@ -484,30 +484,30 @@
                                                                                                         @php
                                                                                                             $columnName = Str::slug($note->title, '_');
                                                                                                         @endphp
-                                                                                                        <div class="col-md-6 mb-3">
+                                                                                                        <div class="col-md-3 mb-3">
                                                                                                             <label for="{{ $columnName }}" class="form-label">{{ $note->title }}</label>
                                                                                                             <input type="text" class="form-control" id="{{ $columnName }}" name="{{ $columnName }}" value="{{ old($columnName, $user->$columnName ?? '') }}">
                                                                                                         </div>
                                                                                                     @endforeach
-                                                                                                <hr>
+                                                                                                </div>
                                                                                                 <div class="row g-3">
+                                                                                                    <h5 class="mt-4">Maklumat Kediaman</h5>
                                                                                                     <div class="col-md-12 mb-3">
                                                                                                         <label for="address{{ $user->id }}" class="form-label">Alamat</label>
                                                                                                         <input type="text" class="form-control" id="address{{ $user->id }}" name="address" value="{{ $user->address }}" required>
                                                                                                     </div>
                                                                                                 </div>
                                                                                                 <div class="row g-3">
-                                                                                                    <div class="col-md-6 mb-3">
+                                                                                                    <div class="col-md-4 mb-3">
                                                                                                         <label for="city{{ $user->id }}" class="form-label">Bandar</label>
                                                                                                         <input type="text" class="form-control" id="city{{ $user->id }}" name="city" value="{{ $user->city }}" required>
                                                                                                     </div>
-                                                                                                    <div class="col-md-6 mb-3">
+                                                                                                    <div class="col-md-4 mb-3">
                                                                                                         <label for="postcode{{ $user->id }}" class="form-label">Poskod</label>
                                                                                                         <input type="text"  class="form-control" id="postcode{{ $user->id }}" name="postcode" value="{{ $user->postcode }}" required>
                                                                                                     </div>
-                                                                                                </div>
-                                                                                                <div class="row g-3">
-                                                                                                    <div class="col-md-6 mb-3">
+                                                                                                
+                                                                                                    <div class="col-md-4 mb-3">
                                                                                                         <label for="state{{ $user->id }}" class="form-label">Negeri</label>
                                                                                                         <select class="form-select" id="state{{ $user->id }}" name="state" required>
                                                                                                             <option value="" disabled selected>Pilih Negeri</option>

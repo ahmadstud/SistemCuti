@@ -276,78 +276,78 @@ class AdminController extends Controller
     }
 
     // Store a new note
-public function storeNote(Request $request)
-{
-    $request->validate([
-        'title' => 'required|string|max:255',
-        'content' => 'required|string',
-    ]);
+    public function storeNote(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+        ]);
 
-    // Generate a column name from the note title
-    $columnName = Str::slug($request->title, '_');
+        // Generate a column name from the note title
+        $columnName = Str::slug($request->title, '_');
 
-    // Check if the column already exists to avoid duplication
-    if (!Schema::hasColumn('users', $columnName)) {
-        // Alter the table to add a new column as an integer
-        DB::statement("ALTER TABLE users ADD COLUMN {$columnName} INT NULL DEFAULT 0");
+        // Check if the column already exists to avoid duplication
+        if (!Schema::hasColumn('users', $columnName)) {
+            // Alter the table to add a new column as an integer
+            DB::statement("ALTER TABLE users ADD COLUMN {$columnName} INT NULL DEFAULT 0");
+        }
+
+        // Store the note content or other relevant information
+        Note::create([
+            'title' => $request->title,
+            'content' => $request->content,
+        ]);
+
+        return redirect()->back()->with('success', 'Nota berjaya ditambah!');
     }
 
-    // Store the note content or other relevant information
-    Note::create([
-        'title' => $request->title,
-        'content' => $request->content,
-    ]);
+    // Update an existing note
+    public function updateNote(Request $request, $id)
+    {
+        $note = Note::findOrFail($id); // Find note or fail
 
-    return redirect()->back()->with('success', 'Note created and integer column added to users table successfully!');
-}
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+        ]);
 
-// Update an existing note
-public function updateNote(Request $request, $id)
-{
-    $note = Note::findOrFail($id); // Find note or fail
+        // Get the old column name and the new column name
+        $oldColumnName = Str::slug($note->title, '_');
+        $newColumnName = Str::slug($request->title, '_');
 
-    $request->validate([
-        'title' => 'required|string|max:255',
-        'content' => 'required|string',
-    ]);
+        // If the title has changed, rename the column
+        if ($oldColumnName !== $newColumnName && Schema::hasColumn('users', $oldColumnName)) {
+            // Rename the column directly
+            Schema::table('users', function (Blueprint $table) use ($oldColumnName, $newColumnName) {
+                $table->renameColumn($oldColumnName, $newColumnName);
+            });
+        }
 
-    // Get the old column name and the new column name
-    $oldColumnName = Str::slug($note->title, '_');
-    $newColumnName = Str::slug($request->title, '_');
+        // Update the note's title and content
+        $note->update([
+            'title' => $request->title,
+            'content' => $request->content,
+        ]);
 
-    // If the title has changed, rename the column
-    if ($oldColumnName !== $newColumnName && Schema::hasColumn('users', $oldColumnName)) {
-        // Rename the column directly
-        Schema::table('users', function (Blueprint $table) use ($oldColumnName, $newColumnName) {
-            $table->renameColumn($oldColumnName, $newColumnName);
-        });
+        return redirect()->back()->with('success', 'Nota berjaya dikemaskini!');
     }
 
-    // Update the note's title and content
-    $note->update([
-        'title' => $request->title,
-        'content' => $request->content,
-    ]);
 
-    return redirect()->back()->with('success', 'Note updated and column renamed successfully!');
-}
+    // Delete a note
+    public function deleteNote($id)
+    {
+        $note = Note::findOrFail($id); // Find note or fail
 
+        // Remove the corresponding column from the users table
+        $columnName = Str::slug($note->title, '_');
+        DB::statement("ALTER TABLE users DROP COLUMN {$columnName}");
 
-// Delete a note
-public function deleteNote($id)
-{
-    $note = Note::findOrFail($id); // Find note or fail
+        $note->delete();
 
-    // Remove the corresponding column from the users table
-    $columnName = Str::slug($note->title, '_');
-    DB::statement("ALTER TABLE users DROP COLUMN {$columnName}");
+        return redirect()->back()->with('success', 'Nota berjaya dipadam!');
+    }
 
-    $note->delete();
-
-    return redirect()->back()->with('success', 'Note deleted successfully and corresponding column removed from users table.');
-}
-
-// SENARAI PEKERJA ROUTES
+    // SENARAI PEKERJA ROUTES
     public function staffList(Request $request)
     {
         // Initialize the query to fetch all users
@@ -429,8 +429,6 @@ public function deleteNote($id)
         // return redirect()->route('admin.stafflist')->with('success', 'User updated successfully!');
         return redirect()->back()->with('success', 'Pengguna berjaya dikemaskini!');
     }
-
-
 
 
     public function deleteUser($id)
@@ -698,69 +696,69 @@ public function deleteNote($id)
     }
 
    // PERMOHONAN CUTI
-public function approve($id)
-{
-    $application = McApplication::find($id);
+    public function approve($id)
+    {
+        $application = McApplication::find($id);
 
-    if (!$application) {
-        Log::error('Application not found.', ['application_id' => $id]);
-        return redirect()->back()->with('error', 'Application not found.');
-    }
-
-    // Check if it's direct admin approval or needs officer approval
-    if (!$application->direct_admin_approval && !$application->officer_approved) {
-        Log::warning('MC application not approved by officer.', ['application_id' => $id]);
-        return redirect()->back()->with('error', 'MC must be approved by an officer first.');
-    }
-
-    $startDate = Carbon::parse($application->start_date);
-    $endDate = Carbon::parse($application->end_date);
-
-    // Calculate the number of days manually
-    $daysRequested = ($endDate->timestamp - $startDate->timestamp) / (60 * 60 * 24) + 1; // Convert seconds to days and add 1
-    $daysRequested = max(1, (int)$daysRequested); // Ensure at least 1 day is requested
-
-    // Find the user who submitted the application
-    $user = User::find($application->user_id);
-
-    if (!$user) {
-        Log::error('User not found.', ['user_id' => $application->user_id, 'application_id' => $id]);
-        return redirect()->back()->with('error', 'User not found.');
-    }
-
-    // Handle notes deduction dynamically
-    $notes = Note::all(); // Retrieve all notes
-    $noteColumn = Str::slug($application->leave_type, '_'); // Slug the leave type for matching
-
-    // Check if the requested leave type corresponds to any note
-    foreach ($notes as $note) {
-        $columnName = Str::slug($note->title, '_'); // Slug the note title
-
-        if ($columnName === $noteColumn && isset($user->$columnName) && $user->$columnName >= $daysRequested) {
-            $user->$columnName -= $daysRequested; // Deduct the requested days from the notes column
-            Log::info('Deducted notes days.', ['user_id' => $user->id, 'days_deducted' => $daysRequested, 'note_type' => $note->title]);
-            break; // Exit the loop once the deduction is made
+        if (!$application) {
+            Log::error('Application not found.', ['application_id' => $id]);
+            return redirect()->back()->with('error', 'Application not found.');
         }
+
+        // Check if it's direct admin approval or needs officer approval
+        if (!$application->direct_admin_approval && !$application->officer_approved) {
+            Log::warning('MC application not approved by officer.', ['application_id' => $id]);
+            return redirect()->back()->with('error', 'MC must be approved by an officer first.');
+        }
+
+        $startDate = Carbon::parse($application->start_date);
+        $endDate = Carbon::parse($application->end_date);
+
+        // Calculate the number of days manually
+        $daysRequested = ($endDate->timestamp - $startDate->timestamp) / (60 * 60 * 24) + 1; // Convert seconds to days and add 1
+        $daysRequested = max(1, (int)$daysRequested); // Ensure at least 1 day is requested
+
+        // Find the user who submitted the application
+        $user = User::find($application->user_id);
+
+        if (!$user) {
+            Log::error('User not found.', ['user_id' => $application->user_id, 'application_id' => $id]);
+            return redirect()->back()->with('error', 'User not found.');
+        }
+
+        // Handle notes deduction dynamically
+        $notes = Note::all(); // Retrieve all notes
+        $noteColumn = Str::slug($application->leave_type, '_'); // Slug the leave type for matching
+
+        // Check if the requested leave type corresponds to any note
+        foreach ($notes as $note) {
+            $columnName = Str::slug($note->title, '_'); // Slug the note title
+
+            if ($columnName === $noteColumn && isset($user->$columnName) && $user->$columnName >= $daysRequested) {
+                $user->$columnName -= $daysRequested; // Deduct the requested days from the notes column
+                Log::info('Deducted notes days.', ['user_id' => $user->id, 'days_deducted' => $daysRequested, 'note_type' => $note->title]);
+                break; // Exit the loop once the deduction is made
+            }
+        }
+
+        // Check if the deduction was successful
+        if (!isset($user->$noteColumn) || $user->$noteColumn < $daysRequested) {
+            Log::warning('Insufficient notes available.', ['user_id' => $user->id, 'requested' => $daysRequested, 'available' => $user->$noteColumn ?? 0]);
+            return redirect()->back()->with('error', 'Insufficient notes available.');
+        }
+
+        // Save the updated user information
+        $user->save();
+
+        // Update the application's status to approved
+        $application->admin_approved = true;
+        $application->status = 'approved';
+        $application->save();
+
+        Log::info('MC application approved.', ['application_id' => $id, 'user_id' => $user->id]);
+
+        return redirect()->back()->with('success', 'MC application approved by admin.');
     }
-
-    // Check if the deduction was successful
-    if (!isset($user->$noteColumn) || $user->$noteColumn < $daysRequested) {
-        Log::warning('Insufficient notes available.', ['user_id' => $user->id, 'requested' => $daysRequested, 'available' => $user->$noteColumn ?? 0]);
-        return redirect()->back()->with('error', 'Insufficient notes available.');
-    }
-
-    // Save the updated user information
-    $user->save();
-
-    // Update the application's status to approved
-    $application->admin_approved = true;
-    $application->status = 'approved';
-    $application->save();
-
-    Log::info('MC application approved.', ['application_id' => $id, 'user_id' => $user->id]);
-
-    return redirect()->back()->with('success', 'MC application approved by admin.');
-}
 
     public function reject(Request $request, $id)
     {
@@ -867,22 +865,22 @@ public function approve($id)
     }
 
     public function changePassword(Request $request)
-{
-    $user = Auth::user(); // Get the currently authenticated user
+    {
+        $user = Auth::user(); // Get the currently authenticated user
 
-    // Validate the password input data
-    $request->validate([
-        'password' => 'required|string|min:8|confirmed', // New password must be confirmed
-    ]);
+        // Validate the password input data
+        $request->validate([
+            'password' => 'required|string|min:8|confirmed', // New password must be confirmed
+        ]);
 
-    // Update the user's password
-    $user->password = Hash::make($request->password); // Hash the new password
+        // Update the user's password
+        $user->password = Hash::make($request->password); // Hash the new password
 
-    // Save changes to the database
-    $user->save();
+        // Save changes to the database
+        $user->save();
 
-    // Redirect with success message
-    return redirect()->back()->with('success', 'Kata laluan anda telah berjaya dikemas kini!');
-    return redirect()->back()->with('error', 'Kata laluan anda telah gagal dikemas kini!');
-}
+        // Redirect with success message
+        return redirect()->back()->with('success', 'Kata laluan anda telah berjaya dikemas kini!');
+        return redirect()->back()->with('error', 'Kata laluan anda telah gagal dikemas kini!');
+    }
 }

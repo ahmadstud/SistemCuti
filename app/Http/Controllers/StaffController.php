@@ -168,65 +168,62 @@ class StaffController extends Controller
 
     public function dashboard(Request $request)
     {
-        // Get today's date
         $today = now()->toDateString();
-        $currentUserId = auth()->id(); // Get the ID of the logged-in user
 
-        // Get the logged-in user's MC applications for today
-        $staffOnLeaveToday = McApplication::with('user')
-            ->join('users', 'mc_applications.user_id', '=', 'users.id')
-            ->where('mc_applications.user_id', $currentUserId) // Only show data for the logged-in user
+        // Fetch list of staff on leave today, including their `total_mc_days`, joining with `users` table
+        $staffOnLeaveToday = McApplication::with('user') // Assuming there's a 'user' relationship in McApplication model
+            ->join('users', 'mc_applications.user_id', '=', 'users.id') // Join the users table
             ->where('mc_applications.start_date', '<=', $today)
             ->where('mc_applications.end_date', '>=', $today)
-            ->where('mc_applications.status', 'approved')
-            ->select('mc_applications.*', 'users.total_mc_days', 'users.total_annual', 'users.total_others')
+            ->where('mc_applications.status', 'approved') // Only approved leaves
             ->get();
 
-        // Fetch only announcements and notes visible to this user
+        // Fetch announcements and notes as needed
         $announcements = Announcement::all();
         $notes = Note::all();
 
-        // Get the current year and optionally the user-selected year
+        // Get the current year and optionally use the year selected by the user
         $currentYear = now()->year;
-        $year = $request->input('year', $currentYear); // Default to current year
+        $year = $request->input('year', $currentYear); // Defaults to the current year if not specified
 
-        // Generate a range of years, e.g., from 2020 to the current year + 1
+        // Generate a range of years for the dropdown, from 2020 to the next year
         $yearRange = range(2020, $currentYear + 1);
 
-        // Query to get the monthly data of the logged-in user's leave applications for the selected year
+        // Query to get monthly data of staff on leave for the selected year
         $monthlyLeaveData = McApplication::select(
             DB::raw('MONTH(start_date) as month'),
             DB::raw('COUNT(*) as total_applications')
         )
-        ->where('user_id', $currentUserId) // Only count applications for the logged-in user
-        ->whereYear('start_date', $year) // Use the selected year
+        ->whereYear('start_date', $year) // Filter by the selected year
         ->where('status', 'approved') // Only count approved leaves
         ->groupBy(DB::raw('MONTH(start_date)'))
-        ->orderBy(DB::raw('MONTH(start_date)'), 'asc') // Corrected the orderBy syntax
+        ->orderBy(DB::raw('MONTH(start_date)')) // Order by month
         ->get();
 
-        // Prepare an array with all 12 months and set default values as 0
+        // Prepare an array with all 12 months, defaulting to 0 leave count for each month
         $leaveCountsByMonth = array_fill(1, 12, 0);
 
-        // Fill the actual values from the query into the leave counts
+        // Populate the array with actual data from the query
         foreach ($monthlyLeaveData as $data) {
             $leaveCountsByMonth[$data->month] = $data->total_applications;
         }
 
-        // Convert leave counts to a JSON format for the chart
+        // Convert leave counts to JSON format for the chart (if required on the staff view)
         $leaveCountsByMonthJson = json_encode(array_values($leaveCountsByMonth));
 
-        // Return the view with all collected data for this specific user
+        // Pass the data to the staff dashboard view
         return view('staff', compact(
-            'announcements',
             'staffOnLeaveToday',
-            'notes',
+            'announcements',
             'leaveCountsByMonth',
+            'leaveCountsByMonthJson',
             'year',
             'yearRange',
-            'leaveCountsByMonthJson'
+            'notes'
         ));
     }
+
+
 
 
     public function profile()
@@ -243,15 +240,15 @@ class StaffController extends Controller
 
     public function McApply(Request $request)
     {
-    // Get the sort and order parameters from the request
-    $sort = $request->input('sort', 'created_at'); // Default sorting by created_at
-    $order = $request->input('order', 'asc'); // Default order is ascending
+        // Get the sort and order parameters from the request
+        $sort = $request->input('sort', 'created_at'); // Default sorting by created_at
+        $order = $request->input('order', 'asc'); // Default order is ascending
 
-    // Fetch all MC applications for the logged-in user with sorting
-    $mcApplications = McApplication::where('user_id', Auth::id())
-        ->orderBy($sort, $order)
-        ->paginate(10);
-        $notes = Note::all(); // Fetch all notes
+        // Fetch all MC applications for the logged-in user with sorting
+        $mcApplications = McApplication::where('user_id', Auth::id())
+            ->orderBy($sort, $order)
+            ->paginate(10);
+            $notes = Note::all(); // Fetch all notes
 
         // Create an array to hold selected leave types
         $selectedLeaveTypes = [];

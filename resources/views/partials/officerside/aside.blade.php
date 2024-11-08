@@ -13,7 +13,7 @@
 
       <div class="text-center" style="margin-bottom: 1rem; width: 100%;">
         <!-- Info Card -->
-        <div id="info-card" style="background-color: #8f4de4; color: white; border-radius: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; height: 100%; width: 100%;">
+        <div id="info-card" style="background-image: url('https://img.freepik.com/free-vector/gradient-dynamic-purple-lines-background_23-2148995757.jpg?w=360'); color: white; border-radius: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; height: 100%; width: 100%; background-size: cover; background-position: center;">
           <img src="{{ asset(Auth::user()->profile_image) }}" alt="Profile Image" class="rounded-circle" width="50" height="50" style="margin-bottom: 10px;">
           <div style="font-size: 1rem; font-weight: bold;">{{ Auth::user()->name }}</div>
           <span style="font-size: 1rem; color: #ccc;">Papan Pemuka Pegawai</span> <!-- Moved here -->
