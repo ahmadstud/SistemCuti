@@ -11,7 +11,6 @@
                             @endphp
                             <p class="text-sm mb-1 text-uppercase font-weight-bold">{{ $note->title }}</p>
                             <h6 class="font-weight-bolder">Baki cuti <br>
-                                {{ old($columnName, Auth::user()->$columnName ?? '0') }} Hari/
                                 {{ old($columnName, Auth::user()->$columnName ?? '0') }} Hari
                             </h6>
                         </div>
@@ -25,3 +24,4 @@
     </div>
 </div>
 
+    
