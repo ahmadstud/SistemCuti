@@ -68,6 +68,10 @@ use App\Http\Controllers\Auth\LoginController;
             
             Route::delete('/applications/{id}', [AdminController::class, 'deleteMcApplication'])->name('applications.delete');
 
+        // generating the PDF
+            // Route::get('/applications/generate-pdf', [AdminController::class, 'generatePDF'])->name('applications.generatePDF');
+
+
         // Routes for approving or rejecting MC applications by both admins and officers.
             Route::post('/admin/approve/{id}',                      [AdminController::class, 'approveMcApplication'])->name('admin.approveMcApplication');
         // Admin approval route

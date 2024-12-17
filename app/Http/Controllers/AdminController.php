@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class AdminController extends Controller
 {
@@ -581,6 +582,13 @@ class AdminController extends Controller
         // Redirect back with a success message
         return redirect()->back()->with('success', 'Permohonan berjaya dipadam!');
     }
+
+    // public function generatePDF()
+    // {
+    //     $allApplications = McApplication::with('user')->get();
+    //     $pdf = Pdf::loadView('partials.adminside.mc_all_apply', compact('allApplications'));
+    //     return $pdf->stream('Senarai_Keseluruhan_Permohonan.pdf');
+    // }
 
 
 

@@ -245,12 +245,12 @@
                                                         <div class="accordion" id="notesAccordion">
                                                             @foreach($notes as $index => $note)
                                                             <div class="accordion-item" style="border: 1px solid #dee2e6; border-radius: 0.375rem; margin-bottom: 1rem;">
-                                                                <h2 class="accordion-header" id="heading{{ $index }}">
-                                                                    <button class="accordion-button {{ $index === 0 ? '' : 'collapsed' }}" type="button" style="background-color: #f8f9fa; color: #333; border: none;"
+                                                                <h5 class="accordion-header" id="heading{{ $index }}">
+                                                                    <button class="accord8ion-button {{ $index === 0 ? '' : 'collapsed' }}" type="button" style="background-color: #f8f9fa; color: #333; border: none;"
                                                                             data-bs-toggle="collapse" data-bs-target="#collapse{{ $index }}" aria-expanded="{{ $index === 0 ? 'true' : 'false' }}" aria-controls="collapse{{ $index }}">
                                                                         {{ $index + 1 }}. {{ $note->title }}
                                                                     </button>
-                                                                </h2>
+                                                                </h5>
                                                                 <div id="collapse{{ $index }}" class="accordion-collapse collapse {{ $index === 0 ? 'show' : '' }}" aria-labelledby="heading{{ $index }}" data-bs-parent="#notesAccordion" style="color: #333; border: none;">
                                                                     <div class="accordion-body" style="padding: 1rem;">
                                                                         <!-- Display Summernote content -->

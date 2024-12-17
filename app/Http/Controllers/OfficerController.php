@@ -34,7 +34,6 @@ class OfficerController extends Controller
         return redirect()->back()->with('error', 'Status permohonan gagal dikemas kini!');
     }
 
-
     public function updateOwnDetails3(Request $request)
     {
         $user = Auth::user(); // Get the currently authenticated user
