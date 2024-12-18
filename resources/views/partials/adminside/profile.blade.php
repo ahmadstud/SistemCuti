@@ -206,6 +206,7 @@
                                                                                 <input type="text" class="form-control" id="mc_days" value="{{ Auth::user()->total_mc_days }}" readonly>
                                                                             </div>
                                                                         </div>
+
                                                                         <br>
                                                                         <div class="modal-footer">
                                                                             <button type="submit" class="btn btn-success">Simpan</button>

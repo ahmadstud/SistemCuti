@@ -34,7 +34,6 @@ class OfficerController extends Controller
         return redirect()->back()->with('error', 'Status permohonan gagal dikemas kini!');
     }
 
-
     public function updateOwnDetails3(Request $request)
     {
         $user = Auth::user(); // Get the currently authenticated user
@@ -252,7 +251,6 @@ class OfficerController extends Controller
     public function dashboard(Request $request)
     {
         $today = now()->toDateString();
-
         // Fetch list of staff on leave today, including their `total_mc_days`, joining with `users` table
         $staffOnLeaveToday = McApplication::with('user') // Assuming there's a 'user' relationship in McApplication model
             ->join('users', 'mc_applications.user_id', '=', 'users.id') // Join the users table
@@ -265,34 +263,34 @@ class OfficerController extends Controller
         $announcements = Announcement::all();
         $notes = Note::all();
 
-          // Get the current year and optionally use the year selected by the user
-          $currentYear = now()->year;
-          $year = $request->input('year', $currentYear); // Defaults to the current year if not specified
+        // Get the current year and optionally use the year selected by the user
+        $currentYear = now()->year;
+        $year = $request->input('year', $currentYear); // Defaults to the current year if not specified
 
-          // Generate a range of years for the dropdown, from 2020 to the next year
-          $yearRange = range(2020, $currentYear + 1);
+        // Generate a range of years for the dropdown, from 2020 to the next year
+        $yearRange = range(2020, $currentYear + 1);
 
-          // Query to get monthly data of staff on leave for the selected year
-          $monthlyLeaveData = McApplication::select(
-              DB::raw('MONTH(start_date) as month'),
-              DB::raw('COUNT(*) as total_applications')
-          )
-          ->whereYear('start_date', $year) // Filter by the selected year
-          ->where('status', 'approved') // Only count approved leaves
-          ->groupBy(DB::raw('MONTH(start_date)'))
-          ->orderBy(DB::raw('MONTH(start_date)')) // Order by month
-          ->get();
+        // Query to get monthly data of staff on leave for the selected year
+        $monthlyLeaveData = McApplication::select(
+            DB::raw('MONTH(start_date) as month'),
+            DB::raw('COUNT(DISTINCT user_id) as total_staff')
+        )
+        ->whereYear('start_date', $year) // Filter by the selected year
+        ->where('status', 'approved') // Only count approved leaves
+        ->groupBy(DB::raw('MONTH(start_date)'))
+        ->orderBy(DB::raw('MONTH(start_date)')) // Order by month
+        ->get();
 
-          // Prepare an array with all 12 months, defaulting to 0 leave count for each month
-          $leaveCountsByMonth = array_fill(1, 12, 0);
+        // Prepare an array with all 12 months, defaulting to 0 leave count for each month
+        $leaveCountsByMonth = array_fill(1, 12, 0);
 
-          // Populate the array with actual data from the query
-          foreach ($monthlyLeaveData as $data) {
-              $leaveCountsByMonth[$data->month] = $data->total_applications;
-          }
+        // Populate the array with actual data from the query
+        foreach ($monthlyLeaveData as $data) {
+            $leaveCountsByMonth[$data->month] = $data->total_staff;
+        }
 
-          // Convert leave counts to JSON format for the chart (if required on the staff view)
-          $leaveCountsByMonthJson = json_encode(array_values($leaveCountsByMonth));
+        // Convert leave counts to JSON format for the chart
+        $leaveCountsByMonthJson = json_encode(array_values($leaveCountsByMonth));
 
         // Pass the data to the officer dashboard view
         return view('officer', compact(
@@ -305,6 +303,7 @@ class OfficerController extends Controller
             'notes'
         ));
     }
+
 
 
 

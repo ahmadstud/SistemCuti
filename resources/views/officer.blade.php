@@ -123,7 +123,6 @@
 
                                                             carouselElement.addEventListener('slide.bs.carousel', function (event) {
                                                                 const nextItem = event.relatedTarget;
-
                                                                 // Update title and content based on the active slide
                                                                 const title = nextItem.getAttribute('data-title');
                                                                 const content = nextItem.getAttribute('data-content');
@@ -213,7 +212,7 @@
                                                     <br>
                                                     <!-- Year Dropdown -->
                                                     <div class="d-flex justify-content-end pe-3">
-                                                        <form method="GET" action="{{ route('officer') }}" class="d-flex align-items-center">
+                                                        <form method="GET" action="{{ route('admin.dashboard') }}" class="d-flex align-items-center">
                                                             <div class="d-flex align-items-center mb-3">
                                                                 <label for="year" class="form-label me-2">Plih Tahun:</label>
                                                                 <select name="year" id="year" class="form-select" style="width: 150px;" onchange="this.form.submit()">
@@ -277,67 +276,68 @@
         </div>
 </main> <!-- Closing main-content -->
 
-  <!--   Core JS Files   -->
-  <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
-  <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
-  <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
-  <script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
-  <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
+        <!-- Core JS Files -->
+        <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
+        <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
+        <script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
+        <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
 
-  <!-- Most Important JS Files -->
-  <script src="{{ asset('js/app.js') }}"></script>
+        <!-- Main Application JS File -->
+        <script src="{{ asset('js/app.js') }}"></script>
 
-  <!-- Github buttons -->
-  <script async defer src="https://buttons.github.io/buttons.js"></script>
-  <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.0.4') }}"></script>
+        <!-- GitHub Buttons (Async Loading) -->
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
 
-  <!-- Include Bootstrap JS and Popper.js -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- Control Center for Soft Dashboard: Includes parallax effects and other scripts -->
+        <script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.0.4') }}"></script>
 
-  <!-- Bootstrap JS and Popper.js -->
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"></script>
+        <!-- jQuery Library -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  {{-- Include CKEditor in the HTML Head --}}
-  <script src="https://cdn.ckeditor.com/4.25.0/standard/ckeditor.js"></script>
+        <!-- Bootstrap JS and Popper.js (from CDN) -->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"></script>
 
-  <!-- Script to handle chart creation -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <!-- CKEditor Library -->
+        <script src="https://cdn.ckeditor.com/4.25.0/standard/ckeditor.js"></script>
 
-  <script>
-       // Define leave data from a PHP variable (as JSON)
-       const leaveData = {!! $leaveCountsByMonthJson !!};
+        <!-- Chart.js Library (for creating charts) -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-// Array representing months for the chart's X-axis
-const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        <script>
+            // Define leave data from a PHP variable (as JSON)
+            const leaveData = {!! $leaveCountsByMonthJson !!};
 
-// Initialize chart on the canvas with ID 'chart-line'
-const ctx = document.getElementById('chart-line').getContext('2d');
-const chart = new Chart(ctx, {
-    type: 'line', // Type of chart (line, bar, etc.)
-    data: {
-        labels: months, // X-axis labels (months)
-        datasets: [{
-            label: 'Jumlah Permohonan Cuti Bulanan yang Lulus', // Chart label
-            data: leaveData, // Data for Y-axis
-            borderColor: 'rgba(75, 192, 192, 1)', // Line color
-            backgroundColor: 'rgba(75, 192, 192, 0.2)', // Fill color below the line
-            borderWidth: 2, // Line thickness
-            fill: true // Fill area under the line
-        }]
-    },
-    options: {
-        responsive: true, // Make chart responsive
-        maintainAspectRatio: false, // Don't maintain aspect ratio
-        scales: {
-            y: {
-                beginAtZero: true // Start Y-axis from zero
-            }
-        }
-    }
-});
-  </script>
+            // Array representing months for the chart's X-axis
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+            // Initialize chart on the canvas with ID 'chart-line'
+            const ctx = document.getElementById('chart-line').getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'line', // Type of chart (line, bar, etc.)
+                data: {
+                    labels: months, // X-axis labels (months)
+                    datasets: [{
+                        label: 'Jumlah Permohonan Cuti Bulanan yang Lulus', // Chart label
+                        data: leaveData, // Data for Y-axis
+                        borderColor: 'rgba(75, 192, 192, 1)', // Line color
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)', // Fill color below the line
+                        borderWidth: 2, // Line thickness
+                        fill: true // Fill area under the line
+                    }]
+                },
+                options: {
+                    responsive: true, // Make chart responsive
+                    maintainAspectRatio: false, // Don't maintain aspect ratio
+                    scales: {
+                        y: {
+                            beginAtZero: true // Start Y-axis from zero
+                        }
+                    }
+                }
+            });
+        </script>
 
 </body>
 
