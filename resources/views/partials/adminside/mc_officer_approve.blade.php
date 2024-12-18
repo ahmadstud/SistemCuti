@@ -24,7 +24,7 @@
             <link rel="icon" type="image/png" href="{{ asset('assets/img/Erawhiz.png') }}">
 
             <!-- Page Title -->
-            <title>Sistem Permohonan Cuti - Staf</title>
+            <title>Admin - Bahagian Kelulusan Tapisan Pegawai</title>
 
             <!-- Fonts and Icons -->
             <!-- Google Fonts - Open Sans for consistent typography across devices -->
@@ -34,8 +34,8 @@
             <link href="{{ asset('assets/css/nucleo-icons.css') }}" rel="stylesheet" />
             <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
 
-            <!-- Font Awesome - Provides additional icons for customization -->
-            <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+            <!-- Font Awesome Icons (For additional icons) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
             <!-- CSS Files -->
             <!-- Main Argon Dashboard CSS file for UI styling and layout -->

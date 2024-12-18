@@ -31,8 +31,8 @@
         <link href="{{ asset('assets/css/nucleo-icons.css') }}" rel="stylesheet" />
         <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
 
-        <!-- Font Awesome Icons (For additional icons) -->
-        <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+       <!-- Font Awesome Icons (For additional icons) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
         <!-- Main CSS for Argon Dashboard -->
         <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet" />
@@ -122,7 +122,7 @@
 
                                                             carouselElement.addEventListener('slide.bs.carousel', function (event) {
                                                                 const nextItem = event.relatedTarget;
-                                                                
+
                                                                 // Update title and content based on the active slide
                                                                 const title = nextItem.getAttribute('data-title');
                                                                 const content = nextItem.getAttribute('data-content');
@@ -172,8 +172,8 @@
                                                                             <div class="d-flex align-items-center">
                                                                                 <!-- Profile Image -->
                                                                                 <img src="{{ asset($leave->user->profile_image) }}" alt="Profile Image" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover; margin-right: 10px;">
-    
-                                                                                
+
+
                                                                                 <!-- Staff name and leave dates -->
                                                                                 <div class="d-flex flex-column">
                                                                                     <h6 class="mb-1 text-dark text-md">{{ $leave->user->name }}</h6>
@@ -254,7 +254,7 @@
                                                                 <div id="collapse{{ $index }}" class="accordion-collapse collapse {{ $index === 0 ? 'show' : '' }}" aria-labelledby="heading{{ $index }}" data-bs-parent="#notesAccordion" style="color: #333; border: none;">
                                                                     <div class="accordion-body" style="padding: 1rem;">
                                                                         <!-- Display Summernote content -->
-                                                                        {!! $note->content !!} 
+                                                                        {!! $note->content !!}
                                                                     </div>
                                                                 </div>
                                                             </div>

@@ -169,7 +169,11 @@ class StaffController extends Controller
     public function dashboard(Request $request)
     {
         $today = now()->toDateString();
+<<<<<<< HEAD
+
+=======
     
+>>>>>>> origin
         // Fetch list of staff on leave today, including their `total_mc_days`, joining with `users` table
         $staffOnLeaveToday = McApplication::with('user') // Assuming there's a 'user' relationship in McApplication model
             ->join('users', 'mc_applications.user_id', '=', 'users.id') // Join the users table
@@ -177,6 +181,20 @@ class StaffController extends Controller
             ->where('mc_applications.end_date', '>=', $today)
             ->where('mc_applications.status', 'approved') // Only approved leaves
             ->get();
+<<<<<<< HEAD
+
+        // Fetch announcements and notes as needed
+        $announcements = Announcement::all();
+        $notes = Note::all();
+
+        // Get the current year and optionally use the year selected by the user
+        $currentYear = now()->year;
+        $year = $request->input('year', $currentYear); // Defaults to the current year if not specified
+
+        // Generate a range of years for the dropdown, from 2020 to the next year
+        $yearRange = range(2020, $currentYear + 1);
+
+=======
     
         // Fetch announcements and notes as needed
         $announcements = Announcement::all();
@@ -189,28 +207,43 @@ class StaffController extends Controller
         // Generate a range of years for the dropdown, from 2020 to the next year
         $yearRange = range(2020, $currentYear + 1);
     
+>>>>>>> origin
         // Query to get monthly data of staff on leave for the selected year
         $monthlyLeaveData = McApplication::select(
             DB::raw('MONTH(start_date) as month'),
-            DB::raw('COUNT(DISTINCT user_id) as total_staff')
+            DB::raw('COUNT(*) as total_applications')
         )
         ->whereYear('start_date', $year) // Filter by the selected year
         ->where('status', 'approved') // Only count approved leaves
         ->groupBy(DB::raw('MONTH(start_date)'))
         ->orderBy(DB::raw('MONTH(start_date)')) // Order by month
         ->get();
+<<<<<<< HEAD
+
+        // Prepare an array with all 12 months, defaulting to 0 leave count for each month
+        $leaveCountsByMonth = array_fill(1, 12, 0);
+
+=======
     
         // Prepare an array with all 12 months, defaulting to 0 leave count for each month
         $leaveCountsByMonth = array_fill(1, 12, 0);
     
+>>>>>>> origin
         // Populate the array with actual data from the query
         foreach ($monthlyLeaveData as $data) {
-            $leaveCountsByMonth[$data->month] = $data->total_staff;
+            $leaveCountsByMonth[$data->month] = $data->total_applications;
         }
+<<<<<<< HEAD
+
+        // Convert leave counts to JSON format for the chart (if required on the staff view)
+        $leaveCountsByMonthJson = json_encode(array_values($leaveCountsByMonth));
+
+=======
     
         // Convert leave counts to JSON format for the chart (if required on the staff view)
         $leaveCountsByMonthJson = json_encode(array_values($leaveCountsByMonth));
     
+>>>>>>> origin
         // Pass the data to the staff dashboard view
         return view('staff', compact(
             'staffOnLeaveToday',
@@ -224,6 +257,9 @@ class StaffController extends Controller
     }
     
     
+
+
+
 
     public function profile()
     {
@@ -262,7 +298,7 @@ class StaffController extends Controller
                 $selectedLeaveTypes[$application->id] = 'Tidak ada catatan dipilih';
             }
         }
-        
+
 
         return view('partials.staffside.mc_apply', compact('mcApplications', 'selectedLeaveTypes','notes'));
     }

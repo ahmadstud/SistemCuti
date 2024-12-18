@@ -23,7 +23,7 @@
         <link rel="icon" type="image/png" href="{{ asset('assets/img/Erawhiz.png') }}">
 
         <!-- Page Title -->
-        <title>Sistem Permohonan Cuti - Staf</title>
+        <title>Admin - Bahagian Senarai Permohonan</title>
 
         <!-- Fonts and Icons -->
         <!-- Google Fonts - Open Sans for consistent font styling -->
@@ -33,8 +33,8 @@
         <link href="{{ asset('assets/css/nucleo-icons.css') }}" rel="stylesheet" />
         <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
 
-        <!-- Font Awesome Icons - Icon library for a variety of icons -->
-        <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+      <!-- Font Awesome Icons (For additional icons) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
         <!-- Main CSS File for Argon Dashboard -->
         <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet" />

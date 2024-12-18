@@ -66,7 +66,11 @@
                                             <div class="row">
                                                 <div class="card">
                                                     <div class="card-header pb-0 p-3">
-                                                        
+<<<<<<< HEAD
+
+=======
+
+>>>>>>> origin
                                                         <div class="d-flex justify-content-between">
                                                             <h4 class="mb-2"></h4>
 
@@ -208,7 +212,11 @@
                                                                         @php
                                                                             $currentRangeStart = $mcApplications->firstItem(); // Start of the range for the current page
                                                                         @endphp
-                                                                    
+<<<<<<< HEAD
+
+=======
+
+>>>>>>> origin
                                                                         @foreach($mcApplications as $index => $mcApplication)
                                                                             <tr>
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
@@ -347,11 +355,19 @@
                                                                         Showing {{ $mcApplications->firstItem() }} to {{ $mcApplications->lastItem() }} of {{ $mcApplications->total() }} results
                                                                     </div>
                                                                     <div>
-                                                                        {{ $mcApplications->links('vendor.pagination.bootstrap-4') }} 
+<<<<<<< HEAD
+                                                                        {{ $mcApplications->links('vendor.pagination.bootstrap-4') }}
                                                                     </div>
                                                                 </div>
                                                             @endif
-                                                        
+
+=======
+                                                                        {{ $mcApplications->links('vendor.pagination.bootstrap-4') }}
+                                                                    </div>
+                                                                </div>
+                                                            @endif
+
+>>>>>>> origin
 
                                                         </div>
                                                     </div>
@@ -368,7 +384,8 @@
             </div>
         </main> <!-- Closing main-content -->
 
-    
+<<<<<<< HEAD
+
             <!-- Core JS Files -->
             <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
             <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
@@ -378,6 +395,18 @@
             <!-- Most Important JS Files -->
             <script src="{{ asset('js/app.js') }}"></script>
 
+=======
+
+            <!-- Core JS Files -->
+            <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
+            <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
+            <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
+            <script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
+            <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
+            <!-- Most Important JS Files -->
+            <script src="{{ asset('js/app.js') }}"></script>
+
+>>>>>>> origin
             <!-- Github buttons -->
             <script async defer src="https://buttons.github.io/buttons.js"></script>
             <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->

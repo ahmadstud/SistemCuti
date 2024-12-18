@@ -1,7 +1,7 @@
 <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4" id="sidenav-main" style="height: calc(100vh - 60px;); overflow-y: auto;">
   <div class="sidenav-header logo-section">
     <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-    
+
     <a class="navbar-brand m-0" href="#" target="_blank">
         <div style="display: flex; align-items: center;">
             <img src="{{ asset('assets/img/Erawhiz.png') }}" class="navbar-brand-img" alt="main_logo" style="width: 80px; max-height: 80px; object-fit: contain; border-radius: 10px; margin-right: 20px;"> <!-- Increased margin-right -->
@@ -18,7 +18,7 @@
         <div style="font-size: 1rem; font-weight: bold;">{{ Auth::user()->name }}</div>
         <span style="font-size: 1rem; color: #ccc;">Papan Pemuka Admin</span>
     </div>
-    
+
     </div>
 
     <!-- Date and Time Section with added margin -->
@@ -160,7 +160,7 @@
             </form>
             <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="fa fa-sign-out text-danger text-sm opacity-10"></i>
+                    <i class="fas fa-sign-out-alt text-danger text-sm opacity-10"></i>
                 </div>
                 <span class="nav-link-text ms-1">Log Keluar</span>
             </a>

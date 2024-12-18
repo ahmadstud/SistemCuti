@@ -17,7 +17,7 @@
         <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/Erawhiz.png') }}">
         <link rel="icon" type="image/png" href="{{ asset('assets/img/Erawhiz.png') }}">
         <title>
-            Sistem Permohonan Cuti - Staf
+            Admin - Bahagian Profil Pengguna
         </title>
 
         <!--     Fonts and icons     -->
@@ -25,8 +25,8 @@
         <!-- Nucleo Icons -->
         <link href="{{ asset('assets/css/nucleo-icons.css') }}" rel="stylesheet" />
         <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
-        <!-- Font Awesome Icons -->
-        <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+       <!-- Font Awesome Icons (For additional icons) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
         <!-- CSS Files -->
         <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
@@ -162,7 +162,7 @@
                                                                                     <option value="Wilayah Persekutuan Labuan" {{ Auth::user()->state == 'Wilayah Persekutuan Labuan' ? 'selected' : '' }}>Wilayah Persekutuan Labuan</option>
                                                                                     <option value="Wilayah Persekutuan Putrajaya" {{ Auth::user()->state == 'Wilayah Persekutuan Putrajaya' ? 'selected' : '' }}>Wilayah Persekutuan Putrajaya</option>
                                                                                 </select>
-                                                                            </div>                                                                            
+                                                                            </div>
                                                                         </div>
 
                                                                         {{-- Pekerjaan --}}
@@ -205,8 +205,8 @@
                                                                                 <label for="mc_days" class="form-label">JUMLAH CUTI</label>
                                                                                 <input type="text" class="form-control" id="mc_days" value="{{ Auth::user()->total_mc_days }}" readonly>
                                                                             </div>
-                                                                        </div> 
-                                                                                                                                                 
+                                                                        </div>
+
                                                                         <br>
                                                                         <div class="modal-footer">
                                                                             <button type="submit" class="btn btn-success">Simpan</button>
@@ -288,19 +288,36 @@
                                                         <div class="row mt-3">
                                                             <div class="col-md-4">
                                                                 <label for="role" class="form-label">PERANAN</label>
-                                                                <p class="form-control" id="role">{{ Auth::user()->role }}</p>
+                                                               <p class="form-control" id="role">
+                                                                        @php
+                                                                            $roleMapping = [
+                                                                                'admin' => 'Admin',
+                                                                                'staff' => 'Staf',
+                                                                                'officer' => 'Pegawai',
+                                                                            ];
+                                                                        @endphp
+                                                                        {{ $roleMapping[Auth::user()->role] ?? Auth::user()->role }}
+                                                                    </p>
                                                             </div>
 
                                                             <div class="col-md-4">
                                                                 <label for="job_status" class="form-label">STATUS PEKERJAAN</label>
-                                                                <p class="form-control" id="role">{{ Auth::user()->job_status }}</p>
+                                                                <p class="form-control" id="job_status">
+                                                                    @php
+                                                                        $roleMapping = [
+                                                                            'Contract' => 'Kontrak',
+                                                                            'Permenant' => 'Tetap',
+                                                                        ];
+                                                                    @endphp
+                                                                    {{ $roleMapping[Auth::user()->job_status] ?? Auth::user()->job_status }}
+                                                                </p>
                                                             </div>
                                                             <div class="col-md-4">
                                                                 <label for="role" class="form-label">KETUA BAHAGIAN</label>
                                                                 <p class="form-control" id="role">{{ Auth::user()->role }}</p>
                                                             </div>
                                                         </div>
-        
+
                                                     </div>
                                                 </div>
                                             </div>

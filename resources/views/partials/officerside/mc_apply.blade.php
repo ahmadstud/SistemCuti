@@ -24,12 +24,15 @@
         <!-- Nucleo Icons -->
         <link href="{{ asset('assets/css/nucleo-icons.css') }}" rel="stylesheet" />
         <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
-        <!-- Font Awesome Icons -->
-        <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+         <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
         <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
         <!-- CSS Files -->
         <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.js"></script>
     </head>
 
 
@@ -111,13 +114,13 @@
 
                                             <!-- Document Upload Field -->
                                             <div class="col-md-12 mb-3" id="document_upload_field">
-                                                <label for="document_path" class="form-label">Dokumen MC<span class="text-danger">*</span></label>
+                                                <label for="document_path" class="form-label">Dokumen MC</label>
                                                 <input type="file" class="form-control" id="document_path" name="document_path">
                                             </div>
 
                                             <div class="col-md-12 mb-3">
                                                 <label for="reason" class="form-label">Ulasan<span class="text-danger">*</span></label>
-                                                <textarea class="form-control" id="reason" name="reason" rows="3" required></textarea>
+                                                <textarea class="form-control summernote" id="reason" name="reason" rows="3" required></textarea>
                                             </div>
 
                                             <div class="modal-footer">

@@ -25,7 +25,7 @@
         <link rel="icon" type="image/png" href="{{ asset('assets/img/Erawhiz.png') }}">
 
         <!-- Page Title -->
-        <title>Sistem Permohonan Cuti - Staf</title>
+        <title>Admin - Bahagian Nota</title>
 
         <!-- Fonts and Icons -->
         <!-- Google Fonts (Open Sans) for consistent typography -->
@@ -35,8 +35,8 @@
         <link href="{{ asset('assets/css/nucleo-icons.css') }}" rel="stylesheet" />
         <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
 
-        <!-- Font Awesome Icons for scalable vector icons -->
-        <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+        <!-- Font Awesome Icons (For additional icons) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
         <!-- Core CSS Files -->
         <!-- Argon Dashboard styling for layout and UI components -->
@@ -203,14 +203,14 @@
                                                                         </td>
                                                                         <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                             <div class="d-flex justify-content-start"> <!-- Flex container for side-by-side buttons -->
-                                                                                
+
                                                                                 <!-- Edit Button -->
                                                                                 <button class="btn btn-md btn-primary me-2" data-bs-toggle="modal" data-bs-target="#editNoteModal{{ $note->id }}">
                                                                                     <i class="fas fa-pencil-alt">Kemaskini</i>
                                                                                 </button>
-                                                                        
+
                                                                                 <!-- Delete button for note -->
-                                                                                <form id="delete-form-{{ $note->id }}" action="{{ route('deleteNote', $note->id) }}" method="POST" style="margin: 0;"> 
+                                                                                <form id="delete-form-{{ $note->id }}" action="{{ route('deleteNote', $note->id) }}" method="POST" style="margin: 0;">
                                                                                     @csrf
                                                                                     @method('DELETE')
                                                                                     <button type="submit" class="btn btn-md btn-danger" title="Delete" onclick="return confirmDelete(event, {{ $note->id }})">
@@ -220,7 +220,7 @@
 
                                                                             </div>
                                                                         </td>
-                                                                        
+
                                                                         <!-- Edit Note Modal -->
                                                                         <div class="modal fade" id="editNoteModal{{ $note->id }}" tabindex="-1" aria-labelledby="editNoteLabel{{ $note->id }}" aria-hidden="true">
                                                                             <div class="modal-dialog modal-lg">
@@ -249,7 +249,7 @@
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        
+
                                                                         <!-- Script to initialize Summernote -->
                                                                         <script>
                                                                             // Initialize Summernote when the modal opens
@@ -267,7 +267,7 @@
                                                                                 });
                                                                             });
                                                                         </script>
-                                                                        
+
                                                                         <script>
                                                                             // Function to confirm edit submit
                                                                             function confirmEditSubmit(noteId) {
@@ -286,7 +286,7 @@
                                                                                     }
                                                                                 });
                                                                             }
-                                                                        
+
                                                                             // Script to confirm delete
                                                                             function confirmDelete(event, noteId) {
                                                                                 event.preventDefault(); // Prevent the form from submitting immediately
@@ -370,7 +370,7 @@
 
         <!-- Argon Dashboard JavaScript for overall layout and functionality -->
         <script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.0.4') }}"></script>
-        
+
         <!-- SweetAlert2 for customizable alert modals -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

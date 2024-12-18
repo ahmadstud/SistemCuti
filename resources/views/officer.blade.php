@@ -32,7 +32,7 @@
     <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
 
     <!-- Font Awesome Icons (For additional icons) -->
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
     <!-- Main CSS for Argon Dashboard -->
     <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet" />
@@ -123,7 +123,6 @@
 
                                                             carouselElement.addEventListener('slide.bs.carousel', function (event) {
                                                                 const nextItem = event.relatedTarget;
-                                                                
                                                                 // Update title and content based on the active slide
                                                                 const title = nextItem.getAttribute('data-title');
                                                                 const content = nextItem.getAttribute('data-content');
@@ -173,8 +172,8 @@
                                                                             <div class="d-flex align-items-center">
                                                                                 <!-- Profile Image -->
                                                                                 <img src="{{ asset($leave->user->profile_image) }}" alt="Profile Image" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover; margin-right: 10px;">
-    
-                                                                                
+
+
                                                                                 <!-- Staff name and leave dates -->
                                                                                 <div class="d-flex flex-column">
                                                                                     <h6 class="mb-1 text-dark text-md">{{ $leave->user->name }}</h6>
@@ -202,8 +201,8 @@
                                     <div class="container-fluid py-2">
                                         <div class="row">
 
-                                            {{-- Card Purata Ketidakhadiran --}}
-                                            <div class="col-lg-7 mb-4 d-flex">
+                                             {{-- Card Purata Ketidakhadiran --}}
+                                             <div class="col-lg-7 mb-4 d-flex">
                                                 <div class="card z-index-2 w-100 h-100">
                                                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                                                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
@@ -255,7 +254,7 @@
                                                                 <div id="collapse{{ $index }}" class="accordion-collapse collapse {{ $index === 0 ? 'show' : '' }}" aria-labelledby="heading{{ $index }}" data-bs-parent="#notesAccordion" style="color: #333; border: none;">
                                                                     <div class="accordion-body" style="padding: 1rem;">
                                                                         <!-- Display Summernote content -->
-                                                                        {!! $note->content !!} 
+                                                                        {!! $note->content !!}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -305,7 +304,7 @@
 
         <!-- Chart.js Library (for creating charts) -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
- 
+
         <script>
             // Define leave data from a PHP variable (as JSON)
             const leaveData = {!! $leaveCountsByMonthJson !!};
