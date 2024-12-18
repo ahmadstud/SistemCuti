@@ -418,18 +418,27 @@ class AdminController extends Controller
         ]);
 
         // Find the user by ID
-        $user = User::findOrFail($id);
+    $user = User::findOrFail($id);
 
-        // Automatically fill user data from the request, including dynamic fields
-        $user->fill($request->all());
+    // Automatically fill user data from the request, including static fields
+    $user->fill($request->all());
 
-        // Save the updated user information
-        $user->save();
-
-        // Redirect with success message
-        // return redirect()->route('admin.stafflist')->with('success', 'User updated successfully!');
-        return redirect()->back()->with('success', 'Pengguna berjaya dikemaskini!');
+    // Handle notes
+    $notes = Note::all(); // Retrieve all notes
+    foreach ($notes as $note) {
+        $columnName = Str::slug($note->title, '_'); // Convert note title to column name
+        if ($request->has($columnName)) {
+            $user->$columnName = $request->input($columnName); // Update the note value
+        }
     }
+
+    // Save the updated user information
+    $user->save();
+
+    // Redirect with success message
+    return redirect()->back()->with('success', 'Pengguna berjaya dikemaskini!');
+}
+
 
 
     public function deleteUser($id)

@@ -206,7 +206,7 @@
                                                                                 
                                                                                 <!-- Edit Button -->
                                                                                 <button class="btn btn-md btn-primary me-2" data-bs-toggle="modal" data-bs-target="#editNoteModal{{ $note->id }}">
-                                                                                    <i class="fas fa-pencil-alt"></i>
+                                                                                    <i class="fas fa-pencil-alt">Kemaskini</i>
                                                                                 </button>
                                                                         
                                                                                 <!-- Delete button for note -->
@@ -214,7 +214,7 @@
                                                                                     @csrf
                                                                                     @method('DELETE')
                                                                                     <button type="submit" class="btn btn-md btn-danger" title="Delete" onclick="return confirmDelete(event, {{ $note->id }})">
-                                                                                        <i class="fas fa-trash-alt"></i> <!-- Delete symbol -->
+                                                                                        <i class="fas fa-trash-alt">Padam</i> <!-- Delete symbol -->
                                                                                     </button>
                                                                                 </form>
 

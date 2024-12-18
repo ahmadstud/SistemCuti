@@ -81,8 +81,8 @@
 
                                             <div class="row">
 
-                                                <!-- Add Staff/Officer Button -->
                                                 <div class="card">
+                                                     <!-- Add Staff/Officer Button -->
                                                     <div class="card-header pb-0 p-3">
                                                         <div class="d-flex justify-content-end pe-3">
                                                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStaffModal">
@@ -323,100 +323,125 @@
                                                                 </thead>
                                                                 <tbody>
                                                                     @foreach ($users as $user)
-                                                                    <tr>
-                                                                        @php
-                                                                            $itemsPerPage = 10; // The number of items per page as per your pagination setting
-                                                                            $currentPage = $users->currentPage(); // The current page from the paginated collection
-                                                                            $startingIndex = ($currentPage - 1) * $itemsPerPage;
-                                                                        @endphp
-                                                                        <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                            <p class="text-m text-secondary">{{ $startingIndex + $loop->iteration }}</p>
-                                                                        </td>
-                                                                        <td style="border: 1px solid #dee2e6; padding: 8px;">
-                                                                            <div style="display: flex; align-items: center; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                @if($user->profile_image)
-                                                                                    <img src="{{ asset($user->profile_image) }}" alt="Profile Image" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 30px;">
-                                                                                @else
-                                                                                    <div style="width: 40px; height: 40px; background-color: black; border-radius: 50%; margin-right: 30px;"></div>
-                                                                                @endif
-                                                                                <div>
-                                                                                    <!-- Display Fullname -->
-                                                                                    <p class="text-m text-secondary"><strong>{{ $user->fullname ?? 'No Full Name' }}</strong></p> <!-- Ensure fullname is shown, fallback if not available -->
-                                                                                    <p class="text-m text-secondary">{{ $user->name }}</p>
-                                                                                    <p class="text-sm text-secondary">{{ $user->email }}</p>
+                                                                        <tr>
+                                                                            @php
+                                                                                $itemsPerPage = 10; // The number of items per page as per your pagination setting
+                                                                                $currentPage = $users->currentPage(); // The current page from the paginated collection
+                                                                                $startingIndex = ($currentPage - 1) * $itemsPerPage;
+                                                                            @endphp
+                                                                            <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                <p class="text-m text-secondary">{{ $startingIndex + $loop->iteration }}</p>
+                                                                            </td>
+                                                                            <td style="border: 1px solid #dee2e6; padding: 8px;">
+                                                                                <div style="display: flex; align-items: center; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                    @if($user->profile_image)
+                                                                                        <img src="{{ asset($user->profile_image) }}" alt="Profile Image" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 30px;">
+                                                                                    @else
+                                                                                        <div style="width: 40px; height: 40px; background-color: black; border-radius: 50%; margin-right: 30px;"></div>
+                                                                                    @endif
+                                                                                    <div>
+                                                                                        <!-- Display Fullname -->
+                                                                                        <p class="text-m text-secondary"><strong>{{ $user->fullname ?? 'No Full Name' }}</strong></p> <!-- Ensure fullname is shown, fallback if not available -->
+                                                                                        <p class="text-m text-secondary">{{ $user->name }}</p>
+                                                                                        <p class="text-sm text-secondary">{{ $user->email }}</p>
+                                                                                    </div>
                                                                                 </div>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                            <p class="text-m text-secondary">{{ $user->phone_number }}</p>
-                                                                        </td>
-                                                                        <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                            @if($user->role == 'admin')
-                                                                                <span class="badge badge-md bg-gradient-danger">{{ $user->role }}</span>
-                                                                            @elseif($user->role == 'staff')
-                                                                                <span class="badge badge-md bg-gradient-info">Staf</span>
-                                                                            @elseif($user->role == 'officer')
-                                                                                <span class="badge badge-md bg-gradient-warning">Pegawai</span>
-                                                                            @else
-                                                                                <span class="badge badge-md bg-gradient-secondary">{{ $user->role }}</span>
-                                                                            @endif
-                                                                        </td>
-                                                                        <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                            <p class="text-m text-secondary">
-                                                                                @if($user->officer)
-                                                                                    {{ $user->officer->name }}
+                                                                            </td>
+                                                                            <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                <p class="text-m text-secondary">{{ $user->phone_number }}</p>
+                                                                            </td>
+                                                                            <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                @if($user->role == 'admin')
+                                                                                    <span class="badge badge-md bg-gradient-danger">{{ $user->role }}</span>
+                                                                                @elseif($user->role == 'staff')
+                                                                                    <span class="badge badge-md bg-gradient-info">Staf</span>
+                                                                                @elseif($user->role == 'officer')
+                                                                                    <span class="badge badge-md bg-gradient-warning">Pegawai</span>
                                                                                 @else
-                                                                                    <span class="text-danger">Tiada Penyelia {{ $user->selected_officer_id }}</span>
+                                                                                    <span class="badge badge-md bg-gradient-secondary">{{ $user->role }}</span>
                                                                                 @endif
-                                                                            </p>
-                                                                        </td>
-                                                                        <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                            @if($user->job_status == 'Permenant')
-                                                                                <span class="badge badge-md bg-gradient-warning">Tetap</span>
-                                                                            @elseif($user->job_status == 'Contract')
-                                                                                <span class="badge badge-md bg-gradient-info">Kontrak</span>
-                                                                            @else
-                                                                                <span class="text-secondary">{{ $user->job_status }}</span>
-                                                                            @endif
-                                                                        </td>
-                                                                        <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                            <p class="text-m text-secondary">
-                                                                                @foreach ($notes as $note)
-                                                                                @php
-                                                                                    $columnName = Str::slug($note->title, '_');
-                                                                                @endphp
-                                                                                <strong>{{ $note->title }}: </strong> {{ $user->$columnName ?? '0' }} Hari <br>
-                                                                                @endforeach
-                                                                            </p>
-                                                                        </td>
-                                                                        <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                            <div class="d-flex justify-content-start">
-                                                                    
-                                                                                <!-- Edit Button -->
-                                                                                <button type="button" class="btn btn-md btn-primary me-2" data-bs-toggle="modal" data-bs-target="#editModal{{ $user->id }}">
-                                                                                    <i class="fas fa-pencil-alt"></i>
-                                                                                </button>
-                                                                    
-                                                                                <!-- Delete button -->
-                                                                                <form action="{{ route('deleteUser', $user->id) }}" method="POST" style="display:inline;" id="delete-form-{{ $user->id }}">
-                                                                                    @csrf
-                                                                                    @method('DELETE')
-                                                                                    <button type="button" class="btn btn-md btn-danger" title="Delete" onclick="confirmDelete({{ $user->id }})">
-                                                                                        <i class="fas fa-trash-alt"></i> <!-- Delete symbol -->
+                                                                            </td>
+                                                                            <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                <p class="text-m text-secondary">
+                                                                                    @if($user->officer)
+                                                                                        {{ $user->officer->name }}
+                                                                                    @else
+                                                                                        <span class="text-danger">Tiada Penyelia {{ $user->selected_officer_id }}</span>
+                                                                                    @endif
+                                                                                </p>
+                                                                            </td>
+                                                                            <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                @if($user->job_status == 'Permenant')
+                                                                                    <span class="badge badge-md bg-gradient-warning">Tetap</span>
+                                                                                @elseif($user->job_status == 'Contract')
+                                                                                    <span class="badge badge-md bg-gradient-info">Kontrak</span>
+                                                                                @else
+                                                                                    <span class="text-secondary">{{ $user->job_status }}</span>
+                                                                                @endif
+                                                                            </td>
+                                                                            <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                <p class="text-m text-secondary">
+                                                                                    @foreach ($notes as $note)
+                                                                                    @php
+                                                                                        $columnName = Str::slug($note->title, '_');
+                                                                                    @endphp
+                                                                                    <strong>{{ $note->title }}: </strong> {{ $user->$columnName ?? '0' }} Hari <br>
+                                                                                    @endforeach
+                                                                                </p>
+                                                                            </td>
+
+                                                                            <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                <div class="d-flex justify-content-start">
+                                                                        
+                                                                                    <!-- Edit Button -->
+                                                                                    <button 
+                                                                                        type="button" 
+                                                                                        class="btn btn-md btn-primary me-2" 
+                                                                                        data-bs-toggle="modal" 
+                                                                                        data-bs-target="#editModal{{ $user->id }}">
+                                                                                        <i class="fas fa-pencil-alt me-1"></i>Kemaskini
                                                                                     </button>
-                                                                                </form>
-                                                                    
-                                                                            </div>
-                                                                        </td>
+                                                                        
+                                                                                    <!-- Delete Button -->
+                                                                                    <form 
+                                                                                        action="{{ route('deleteUser', $user->id) }}" 
+                                                                                        method="POST" 
+                                                                                        style="display:inline;" 
+                                                                                        id="delete-form-{{ $user->id }}">
+                                                                                        @csrf
+                                                                                        @method('DELETE')
+                                                                                        <button 
+                                                                                            type="button" 
+                                                                                            class="btn btn-md btn-danger" 
+                                                                                            title="Padam" 
+                                                                                            onclick="confirmDelete({{ $user->id }})">
+                                                                                            <i class="fas fa-trash-alt me-1"></i>Padam
+                                                                                        </button>
+                                                                                    </form>
+                                                                        
+                                                                                </div>
+                                                                            </td>
 
                                                                             <!-- Edit User Modal -->
-                                                                            <div class="modal fade" id="editModal{{ $user->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $user->id }}" aria-hidden="true">
-                                                                                <div class="modal-dialog modal-lg">
-                                                                                    <div class="modal-content">
-                                                                                        <div class="modal-header" style="background-color: #f0f0f0;">
-                                                                                            <h5 class="modal-title" id="editModalLabel{{ $user->id }}">Kemaskini Maklumat - {{ $user->name }}</h5>
-                                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                                        </div>
+                                                                            <div 
+                                                                                class="modal fade" 
+                                                                                id="editModal{{ $user->id }}" 
+                                                                                tabindex="-1" 
+                                                                                aria-labelledby="editModalLabel{{ $user->id }}" 
+                                                                                aria-hidden="true">
+                                                                            <div class="modal-dialog modal-lg">
+                                                                                <div class="modal-content">
+                                                                                    <!-- Modal Header -->
+                                                                                    <div class="modal-header" style="background-color: #f0f0f0;">
+                                                                                        <h5 class="modal-title" id="editModalLabel{{ $user->id }}">Kemaskini Maklumat - {{ $user->name }}</h5>
+                                                                                        <button 
+                                                                                            type="button" 
+                                                                                            class="btn-close" 
+                                                                                            data-bs-dismiss="modal" 
+                                                                                            aria-label="Close"></button>
+                                                                                    </div>
+
+                                                                                        <!-- Modal Body -->
                                                                                         <div class="modal-body">
                                                                                             <form id="edit-form-{{ $user->id }}" action="{{ route('updateUser', $user->id) }}" method="POST">
                                                                                                 @csrf

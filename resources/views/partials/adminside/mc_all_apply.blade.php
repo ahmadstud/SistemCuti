@@ -98,7 +98,7 @@
 
                                                        {{-- PDF Generation Button --}}
                                                         <div class="text-end">
-                                                            <a href="{{ route('applications.generatePDF') }}" class="btn btn-primary">
+                                                            <a  class="btn btn-primary">
                                                                 <i class="fas fa-file-pdf"></i> Generate Report (PDF)
                                                             </a>
                                                         </div>
@@ -272,7 +272,7 @@
                                                                                     @csrf
                                                                                     @method('DELETE')
                                                                                     <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete({{ $application->id }})">
-                                                                                        <i class="fas fa-trash-alt"></i>
+                                                                                        <i class="fas fa-trash-alt">Padam</i>
                                                                                     </button>
                                                                                 </form>
 

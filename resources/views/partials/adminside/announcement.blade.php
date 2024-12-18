@@ -237,7 +237,7 @@
                                                                                     
                                                                                     <!-- Edit button to open the modal -->
                                                                                     <button type="button" class="btn btn-md btn-primary me-2" data-bs-toggle="modal" data-bs-target="#editAnnouncementModal{{ $announcement->id }}">
-                                                                                        <i class="fas fa-pencil-alt"></i>
+                                                                                        <i class="fas fa-pencil-alt">Kemaskini</i>
                                                                                     </button>
 
                                                                                     <!-- Delete button for announcement -->
@@ -245,7 +245,7 @@
                                                                                         @csrf
                                                                                         @method('DELETE')
                                                                                         <button type="submit" class="btn btn-md btn-danger" title="Delete">
-                                                                                            <i class="fas fa-trash-alt"></i> <!-- Delete symbol -->
+                                                                                            <i class="fas fa-trash-alt">Padam</i> <!-- Delete symbol -->
                                                                                         </button>
                                                                                     </form>
                                                                                 </div>
