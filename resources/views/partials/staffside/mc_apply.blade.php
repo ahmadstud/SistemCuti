@@ -66,11 +66,6 @@
                                             <div class="row">
                                                 <div class="card">
                                                     <div class="card-header pb-0 p-3">
-<<<<<<< HEAD
-
-=======
-
->>>>>>> origin
                                                         <div class="d-flex justify-content-between">
                                                             <h4 class="mb-2"></h4>
 
