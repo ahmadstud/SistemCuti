@@ -96,14 +96,6 @@
                                                     <!-- View Applications Section -->
                                                     <div class="card-body">
 
-                                                       {{-- PDF Generation Button --}}
-                                                        <div class="text-end">
-                                                            <a href="{{ route('applications.generatePDF') }}" class="btn btn-primary">
-                                                                <i class="fas fa-file-pdf"></i> Generate Report (PDF)
-                                                            </a>
-                                                        </div>
-
-
                                                         {{-- Carian --}}
                                                         <form method="GET" action="{{ route('admin.mcAllApply') }}" class="mb-3">
 
@@ -348,7 +340,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
         </main>
 

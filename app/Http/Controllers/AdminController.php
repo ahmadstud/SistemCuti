@@ -277,76 +277,86 @@ class AdminController extends Controller
     }
 
     // Store a new note
-    public function storeNote(Request $request)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-        ]);
+public function storeNote(Request $request)
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'content' => 'required|string',
+    ]);
 
-        // Generate a column name from the note title
-        $columnName = Str::slug($request->title, '_');
+    // Generate column names from the note title
+    $baseColumnName = Str::slug($request->title, '_');
+    $fixedColumnName = "total_{$baseColumnName}";
 
-        // Check if the column already exists to avoid duplication
-        if (!Schema::hasColumn('users', $columnName)) {
-            // Alter the table to add a new column as an integer
-            DB::statement("ALTER TABLE users ADD COLUMN {$columnName} INT NULL DEFAULT 0");
-        }
-
-        // Store the note content or other relevant information
-        Note::create([
-            'title' => $request->title,
-            'content' => $request->content,
-        ]);
-
-        return redirect()->back()->with('success', 'Nota berjaya ditambah!');
+    // Check if the columns already exist to avoid duplication
+    if (!Schema::hasColumn('users', $baseColumnName) && !Schema::hasColumn('users', $fixedColumnName)) {
+        // Alter the table to add new columns
+        Schema::table('users', function (Blueprint $table) use ($baseColumnName, $fixedColumnName) {
+            $table->integer($baseColumnName)->nullable()->default(0);
+            $table->integer($fixedColumnName)->nullable()->default(0);
+        });
     }
 
-    // Update an existing note
-    public function updateNote(Request $request, $id)
-    {
-        $note = Note::findOrFail($id); // Find note or fail
+    // Store the note content or other relevant information
+    Note::create([
+        'title' => $request->title,
+        'content' => $request->content,
+    ]);
 
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-        ]);
+    return redirect()->back()->with('success', 'Nota berjaya ditambah!');
+}
 
-        // Get the old column name and the new column name
-        $oldColumnName = Str::slug($note->title, '_');
-        $newColumnName = Str::slug($request->title, '_');
+// Update an existing note
+public function updateNote(Request $request, $id)
+{
+    $note = Note::findOrFail($id); // Find note or fail
 
-        // If the title has changed, rename the column
-        if ($oldColumnName !== $newColumnName && Schema::hasColumn('users', $oldColumnName)) {
-            // Rename the column directly
-            Schema::table('users', function (Blueprint $table) use ($oldColumnName, $newColumnName) {
-                $table->renameColumn($oldColumnName, $newColumnName);
-            });
-        }
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'content' => 'required|string',
+    ]);
 
-        // Update the note's title and content
-        $note->update([
-            'title' => $request->title,
-            'content' => $request->content,
-        ]);
+    // Get the old and new column names
+    $oldBaseColumnName = Str::slug($note->title, '_');
+    $oldFixedColumnName = "total_{$oldBaseColumnName}";
+    $newBaseColumnName = Str::slug($request->title, '_');
+    $newFixedColumnName = "total_{$newBaseColumnName}";
 
-        return redirect()->back()->with('success', 'Nota berjaya dikemaskini!');
+    // If the title has changed, rename the columns
+    if ($oldBaseColumnName !== $newBaseColumnName) {
+        Schema::table('users', function (Blueprint $table) use ($oldBaseColumnName, $oldFixedColumnName, $newBaseColumnName, $newFixedColumnName) {
+            $table->renameColumn($oldBaseColumnName, $newBaseColumnName);
+            $table->renameColumn($oldFixedColumnName, $newFixedColumnName);
+        });
     }
 
+    // Update the note's title and content
+    $note->update([
+        'title' => $request->title,
+        'content' => $request->content,
+    ]);
 
-    // Delete a note
-    public function deleteNote($id)
-    {
-        $note = Note::findOrFail($id); // Find note or fail
+    return redirect()->back()->with('success', 'Nota berjaya dikemaskini!');
+}
 
-        // Remove the corresponding column from the users table
-        $columnName = Str::slug($note->title, '_');
-        DB::statement("ALTER TABLE users DROP COLUMN {$columnName}");
+// Delete a note
+public function deleteNote($id)
+{
+    $note = Note::findOrFail($id); // Find note or fail
 
-        $note->delete();
+    // Get the column names
+    $baseColumnName = Str::slug($note->title, '_');
+    $fixedColumnName = "total_{$baseColumnName}";
 
-        return redirect()->back()->with('success', 'Nota berjaya dipadam!');
-    }
+    // Drop the columns
+    Schema::table('users', function (Blueprint $table) use ($baseColumnName, $fixedColumnName) {
+        $table->dropColumn([$baseColumnName, $fixedColumnName]);
+    });
+
+    $note->delete();
+
+    return redirect()->back()->with('success', 'Nota berjaya dipadam!');
+}
 
     // SENARAI PEKERJA ROUTES
     public function staffList(Request $request)
@@ -399,7 +409,7 @@ class AdminController extends Controller
 
     public function updateUser(Request $request, $id)
     {
-        \Log::info($request->all()); // Log all incoming request data
+        \Log::info($request->all()); // Log all incoming request data for debugging
 
         // Validate the incoming request data (basic fields)
         $request->validate([
@@ -420,14 +430,30 @@ class AdminController extends Controller
         // Find the user by ID
         $user = User::findOrFail($id);
 
-        // Automatically fill user data from the request, including dynamic fields
+        // Automatically fill user data from the request, including static fields
         $user->fill($request->all());
+
+        // Handle notes
+        $notes = Note::all(); // Retrieve all notes
+        foreach ($notes as $note) {
+            $baseColumnName = Str::slug($note->title, '_'); // Base column (e.g., `cuti_harian`)
+            $fixedColumnName = "total_{$baseColumnName}"; // Fixed column (e.g., `total_cuti_harian`)
+
+            // Update the dynamic column value if provided in the request
+            if ($request->has($baseColumnName)) {
+                $user->$baseColumnName = $request->input($baseColumnName);
+            }
+
+            // Update the fixed column value if provided in the request
+            if ($request->has($fixedColumnName)) {
+                $user->$fixedColumnName = $request->input($fixedColumnName);
+            }
+        }
 
         // Save the updated user information
         $user->save();
 
         // Redirect with success message
-        // return redirect()->route('admin.stafflist')->with('success', 'User updated successfully!');
         return redirect()->back()->with('success', 'Pengguna berjaya dikemaskini!');
     }
 

@@ -176,7 +176,7 @@
                                                                                 </div>
                                                                                 <!-- Display leave balance based on leave type -->
                                                                                 <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                                                                                    Cuti yang diambil :<br>{{ \Carbon\Carbon::parse($leave->start_date)->diffInDays(\Carbon\Carbon::parse($leave->end_date)) + 1 }} hari
+                                                                                    Hari :{{ \Carbon\Carbon::parse($leave->start_date)->diffInDays(\Carbon\Carbon::parse($leave->end_date)) + 1 }} hari
                                                                                 </div>
                                                                             </li>
                                                                         @endforeach

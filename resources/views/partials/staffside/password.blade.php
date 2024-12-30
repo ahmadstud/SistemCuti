@@ -51,7 +51,7 @@
                                         <!-- Breadcrumb -->
                                         <nav aria-label="breadcrumb">
                                             <ol class="breadcrumb mb-0">
-                                                <li class="breadcrumb-item"><a href="#">UTAMA</a></li>
+                                                <li class="breadcrumb-item"><a href="{{ route('staff') }}">UTAMA</a></li>
                                                 <li class="breadcrumb-item active" aria-current="page">TUKAR KATA LALUAN</li>
                                             </ol>
                                         </nav>

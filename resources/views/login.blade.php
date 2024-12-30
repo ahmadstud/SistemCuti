@@ -110,9 +110,6 @@
     </div>
   </main>
 
-
-
-
   <!--   Core JS Files   -->
   <script src="../assets/js/core/popper.min.js"></script>
   <script src="../js/app.js"></script>
@@ -124,6 +121,31 @@
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/argon-dashboard.min.js?v=2.0.4"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  // Success Message   
+  @if(session('success'))
+  Swal.fire({
+    icon: 'success',
+    title: 'Berjaya',
+    text: '{{ session('success') }}',
+    timer: 3000,
+    showConfirmButton: false
+  });
+  @endif
+
+  // Error Messages
+  @if($errors->any())
+  Swal.fire({
+    icon: 'error',
+    title: 'Ralat',
+    html: '{!! implode("<br>", $errors->all()) !!}',
+    timer: 5000,
+    showConfirmButton: true
+  });
+  @endif
+</script>
+
 </body>
 
 </html>
