@@ -76,7 +76,7 @@
                                                         </div>
 
                                                         <!-- Edit Profile Modal -->
-                                                        <div class="modal fade" id="editStaffProfile" tabindex="-1" aria-labelledby="editStaffProfileLabel" aria-hidden="true">
+                                                        <div class="modal fade" id="editStaffProfile" tabindex="-1" aria-labelledby="editStaffProfileLabel">
                                                             <div class="modal-dialog modal-lg">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header" style="background-color: #f0f0f0;">
@@ -300,8 +300,13 @@
             <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
             <script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
             <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
+
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
             <!-- Most Important JS Files -->
             <script src="{{ asset('js/app.js') }}"></script>
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.css" rel="stylesheet">
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.js"></script>
 
             <!-- Github buttons -->
             <script async defer src="https://buttons.github.io/buttons.js"></script>

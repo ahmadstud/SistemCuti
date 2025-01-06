@@ -31,9 +31,6 @@
     <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.js"></script>
 </head>
 
     <body class="g-sidenav-show bg-gray-100">
@@ -122,7 +119,7 @@
 
                                                                         <div class="col-md-12 mb-3">
                                                                             <label for="reason" class="form-label">Ulasan</label>
-                                                                            <textarea class="form-control" id="reason" name="reason" rows="3"></textarea>
+                                                                            <textarea class="form-control summernote" id="reason" name="reason" rows="3"></textarea>
                                                                         </div>
                                                                         <div class="col-md-12 mb-3">
                                                                             <label>Permohonan terus ke Admin:</label><br>
@@ -304,7 +301,7 @@
                                                                                                             </div>
                                                                                                             <div class="col-md-12 mb-3">
                                                                                                                 <label for="reason{{ $mcApplication->id }}" class="form-label">Sebab<span class="text-danger">*</span></label>
-                                                                                                                <textarea class="form-control" id="reason{{ $mcApplication->id }}" name="reason" rows="3" required>{{ $mcApplication->reason }}</textarea>
+                                                                                                                <textarea class="form-control summernote" id="reason{{ $mcApplication->id }}" name="reason" rows="3" required>{{ $mcApplication->reason }}</textarea>
                                                                                                             </div>
                                                                                                             <div class="col-md-12 mb-3">
                                                                                                                 <label>Permohonan terus ke Admin:</label><br>
@@ -373,6 +370,10 @@
             <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
             <!-- Most Important JS Files -->
             <script src="{{ asset('js/app.js') }}"></script>
+
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.css" rel="stylesheet">
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.js"></script>
 
             <!-- Github buttons -->
             <script async defer src="https://buttons.github.io/buttons.js"></script>

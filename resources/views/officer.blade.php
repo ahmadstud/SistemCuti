@@ -283,17 +283,21 @@
         <script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
         <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
 
-        <!-- Main Application JS File -->
-        <script src="{{ asset('js/app.js') }}"></script>
+       <!-- Include Bootstrap JS and Popper.js -->
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+      <!-- Most Important JS Files -->
+      <script src="{{ asset('js/app.js') }}"></script>
+
+      <!-- Load Summernote -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote/dist/summernote-lite.min.js"></script>
 
         <!-- GitHub Buttons (Async Loading) -->
         <script async defer src="https://buttons.github.io/buttons.js"></script>
 
         <!-- Control Center for Soft Dashboard: Includes parallax effects and other scripts -->
         <script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.0.4') }}"></script>
-
-        <!-- jQuery Library -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
         <!-- Bootstrap JS and Popper.js (from CDN) -->
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
