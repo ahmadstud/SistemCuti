@@ -25,7 +25,7 @@
     <link rel="icon" type="image/png" href="{{ asset('assets/img/Erawhiz.png') }}">
 
     <!-- Page Title -->
-    <title>Admin - Bahagian Kelulusan terus</title>
+    <title>Admin - Bahagian Permohonan Belum Diluluskan</title>
 
     <!-- Fonts and Icons -->
     <!-- Open Sans font from Google Fonts (weights: 300, 400, 600, 700) -->
@@ -73,8 +73,7 @@
                             <div class="d-flex align-items-center justify-content-between mb-4 p-3"
                                 style="background-color: rgba(0, 0, 0, 0);">
                                 <h4 class="mb-0 text-uppercase fw-bold "><b>
-                                        <i class="bi bi-speedometer2 me-2"></i> KELULUSAN TERUS ADMIN UNTUK PERMOHONAN
-                                        (STAF DAN PEGAWAI)</b>
+                                        <i class="bi bi-speedometer2 me-2"></i> KELULUSAN ADMIN UNTUK PERMOHONAN STAF DAN PEGAWAI</b>
                                 </h4>
                             </div>
 
@@ -97,150 +96,116 @@
                                                         <table class="table">
                                                             <thead style="background-color: #f0f0f0;">
                                                                 <tr>
-                                                                    <th
-                                                                        style="width: 5%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;"> BIL</th>
-                                                                    <th
-                                                                        style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;"> NAMA</th>
-                                                                    <th
-                                                                        style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;"> TARIKH MULA</th>
-                                                                    <th
-                                                                        style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;"> TARIKH AKHIR</th>
-                                                                    <th
-                                                                        style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;"> JENIS CUTI</th>
-                                                                    <th
-                                                                        style="width: 20%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;"> ULASAN</th>
-                                                                    <th
-                                                                        style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;"> DOKUMEN RUJUKAN</th>
-                                                                    <th
-                                                                        style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;"> TINDAKAN</th>
+                                                                    <th style="width: 5%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;"> BIL</th>
+                                                                    <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;"> NAMA</th>
+                                                                    <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JAWATAN</th>
+                                                                    <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;"> TARIKH PERMOHONAN</th>
+                                                                    <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;"> JENIS CUTI</th>
+                                                                    <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;"> TARIKH CUTI</th>
+                                                                    <th style="width: 20%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;"> ULASAN</th>
+                                                                    <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;"> DOKUMEN RUJUKAN</th>
+                                                                    <th style="width: 20%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">PEGAWAI YANG MELULUSKAN</th>
+                                                                    <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;"> TINDAKAN</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                @if ($directAdminApplications->isEmpty())
+                                                                @if ($pendingApplications->isEmpty())
                                                                     <tr>
-                                                                        <td colspan="7" class="text-center"
-                                                                            style="padding: 20px;">
+                                                                        <td colspan="9" class="text-center" style="padding: 20px;">
                                                                             <p class="text-muted">Tiada Permohonan</p>
                                                                         </td>
                                                                     </tr>
                                                                 @else
-                                                                    @foreach ($directAdminApplications as $application)
-                                                                    <tr>
-                                                                        <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                            <p class="text-m text-secondary">{{ $loop->iteration }}</p>
-                                                                        </td>
-                                                                        <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                            <p class="text-m text-secondary">{{ $application->user->name }}</p>
-                                                                        </td>
-                                                                        <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                            <p class="text-m text-secondary">{{ \Carbon\Carbon::parse($application->start_date)->format('d/m/Y') }}</p>
-                                                                        </td>
-                                                                        <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                            <p class="text-m text-secondary">{{ \Carbon\Carbon::parse($application->end_date)->format('d/m/Y') }}</p>
-                                                                        </td>
-                                                                        <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                            <span class="badge bg-success">
-                                                                                {{ $selectedLeaveTypes[$application->id] ?? 'Tiada Cuti Dipilih' }}
-                                                                            </span>
-                                                                        </td>
-                                                                        <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                            <p class="text-m text-secondary">{{ $application->reason }}</p>
-                                                                        </td>
-                                                                        <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                            @if ($application->document_path)
-                                                                                <a href="{{ Storage::url($application->document_path) }}" target="_blank">
-                                                                                    <i class="fas fa-file-pdf text-lg me-1"></i> PDF
-                                                                                </a>
-                                                                            @else
-                                                                                <span class="text-danger">Tiada dokumen</span>
-                                                                            @endif
-                                                                        </td>
-                                                                        <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                            <div class="d-flex justify-content-start">
-                                                                                <!-- Approve Button Form -->
-                                                                                <form action="{{ route('admin.approve', $application->id) }}" method="POST" style="margin-right: 5px;" class="approve-form">
-                                                                                    @csrf
-                                                                                    <button type="submit" class="btn btn-success" aria-label="Accept">
-                                                                                        <i class="fas fa-check"></i>
+                                                                    @foreach ($pendingApplications as $application)
+                                                                        <tr>
+                                                                            <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                <p class="text-m text-secondary">{{ $loop->iteration }}</p>
+                                                                            </td>
+                                                                            <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                <p class="text-m text-secondary">{{ $application->user_name }}</p>
+                                                                            </td>
+                                                                            <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                @if($application->user->role == 'staff')
+                                                                                    <span class="badge badge-md bg-gradient-info">Staf</span>
+                                                                                @else
+                                                                                    <span class="badge badge-md bg-gradient-warning">Pegawai</span>
+                                                                                @endif
+                                                                            </td>
+                                                                            <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                <p class="text-m text-secondary">
+                                                                                    {{ \Carbon\Carbon::parse($application->created_at)->format('d/m/Y') }}
+                                                                                </p>
+                                                                            </td>                                                                            
+                                                                            <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                <span class="badge bg-success">
+                                                                                    {{ $selectedLeaveTypes[$application->id] ?? 'Tiada Cuti Dipilih' }}
+                                                                                </span>
+                                                                            </td>
+                                                                            
+                                                                            <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                <p class="text-m text-secondary"><b> {{ \Carbon\Carbon::parse($application->start_date)->format('d/m/Y') }} </b> hingga <b> {{ \Carbon\Carbon::parse($application->end_date)->format('d/m/Y') }} </b></p>
+                                                                            </td>
+                                                                            <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                {!! $application->reason ?? '<p class="text-m text-secondary">Tiada ulasan</p>' !!}
+                                                                            </td>                                                                            
+                                                                            <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                <p class="text-m text-secondary">
+                                                                                    @if ($application->document_path)
+                                                                                        <a href="{{ Storage::url($application->document_path) }}" target="_blank">
+                                                                                            <i class="fas fa-file-pdf text-lg me-1"></i> PDF
+                                                                                        </a>
+                                                                                    @else
+                                                                                        <span class="text-danger">Tiada dokumen</span>
+                                                                                    @endif
+                                                                                </p>
+                                                                            </td>
+                                                                            <td style="background: white; border: 1px solid #dee2e6; padding: 8px;">
+                                                                                @if ($application->officer_name)
+                                                                                    {{ $application->officer_name }}
+                                                                                @else
+                                                                                    <span class="text-danger">Tiada Penyelia</span>
+                                                                                @endif
+                                                                            </td>                                                                            
+                                                                            <td style="background: white; border: 1px solid #dee2e6; padding: 8px;">
+                                                                                <div class="d-flex justify-content-start">
+
+                                                                                    <!-- Approve Button -->
+                                                                                    <form action="{{ route('admin.approve', $application->id) }}" method="POST" style="margin-right: 5px;">
+                                                                                        @csrf
+                                                                                        <button type="submit" class="btn btn-success">
+                                                                                            <i class="fas fa-check"></i>
+                                                                                        </button>
+                                                                                    </form>
+                                                                                    <!-- Reject Button -->
+                                                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectModal-{{ $application->id }}">
+                                                                                        <i class="fas fa-times"></i>
                                                                                     </button>
-                                                                                </form>
-
-                                                                                <!-- Reject Button Trigger -->
-                                                                                <button type="button" class="btn btn-danger" aria-label="Reject" data-toggle="modal" data-target="#rejectModal-{{ $application->id }}">
-                                                                                    <i class="fas fa-times"></i>
-                                                                                </button>
-                                                                            </div>
-
-                                                                            <!-- Modal for rejection reason -->
-                                                                            <div class="modal fade" id="rejectModal-{{ $application->id }}" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel" aria-hidden="true">
-                                                                                <div class="modal-dialog" role="document">
-                                                                                    <div class="modal-content">
-                                                                                        <div class="modal-header">
-                                                                                            <h5 class="modal-title" id="rejectModalLabel">Sebab Penolakan</h5>
-                                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Tutup">
-                                                                                                <span aria-hidden="true">&times;</span>
-                                                                                            </button>
-                                                                                        </div>
-                                                                                        <form action="{{ route('admin.reject', $application->id) }}" method="POST" class="reject-form">
-                                                                                            @csrf
-                                                                                            <div class="modal-body">
-                                                                                                <div class="form-group">
-                                                                                                    <label for="reason-{{ $application->id }}">Sila nyatakan sebab penolakan:</label>
-                                                                                                    <textarea id="reason-{{ $application->id }}" name="reason" class="form-control" required></textarea>
+                                                                                </div>
+                                                                                <!-- Reject Modal -->
+                                                                                <div class="modal fade" id="rejectModal-{{ $application->id }}" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel" aria-hidden="true">
+                                                                                    <div class="modal-dialog" role="document">
+                                                                                        <div class="modal-content">
+                                                                                            <div class="modal-header">
+                                                                                                <h5 class="modal-title">Sebab Penolakan</h5>
+                                                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                                </button>
+                                                                                            </div>
+                                                                                            <form action="{{ route('admin.reject', $application->id) }}" method="POST">
+                                                                                                @csrf
+                                                                                                <div class="modal-body">
+                                                                                                    <label>Sila nyatakan sebab:</label>
+                                                                                                    <textarea name="reason" class="form-control" required></textarea>
                                                                                                 </div>
-                                                                                            </div>
-                                                                                            <div class="modal-footer">
-                                                                                                <button type="submit" class="btn btn-danger">Tolak</button>
-                                                                                            </div>
-                                                                                        </form>
+                                                                                                <div class="modal-footer">
+                                                                                                    <button type="submit" class="btn btn-danger">Tolak</button>
+                                                                                                </div>
+                                                                                            </form>
+                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
-                                                                            </div>
-
-                                                                            <!-- SweetAlert for rejection confirmation -->
-                                                                            <script>
-                                                                                document.querySelectorAll('.reject-form').forEach(form => {
-                                                                                    form.addEventListener('submit', function(event) {
-                                                                                        event.preventDefault(); // Prevent the default form submission
-                                                                                        const reason = document.getElementById(`reason-${{{ $application->id }}}`).value; // Get the reason value
-
-                                                                                        Swal.fire({
-                                                                                            title: 'Sahkan Penolakan',
-                                                                                            text: `Anda pasti ingin menolak permohonan ini? Sebab: ${reason}`,
-                                                                                            icon: 'warning',
-                                                                                            showCancelButton: true,
-                                                                                            confirmButtonColor: '#d33',
-                                                                                            cancelButtonColor: '#3085d6',
-                                                                                            confirmButtonText: 'Ya, Tolak!',
-                                                                                            cancelButtonText: 'Batal'
-                                                                                        }).then((result) => {
-                                                                                            if (result.isConfirmed) {
-                                                                                                this.submit(); // Submit the form if confirmed
-                                                                                            }
-                                                                                        });
-                                                                                    });
-                                                                                });
-
-                                                                                // SweetAlert for success and error messages
-                                                                                @if (session('success'))
-                                                                                    Swal.fire({
-                                                                                        icon: 'success',
-                                                                                        title: 'Berjaya',
-                                                                                        text: '{{ session('success') }}',
-                                                                                        confirmButtonText: 'OK'
-                                                                                    });
-                                                                                @elseif (session('error'))
-                                                                                    Swal.fire({
-                                                                                        icon: 'error',
-                                                                                        title: 'Ralat',
-                                                                                        text: '{{ session('error') }}',
-                                                                                        confirmButtonText: 'OK'
-                                                                                    });
-                                                                                @endif
-                                                                            </script>
-                                                                        </td>
-                                                                    </tr>
-
+                                                                            </td>
+                                                                        </tr>
                                                                     @endforeach
                                                                 @endif
                                                             </tbody>

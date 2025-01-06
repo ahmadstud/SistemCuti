@@ -69,8 +69,10 @@ use App\Http\Controllers\Auth\LoginController;
             Route::delete('/applications/{id}', [AdminController::class, 'deleteMcApplication'])->name('applications.delete');
 
         // generating the PDF
-            // Route::get('/applications/generate-pdf', [AdminController::class, 'generatePDF'])->name('applications.generatePDF');
-
+            // Route::get('/staff-list/generate-pdf', [AdminController::class, 'generateStaffPdf'])->name('staffList.generatePdf');
+            Route::get('/admin/mc-all-apply/pdf', [AdminController::class, 'generateApplicationsPdf'])->name('admin.mcAllApplyPdf');
+            Route::get('/admin/mc-all-apply/excel', [AdminController::class, 'generateApplicationsExcel'])->name('admin.mcAllApplyExcel');
+            
 
         // Routes for approving or rejecting MC applications by both admins and officers.
             Route::post('/admin/approve/{id}',                      [AdminController::class, 'approveMcApplication'])->name('admin.approveMcApplication');

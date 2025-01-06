@@ -35,7 +35,7 @@
             <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
 
             <!-- Font Awesome Icons (For additional icons) -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
             <!-- CSS Files -->
             <!-- Main Argon Dashboard CSS file for UI styling and layout -->
@@ -94,33 +94,15 @@
                                                             <table class="table">
                                                                 <thead style="background-color: #f0f0f0;">
                                                                     <tr>
-                                                                        <th
-                                                                            style="width: 5%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                            BIL</th>
-                                                                        <th
-                                                                            style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                            NAMA</th>
-                                                                        <th
-                                                                            style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                            TARIKH MULA</th>
-                                                                        <th
-                                                                            style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                            TARIKH AKHIR</th>
-                                                                        <th
-                                                                            style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                            JENIS CUTI</th>
-                                                                        <th
-                                                                            style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                            ULASAN</th>
-                                                                        <th
-                                                                            style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                            DOKUMEN RUJUKAN</th>
-                                                                        <th
-                                                                            style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                            KELULUSAN PEGAWAI</th>
-                                                                        <th
-                                                                            style="width: 20%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                            TINDAKAN</th> <!-- Adjusted width here -->
+                                                                        <th style="width: 5%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;"> BIL</th>
+                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;"> NAMA</th>
+                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;"> TARIKH MULA</th>
+                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;"> TARIKH AKHIR</th>
+                                                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;"> JENIS CUTI</th>
+                                                                        <th style="width: 20%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;"> ULASAN</th>
+                                                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;"> DOKUMEN RUJUKAN</th>
+                                                                        <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">PEGAWAI YANG MELULUSKAN</th>
+                                                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;"> TINDAKAN</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -134,41 +116,27 @@
                                                                     @else
                                                                         @foreach ($applications as $index => $application)
                                                                             <tr>
-                                                                                <td
-                                                                                    style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                    <p class="text-m text-secondary">
-                                                                                        {{ $index + 1 }}</p>
+                                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                    <p class="text-m text-secondary">{{ $index + 1 }}</p>
                                                                                 </td>
-                                                                                <td
-                                                                                    style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                    <p class="text-m text-secondary">
-                                                                                        {{ $application->user->name }}</p>
+                                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                    <p class="text-m text-secondary">{{ $application->user->name }}</p>
                                                                                 </td>
-                                                                                <td
-                                                                                    style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                    <p class="text-m text-secondary">
-                                                                                        {{ \Carbon\Carbon::parse($application->start_date)->format('d/m/Y') }}
-                                                                                    </p>
+                                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                    <p class="text-m text-secondary"> {{ \Carbon\Carbon::parse($application->start_date)->format('d/m/Y') }}</p>
                                                                                 </td>
-                                                                                <td
-                                                                                    style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                    <p class="text-m text-secondary">
-                                                                                        {{ \Carbon\Carbon::parse($application->end_date)->format('d/m/Y') }}
-                                                                                    </p>
-                                                                                </td>
+                                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                    <p class="text-m text-secondary"> {{ \Carbon\Carbon::parse($application->end_date)->format('d/m/Y') }}</p>
                                                                                 </td>
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                     <span class="badge bg-success">
                                                                                         {{ $selectedLeaveTypes[$application->id] ?? 'Tiada Cuti Dipilih' }}
                                                                                     </span>
                                                                                 </td>
-                                                                                <td
-                                                                                    style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                    <p class="text-m text-secondary">
-                                                                                        {{ $application->reason }}</p>
+                                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                    <p class="text-m text-secondary"> {{ $application->reason }}</p>
                                                                                 </td>
-                                                                                <td
-                                                                                    style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                     <p class="text-m text-secondary">
                                                                                         @if ($application->document_path)
                                                                                             <a href="{{ Storage::url($application->document_path) }}"
@@ -176,95 +144,58 @@
                                                                                                     class="fas fa-file-pdf text-lg me-1"></i>
                                                                                                 PDF</a>
                                                                                         @else
-                                                                                            No Document
+                                                                                            <span class="text-danger">Tiada dokumen</span>
                                                                                         @endif
                                                                                     </p>
                                                                                 </td>
-                                                                                <td
-                                                                                    style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                     {{ $application->officer_name ? $application->officer_name : 'Tiada Penyelia' }}
                                                                                 </td>
-                                                                                <td
-                                                                                    style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                    <div
-                                                                                        class="d-flex justify-content-between">
+                                                                                <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                    <div class="d-flex justify-content-between">
 
                                                                                         <!-- Approve Button Form -->
-                                                                                        <form
-                                                                                            action="{{ route('admin.approve', $application->id) }}"
-                                                                                            method="POST"
-                                                                                            style="margin-right: 5px;"
-                                                                                            class="approve-form">
+                                                                                        <form action="{{ route('admin.approve', $application->id) }}" method="POST" style="margin-right: 5px;" class="approve-form">
                                                                                             @csrf
-                                                                                            <button type="submit"
-                                                                                                class="btn btn-success"
-                                                                                                aria-label="Accept">
+                                                                                            <button type="submit" class="btn btn-success" aria-label="Accept">
                                                                                                 <i class="fas fa-check"></i>
                                                                                             </button>
                                                                                         </form>
 
                                                                                         <!-- Reject Button Form -->
-                                                                                        <button type="button"
-                                                                                            class="btn btn-danger"
-                                                                                            aria-label="Reject"
-                                                                                            data-toggle="modal"
-                                                                                            data-target="#rejectModal-{{ $application->id }}">
+                                                                                        <button type="button" class="btn btn-danger" aria-label="Reject" data-toggle="modal" data-target="#rejectModal-{{ $application->id }}">
                                                                                             <i class="fas fa-times"></i>
                                                                                         </button>
                                                                                     </div>
 
                                                                                     <!-- Modal for rejection reason -->
-                                                                                    <div class="modal fade"
-                                                                                        id="rejectModal-{{ $application->id }}"
-                                                                                        tabindex="-1" role="dialog"
-                                                                                        aria-labelledby="rejectModalLabel"
-                                                                                        aria-hidden="true">
-                                                                                        <div class="modal-dialog"
-                                                                                            role="document">
+                                                                                    <div class="modal fade" id="rejectModal-{{ $application->id }}" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel" aria-hidden="true">
+                                                                                        <div class="modal-dialog" role="document">
                                                                                             <div class="modal-content">
                                                                                                 <div class="modal-header">
-                                                                                                    <h5 class="modal-title"
-                                                                                                        id="rejectModalLabel">
-                                                                                                        Sebab Penolakan
-                                                                                                    </h5>
-                                                                                                    <button type="button"
-                                                                                                        class="close"
-                                                                                                        data-dismiss="modal"
-                                                                                                        aria-label="Tutup">
-                                                                                                        <span
-                                                                                                            aria-hidden="true">&times;</span>
+                                                                                                    <h5 class="modal-title" id="rejectModalLabel"> Sebab Penolakan </h5>
+                                                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Tutup">
+                                                                                                        <span aria-hidden="true">&times;</span>
                                                                                                     </button>
                                                                                                 </div>
-                                                                                                <form
-                                                                                                    action="{{ route('admin.reject', $application->id) }}"
-                                                                                                    method="POST"
-                                                                                                    class="reject-form">
+                                                                                                <form action="{{ route('admin.reject', $application->id) }}" method="POST" class="reject-form">
                                                                                                     @csrf
-                                                                                                    <div
-                                                                                                        class="modal-body">
-                                                                                                        <div
-                                                                                                            class="form-group">
-                                                                                                            <label
-                                                                                                                for="reason">Sila
-                                                                                                                nyatakan
-                                                                                                                sebab
-                                                                                                                penolakan:</label>
+                                                                                                    <div class="modal-body">
+                                                                                                        <div class="form-group">
+                                                                                                            <label for="reason">Sila nyatakan sebab penolakan:</label>
                                                                                                             <textarea id="reason" name="reason" class="form-control" required></textarea>
                                                                                                         </div>
                                                                                                     </div>
-                                                                                                    <div
-                                                                                                        class="modal-footer">
-                                                                                                        <button
-                                                                                                            type="submit"
-                                                                                                            class="btn btn-danger">Tolak</button>
+                                                                                                    <div class="modal-footer">
+                                                                                                        <button type="submit" class="btn btn-danger">Tolak</button>
                                                                                                     </div>
                                                                                                 </form>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
 
+                                                                                    <!-- SweetAlert for rejection confirmation -->
                                                                                     <script>
-                                                                                        // SweetAlert for rejection confirmation
                                                                                         document.querySelectorAll('.reject-form').forEach(form => {
                                                                                             form.addEventListener('submit', function(event) {
                                                                                                 event.preventDefault(); // Prevent the default form submission
@@ -288,6 +219,7 @@
                                                                                         });
                                                                                     </script>
 
+                                                                                    <!-- SweetAlert for approval confirmation -->
                                                                                     <script>
                                                                                         // SweetAlert for success and error messages
                                                                                         @if (session('success'))
@@ -329,42 +261,27 @@
         </main>
 
         <!-- Core JavaScript Files -->
-            <!-- Core Popper.js file for tooltip and popover positioning -->
-            <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
-
-        <!-- Core Bootstrap JS for responsive and interactive components -->
+        <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
         <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
-
-        <!-- Perfect Scrollbar plugin for custom scrollbar styling -->
         <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
-
-        <!-- Smooth Scrollbar plugin for a more fluid scrolling experience -->
         <script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
-
-        <!-- Chart.js library for creating responsive and animated charts -->
         <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
 
-        <!-- Main Application Script -->
-            <!-- Core application logic and custom scripts for functionality -->
-            <script src="{{ asset('js/app.js') }}"></script>
+        <!-- Application and Custom Scripts -->
+        <script src="{{ asset('js/app.js') }}"></script>
 
-        <!-- jQuery and Bootstrap JS (Slim version without AJAX or effects) -->
+        <!-- jQuery and Bootstrap JS -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-
-        <!-- Popper.js from CDN for positioning tooltips and popovers -->
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.6/dist/umd/popper.min.js"></script>
-
-        <!-- Bootstrap 4.5.2 JS from CDN for responsive UI components -->
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-        <!-- GitHub Buttons (async) for embedding GitHub buttons on the page -->
+        <!-- GitHub Buttons -->
         <script async defer src="https://buttons.github.io/buttons.js"></script>
 
         <!-- Argon Dashboard Control Center -->
-            <!-- Provides parallax effects, customizations, and scripts for Argon Dashboard UI -->
-            <script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.0.4') }}"></script>
+        <script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.0.4') }}"></script>
 
-        <!-- SweetAlert2 Library for customizable alert modals -->
+        <!-- SweetAlert2 Library -->
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 

@@ -25,7 +25,7 @@
         <link rel="icon" type="image/png" href="{{ asset('assets/img/Erawhiz.png') }}">
 
         <!-- Page Title -->
-        <title>Admin - Bahagian Nota</title>
+        <title>Admin - Bahagian Jenis Cuti</title>
 
         <!-- Fonts and Icons -->
         <!-- Google Fonts (Open Sans) for consistent typography -->
@@ -92,7 +92,7 @@
                                                 <div class="card my-4">
                                                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                                                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                                            <h6 class="text-white text-capitalize ps-3">NOTA</h6>
+                                                            <h6 class="text-white text-capitalize ps-3">JENIS CUTI</h6>
                                                         </div>
                                                     </div>
                                                 <br>
@@ -100,7 +100,7 @@
                                                 <!-- Add Nota Button -->
                                                 <div class="d-flex justify-content-end pe-3">
                                                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createNoteModal">
-                                                        Tambah Nota
+                                                        Tambah Jenis Cuti
                                                     </button>
                                                 </div>
 
@@ -109,7 +109,7 @@
                                                         <div class="modal-dialog modal-lg">
                                                             <div class="modal-content">
                                                                 <div class="modal-header" style="background-color: #f0f0f0;">
-                                                                    <h5 class="modal-title" id="createNoteLabel">Tambah Nota</h5>
+                                                                    <h5 class="modal-title" id="createNoteLabel">Tambah Jenis Cuti</h5>
                                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                 </div>
                                                                 <div class="modal-body">
@@ -206,7 +206,7 @@
 
                                                                                 <!-- Edit Button -->
                                                                                 <button class="btn btn-md btn-primary me-2" data-bs-toggle="modal" data-bs-target="#editNoteModal{{ $note->id }}">
-                                                                                    <i class="fas fa-pencil-alt">Kemaskini</i>
+                                                                                    <i class="fas fa-pencil-alt"></i>
                                                                                 </button>
 
                                                                                 <!-- Delete button for note -->
@@ -214,7 +214,7 @@
                                                                                     @csrf
                                                                                     @method('DELETE')
                                                                                     <button type="submit" class="btn btn-md btn-danger" title="Delete" onclick="return confirmDelete(event, {{ $note->id }})">
-                                                                                        <i class="fas fa-trash-alt">Padam</i> <!-- Delete symbol -->
+                                                                                        <i class="fas fa-trash-alt"></i> <!-- Delete symbol -->
                                                                                     </button>
                                                                                 </form>
 

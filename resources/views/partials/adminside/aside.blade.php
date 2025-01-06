@@ -73,7 +73,7 @@
                             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="ni ni-note-03 text-primary text-sm opacity-10"></i>
                             </div>
-                            <span class="nav-link-text ms-1">Nota</span>
+                            <span class="nav-link-text ms-1">Jenis Cuti</span>
                         </a>
                     </li>
                 </ul>
@@ -105,7 +105,7 @@
           </li>
 
           <!-- Permohonan Cuti Tapisan Pegawai -->
-          <li class="nav-item" style="margin-bottom: 0;">
+          {{-- <li class="nav-item" style="margin-bottom: 0;">
               <form action="{{ route('admin.mcOfficerApprove') }}" method="GET" id="officer-applications-section-form" style="display:none;"></form>
               <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('officer-applications-section-form').submit();">
                   <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
@@ -113,7 +113,7 @@
                   </div>
                   <span class="nav-link-text ms-1">Permohonan Cuti<br>Tapisan Pegawai</span>
               </a>
-          </li>
+          </li> --}}
 
           <!-- Permohonan Cuti Admin -->
           <li class="nav-item" style="margin-bottom: 0;">
@@ -122,7 +122,7 @@
                   <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                       <i class="ni ni-check-bold text-primary text-sm opacity-10"></i>
                   </div>
-                  <span class="nav-link-text ms-1">Permohonan Cuti<br>oleh Admin</span>
+                  <span class="nav-link-text ms-1">Senarai Permohonan<br>Belum Diluluskan</span>
               </a>
           </li>
 
