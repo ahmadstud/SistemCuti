@@ -238,7 +238,7 @@
                                                 <div class="card z-index-2 w-100 h-100">
                                                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                                                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                                            <h6 class="text-white text-capitalize ps-3">NOTA</h6>
+                                                            <h6 class="text-white text-capitalize ps-3">JENIS CUTI</h6>
                                                         </div>
                                                     </div>
                                                     <div class="card-body p-3">

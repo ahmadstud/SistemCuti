@@ -23,7 +23,7 @@
         <link rel="icon" type="image/png" href="{{ asset('assets/img/Erawhiz.png') }}">
 
         <!-- Page Title -->
-        <title>Admin - Bahagian Senarai Permohonan</title>
+        <title>Admin - Bahagian Keseluruhan Permohonan</title>
 
         <!-- Fonts and Icons -->
         <!-- Google Fonts - Open Sans for consistent font styling -->
@@ -34,7 +34,7 @@
         <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
 
       <!-- Font Awesome Icons (For additional icons) -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
         <!-- Main CSS File for Argon Dashboard -->
         <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet" />
@@ -48,6 +48,27 @@
         <!-- DataTables Library -->
         <!-- DataTables CSS - Table styling for enhanced table interactions -->
         <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+
+        <!-- DataTables CSS -->
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+        <!-- Buttons Extension CSS -->
+        <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+
+
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <!-- DataTables JS -->
+        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+        <!-- Buttons Extension JS -->
+        <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+        <!-- PDFMake for PDF export -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.5/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.5/vfs_fonts.js"></script>
+        <!-- Buttons Extensions for HTML5 export -->
+        <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+
+
 
         <!-- jQuery - Required for DataTables functionality -->
         <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -95,6 +116,16 @@
 
                                                     <!-- View Applications Section -->
                                                     <div class="card-body">
+
+                                                       {{-- PDF Generation Button --}}
+                                                        <div class="text-end">
+                                                            <div class="buttons">
+                                                                <a href="{{ route('admin.mcAllApplyPdf') }}" class="btn btn-danger"><i class="fas fa-file-pdf"></i>  Generate PDF</a>
+                                                                <a href="{{ route('admin.mcAllApplyExcel') }}" class="btn btn-success"><i class="fas fa-file-excel"></i>  Generate Excel</a>
+                                                            </div>
+
+                                                        </div>
+
 
                                                         {{-- Carian --}}
                                                         <form method="GET" action="{{ route('admin.mcAllApply') }}" class="mb-3">
@@ -179,26 +210,25 @@
                                                                 <thead style="background-color: #f0f0f0;">
                                                                     <tr>
                                                                         <th style="width: 5%;   padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">BIL</th>
-                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
-                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JAWATAN</th>
-                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
-                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH AKHIR</th>
-                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JUMLAH HARI</th>
-                                                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
-                                                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN RUJUKAN</th>
+                                                                        <th style="width: 8%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
+                                                                        <th style="width: 8%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JAWATAN</th>
                                                                         <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
-                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS</th>
-                                                                        <th style="width: 12%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
+                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH </th>
+                                                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JUMLAH HARI</th>
+                                                                        <th style="width: 16%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
+                                                                        <th style="width: 13%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN RUJUKAN</th>
+                                                                        <th style="width: 12%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS</th>
+                                                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
+                                                                    @php
+                                                                        $itemsPerPage = $allApplications->perPage() ?? 10; // Use perPage() if it's a paginated object
+                                                                        $currentPage = $allApplications->currentPage() ?? 1; // Default to 1 if not paginated
+                                                                        $startingIndex = ($currentPage - 1) * $itemsPerPage;
+                                                                    @endphp
                                                                     @foreach($allApplications as $index => $application)
                                                                         <tr>
-                                                                            @php
-                                                                                $itemsPerPage = 10; // Change this to the number of items per page you are using
-                                                                                $currentPage = $allApplications->currentPage();
-                                                                                $startingIndex = ($currentPage - 1) * $itemsPerPage;
-                                                                            @endphp
                                                                             <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                 <p class="text-m text-secondary">{{ $startingIndex + $loop->iteration }}</p>
                                                                             </td>
@@ -206,18 +236,21 @@
                                                                                 <p class="text-m text-secondary">{{ $application->user->name }}</p>
                                                                             </td>
                                                                             <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                            @if($application->user->role == 'staff')
-                                                                            <span class="badge badge-md bg-gradient-info">Staf</span>
-                                                                            @else
-                                                                            <span class="badge badge-md bg-gradient-warning">Pegawai</span>
-                                                                            @endif
+                                                                                @if($application->user->role == 'staff')
+                                                                                    <span class="badge badge-md bg-gradient-info">Staf</span>
+                                                                                @else
+                                                                                    <span class="badge badge-md bg-gradient-warning">Pegawai</span>
+                                                                                @endif
                                                                             </td>
-                                                                            <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                <p class="text-m text-secondary">{{ \Carbon\Carbon::parse($application->start_date)->format('d/m/Y') }}</p>
 
+                                                                            <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
+                                                                                <span class="badge bg-success">
+                                                                                    {{ $selectedLeaveTypes[$application->id] ?? 'Tiada Cuti Dipilih' }}
+                                                                                </span>
                                                                             </td>
                                                                             <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                <p class="text-m text-secondary">{{ \Carbon\Carbon::parse($application->end_date)->format('d/m/Y') }}</p>
+                                                                                <p class="text-m text-secondary"><b>{{ \Carbon\Carbon::parse($application->start_date)->format('d/m/Y') }} </b> sehingga <b> {{ \Carbon\Carbon::parse($application->end_date)->format('d/m/Y') }} </b></p>
+
                                                                             </td>
                                                                             <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                 <p class="text-m text-secondary">
@@ -230,7 +263,6 @@
                                                                                     {{ $daysDifference }} hari
                                                                                 </p>
                                                                             </td>
-
                                                                             <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                 <p class="text-m text-secondary">{{ $application->reason }}</p>
                                                                             </td>
@@ -242,11 +274,6 @@
                                                                                         <span class="text-danger">Tiada Dokumen</span>
                                                                                     @endif
                                                                                 </p>
-                                                                            </td>
-                                                                            <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                <span class="badge bg-success">
-                                                                                    {{ $selectedLeaveTypes[$application->id] ?? 'Tiada Cuti Dipilih' }}
-                                                                                </span>
                                                                             </td>
                                                                             <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                 <p class="text-m text-secondary">
@@ -286,6 +313,18 @@
                                                                                         })
                                                                                     }
                                                                                 </script>
+
+                                                                                <script>
+                                                                                    $(document).ready(function() {
+                                                                                        $('#dataTable').DataTable({
+                                                                                            dom: 'Bfrtip',
+                                                                                            buttons: [
+                                                                                                'copy', 'csv', 'excel', 'pdf', 'print'
+                                                                                            ]
+                                                                                        });
+                                                                                    });
+                                                                                </script>
+
 
                                                                                 @if(session('success'))
                                                                                 <script>

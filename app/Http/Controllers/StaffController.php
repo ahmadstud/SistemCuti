@@ -199,7 +199,6 @@ class StaffController extends Controller
     public function dashboard(Request $request)
     {
         $today = now()->toDateString();
-
         // Fetch list of staff on leave today, including their `total_mc_days`, joining with `users` table
         $staffOnLeaveToday = McApplication::with('user') // Assuming there's a 'user' relationship in McApplication model
             ->join('users', 'mc_applications.user_id', '=', 'users.id') // Join the users table

@@ -17,6 +17,7 @@ use Illuminate\Support\Str;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminController extends Controller
 {
@@ -364,8 +365,8 @@ public function deleteNote($id)
         // Initialize the query to fetch all users
         $usersQuery = User::query();
 
-        // Get filter inputs
-        $roleFilter = $request->input('role');        // Filter for role
+        // Get filter inputs (Ensure the filter inputs are correctly named in your form)
+        $roleFilter = $request->input('role'); // Filter for role
         $jobStatusFilter = $request->input('job_status');  // Filter for job status
 
         // Apply role filter if provided
@@ -388,6 +389,7 @@ public function deleteNote($id)
         $acceptedMcApplications = McApplication::where('status', 'approved')->count();
         $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
         $notes = Note::all(); // Adjust as necessary to fetch notes
+
         // Pass the users and officers data to the view
         return view('partials.adminside.staff_list', [
             'users' => $users, // Now using 'users' instead of 'staff'
@@ -399,6 +401,7 @@ public function deleteNote($id)
             'notes' => $notes,
         ]);
     }
+
 
 
     public function editUser($id)
@@ -456,6 +459,8 @@ public function deleteNote($id)
         // Redirect with success message
         return redirect()->back()->with('success', 'Pengguna berjaya dikemaskini!');
     }
+
+
 
 
     public function deleteUser($id)
@@ -609,12 +614,147 @@ public function deleteNote($id)
         return redirect()->back()->with('success', 'Permohonan berjaya dipadam!');
     }
 
-    // public function generatePDF()
+    // public function generateStaffPdf(Request $request)
     // {
-    //     $allApplications = McApplication::with('user')->get();
-    //     $pdf = Pdf::loadView('partials.adminside.mc_all_apply', compact('allApplications'));
-    //     return $pdf->stream('Senarai_Keseluruhan_Permohonan.pdf');
+    //     // Fetch the filtered data, similar to the `staffList` function
+    //     $usersQuery = User::query();
+    //     $roleFilter = $request->input('role');
+    //     $jobStatusFilter = $request->input('job_status');
+
+    //     if ($roleFilter) {
+    //         $usersQuery->where('role', $roleFilter);
+    //     }
+
+    //     if ($jobStatusFilter) {
+    //         $usersQuery->where('job_status', $jobStatusFilter);
+    //     }
+
+    //     $users = $usersQuery->get();
+
+    //     // Pass the data to a dedicated Blade view for PDF
+    //     $pdf = Pdf::loadView('partials.adminside.staff_pdf', ['users' => $users]);
+
+    //     // Return the generated PDF for download
+    //     return $pdf->download('staff_list.pdf');
     // }
+
+    public function generateApplicationsPdf(Request $request)
+    {
+        $applications = McApplication::with('user')->get(); // Fetch all applications
+        $pdf = PDF::loadView('partials.adminside.mc_applications_pdf', compact('applications'));
+        return $pdf->download('mc_applications.pdf');
+    }
+
+    public function generateApplicationsExcel()
+    {
+        // Fetch all applications with user data
+        $applications = McApplication::with('user')->get();
+
+        // Set the filename and headers for Excel
+        $filename = "mc_applications_" . date('Y-m-d') . ".csv";
+        $headers = [
+            "Content-Type" => "text/csv",
+            "Content-Disposition" => "attachment; filename=$filename",
+            "Pragma" => "no-cache",
+            "Expires" => "0",
+        ];
+
+        // Callback to write data to the file
+            $callback = function () use ($applications) {
+            // Open the output stream
+            $file = fopen('php://output', 'w');
+
+            // Add the column headers
+            fputcsv($file, ['No.', 'User Name', 'Leave Type', 'Start Date', 'End Date', 'Reason', 'Status']);
+
+            // Add rows for each application
+            $index = 0;
+            foreach ($applications as $application) {
+                $index++;
+                fputcsv($file, [
+                    $index, // No.
+                    $application->user->name, // User Name
+                    $application->leave_type, // Leave Type
+                    \Carbon\Carbon::parse($application->start_date)->format('d/m/Y'), // Start Date
+                    \Carbon\Carbon::parse($application->end_date)->format('d/m/Y'), // End Date
+                    $application->reason, // Reason
+                    $application->status, // Status
+                ]);
+            }
+
+            // Close the file
+            fclose($file);
+        };
+
+
+        // Return a streamed response
+        return response()->stream($callback, 200, $headers);
+    }
+
+
+
+
+    // PERMOHONAN CUTI KESELURUHAN
+    public function mcAllApply(Request $request)
+    {
+        // Get filter inputs for searching and filtering (optional for future use)
+        $statusFilter = $request->input('status');
+        $startDateFilter = $request->input('start_date');
+        $endDateFilter = $request->input('end_date');
+
+        // Prepare the query for fetching all applications
+        $allApplicationsQuery = McApplication::join('users as staff', 'mc_applications.user_id', '=', 'staff.id')
+            ->leftJoin('users as officers', 'staff.selected_officer_id', '=', 'officers.id')
+            ->select(
+                'mc_applications.*',
+                'staff.name as user_name',
+                'officers.name as officer_name'
+            );
+
+        // Apply status filter if provided
+        if ($statusFilter) {
+            $allApplicationsQuery->where('mc_applications.status', $statusFilter);
+        }
+
+        // Apply date filters if provided
+        if ($startDateFilter) {
+            $allApplicationsQuery->where('mc_applications.start_date', '>=', $startDateFilter);
+        }
+        if ($endDateFilter) {
+            $allApplicationsQuery->where('mc_applications.end_date', '<=', $endDateFilter);
+        }
+
+        // Paginate the applications for better display
+        $allApplications = $allApplicationsQuery->paginate(10); // Change 10 to the desired number of items per page
+
+        // Fetch statistics for displaying overall data
+        $totalUsers = User::where('role', '!=', 'admin')->count();
+        $totalMcApplications = McApplication::count();
+        $acceptedMcApplications = McApplication::where('status', 'approved')->count();
+        $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
+        $notes = Note::all(); // Fetch all notes for leave types
+
+        // Create an array to hold selected leave types
+        $selectedLeaveTypes = [];
+
+        foreach ($allApplications as $application) {
+            // Find the note where the title matches the leave_type
+            $note = $notes->firstWhere('title', $application->leave_type);
+            if ($note) {
+                // Store the title of the selected leave type
+                $selectedLeaveTypes[$application->id] = $note->title;
+            } else {
+                $selectedLeaveTypes[$application->id] = 'Tidak ada catatan dipilih';
+            }
+        }
+
+        // Pass the data to the view
+        return view('partials.adminside.mc_all_apply', compact(
+            'allApplications', 'totalUsers', 'totalMcApplications',
+            'acceptedMcApplications', 'rejectedMcApplications',
+            'notes', 'selectedLeaveTypes'
+        ));
+    }
 
 
 
@@ -668,38 +808,86 @@ public function deleteNote($id)
 
 
 
-// PERMOHONAN CUTI TAPISAN ADMIN
+// PERMOHONAN CUTI TAPISAN ADMIN1
+    // public function mcAdminApprove(Request $request)
+    // {
+    //     // Get filter inputs (if needed for future search functionality)
+    //     $statusFilter = $request->input('status');
+    //     $startDateFilter = $request->input('start_date');
+    //     $endDateFilter = $request->input('end_date');
+
+    //     // Prepare the query for fetching all applications (future use)
+    //     $allApplicationsQuery = McApplication::with('user');
+
+    //     // Apply status filter to all applications if provided
+    //     if ($statusFilter) {
+    //         $allApplicationsQuery->where('status', $statusFilter);
+    //     }
+
+    //     // Apply date filters to all applications if provided
+    //     if ($startDateFilter) {
+    //         $allApplicationsQuery->where('start_date', '>=', $startDateFilter);
+    //     }
+    //     if ($endDateFilter) {
+    //         $allApplicationsQuery->where('end_date', '<=', $endDateFilter);
+    //     }
+
+    //     // Get all applications (this is required for future reference)
+    //     $allApplications = $allApplicationsQuery->get();
+
+    //     // Fetch direct admin approval applications: only pending and not yet admin approved
+    //     $directAdminApplications = McApplication::where('direct_admin_approval', true)
+    //         ->where('admin_approved', false)  // Only fetch those not yet approved
+    //         ->where('status', 'pending')  // Only fetch those with pending status
+    //         ->get();
+
+    //     // Fetch additional statistics
+    //     $totalUsers = User::where('role', '!=', 'admin')->count();
+    //     $totalMcApplications = McApplication::count();
+    //     $acceptedMcApplications = McApplication::where('status', 'approved')->count();
+    //     $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
+    //     $notes = Note::all(); // Fetch all notes
+
+    //     // Create an array to hold selected leave types
+    //     $selectedLeaveTypes = [];
+
+    //     foreach ($directAdminApplications as $application) {
+    //         // Find the note where the title matches the leave_type
+    //         $note = $notes->firstWhere('title', $application->leave_type);
+    //         if ($note) {
+    //             // Store the title of the selected leave type
+    //             $selectedLeaveTypes[$application->id] = $note->title;
+    //         } else {
+    //             $selectedLeaveTypes[$application->id] = 'Tidak ada catatan dipilih';
+    //         }
+    //     }
+    //     // Pass the data to the view
+    //     return view('partials.adminside.mc_admin_approve', compact(
+    //         'directAdminApplications', 'allApplications', 'totalUsers',
+    //         'totalMcApplications', 'acceptedMcApplications', 'rejectedMcApplications',
+    //         'notes','selectedLeaveTypes'
+    //     ));
+    // }
+
     public function mcAdminApprove(Request $request)
     {
-        // Get filter inputs (if needed for future search functionality)
-        $statusFilter = $request->input('status');
-        $startDateFilter = $request->input('start_date');
-        $endDateFilter = $request->input('end_date');
-
-        // Prepare the query for fetching all applications (future use)
-        $allApplicationsQuery = McApplication::with('user');
-
-        // Apply status filter to all applications if provided
-        if ($statusFilter) {
-            $allApplicationsQuery->where('status', $statusFilter);
-        }
-
-        // Apply date filters to all applications if provided
-        if ($startDateFilter) {
-            $allApplicationsQuery->where('start_date', '>=', $startDateFilter);
-        }
-        if ($endDateFilter) {
-            $allApplicationsQuery->where('end_date', '<=', $endDateFilter);
-        }
-
-        // Get all applications (this is required for future reference)
-        $allApplications = $allApplicationsQuery->get();
-
-        // Fetch direct admin approval applications: only pending and not yet admin approved
-        $directAdminApplications = McApplication::where('direct_admin_approval', true)
-            ->where('admin_approved', false)  // Only fetch those not yet approved
-            ->where('status', 'pending')  // Only fetch those with pending status
-            ->get();
+        // Prepare the query for fetching all applications not approved by admin
+        $pendingApplications = McApplication::join('users as staff', 'mc_applications.user_id', '=', 'staff.id')
+            ->leftJoin('users as officers', 'staff.selected_officer_id', '=', 'officers.id')
+            ->select(
+                'mc_applications.*',
+                'staff.name as user_name',
+                'officers.name as officer_name'
+            )
+            ->where('mc_applications.admin_approved', false) // Not yet approved by admin
+            ->where(function ($query) {
+                $query->where('mc_applications.direct_admin_approval', true) // Directly from staff
+                    ->orWhere(function ($subQuery) {
+                        $subQuery->where('mc_applications.officer_approved', true) // Approved by officer
+                                ->where('mc_applications.direct_admin_approval', false); // Not direct admin approval
+                    });
+            })
+            ->paginate(10); // Paginate results
 
         // Fetch additional statistics
         $totalUsers = User::where('role', '!=', 'admin')->count();
@@ -708,26 +896,23 @@ public function deleteNote($id)
         $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
         $notes = Note::all(); // Fetch all notes
 
-        // Create an array to hold selected leave types
+        // Map leave types for pending applications
         $selectedLeaveTypes = [];
-
-        foreach ($directAdminApplications as $application) {
-            // Find the note where the title matches the leave_type
+        foreach ($pendingApplications as $application) {
             $note = $notes->firstWhere('title', $application->leave_type);
-            if ($note) {
-                // Store the title of the selected leave type
-                $selectedLeaveTypes[$application->id] = $note->title;
-            } else {
-                $selectedLeaveTypes[$application->id] = 'Tidak ada catatan dipilih';
-            }
+            $selectedLeaveTypes[$application->id] = $note ? $note->title : 'Tidak ada catatan dipilih';
         }
-        // Pass the data to the view
+
+        // Pass data to the view
         return view('partials.adminside.mc_admin_approve', compact(
-            'directAdminApplications', 'allApplications', 'totalUsers',
-            'totalMcApplications', 'acceptedMcApplications', 'rejectedMcApplications',
-            'notes','selectedLeaveTypes'
+            'pendingApplications', 'totalUsers', 'totalMcApplications',
+            'acceptedMcApplications', 'rejectedMcApplications', 'notes', 'selectedLeaveTypes'
         ));
     }
+
+
+
+
 
    // PERMOHONAN CUTI
     public function approve($id)

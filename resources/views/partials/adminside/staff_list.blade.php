@@ -80,8 +80,8 @@
 
                                             <div class="row">
 
-                                                <!-- Add Staff/Officer Button -->
                                                 <div class="card">
+                                                     <!-- Add Staff/Officer Button -->
                                                     <div class="card-header pb-0 p-3">
                                                         <div class="d-flex justify-content-end pe-3">
                                                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStaffModal">
@@ -417,13 +417,25 @@
                                                                         </td>
 
                                                                             <!-- Edit User Modal -->
-                                                                            <div class="modal fade" id="editModal{{ $user->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $user->id }}" aria-hidden="true">
-                                                                                <div class="modal-dialog modal-lg">
-                                                                                    <div class="modal-content">
-                                                                                        <div class="modal-header" style="background-color: #f0f0f0;">
-                                                                                            <h5 class="modal-title" id="editModalLabel{{ $user->id }}">Kemaskini Maklumat - {{ $user->name }}</h5>
-                                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                                        </div>
+                                                                            <div 
+                                                                                class="modal fade" 
+                                                                                id="editModal{{ $user->id }}" 
+                                                                                tabindex="-1" 
+                                                                                aria-labelledby="editModalLabel{{ $user->id }}" 
+                                                                                aria-hidden="true">
+                                                                            <div class="modal-dialog modal-lg">
+                                                                                <div class="modal-content">
+                                                                                    <!-- Modal Header -->
+                                                                                    <div class="modal-header" style="background-color: #f0f0f0;">
+                                                                                        <h5 class="modal-title" id="editModalLabel{{ $user->id }}">Kemaskini Maklumat - {{ $user->name }}</h5>
+                                                                                        <button 
+                                                                                            type="button" 
+                                                                                            class="btn-close" 
+                                                                                            data-bs-dismiss="modal" 
+                                                                                            aria-label="Close"></button>
+                                                                                    </div>
+
+                                                                                        <!-- Modal Body -->
                                                                                         <div class="modal-body">
                                                                                             <form id="edit-form-{{ $user->id }}" action="{{ route('updateUser', $user->id) }}" method="POST">
                                                                                                 @csrf
