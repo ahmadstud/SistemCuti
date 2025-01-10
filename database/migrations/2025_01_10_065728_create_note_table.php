@@ -4,11 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLeaveTypeTable extends Migration
+return new class extends Migration
 {
-    public function up()
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
     {
-        Schema::create('leave_type', function (Blueprint $table) {
+        Schema::create('note', function (Blueprint $table) {
             $table->id();
             $table->string('title'); // Name of the leave type
             $table->text('content')->nullable(); // Description of the leave type
@@ -16,8 +19,11 @@ class CreateLeaveTypeTable extends Migration
         });
     }
 
-    public function down()
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
-        Schema::dropIfExists('leave_type');
+        Schema::dropIfExists('note');
     }
-}
+};
