@@ -123,7 +123,7 @@
                                                                 <a href="{{ route('admin.mcAllApplyPdf') }}" class="btn btn-danger"><i class="fas fa-file-pdf"></i>  Generate PDF</a>
                                                                 <a href="{{ route('admin.mcAllApplyExcel') }}" class="btn btn-success"><i class="fas fa-file-excel"></i>  Generate Excel</a>
                                                             </div>
-                                                            
+
                                                         </div>
 
 
@@ -242,7 +242,7 @@
                                                                                     <span class="badge badge-md bg-gradient-warning">Pegawai</span>
                                                                                 @endif
                                                                             </td>
-                                                                            
+
                                                                             <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                 <span class="badge bg-success">
                                                                                     {{ $selectedLeaveTypes[$application->id] ?? 'Tiada Cuti Dipilih' }}
@@ -251,7 +251,7 @@
                                                                             <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                 <p class="text-m text-secondary"><b>{{ \Carbon\Carbon::parse($application->start_date)->format('d/m/Y') }} </b> sehingga <b> {{ \Carbon\Carbon::parse($application->end_date)->format('d/m/Y') }} </b></p>
 
-                                                                            </td>                                                                        
+                                                                            </td>
                                                                             <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                 <p class="text-m text-secondary">
                                                                                     @php
@@ -379,7 +379,7 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
         </main>
 

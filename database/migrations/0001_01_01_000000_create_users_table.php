@@ -14,19 +14,20 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('fullname')->nullable(); // Add fullname column
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('role')->default('staff');  // Add role column
-            $table->string('ic')->nullable();  // Add IC column
-            $table->string('phone_number')->nullable();  // Add phone number column
-            $table->integer('total_mc_days')->default(0); // Add total MC days
-            $table->string('address')->nullable(); // Add address column
-            $table->string('city')->nullable(); // Add city column
-            $table->string('postcode')->nullable(); // Add postcode column
-            $table->string('state')->nullable(); // Add state column
-            $table->string('job_status')->nullable(); // Add job status column
+            $table->string('role')->default('staff');
+            $table->bigInteger('selected_officer_id')->nullable(); // Bigint for selected_officer_id
+            $table->string('ic')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('address')->nullable();
+            $table->string('city')->nullable();
+            $table->string('postcode')->nullable();
+            $table->string('state')->nullable();
+            $table->string('job_status')->nullable();
             $table->rememberToken();
-            $table->timestamps();
+            $table->timestamps(); // created_at and updated_at as timestamps
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
@@ -37,7 +38,7 @@ return new class extends Migration
 
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->foreignId('user_id')->nullable()->index();
+            $table->bigInteger('user_id')->nullable()->index(); // Ensure user_id is consistent
             $table->string('ip_address', 45)->nullable();
             $table->text('user_agent')->nullable();
             $table->longText('payload');

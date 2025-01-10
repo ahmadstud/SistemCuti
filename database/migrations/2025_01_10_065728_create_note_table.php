@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('mc_applications', function (Blueprint $table) {
-            $table->text('rejection_reason')->nullable()->after('status'); // Add rejection_reason column
+        Schema::create('note', function (Blueprint $table) {
+            $table->id();
+            $table->string('title'); // Name of the leave type
+            $table->text('content')->nullable(); // Description of the leave type
+            $table->timestamps();
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('mc_applications', function (Blueprint $table) {
-            $table->dropColumn('rejection_reason'); // Remove rejection_reason column
-        });
+        Schema::dropIfExists('note');
     }
 };

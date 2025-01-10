@@ -33,6 +33,8 @@ class LoginController extends Controller
                 default:
                     return redirect()->route('staff')->with('success', 'Log Masuk Berjaya');
             }
+
+            return back()->withErrors(['password' => 'Kata laluan tidak sah.']);
         }
     
         // If login attempt fails, redirect back with an error message
@@ -40,6 +42,7 @@ class LoginController extends Controller
     }
     
     
+
 
 
 

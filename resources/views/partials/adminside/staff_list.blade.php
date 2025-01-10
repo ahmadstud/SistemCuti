@@ -169,12 +169,22 @@
                                                                             <h5 class="mt-4">Jenis Cuti</h5>
                                                                             @foreach ($notes as $note)
                                                                                 @php
-                                                                                    $columnName = Str::slug($note->title, '_');
-                                                                                    $noteValue = isset($user) ? $user->$columnName : ''; // Retrieve existing note value for the user
+                                                                                    $baseColumnName = Str::slug($note->title, '_');
+                                                                                    $fixedColumnName = "total_{$baseColumnName}";
+
+                                                                                    // Retrieve existing values for the user, if available
+                                                                                    $noteValue = isset($user) ? $user->$baseColumnName : ''; // Changeable leave value
+                                                                                    $fixedValue = isset($user) ? $user->$fixedColumnName : ''; // Fixed leave value
                                                                                 @endphp
                                                                                 <div class="col-md-3 mb-3">
-                                                                                    <label for="{{ $columnName }}" class="form-label">{{ $note->title }}</label>
-                                                                                    <input type="text" class="form-control" id="{{ $columnName }}" name="{{ $columnName }}" value="{{ old($columnName, $noteValue) }}">
+                                                                                    <!-- Input for changeable leave amount -->
+                                                                                    <label for="{{ $baseColumnName }}" class="form-label">{{ $note->title }}</label>
+                                                                                    <input type="text" class="form-control" id="{{ $baseColumnName }}" name="{{ $baseColumnName }}" value="{{ old($baseColumnName, $noteValue) }}">
+                                                                                </div>
+                                                                                <div class="col-md-3 mb-3">
+                                                                                    <!-- Input for fixed leave amount -->
+                                                                                    <label for="{{ $fixedColumnName }}" class="form-label">{{ $note->title }} (Fixed)</label>
+                                                                                    <input type="text" class="form-control" id="{{ $fixedColumnName }}" name="{{ $fixedColumnName }}" value="{{ old($fixedColumnName, $fixedValue) }}">
                                                                                 </div>
                                                                             @endforeach
                                                                         </div>
@@ -499,11 +509,22 @@
                                                                                                     <h5 class="mt-4">Jenis Cuti</h5>
                                                                                                     @foreach ($notes as $note)
                                                                                                         @php
-                                                                                                            $columnName = Str::slug($note->title, '_');
+                                                                                                            $baseColumnName = Str::slug($note->title, '_');
+                                                                                                            $fixedColumnName = "total_{$baseColumnName}";
+
+                                                                                                            // Retrieve existing values for the user, if available
+                                                                                                            $noteValue = isset($user) ? $user->$baseColumnName : ''; // Changeable leave value
+                                                                                                            $fixedValue = isset($user) ? $user->$fixedColumnName : ''; // Fixed leave value
                                                                                                         @endphp
                                                                                                         <div class="col-md-3 mb-3">
-                                                                                                            <label for="{{ $columnName }}" class="form-label">{{ $note->title }}</label>
-                                                                                                            <input type="text" class="form-control" id="{{ $columnName }}" name="{{ $columnName }}" value="{{ old($columnName, $user->$columnName ?? '') }}">
+                                                                                                            <!-- Input for changeable leave amount -->
+                                                                                                            <label for="{{ $baseColumnName }}" class="form-label">{{ $note->title }}</label>
+                                                                                                            <input type="text" class="form-control" id="{{ $baseColumnName }}" name="{{ $baseColumnName }}" value="{{ old($baseColumnName, $noteValue) }}">
+                                                                                                        </div>
+                                                                                                        <div class="col-md-3 mb-3">
+                                                                                                            <!-- Input for fixed leave amount -->
+                                                                                                            <label for="{{ $fixedColumnName }}" class="form-label">{{ $note->title }} (Fixed)</label>
+                                                                                                            <input type="text" class="form-control" id="{{ $fixedColumnName }}" name="{{ $fixedColumnName }}" value="{{ old($fixedColumnName, $fixedValue) }}">
                                                                                                         </div>
                                                                                                     @endforeach
                                                                                                 </div>

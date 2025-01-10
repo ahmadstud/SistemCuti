@@ -15,7 +15,7 @@
     <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
     <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- Font Awesome Icons -->
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <!-- CSS Files -->
     <link id="pagestyle" href="../assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
@@ -141,20 +141,39 @@
     </div>
   </main>
 
-
-
-
   <!--   Core JS Files   -->
   <script src="../assets/js/core/popper.min.js"></script>
-  <script src="../js/app.js"></script>
   <script src="../assets/js/core/bootstrap.min.js"></script>
   <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
   <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
-  <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="../assets/js/argon-dashboard.min.js?v=2.0.4"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  // Success Message
+  @if(session('success'))
+  Swal.fire({
+    icon: 'success',
+    title: 'Berjaya',
+    text: '{{ session('success') }}',
+    timer: 3000,
+    showConfirmButton: false
+  });
+  @endif
+
+  // Error Messages
+  @if($errors->any())
+  Swal.fire({
+    icon: 'error',
+    title: 'Ralat',
+    html: '{!! implode("<br>", $errors->all()) !!}',
+    timer: 5000,
+    showConfirmButton: true
+  });
+  @endif
+</script>
+
 </body>
 
 </html>

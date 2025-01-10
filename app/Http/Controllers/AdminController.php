@@ -102,7 +102,6 @@ class AdminController extends Controller
             ->where('mc_applications.start_date', '<=', $today)
             ->where('mc_applications.end_date', '>=', $today)
             ->where('mc_applications.status', 'approved') // Check for approved status
-            ->select('mc_applications.*', 'users.total_mc_days', 'users.total_annual', 'users.total_others') // Select fields from both tables
             ->get();
 
         // Fetch all officers
@@ -278,100 +277,110 @@ class AdminController extends Controller
     }
 
     // Store a new note
-    public function storeNote(Request $request)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-        ]);
+public function storeNote(Request $request)
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'content' => 'required|string',
+    ]);
 
-        // Generate a column name from the note title
-        $columnName = Str::slug($request->title, '_');
+    // Generate column names from the note title
+    $baseColumnName = Str::slug($request->title, '_');
+    $fixedColumnName = "total_{$baseColumnName}";
 
-        // Check if the column already exists to avoid duplication
-        if (!Schema::hasColumn('users', $columnName)) {
-            // Alter the table to add a new column as an integer
-            DB::statement("ALTER TABLE users ADD COLUMN {$columnName} INT NULL DEFAULT 0");
-        }
-
-        // Store the note content or other relevant information
-        Note::create([
-            'title' => $request->title,
-            'content' => $request->content,
-        ]);
-
-        return redirect()->back()->with('success', 'Nota berjaya ditambah!');
+    // Check if the columns already exist to avoid duplication
+    if (!Schema::hasColumn('users', $baseColumnName) && !Schema::hasColumn('users', $fixedColumnName)) {
+        // Alter the table to add new columns
+        Schema::table('users', function (Blueprint $table) use ($baseColumnName, $fixedColumnName) {
+            $table->integer($baseColumnName)->nullable()->default(0);
+            $table->integer($fixedColumnName)->nullable()->default(0);
+        });
     }
 
-    // Update an existing note
-    public function updateNote(Request $request, $id)
-    {
-        $note = Note::findOrFail($id); // Find note or fail
+    // Store the note content or other relevant information
+    Note::create([
+        'title' => $request->title,
+        'content' => $request->content,
+    ]);
 
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-        ]);
+    return redirect()->back()->with('success', 'Nota berjaya ditambah!');
+}
 
-        // Get the old column name and the new column name
-        $oldColumnName = Str::slug($note->title, '_');
-        $newColumnName = Str::slug($request->title, '_');
+// Update an existing note
+public function updateNote(Request $request, $id)
+{
+    $note = Note::findOrFail($id); // Find note or fail
 
-        // If the title has changed, rename the column
-        if ($oldColumnName !== $newColumnName && Schema::hasColumn('users', $oldColumnName)) {
-            // Rename the column directly
-            Schema::table('users', function (Blueprint $table) use ($oldColumnName, $newColumnName) {
-                $table->renameColumn($oldColumnName, $newColumnName);
-            });
-        }
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'content' => 'required|string',
+    ]);
 
-        // Update the note's title and content
-        $note->update([
-            'title' => $request->title,
-            'content' => $request->content,
-        ]);
+    // Get the old and new column names
+    $oldBaseColumnName = Str::slug($note->title, '_');
+    $oldFixedColumnName = "total_{$oldBaseColumnName}";
+    $newBaseColumnName = Str::slug($request->title, '_');
+    $newFixedColumnName = "total_{$newBaseColumnName}";
 
-        return redirect()->back()->with('success', 'Nota berjaya dikemaskini!');
+    // If the title has changed, rename the columns
+    if ($oldBaseColumnName !== $newBaseColumnName) {
+        Schema::table('users', function (Blueprint $table) use ($oldBaseColumnName, $oldFixedColumnName, $newBaseColumnName, $newFixedColumnName) {
+            $table->renameColumn($oldBaseColumnName, $newBaseColumnName);
+            $table->renameColumn($oldFixedColumnName, $newFixedColumnName);
+        });
     }
 
+    // Update the note's title and content
+    $note->update([
+        'title' => $request->title,
+        'content' => $request->content,
+    ]);
 
-    // Delete a note
-    public function deleteNote($id)
-    {
-        $note = Note::findOrFail($id); // Find note or fail
+    return redirect()->back()->with('success', 'Nota berjaya dikemaskini!');
+}
 
-        // Remove the corresponding column from the users table
-        $columnName = Str::slug($note->title, '_');
-        DB::statement("ALTER TABLE users DROP COLUMN {$columnName}");
+// Delete a note
+public function deleteNote($id)
+{
+    $note = Note::findOrFail($id); // Find note or fail
 
-        $note->delete();
+    // Get the column names
+    $baseColumnName = Str::slug($note->title, '_');
+    $fixedColumnName = "total_{$baseColumnName}";
 
-        return redirect()->back()->with('success', 'Nota berjaya dipadam!');
-    }
+    // Drop the columns
+    Schema::table('users', function (Blueprint $table) use ($baseColumnName, $fixedColumnName) {
+        $table->dropColumn([$baseColumnName, $fixedColumnName]);
+    });
+
+    $note->delete();
+
+    return redirect()->back()->with('success', 'Nota berjaya dipadam!');
+}
 
     // SENARAI PEKERJA ROUTES
     public function staffList(Request $request)
     {
         // Initialize the query to fetch all users
         $usersQuery = User::query();
-    
+
         // Get filter inputs (Ensure the filter inputs are correctly named in your form)
         $roleFilter = $request->input('role'); // Filter for role
         $jobStatusFilter = $request->input('job_status');  // Filter for job status
-    
+
         // Apply role filter if provided
         if ($roleFilter) {
             $usersQuery->where('role', $roleFilter);
         }
-    
+
         // Apply job status filter if provided
         if ($jobStatusFilter) {
             $usersQuery->where('job_status', $jobStatusFilter);
         }
-    
+
         // Fetch users with pagination (10 users per page)
         $users = $usersQuery->paginate(10);
-    
+
         // Fetch all officers (users with 'officer' role)
         $officers = User::where('role', 'officer')->get();
         $totalUsers = User::where('role', '!=', 'admin')->count();
@@ -379,7 +388,7 @@ class AdminController extends Controller
         $acceptedMcApplications = McApplication::where('status', 'approved')->count();
         $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
         $notes = Note::all(); // Adjust as necessary to fetch notes
-    
+
         // Pass the users and officers data to the view
         return view('partials.adminside.staff_list', [
             'users' => $users, // Now using 'users' instead of 'staff'
@@ -391,7 +400,7 @@ class AdminController extends Controller
             'notes' => $notes,
         ]);
     }
-    
+
 
 
     public function editUser($id)
@@ -402,8 +411,8 @@ class AdminController extends Controller
 
     public function updateUser(Request $request, $id)
     {
-        \Log::info($request->all()); // Log all incoming request data
-    
+        \Log::info($request->all()); // Log all incoming request data for debugging
+
         // Validate the incoming request data (basic fields)
         $request->validate([
             'fullname' => 'required|string|max:255',
@@ -419,29 +428,37 @@ class AdminController extends Controller
             'postcode' => 'required|string|max:255',
             'state' => 'required|string|max:255',
         ]);
-    
+
         // Find the user by ID
         $user = User::findOrFail($id);
-    
+
         // Automatically fill user data from the request, including static fields
         $user->fill($request->all());
-    
-        // Handle notes - ensure slug generation works correctly
+
+        // Handle notes
         $notes = Note::all(); // Retrieve all notes
         foreach ($notes as $note) {
-            $columnName = Str::slug($note->title, '_'); // Convert note title to column name
-            if ($request->has($columnName)) {
-                $user->$columnName = $request->input($columnName); // Update the note value
+            $baseColumnName = Str::slug($note->title, '_'); // Base column (e.g., `cuti_harian`)
+            $fixedColumnName = "total_{$baseColumnName}"; // Fixed column (e.g., `total_cuti_harian`)
+
+            // Update the dynamic column value if provided in the request
+            if ($request->has($baseColumnName)) {
+                $user->$baseColumnName = $request->input($baseColumnName);
+            }
+
+            // Update the fixed column value if provided in the request
+            if ($request->has($fixedColumnName)) {
+                $user->$fixedColumnName = $request->input($fixedColumnName);
             }
         }
-    
+
         // Save the updated user information
         $user->save();
-    
+
         // Redirect with success message
         return redirect()->back()->with('success', 'Pengguna berjaya dikemaskini!');
     }
-    
+
 
 
 
@@ -602,20 +619,20 @@ class AdminController extends Controller
     //     $usersQuery = User::query();
     //     $roleFilter = $request->input('role');
     //     $jobStatusFilter = $request->input('job_status');
-    
+
     //     if ($roleFilter) {
     //         $usersQuery->where('role', $roleFilter);
     //     }
-    
+
     //     if ($jobStatusFilter) {
     //         $usersQuery->where('job_status', $jobStatusFilter);
     //     }
-    
+
     //     $users = $usersQuery->get();
-    
+
     //     // Pass the data to a dedicated Blade view for PDF
     //     $pdf = Pdf::loadView('partials.adminside.staff_pdf', ['users' => $users]);
-    
+
     //     // Return the generated PDF for download
     //     return $pdf->download('staff_list.pdf');
     // }
@@ -631,7 +648,7 @@ class AdminController extends Controller
     {
         // Fetch all applications with user data
         $applications = McApplication::with('user')->get();
-    
+
         // Set the filename and headers for Excel
         $filename = "mc_applications_" . date('Y-m-d') . ".csv";
         $headers = [
@@ -640,7 +657,7 @@ class AdminController extends Controller
             "Pragma" => "no-cache",
             "Expires" => "0",
         ];
-    
+
         // Callback to write data to the file
             $callback = function () use ($applications) {
             // Open the output stream
@@ -668,14 +685,14 @@ class AdminController extends Controller
             fclose($file);
         };
 
-    
+
         // Return a streamed response
         return response()->stream($callback, 200, $headers);
     }
-    
 
 
-    
+
+
     // PERMOHONAN CUTI KESELURUHAN
     public function mcAllApply(Request $request)
     {
@@ -732,8 +749,8 @@ class AdminController extends Controller
 
         // Pass the data to the view
         return view('partials.adminside.mc_all_apply', compact(
-            'allApplications', 'totalUsers', 'totalMcApplications', 
-            'acceptedMcApplications', 'rejectedMcApplications', 
+            'allApplications', 'totalUsers', 'totalMcApplications',
+            'acceptedMcApplications', 'rejectedMcApplications',
             'notes', 'selectedLeaveTypes'
         ));
     }

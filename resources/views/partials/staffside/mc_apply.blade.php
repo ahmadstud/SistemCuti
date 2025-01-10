@@ -20,7 +20,7 @@
         Staf - Bahagian Permohonan
         </title>
         <!--     Fonts and icons     -->
-        {{-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" /> --}}
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" /> 
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
         <!-- Nucleo Icons -->
         <link href="{{ asset('assets/css/nucleo-icons.css') }}" rel="stylesheet" />
@@ -53,7 +53,7 @@
                                     <!-- Breadcrumb -->
                                     <nav aria-label="breadcrumb">
                                         <ol class="breadcrumb mb-0">
-                                            <li class="breadcrumb-item"><a href="#">UTAMA</a></li>
+                                            <li class="breadcrumb-item"><a href="{{ route('staff') }}">UTAMA</a></li>
                                             <li class="breadcrumb-item active" aria-current="page">PERMOHONAN CUTI</li>
                                         </ol>
                                     </nav>
@@ -114,13 +114,13 @@
 
                                                                         <!-- Document Upload Field -->
                                                                         <div class="col-md-12 mb-3" id="document_upload_field">
-                                                                            <label for="document_path" class="form-label">Dokumen MC<span class="text-danger">*</span></label>
+                                                                            <label for="document_path" class="form-label">Dokumen MC</label>
                                                                             <input type="file" class="form-control" id="document_path" name="document_path">
                                                                         </div>
 
                                                                         <div class="col-md-12 mb-3">
-                                                                            <label for="reason" class="form-label">Ulasan<span class="text-danger">*</span></label>
-                                                                            <textarea class="form-control" id="reason" name="reason" rows="3" required></textarea>
+                                                                            <label for="reason" class="form-label">Ulasan</label>
+                                                                            <textarea class="form-control summernote" id="reason" name="reason" rows="3"></textarea>
                                                                         </div>
                                                                         <div class="col-md-12 mb-3">
                                                                             <label>Permohonan terus ke Admin:</label><br>
@@ -146,14 +146,14 @@
                                                                 <table class="table">
                                                                     <thead style="background-color: #f0f0f0;">
                                                                         <tr>
-                                                                            <th style="width: 5%;">BIL</th>
-                                                                            <th style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH MULA</th>
-                                                                            <th style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH TAMAT</th>
-                                                                            <th style="width: 30%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
-                                                                            <th style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN</th>
-                                                                            <th style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
-                                                                            <th style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS</th>
-                                                                            <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
+                                                                            <th style="width: auto;">BIL</th>
+                                                                            <th style="width: auto; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TARIKH</th>
+                                                                            <th style="width: auto; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JUMLAH HARI</th>
+                                                                            <th style="width: auto; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
+                                                                            <th style="width: auto; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN</th>
+                                                                            <th style="width: auto; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
+                                                                            <th style="width: auto; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS</th>
+                                                                            <th style="width: auto; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
@@ -168,10 +168,10 @@
                                                                 <table class="table">
                                                                     <thead style="background-color: #f0f0f0;">
                                                                         <tr>
-                                                                            <th style="width: 5%; padding: 8px; overflow-wrap: white-space: normal;">BIL</th>
-                                                                            <th style="width: 10%; padding: 8px; overflow-wrap: white-space: normal;">
+                                                                            <th style="width: auto; padding: 8px; overflow-wrap: white-space: normal;">BIL</th>
+                                                                            <th style="width: auto; padding: 8px; overflow-wrap: white-space: normal;">
                                                                                 <a href="{{ route('staff.mc_application', ['sort' => 'start_date', 'order' => request('order') == 'asc' ? 'desc' : 'asc']) }}">
-                                                                                    TARIKH MULA
+                                                                                    TARIKH
                                                                                     @if(request('sort') == 'start_date')
                                                                                         @if(request('order') == 'asc')
                                                                                             <i class="fas fa-sort-up"></i> <!-- Ascending icon -->
@@ -183,25 +183,12 @@
                                                                                     @endif
                                                                                 </a>
                                                                             </th>
-                                                                            <th style="width: 10%; padding: 8px; overflow-wrap: white-space: normal;">
-                                                                                <a href="{{ route('staff.mc_application', ['sort' => 'end_date', 'order' => request('order') == 'asc' ? 'desc' : 'asc']) }}">
-                                                                                    TARIKH TAMAT
-                                                                                    @if(request('sort') == 'end_date')
-                                                                                        @if(request('order') == 'asc')
-                                                                                            <i class="fas fa-sort-up"></i> <!-- Ascending icon -->
-                                                                                        @else
-                                                                                            <i class="fas fa-sort-down"></i> <!-- Descending icon -->
-                                                                                        @endif
-                                                                                    @else
-                                                                                        <i class="fas fa-sort"></i> <!-- Neutral sort icon when not sorted -->
-                                                                                    @endif
-                                                                                </a>
-                                                                            </th>
-                                                                            <th style="width: 30%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
-                                                                            <th style="width: 10%; padding: 8px; overflow-wrap: white-space: normal;">DOKUMEN RUJUKAN</th>
-                                                                            <th style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
-                                                                            <th style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS</th>
-                                                                            <th style="width: 15%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
+                                                                            <th style="width: auto; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JUMLAH HARI</th>
+                                                                            <th style="width: auto; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
+                                                                            <th style="width: auto; padding: 8px; overflow-wrap: white-space: normal;">DOKUMEN RUJUKAN</th>
+                                                                            <th style="width: auto; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
+                                                                            <th style="width: auto; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS</th>
+                                                                            <th style="width: auto; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
@@ -216,10 +203,18 @@
                                                                                     </p>
                                                                                 </td>
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                    {{ \Carbon\Carbon::parse($mcApplication->start_date)->format('d/m/Y') }}
+                                                                                    {{ \Carbon\Carbon::parse($mcApplication->start_date)->format('d/m/Y') }} - {{ \Carbon\Carbon::parse($mcApplication->end_date)->format('d/m/Y') }}
                                                                                 </td>
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                    {{ \Carbon\Carbon::parse($mcApplication->end_date)->format('d/m/Y') }}
+                                                                                    <p class="text-m text-secondary">
+                                                                                        @php
+                                                                                            // Calculate the difference in days and add 1 to ensure the last day is included
+                                                                                            $startDate = \Carbon\Carbon::parse($mcApplication->start_date);
+                                                                                            $endDate = \Carbon\Carbon::parse($mcApplication->end_date);
+                                                                                            $daysDifference = $startDate->diffInDays($endDate) + 1; // Add 1 to include both start and end dates
+                                                                                        @endphp
+                                                                                        {{ $daysDifference }} hari
+                                                                                    </p>
                                                                                 </td>
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                     {{ $mcApplication->reason }}
@@ -227,7 +222,7 @@
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                     @if($mcApplication->document_path)
                                                                                         <a href="{{ Storage::url($mcApplication->document_path) }}" target="_blank" title="Download Dokumen">
-                                                                                            <i class="fas fa-file-pdf text-lg me-1"></i> PDF
+                                                                                            <i class="fas fa-file-pdf text-lg me-1 text-primary"></i> PDF
                                                                                         </a>
                                                                                     @else
                                                                                         <span class="text-danger">Tiada Dokumen</span>
@@ -307,7 +302,7 @@
                                                                                                             </div>
                                                                                                             <div class="col-md-12 mb-3">
                                                                                                                 <label for="reason{{ $mcApplication->id }}" class="form-label">Sebab<span class="text-danger">*</span></label>
-                                                                                                                <textarea class="form-control" id="reason{{ $mcApplication->id }}" name="reason" rows="3" required>{{ $mcApplication->reason }}</textarea>
+                                                                                                                <textarea class="form-control summernote" id="reason{{ $mcApplication->id }}" name="reason" rows="3" required>{{ $mcApplication->reason }}</textarea>
                                                                                                             </div>
                                                                                                             <div class="col-md-12 mb-3">
                                                                                                                 <label>Permohonan terus ke Admin:</label><br>
@@ -376,6 +371,10 @@
             <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
             <!-- Most Important JS Files -->
             <script src="{{ asset('js/app.js') }}"></script>
+
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.css" rel="stylesheet">
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote.min.js"></script>
 
             <!-- Github buttons -->
             <script async defer src="https://buttons.github.io/buttons.js"></script>

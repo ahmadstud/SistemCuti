@@ -13,47 +13,77 @@ use Illuminate\Support\Facades\Hash; // <-- For password hashing
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Schema;
 
 class StaffController extends Controller
 {
 
     public function storeMcApplication(Request $request)
-    {
-        // Validate the form input
-        $request->validate([
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
-            'document_path' => 'nullable|mimes:pdf,jpg,png|max:2048', // Allow nullable file for non-MC types
-            'reason' => 'required|string',
-            'leave_type' => 'required|string',  // Adjusted validation
+{
+    // Validate the form input
+    $request->validate([
+        'start_date' => 'required|date',
+        'end_date' => 'required|date|after_or_equal:start_date',
+        'document_path' => 'nullable|mimes:pdf,jpg,png|max:2048',
+       'reason' => 'nullable|string',
+        'leave_type' => 'required|string',
+    ]);
+
+    // Calculate the number of days requested
+    $startDate = Carbon::parse($request->start_date);
+    $endDate = Carbon::parse($request->end_date);
+    $requestedDays = $startDate->diffInDays($endDate) + 1; // Ensure at least 1 day
+
+    // Generate the column name for the leave type
+    $columnName = Str::slug($request->leave_type, '_');
+
+    // Check if the column exists in the users table
+    if (!Schema::hasColumn('users', $columnName)) {
+        return redirect()->back()->with('error', 'Jenis cuti yang dipilih tidak sah.');
+    }
+
+    // Get the authenticated user
+    $user = Auth::user();
+
+    // Check if the user has enough remaining days for the leave type
+    $remainingDays = $user->$columnName;
+    if ($remainingDays <= 0) {
+        return redirect()->back()->with('error', 'Anda tidak mempunyai baki hari yang mencukupi untuk jenis cuti yang dipilih.');
+    }
+
+    if ($requestedDays > $remainingDays) {
+        return redirect()->back()->with('error', 'Anda tidak mempunyai baki hari yang mencukupi untuk jenis cuti yang dipilih.');
+    }
+
+    // Handle file upload
+    $documentPath = null;
+    if ($request->hasFile('document_path')) {
+        $documentPath = $request->file('document_path')->store('mc_documents', 'public');
+    }
+
+    try {
+        Log::info('Creating Leave Application:', $request->all());
+
+        McApplication::create([
+            'user_id' => $user->id,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'reason' => $request->reason,
+            'document_path' => $documentPath,
+            'status' => 'pending', // Keep the status as pending for now
+            'leave_type' => $request->leave_type,
+            'direct_admin_approval' => $request->input('direct_admin_approval', true),
         ]);
 
-        // Handle file upload conditionally
-        $documentPath = null;
-        if ($request->hasFile('document_path')) {
-            $documentPath = $request->file('document_path')->store('mc_documents', 'public');
-        }
-
-        try {
-            Log::info('Creating MC Application:', $request->all());  // Log request data
-
-            McApplication::create([
-                'user_id' => Auth::id(),
-                'start_date' => $request->start_date,
-                'end_date' => $request->end_date,
-                'reason' => $request->reason,
-                'document_path' => $documentPath,
-                'status' => 'pending',
-                'leave_type' => $request->leave_type, // Storing title directly
-                'direct_admin_approval' => $request->input('direct_admin_approval', true),
-            ]);
-
-            return redirect()->back()->with('success', 'Permohonan Cuti telah dihantar!');
-        } catch (\Exception $e) {
-            Log::error('Error Creating MC Application:', ['message' => $e->getMessage()]);
-            return redirect()->back()->with('error', 'Gagal menghantar permohonan Cuti. Sila cuba lagi.');
-        }
+        return redirect()->back()->with('success', 'Permohonan cuti berjaya dihantar! Menunggu kelulusan pentadbir.');
+    } catch (\Exception $e) {
+        Log::error('Ralat Membuat Permohonan Cuti:', ['message' => $e->getMessage()]);
+        return redirect()->back()->with('error', 'Gagal menghantar permohonan cuti. Sila cuba lagi.');
     }
+}
+
+
 
     public function updateOwnDetails2(Request $request)
     {
@@ -169,7 +199,6 @@ class StaffController extends Controller
     public function dashboard(Request $request)
     {
         $today = now()->toDateString();
-    
         // Fetch list of staff on leave today, including their `total_mc_days`, joining with `users` table
         $staffOnLeaveToday = McApplication::with('user') // Assuming there's a 'user' relationship in McApplication model
             ->join('users', 'mc_applications.user_id', '=', 'users.id') // Join the users table
@@ -177,18 +206,18 @@ class StaffController extends Controller
             ->where('mc_applications.end_date', '>=', $today)
             ->where('mc_applications.status', 'approved') // Only approved leaves
             ->get();
-    
+
         // Fetch announcements and notes as needed
         $announcements = Announcement::all();
         $notes = Note::all();
-    
+
         // Get the current year and optionally use the year selected by the user
         $currentYear = now()->year;
         $year = $request->input('year', $currentYear); // Defaults to the current year if not specified
-    
+
         // Generate a range of years for the dropdown, from 2020 to the next year
         $yearRange = range(2020, $currentYear + 1);
-    
+
         // Query to get monthly data of staff on leave for the selected year
         $monthlyLeaveData = McApplication::select(
             DB::raw('MONTH(start_date) as month'),
@@ -199,18 +228,18 @@ class StaffController extends Controller
         ->groupBy(DB::raw('MONTH(start_date)'))
         ->orderBy(DB::raw('MONTH(start_date)')) // Order by month
         ->get();
-    
+
         // Prepare an array with all 12 months, defaulting to 0 leave count for each month
         $leaveCountsByMonth = array_fill(1, 12, 0);
-    
+
         // Populate the array with actual data from the query
         foreach ($monthlyLeaveData as $data) {
             $leaveCountsByMonth[$data->month] = $data->total_applications;
         }
-    
+
         // Convert leave counts to JSON format for the chart (if required on the staff view)
         $leaveCountsByMonthJson = json_encode(array_values($leaveCountsByMonth));
-    
+
         // Pass the data to the staff dashboard view
         return view('staff', compact(
             'staffOnLeaveToday',
@@ -222,8 +251,8 @@ class StaffController extends Controller
             'notes'
         ));
     }
-    
-    
+
+
 
 
 

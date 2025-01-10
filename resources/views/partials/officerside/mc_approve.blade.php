@@ -57,7 +57,7 @@
                                     <!-- Breadcrumb -->
                                     <nav aria-label="breadcrumb">
                                         <ol class="breadcrumb mb-0">
-                                            <li class="breadcrumb-item"><a href="#">UTAMA</a></li>
+                                            <li class="breadcrumb-item"><a href="{{ route('officer') }}">UTAMA</a></li>
                                             <li class="breadcrumb-item active" aria-current="page">SENARAI PERMOHONAN DARIPADA STAF</li>
                                         </ol>
                                     </nav>
@@ -106,11 +106,11 @@
                                 <table class="table">
                                     <thead style="background-color: #f0f0f0;">
                                         <tr>
-                                            <th style="width: 5%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">BIL</th>
-                                            <th style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
-                                            <th style="width: 10%; padding: 8px; overflow-wrap: white-space: normal;">
+                                            <th style="width: auto; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">BIL</th>
+                                            <th style="width: auto; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">NAMA</th>
+                                            <th style="width: auto; padding: 8px; overflow-wrap: white-space: normal;">
                                                 <a href="{{ route('officer.mc_approve', ['sort' => 'start_date', 'order' => request('order') == 'asc' ? 'desc' : 'asc']) }}">
-                                                    TARIKH MULA
+                                                    TARIKH
                                                     @if(request('sort') == 'start_date')
                                                         @if(request('order') == 'asc')
                                                             <i class="fas fa-sort-up"></i> <!-- Ascending icon -->
@@ -122,24 +122,11 @@
                                                     @endif
                                                 </a>
                                             </th>
-                                            <th style="width: 10%; padding: 8px; overflow-wrap: white-space: normal;">
-                                                <a href="{{ route('officer.mc_approve', ['sort' => 'end_date', 'order' => request('order') == 'asc' ? 'desc' : 'asc']) }}">
-                                                    TARIKH TAMAT
-                                                    @if(request('sort') == 'end_date')
-                                                        @if(request('order') == 'asc')
-                                                            <i class="fas fa-sort-up"></i> <!-- Ascending icon -->
-                                                        @else
-                                                            <i class="fas fa-sort-down"></i> <!-- Descending icon -->
-                                                        @endif
-                                                    @else
-                                                        <i class="fas fa-sort"></i> <!-- Neutral sort icon when not sorted -->
-                                                    @endif
-                                                </a>
-                                            </th>
-                                            <th style="width: 20%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
-                                            <th style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN RUJUKAN</th>
-                                            <th style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
-                                            <th style="width: 10%; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
+                                            <th style="width: auto; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JUMLAH HARI</th>
+                                            <th style="width: auto; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
+                                            <th style="width: auto; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN RUJUKAN</th>
+                                            <th style="width: auto; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
+                                            <th style="width: auto; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -152,10 +139,18 @@
                                                     <p class="text-m text-secondary">{{ $application->user_name }}</p>
                                                 </td>
                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                    <p class="text-m text-secondary">{{ \Carbon\Carbon::parse($application->start_date)->format('d/m/Y') }}</p>
+                                                    {{ \Carbon\Carbon::parse($application->start_date)->format('d/m/Y') }} - {{ \Carbon\Carbon::parse($application->end_date)->format('d/m/Y') }}
                                                 </td>
                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                    <p class="text-m text-secondary">{{ \Carbon\Carbon::parse($application->end_date)->format('d/m/Y') }}</p>
+                                                    <p class="text-m text-secondary">
+                                                        @php
+                                                            // Calculate the difference in days and add 1 to ensure the last day is included
+                                                            $startDate = \Carbon\Carbon::parse($application->start_date);
+                                                            $endDate = \Carbon\Carbon::parse($application->end_date);
+                                                            $daysDifference = $startDate->diffInDays($endDate) + 1; // Add 1 to include both start and end dates
+                                                        @endphp
+                                                        {{ $daysDifference }} hari
+                                                    </p>
                                                 </td>
                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                     <p class="text-m text-secondary">{{ $application->reason }}</p>
@@ -163,7 +158,7 @@
                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                     @if($application->document_path)
                                                         <a href="{{ Storage::url($application->document_path) }}" target="_blank">
-                                                            <i class="fas fa-file-pdf text-lg me-1"></i> PDF <!-- Document icon -->
+                                                            <i class="fas fa-file-pdf text-lg me-1 text-primary"></i> PDF <!-- Document icon -->
                                                         </a>
                                                         @else
                                                         Tidak Ada Dokumen

@@ -11,6 +11,8 @@ use App\Models\Note;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Schema;
 
 class OfficerController extends Controller
 {
@@ -88,9 +90,31 @@ class OfficerController extends Controller
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
             'document_path' => 'nullable|mimes:pdf,jpg,png|max:2048', // Allow nullable file for non-MC types
-            'reason' => 'required|string',
+            'reason' => 'nullable|string',
             'leave_type' => 'required|string',  // Change to title validation
         ]);
+
+        // Calculate the number of days requested
+        $startDate = Carbon::parse($request->start_date);
+        $endDate = Carbon::parse($request->end_date);
+        $requestedDays = $startDate->diffInDays($endDate) + 1;
+
+        // Generate the column name for the leave type
+        $columnName = Str::slug($request->leave_type, '_');
+
+        // Check if the column exists in the users table
+        if (!Schema::hasColumn('users', $columnName)) {
+            return redirect()->back()->with('error', 'Jenis cuti yang dipilih tidak sah.');
+        }
+
+        // Get the authenticated user
+        $user = Auth::user();
+
+        // Check if the user has enough remaining days for the leave type
+        $remainingDays = $user->$columnName;
+        if ($requestedDays > $remainingDays) {
+            return redirect()->back()->with('error', 'Anda tidak mempunyai baki hari yang mencukupi untuk jenis cuti yang dipilih.');
+        }
 
         // Handle file upload conditionally
         $documentPath = null;

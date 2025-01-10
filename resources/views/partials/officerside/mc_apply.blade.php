@@ -55,7 +55,7 @@
                                     <!-- Breadcrumb -->
                                     <nav aria-label="breadcrumb">
                                         <ol class="breadcrumb mb-0">
-                                            <li class="breadcrumb-item"><a href="#">UTAMA</a></li>
+                                            <li class="breadcrumb-item"><a href="{{ route('officer') }}">UTAMA</a></li>
                                             <li class="breadcrumb-item active" aria-current="page">PERMOHONAN CUTI</li>
                                         </ol>
                                     </nav>
@@ -72,7 +72,7 @@
                                                             <h4 class="mb-2"></h4>
                                                             <!-- Add MC Application Modal -->
                                                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcApplicationModal">
-                                                                Memohon Surat Cuti
+                                                                <i class="fas fa-plus"></i> Memohon Surat Cuti
                                                             </button>
                                                         </div>
                                                     </div>
@@ -119,8 +119,8 @@
                                             </div>
 
                                             <div class="col-md-12 mb-3">
-                                                <label for="reason" class="form-label">Ulasan<span class="text-danger">*</span></label>
-                                                <textarea class="form-control summernote" id="reason" name="reason" rows="3" required></textarea>
+                                                <label for="reason" class="form-label">Ulasan</label>
+                                                <textarea class="form-control summernote" id="reason" name="reason" rows="3"></textarea>
                                             </div>
 
                                             <div class="modal-footer">
@@ -141,14 +141,14 @@
                                <table class="table">
                                 <thead style="background-color: #f0f0f0;">
                                     <tr>
-                                        <th style="width: 5%; padding: 8px;">BIL</th>
-                                        <th style="width: 10%;  padding: 8px; overflow-wrap:  white-space: normal;">TARIKH MULA</th>
-                                        <th style="width: 10%;  padding: 8px; overflow-wrap:  white-space: normal;">TARIKH TAMAT</th>
-                                        <th style="width: 30%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
-                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN</th>
-                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
-                                        <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS</th>
-                                        <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
+                                        <th style="width: auto; padding: 8px;">BIL</th>
+                                        <th style="width: auto;  padding: 8px; overflow-wrap:  white-space: normal;">TARIKH</th>
+                                        <th style="width: auto; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JUMLAH HARI</th>
+                                        <th style="width: auto;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
+                                        <th style="width: auto;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">DOKUMEN</th>
+                                        <th style="width: auto;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
+                                        <th style="width: auto;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS</th>
+                                        <th style="width: auto;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -163,10 +163,10 @@
                                 <table class="table">
                                     <thead style="background-color: #f0f0f0;">
                                         <tr>
-                                            <th style="width: 5%;   padding: 8px;">BIL</th>
-                                           <th style="width: 10%; padding: 8px; overflow-wrap: white-space: normal;">
+                                        <th style="width: auto;   padding: 8px;">BIL</th>
+                                        <th style="width: auto; padding: 8px; overflow-wrap: white-space: normal;">
                                                 <a href="{{ route('officer.mc_application', ['sort' => 'start_date', 'order' => request('order') == 'asc' ? 'desc' : 'asc']) }}">
-                                                    TARIKH MULA
+                                                    TARIKH
                                                     @if(request('sort') == 'start_date')
                                                         @if(request('order') == 'asc')
                                                             <i class="fas fa-sort-up"></i> <!-- Ascending icon -->
@@ -178,25 +178,12 @@
                                                     @endif
                                                 </a>
                                             </th>
-                                            <th style="width: 10%; padding: 8px; overflow-wrap: white-space: normal;">
-                                                <a href="{{ route('officer.mc_application', ['sort' => 'end_date', 'order' => request('order') == 'asc' ? 'desc' : 'asc']) }}">
-                                                    TARIKH TAMAT
-                                                    @if(request('sort') == 'end_date')
-                                                        @if(request('order') == 'asc')
-                                                            <i class="fas fa-sort-up"></i> <!-- Ascending icon -->
-                                                        @else
-                                                            <i class="fas fa-sort-down"></i> <!-- Descending icon -->
-                                                        @endif
-                                                    @else
-                                                        <i class="fas fa-sort"></i> <!-- Neutral sort icon when not sorted -->
-                                                    @endif
-                                                </a>
-                                            </th>
-                                            <th style="width: 30%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
-                                            <th style="width: 10%;  padding: 8px; overflow-wrap: white-space: normal;">DOKUMEN RUJUKAN</th>
-                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
-                                            <th style="width: 10%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS</th>
-                                            <th style="width: 15%;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
+                                            <th style="width: auto; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JUMLAH HARI</th>
+                                            <th style="width: auto;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">ULASAN</th>
+                                            <th style="width: auto;  padding: 8px; overflow-wrap: white-space: normal;">DOKUMEN RUJUKAN</th>
+                                            <th style="width: auto;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">JENIS CUTI</th>
+                                            <th style="width: auto;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">STATUS</th>
+                                            <th style="width: auto;  padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">TINDAKAN</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -206,17 +193,25 @@
                                                     <p class="text-m text-secondary">{{ $index + 1 }}</p>
                                                 </td>
                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                    <p class="text-m text-secondary">{{ \Carbon\Carbon::parse($mcApplication->start_date)->format('d/m/Y') }}</p>
+                                                    {{ \Carbon\Carbon::parse($mcApplication->start_date)->format('d/m/Y') }} - {{ \Carbon\Carbon::parse($mcApplication->end_date)->format('d/m/Y') }}
                                                 </td>
                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                    <p class="text-m text-secondary">{{ \Carbon\Carbon::parse($mcApplication->end_date)->format('d/m/Y') }}</p>
+                                                    <p class="text-m text-secondary">
+                                                        @php
+                                                            // Calculate the difference in days and add 1 to ensure the last day is included
+                                                            $startDate = \Carbon\Carbon::parse($mcApplication->start_date);
+                                                            $endDate = \Carbon\Carbon::parse($mcApplication->end_date);
+                                                            $daysDifference = $startDate->diffInDays($endDate) + 1; // Add 1 to include both start and end dates
+                                                        @endphp
+                                                        {{ $daysDifference }} hari
+                                                    </p>
                                                 </td>
                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                     {!! $mcApplication->reason !!}
                                                 </td>
                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                     @if($mcApplication->document_path)
-                                                        <a href="{{ Storage::url($mcApplication->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</a>
+                                                        <a href="{{ Storage::url($mcApplication->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1 text-primary"></i> PDF</a>
                                                     @else
                                                         <span>Tidak Ada Dokumen</span>
                                                     @endif
@@ -254,7 +249,7 @@
                                                         </form>
 
                                                         <!-- Edit MC Application Modal -->
-                                                        <div class="modal fade" id="editMcModal{{ $mcApplication->id }}" tabindex="-1" aria-labelledby="editMcModalLabel{{ $mcApplication->id }}" aria-hidden="true">
+                                                        <div class="modal fade" id="editMcModal{{ $mcApplication->id }}" tabindex="-1" aria-labelledby="editMcModalLabel{{ $mcApplication->id }}">
                                                             <div class="modal-dialog modal-lg">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header" style="background-color: #f0f0f0;">
@@ -307,7 +302,7 @@
                                                     @elseif($mcApplication->status == 'rejected')
                                                         {{ $mcApplication->rejection_reason }}
                                                     @else
-                                                        <span>-</span>
+                                                    <span class="text-danger">Tiada Tindakan</span>
                                                     @endif
                                                 </td>
                                                 </tr>

@@ -52,7 +52,7 @@
                                     <!-- Breadcrumb -->
                                     <nav aria-label="breadcrumb">
                                         <ol class="breadcrumb mb-0">
-                                            <li class="breadcrumb-item"><a href="#">UTAMA</a></li>
+                                            <li class="breadcrumb-item"><a href="{{ route('officer') }}">UTAMA</a></li>
                                             <li class="breadcrumb-item active" aria-current="page">PROFIL PENGGUNA</li>
                                         </ol>
                                     </nav>
@@ -300,8 +300,15 @@
         <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
         <script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
         <script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
-        <!-- Most Important JS Files -->
-        <script src="{{ asset('js/app.js') }}"></script>
+         <!-- Include Bootstrap JS and Popper.js -->
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+      <!-- Most Important JS Files -->
+      <script src="{{ asset('js/app.js') }}"></script>
+
+      <!-- Load Summernote -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote/dist/summernote-lite.min.js"></script>
 
         <!-- Github buttons -->
         <script async defer src="https://buttons.github.io/buttons.js"></script>
