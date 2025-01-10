@@ -227,27 +227,35 @@
                                                         </div>
                                                     </div>
 
-                                                    <!-- SweetAlert2 Script -->
                                                     <script>
-                                                        function confirmAddStaff() {
-                                                            Swal.fire({
-                                                                title: 'Tambah Staff / Pegawai?',
-                                                                text: "Adakah anda ingin menambah staff atau pegawai baru?",
-                                                                icon: 'question',
-                                                                showCancelButton: true,
-                                                                confirmButtonColor: '#3085d6',
-                                                                cancelButtonColor: '#d33',
-                                                                confirmButtonText: 'Ya, tambah!'
-                                                            }).then((result) => {
-                                                                if (result.isConfirmed) {
-                                                                    // Show the modal if confirmed
-                                                                    var addStaffModal = new bootstrap.Modal(document.getElementById('addStaffModal'));
-                                                                    addStaffModal.show();
+                                                        function isFormValid(formId) {
+                                                            var form = document.getElementById(formId);
+                                                            var inputs = form.querySelectorAll('[required]');
+                                                            var isValid = true;
+                                                    
+                                                            inputs.forEach(function(input) {
+                                                                if (!input.value.trim()) {
+                                                                    isValid = false;
+                                                                    input.classList.add('is-invalid'); // Add a Bootstrap class for visual feedback
+                                                                } else {
+                                                                    input.classList.remove('is-invalid');
                                                                 }
                                                             });
+                                                    
+                                                            return isValid;
                                                         }
-
+                                                    
                                                         function confirmSubmission() {
+                                                            if (!isFormValid('addStaffForm')) {
+                                                                Swal.fire({
+                                                                    title: 'Maklumat Tidak Lengkap',
+                                                                    text: "Sila isi semua maklumat yang diperlukan sebelum menyimpan.",
+                                                                    icon: 'error',
+                                                                    confirmButtonText: 'OK'
+                                                                });
+                                                                return;
+                                                            }
+                                                    
                                                             Swal.fire({
                                                                 title: 'Adakah anda pasti?',
                                                                 text: "Adakah anda ingin menyimpan maklumat staff / pegawai ini?",
@@ -258,12 +266,12 @@
                                                                 confirmButtonText: 'Ya, simpan!'
                                                             }).then((result) => {
                                                                 if (result.isConfirmed) {
-                                                                    // Submit the form if confirmed
                                                                     document.getElementById('addStaffForm').submit();
                                                                 }
                                                             });
                                                         }
                                                     </script>
+                                                    
 
                                                     {{-- List of staff --}}
                                                     <div class="card-body">

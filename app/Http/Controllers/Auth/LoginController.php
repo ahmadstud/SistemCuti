@@ -18,26 +18,28 @@ class LoginController extends Controller
             'username' => 'required|string',
             'password' => 'required|string',
         ]);
-
+    
         // Attempt to log the user in using the name and password
         if (Auth::attempt(['name' => $request->username, 'password' => $request->password], $request->remember)) {
             $user = Auth::user();
-
+    
             // Redirect based on user role
             switch ($user->role) {
                 case 'admin':
-                    return redirect()->route('admin');
+                    return redirect()->route('admin')->with('success', 'Log Masuk Berjaya');
                 case 'officer':
-                    return redirect()->route('officer');
+                    return redirect()->route('officer')->with('success', 'Log Masuk Berjaya');
                 case 'staff':
                 default:
-                    return redirect()->route('staff');
+                    return redirect()->route('staff')->with('success', 'Log Masuk Berjaya');
             }
         }
-
+    
         // If login attempt fails, redirect back with an error message
-        return back()->withErrors(['username' => 'Invalid username or password']);
+        return back()->withErrors(['username' => 'Nama pengguna atau kata laluan tidak sah'])->with('error', 'Gagal Log Masuk');
     }
+    
+    
 
 
 

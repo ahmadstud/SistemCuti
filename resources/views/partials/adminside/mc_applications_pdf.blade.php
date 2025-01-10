@@ -34,7 +34,7 @@
                     <td>{{ $application->user->name }}</td>
                     <td>{{ $application->leave_type }}</td>
                     <td>{{ \Carbon\Carbon::parse($application->start_date)->format('d/m/Y') }} sehingga {{ \Carbon\Carbon::parse($application->end_date)->format('d/m/Y') }}</td>
-                    <td>{{ $application->reason }}</td>
+                    <td>{!! $application->reason ?? '<p class="text-m text-secondary">Tiada ulasan</p>' !!}</td>
                     <td>{{ $application->status }}</td>
                 </tr>
             @endforeach

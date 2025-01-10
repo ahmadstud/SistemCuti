@@ -86,7 +86,7 @@
                                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                 </div>
                                                                 <div class="modal-body">
-                                                                    <form action="{{ route('updateOwnDetails') }}"  method="POST" enctype="multipart/form-data">
+                                                                    <form id="editProfileForm" action="{{ route('updateOwnDetails') }}" method="POST" enctype="multipart/form-data" onsubmit="return handleFormSubmit(event)">
                                                                         @csrf
 
                                                                         <!-- Profile Image Upload -->
@@ -211,6 +211,42 @@
                                                                         <div class="modal-footer">
                                                                             <button type="submit" class="btn btn-success">Simpan</button>
                                                                         </div>
+
+                                                                        <script>
+                                                                            document.addEventListener('DOMContentLoaded', function() {
+                                                                                // No need for session-based success alert here
+                                                                            });
+                                                                            
+                                                                            function handleFormSubmit(event) {
+                                                                                event.preventDefault(); // Prevent default form submission
+                                                                            
+                                                                                Swal.fire({
+                                                                                    title: 'Adakah anda pasti?',
+                                                                                    text: "Pastikan semua maklumat adalah tepat!",
+                                                                                    icon: 'warning',
+                                                                                    showCancelButton: true,
+                                                                                    confirmButtonColor: '#3085d6',
+                                                                                    cancelButtonColor: '#d33',
+                                                                                    confirmButtonText: 'Ya, Simpan!',
+                                                                                    cancelButtonText: 'Batal'
+                                                                                }).then((result) => {
+                                                                                    if (result.isConfirmed) {
+                                                                                        // Show success alert after confirmation
+                                                                                        Swal.fire({
+                                                                                            title: 'Berjaya!',
+                                                                                            text: 'Maklumat anda telah dikemaskini.',
+                                                                                            icon: 'success',
+                                                                                            confirmButtonText: 'Okay'
+                                                                                        }).then(() => {
+                                                                                            event.target.submit(); // Submit the form after showing the success alert
+                                                                                        });
+                                                                                    }
+                                                                                });
+                                                                            }
+                                                                            </script>
+                                                                            
+
+
                                                                     </form>
                                                                 </div>
                                                             </div>

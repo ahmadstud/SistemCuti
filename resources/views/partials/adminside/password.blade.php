@@ -39,7 +39,7 @@
 
         <!-- Font Awesome Icons -->
         <!-- Font Awesome Icons (For additional icons) -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
         <!-- CSS Files -->
         <!-- Argon Dashboard's main stylesheet -->
         <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet" />
@@ -56,66 +56,113 @@
 
         <main class="main-content position-relative border-radius-lg">
             <div class="container-fluid py-4">
-                     @include('partials.logout')
+                    @include('partials.logout')
                     @include('partials.adminside.mcdata')
 
-                <div class="row mt-4">
-                    <div class="col-lg-12 mb-lg-0 mb-4" > <!-- Adjust column to full width -->
-                        <div class="card">
-                            <div class="card-header pb-1 p-1">
-
-                                <!-- Separate Change Password Section -->
-                                <div class="d-flex align-items-center justify-content-between mb-4 p-3" style="background-color: rgba(0, 0, 0, 0);">
-                                    <h4 class="mb-0 text-uppercase fw-bold "><b>
-                                        <i class="bi bi-speedometer2 me-2"></i> TUKAR KATA LALUAN </b>
-                                    </h4>
-                                </div>
-
-                                <div class="row mt-4">
-                                <div class="col-lg-12 mb-lg-0 mb-4">
-                                <div class="container-fluid py-2">
-                                    <div class="row">
-
-                                        {{-- Tukar kata laluan --}}
-                                        <div class="card">
-                                            <div class="card-header pb-0 p-3">
-                                                <div class="d-flex justify-content-between">
-                                                    <h6 class="mb-2"></h6>
+                    <div class="row mt-4">
+                        <div class="col-lg-12 mb-lg-0 mb-4">
+                            <!-- Adjust column to full width -->
+                            <div class="card">
+                                <div class="card-header pb-1 p-1">
+                                    <!-- Separate Change Password Section -->
+                                    <div class="d-flex align-items-center justify-content-between mb-4 p-3" style="background-color: rgba(0, 0, 0, 0);">
+                                        <h4 class="mb-0 text-uppercase fw-bold">
+                                            <b><i class="bi bi-speedometer2 me-2"></i> TUKAR KATA LALUAN</b>
+                                        </h4>
+                                    </div>
+                    
+                                    <div class="row mt-4">
+                                        <div class="col-lg-12 mb-lg-0 mb-4">
+                                            <div class="container-fluid py-2">
+                                                <div class="row">
+                                                    {{-- Tukar kata laluan --}}
+                                                    <div class="card">
+                                                        <div class="card-header pb-0 p-3">
+                                                            <div class="d-flex justify-content-between">
+                                                                <h6 class="mb-2"></h6>
+                                                            </div>
+                                                        </div>
+                    
+                                                        <div class="card-body">
+                                                            <form id="passwordForm" action="{{ route('changePassword') }}" method="POST">
+                                                                @csrf
+                                                                <div class="mb-3">
+                                                                    <label for="password" class="form-label">Kata Laluan Baru<span class="text-danger">*</span></label>
+                                                                    <input type="password" class="form-control" id="password" name="password" placeholder="Biarkan kosong jika tidak ingin mengubah">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="password_confirmation" class="form-label">Sahkan Kata Laluan Baru<span class="text-danger">*</span></label>
+                                                                    <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" oninput="checkPasswordMatch();">
+                                                                </div>
+                    
+                                                                <div id="password-alert" class="alert alert-danger d-none">Kata laluan tidak sepadan!</div>
+                    
+                                                                <div class="modal-footer">
+                                                                    <button type="button" onclick="confirmPasswordChange()" class="btn btn-success btn-lg d-flex align-items-center justify-content-center">
+                                                                        <i class="fas fa-save me-2"></i>
+                                                                        <span>Simpan Kata Laluan Baru</span>
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-
-                                            <div class="card-body">
-                                                <form action="{{ route('changePassword') }}" method="POST" onsubmit="return validatePassword();">
-                                                    @csrf
-                                                    <div class="mb-3">
-                                                        <label for="password" class="form-label">Kata Laluan Baru<span class="text-danger">*</span></label>
-                                                        <input type="password" class="form-control" id="password" name="password" placeholder="Biarkan kosong jika tidak ingin mengubah">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="password_confirmation" class="form-label">Sahkan Kata Laluan Baru<span class="text-danger">*</span></label>
-                                                        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" oninput="checkPasswordMatch();">
-                                                    </div>
-
-                                                    <div id="password-alert" class="alert alert-danger d-none">Kata laluan tidak sepadan!</div>
-
-                                                    <div class="modal-footer">
-                                                        <button type="submit" class="btn btn-primary">
-                                                            <i class="fas fa-save"></i>
-                                                        </button>
-                                                    </div>
-                                                </form>
-                                            </div>
                                         </div>
-
                                     </div>
+                    
                                 </div>
-                                </div>
-                                </div>
-
                             </div>
                         </div>
                     </div>
-                </div>
+                    
+                    <script>
+                        function confirmPasswordChange() {
+                            Swal.fire({
+                                title: 'Adakah anda pasti?',
+                                text: 'Pastikan semua maklumat adalah tepat!',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Ya, Simpan!',
+                                cancelButtonText: 'Batal'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    // Show success alert after confirmation
+                                    Swal.fire({
+                                        title: 'Berjaya!',
+                                        text: 'Kata laluan anda telah dikemaskini.',
+                                        icon: 'success',
+                                        confirmButtonText: 'OK'
+                                    }).then(() => {
+                                        // Close the modal after success alert
+                                        $('#yourModalId').modal('hide'); // Make sure to replace 'yourModalId' with the actual modal ID
+                                        document.getElementById('passwordForm').submit(); // Submit the form after showing success alert
+                                    });
+                                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                    Swal.fire(
+                                        'Dibatalkan',
+                                        'Proses tukar kata laluan dibatalkan.',
+                                        'error'
+                                    );
+                                }
+                            });
+                        }
+                    
+                        function checkPasswordMatch() {
+                            var password = document.getElementById("password").value;
+                            var confirmPassword = document.getElementById("password_confirmation").value;
+                            var alertBox = document.getElementById("password-alert");
+                    
+                            if (password !== confirmPassword) {
+                                alertBox.classList.remove('d-none');
+                            } else {
+                                alertBox.classList.add('d-none');
+                            }
+                        }
+                    </script>
+                    
             </div>
         </main>
 

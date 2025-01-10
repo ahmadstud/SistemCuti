@@ -853,7 +853,7 @@ class AdminController extends Controller
 
     public function mcAdminApprove(Request $request)
     {
-        // Prepare the query for fetching all applications not approved by admin
+        // Prepare the query for fetching all applications not approved by admin and not rejected
         $pendingApplications = McApplication::join('users as staff', 'mc_applications.user_id', '=', 'staff.id')
             ->leftJoin('users as officers', 'staff.selected_officer_id', '=', 'officers.id')
             ->select(
@@ -862,6 +862,7 @@ class AdminController extends Controller
                 'officers.name as officer_name'
             )
             ->where('mc_applications.admin_approved', false) // Not yet approved by admin
+            ->where('mc_applications.status', '!=', 'rejected') // Exclude rejected applications
             ->where(function ($query) {
                 $query->where('mc_applications.direct_admin_approval', true) // Directly from staff
                     ->orWhere(function ($subQuery) {
@@ -870,27 +871,28 @@ class AdminController extends Controller
                     });
             })
             ->paginate(10); // Paginate results
-
+    
         // Fetch additional statistics
         $totalUsers = User::where('role', '!=', 'admin')->count();
         $totalMcApplications = McApplication::count();
         $acceptedMcApplications = McApplication::where('status', 'approved')->count();
         $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
         $notes = Note::all(); // Fetch all notes
-
+    
         // Map leave types for pending applications
         $selectedLeaveTypes = [];
         foreach ($pendingApplications as $application) {
             $note = $notes->firstWhere('title', $application->leave_type);
             $selectedLeaveTypes[$application->id] = $note ? $note->title : 'Tidak ada catatan dipilih';
         }
-
+    
         // Pass data to the view
         return view('partials.adminside.mc_admin_approve', compact(
             'pendingApplications', 'totalUsers', 'totalMcApplications',
             'acceptedMcApplications', 'rejectedMcApplications', 'notes', 'selectedLeaveTypes'
         ));
     }
+    
 
 
 
@@ -1010,7 +1012,7 @@ class AdminController extends Controller
     public function updateOwnDetails(Request $request)
     {
         $user = Auth::user(); // Get the currently authenticated user
-
+    
         // Validate the input data
         $request->validate([
             'name' => 'required|string|max:255',
@@ -1024,7 +1026,7 @@ class AdminController extends Controller
             'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation for profile image
             'fullname' => 'nullable|string|max:255',
         ]);
-
+    
         // Update user details
         $user->name = $request->name;
         $user->email = $request->email;
@@ -1035,23 +1037,25 @@ class AdminController extends Controller
         $user->postcode = $request->postcode;
         $user->state = $request->state;
         $user->fullname = $request->fullname;
-
-            // Handle profile image upload
-            if ($request->hasFile('profile_image')) {
+    
+        // Handle profile image upload
+        if ($request->hasFile('profile_image')) {
             $image = $request->file('profile_image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('storage/profile_image'), $imageName);
-
+    
             // Save the profile image path in the database
             $user->profile_image = 'storage/profile_image/' . $imageName;
         }
-
-            // Save changes to the database
-            $user->save();
-
+    
+        // Save changes to the database
+        $user->save();
+    
         // Redirect with success message
-        return redirect()->back()->with('success', 'Your details have been updated successfully!');
+        return redirect()->back()->with('update_success', true);
     }
+    
+    
 
 
 

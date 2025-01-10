@@ -216,9 +216,9 @@
                                                                             <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                 <p class="text-m text-secondary">{{ $announcement->title }}</p>
                                                                             </td>
-                                                                            <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                <p class="text-m text-secondary">{!! $announcement->content !!}</p>
-                                                                            </td>
+                                                                            <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal; text-align: left; vertical-align: top;">
+                                                                                <p class="text-m text-secondary" style="margin: 0;">{!! $announcement->content !!}</p>
+                                                                            </td>                                                                            
                                                                             <td style="border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                 <p class="text-m text-secondary">{{ \Carbon\Carbon::parse($announcement->start_date)->format('d/m/Y') }}</p>
                                                                             </td>
@@ -241,13 +241,14 @@
                                                                                     </button>
 
                                                                                     <!-- Delete button for announcement -->
-                                                                                    <form id="delete-form-{{ $announcement->id }}" action="{{ route('deleteAnnouncement', $announcement->id) }}" method="POST" style="margin: 0;"> <!-- Set margin to 0 for proper alignment -->
+                                                                                    <form id="delete-form-{{ $announcement->id }}" action="{{ route('deleteAnnouncement', $announcement->id) }}" method="POST" style="margin: 0;">
                                                                                         @csrf
                                                                                         @method('DELETE')
-                                                                                        <button type="submit" class="btn btn-md btn-danger" title="Delete">
-                                                                                            <i class="fas fa-trash-alt"></i> <!-- Delete symbol -->
+                                                                                        <button type="button" class="btn btn-md btn-danger" title="Delete" onclick="confirmDelete({{ $announcement->id }})">
+                                                                                            <i class="fas fa-trash-alt"></i>
                                                                                         </button>
                                                                                     </form>
+
                                                                                 </div>
                                                                             </td>
 
@@ -305,7 +306,7 @@
                                                                                 </div>
                                                                             </div>
 
-                                                                           <!-- Initialize Summernote -->
+                                                                            {{-- Initialize Summernote for content editing --}}
                                                                             <script>
                                                                                 $(document).ready(function() {
                                                                                     // Initialize Summernote for each modal
@@ -334,6 +335,7 @@
                                                                                 });
                                                                             </script>
 
+                                                                            {{-- Confirm edit submission --}}
                                                                             <script>
                                                                                 function confirmEditSubmit(announcementId) {
                                                                                     Swal.fire({
@@ -352,6 +354,7 @@
                                                                                     });
                                                                                 }
 
+                                                                                // Confirm delete
                                                                                 function confirmDelete(announcementId) {
                                                                                     Swal.fire({
                                                                                         title: 'Adakah anda pasti?',
@@ -370,24 +373,6 @@
                                                                                 }
                                                                             </script>
 
-                                                                            <script>
-                                                                                function confirmDelete(id) {
-                                                                                    Swal.fire({
-                                                                                        title: 'Adakah anda pasti?',
-                                                                                        text: "Anda tidak akan dapat memulihkan ini!",
-                                                                                        icon: 'warning',
-                                                                                        showCancelButton: true,
-                                                                                        confirmButtonColor: '#3085d6',
-                                                                                        cancelButtonColor: '#d33',
-                                                                                        confirmButtonText: 'Ya, padamkan!',
-                                                                                        cancelButtonText: 'Batal'
-                                                                                    }).then((result) => {
-                                                                                        if (result.isConfirmed) {
-                                                                                            document.getElementById('delete-form-' + id).submit();
-                                                                                        }
-                                                                                    })
-                                                                                }
-                                                                            </script>
 
                                                                             @if(session('success'))
                                                                             <script>

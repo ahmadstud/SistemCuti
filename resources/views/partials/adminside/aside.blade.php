@@ -32,141 +32,167 @@
     <hr class="horizontal dark mt-0">
 
     <div class="collapse navbar-collapse w-auto nav-section" id="sidenav-collapse-main" style="padding-bottom: 0; margin-bottom: 0;">
-      <ul class="navbar-nav" style="padding-bottom: 0; margin-bottom: 0;">
+        <ul class="navbar-nav" style="padding-bottom: 0; margin-bottom: 0;">
 
-          <!-- Menu Utama -->
-          <li class="nav-item" style="margin-bottom: 0;">
-              <form action="{{ route('admin') }}" method="GET" id="dashboard-form" style="display:none;"></form>
-              <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('dashboard-form').submit();">
-                  <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                      <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
-                  </div>
-                  <span class="nav-link-text ms-1">Utama</span>
-              </a>
-          </li>
+            <!-- Menu Utama -->
+            <li class="nav-item" style="margin-bottom: 0;">
+                <form action="{{ route('admin') }}" method="GET" id="dashboard-form" style="display:none;"></form>
+                <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('dashboard-form').submit();">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Utama</span>
+                </a>
+            </li>
 
-        <!-- Menu Pengurusan -->
-        <li class="nav-item" style="margin-bottom: 0;">
-            <a class="nav-link" data-bs-toggle="collapse" href="#pengurusanSubmenu" role="button" aria-expanded="false" aria-controls="pengurusanSubmenu">
-                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="ni ni-single-copy-04 text-primary text-sm opacity-10"></i>
+            <!-- Menu Pengurusan -->
+            <li class="nav-item" style="margin-bottom: 0;">
+                <a class="nav-link" data-bs-toggle="collapse" href="#pengurusanSubmenu" role="button" aria-expanded="false" aria-controls="pengurusanSubmenu">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-single-copy-04 text-primary text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Pengurusan</span>
+                </a>
+                <div class="collapse" id="pengurusanSubmenu">
+                    <ul class="navbar-nav ms-3">
+                        <!-- Pengumuman -->
+                        <li class="nav-item" style="margin-bottom: 0;">
+                            <form action="{{ route('admin.annoucement') }}" method="GET" id="pengumuman-form" style="display:none;"></form>
+                            <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('pengumuman-form').submit();">
+                                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                    <i class="ni ni-bell-55 text-primary text-sm opacity-10"></i>
+                                </div>
+                                <span class="nav-link-text ms-1">Pengumuman</span>
+                            </a>
+                        </li>
+
+                        <!-- Nota -->
+                        <li class="nav-item" style="margin-bottom: 0;">
+                            <form action="{{ route('admin.nota') }}" method="GET" id="nota-form" style="display:none;"></form>
+                            <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('nota-form').submit();">
+                                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                    <i class="ni ni-note-03 text-primary text-sm opacity-10"></i>
+                                </div>
+                                <span class="nav-link-text ms-1">Jenis Cuti</span>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-                <span class="nav-link-text ms-1">Pengurusan</span>
-            </a>
-            <div class="collapse" id="pengurusanSubmenu">
-                <ul class="navbar-nav ms-3">
-                    <!-- Pengumuman -->
-                    <li class="nav-item" style="margin-bottom: 0;">
-                        <form action="{{ route('admin.annoucement') }}" method="GET" id="pengumuman-form" style="display:none;"></form>
-                        <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('pengumuman-form').submit();">
-                            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="ni ni-bell-55 text-primary text-sm opacity-10"></i>
-                            </div>
-                            <span class="nav-link-text ms-1">Pengumuman</span>
-                        </a>
-                    </li>
 
-                    <!-- Nota -->
-                    <li class="nav-item" style="margin-bottom: 0;">
-                        <form action="{{ route('admin.nota') }}" method="GET" id="nota-form" style="display:none;"></form>
-                        <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('nota-form').submit();">
-                            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="ni ni-note-03 text-primary text-sm opacity-10"></i>
-                            </div>
-                            <span class="nav-link-text ms-1">Jenis Cuti</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-        </li>
+            </li>
 
 
-          <!-- Senarai Pekerja -->
-          <li class="nav-item" style="margin-bottom: 0;">
-              <form action="{{ route('admin.stafflist') }}" method="GET" id="stafflist-form" style="display:none;"></form>
-              <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('stafflist-form').submit();">
-                  <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                      <i class="ni ni-hat-3 text-primary text-sm opacity-10"></i>
-                  </div>
-                  <span class="nav-link-text ms-1">Senarai Pekerja</span>
-              </a>
-          </li>
+            <!-- Senarai Pekerja -->
+            <li class="nav-item" style="margin-bottom: 0;">
+                <form action="{{ route('admin.stafflist') }}" method="GET" id="stafflist-form" style="display:none;"></form>
+                <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('stafflist-form').submit();">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-hat-3 text-primary text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Senarai Pekerja</span>
+                </a>
+            </li>
 
-          <!-- Senarai Keseluruhan -->
-          <li class="nav-item" style="margin-bottom: 0;">
-              <form action="{{ route('admin.mcAllApply') }}" method="GET" id="all-approval-section-form" style="display:none;"></form>
-              <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('all-approval-section-form').submit();">
-                  <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                      <i class="ni ni-calendar-grid-58 text-primary text-sm opacity-10"></i>
-                  </div>
-                  <span class="nav-link-text ms-1">Senarai Keseluruhan<br>Permohonan</span>
-              </a>
-          </li>
+            <!-- Senarai Keseluruhan -->
+            <li class="nav-item" style="margin-bottom: 0;">
+                <form action="{{ route('admin.mcAllApply') }}" method="GET" id="all-approval-section-form" style="display:none;"></form>
+                <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('all-approval-section-form').submit();">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-calendar-grid-58 text-primary text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Senarai Keseluruhan<br>Permohonan</span>
+                </a>
+            </li>
 
-          <!-- Permohonan Cuti Tapisan Pegawai -->
-          {{-- <li class="nav-item" style="margin-bottom: 0;">
-              <form action="{{ route('admin.mcOfficerApprove') }}" method="GET" id="officer-applications-section-form" style="display:none;"></form>
-              <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('officer-applications-section-form').submit();">
-                  <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                      <i class="ni ni-briefcase-24 text-primary text-sm opacity-10"></i>
-                  </div>
-                  <span class="nav-link-text ms-1">Permohonan Cuti<br>Tapisan Pegawai</span>
-              </a>
-          </li> --}}
+            <!-- Permohonan Cuti Tapisan Pegawai -->
+            {{-- <li class="nav-item" style="margin-bottom: 0;">
+                <form action="{{ route('admin.mcOfficerApprove') }}" method="GET" id="officer-applications-section-form" style="display:none;"></form>
+                <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('officer-applications-section-form').submit();">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-briefcase-24 text-primary text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Permohonan Cuti<br>Tapisan Pegawai</span>
+                </a>
+            </li> --}}
 
-          <!-- Permohonan Cuti Admin -->
-          <li class="nav-item" style="margin-bottom: 0;">
-              <form action="{{ route('admin.mcAdminApprove') }}" method="GET" id="admin-approval-section-form" style="display:none;"></form>
-              <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('admin-approval-section-form').submit();">
-                  <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                      <i class="ni ni-check-bold text-primary text-sm opacity-10"></i>
-                  </div>
-                  <span class="nav-link-text ms-1">Senarai Permohonan<br>Belum Diluluskan</span>
-              </a>
-          </li>
+            <!-- Permohonan Cuti Admin -->
+            <li class="nav-item" style="margin-bottom: 0;">
+                <form action="{{ route('admin.mcAdminApprove') }}" method="GET" id="admin-approval-section-form" style="display:none;"></form>
+                <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('admin-approval-section-form').submit();">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-check-bold text-primary text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Senarai Permohonan<br>Belum Diluluskan</span>
+                </a>
+            </li>
 
-          <!-- Halaman Akaun -->
-          <li class="nav-item mt-3" style="margin-bottom: 0;">
-              <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Halaman Akaun</h6>
-          </li>
+            <!-- Halaman Akaun -->
+            <li class="nav-item mt-3" style="margin-bottom: 0;">
+                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Halaman Akaun</h6>
+            </li>
 
-          <!-- Profil Pengguna -->
-          <li class="nav-item" style="margin-bottom: 0;">
-              <form action="{{ route('admin.profile') }}" method="GET" id="Profile-form" style="display:none;"></form>
-              <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('Profile-form').submit();">
-                  <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                      <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
-                  </div>
-                  <span class="nav-link-text ms-1">Profil Pengguna</span>
-              </a>
-          </li>
+            <!-- Profil Pengguna -->
+            <li class="nav-item" style="margin-bottom: 0;">
+                <form action="{{ route('admin.profile') }}" method="GET" id="Profile-form" style="display:none;"></form>
+                <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('Profile-form').submit();">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Profil Pengguna</span>
+                </a>
+            </li>
 
-          <!-- Tukar Kata Laluan -->
-          <li class="nav-item" style="margin-bottom: 0;">
-              <form action="{{ route('admin.password') }}" method="GET" id="ChangePassword-form" style="display:none;"></form>
-              <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('ChangePassword-form').submit();">
-                  <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                      <i class="ni ni-lock-circle-open text-danger text-sm opacity-10"></i>
-                  </div>
-                  <span class="nav-link-text ms-1">Tukar Kata Laluan</span>
-              </a>
-          </li>
+            <!-- Tukar Kata Laluan -->
+            <li class="nav-item" style="margin-bottom: 0;">
+                <form action="{{ route('admin.password') }}" method="GET" id="ChangePassword-form" style="display:none;"></form>
+                <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('ChangePassword-form').submit();">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-lock-circle-open text-danger text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Tukar Kata Laluan</span>
+                </a>
+            </li>
 
-        <!-- Log Keluar -->
-         <li class="nav-item" style="margin-bottom: 0;">
-            <form action="{{ route('logout') }}" method="POST" id="logout-form" style="display: none;">
-                @csrf
-            </form>
-            <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="fas fa-sign-out-alt text-danger text-sm opacity-10"></i>
-                </div>
-                <span class="nav-link-text ms-1">Log Keluar</span>
-            </a>
-        </li>
-      </ul>
+            <!-- Log Keluar -->
+            <li class="nav-item" style="margin-bottom: 0;">
+                <form action="{{ route('logout') }}" method="POST" id="logout-form" style="display: none;">
+                    @csrf
+                </form>
+                <a class="nav-link" href="javascript:void(0);" onclick="confirmLogout();">
+                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="fas fa-sign-out-alt text-danger text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Log Keluar</span>
+                </a>
+            </li>
+        </ul>
     </div>
+
+    <script>
+        function confirmLogout() {
+            Swal.fire({
+                title: 'Adakah anda pasti?',
+                text: 'Anda akan log keluar dari sistem.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Log Keluar!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Submit the form to log out after confirmation
+                    document.getElementById('logout-form').submit();
+                } else {
+                    Swal.fire(
+                        'Dibatalkan',
+                        'Proses log keluar dibatalkan.',
+                        'error'
+                    );
+                }
+            });
+        }
+    </script>
 
   </div>
 </aside>

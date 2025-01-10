@@ -42,39 +42,70 @@
             <p class="text-lead text-white">Sistem Permohonan Cuti</p>
         </div>
 
-      <!-- Login Card Centered Vertically and Horizontally -->
-      <div class="container d-flex justify-content-center align-items-center h-100 z-index-2">
-        <div class="col-xl-4 col-lg-5 col-md-7">
-          <div class="card z-index-3">
-            <div class="card-header text-center pt-4">
-              <h5>Daftar Masuk</h5>
-              <p class="mb-0">Masukkan nama dan kata laluan</p>
-            </div>
+        <!-- Login Card Centered Vertically and Horizontally -->
+        <div class="container d-flex justify-content-center align-items-center h-100 z-index-2">
+          <div class="col-xl-4 col-lg-5 col-md-7">
+              <div class="card z-index-3">
+                  <div class="card-header text-center pt-4">
+                      <h5>Daftar Masuk</h5>
+                      <p class="mb-0">Masukkan nama dan kata laluan</p>
+                  </div>
+                  <div class="card-body">
+                      <form role="form" action="{{ route('login') }}" method="POST" id="login-form">
+                          @csrf
+                          <div class="mb-3">
+                              <input type="text" class="form-control form-control-lg" placeholder="Nama" name="username" required>
+                          </div>
+                          <div class="mb-3">
+                              <input type="password" class="form-control form-control-lg" placeholder="Kata Laluan" name="password" required>
+                          </div>
 
-            <div class="card-body">
-              <form role="form" action="{{ route('login') }}" method="POST">
-                @csrf
-                <div class="mb-3">
-                  <input type="text" class="form-control form-control-lg" placeholder="Nama" name="username" required>
-                </div>
-                <div class="mb-3">
-                  <input type="password" class="form-control form-control-lg" placeholder="Kata Laluan" name="password" required>
-                </div>
-
-                <div class="text-center">
-                  <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">Log Masuk</button>
-                </div>
-                <p class="text-sm mt-3 mb-0 text-center">Lupa Kata Laluan?
-                  <a href="#" class="text-dark font-weight-bolder" data-bs-toggle="modal" data-bs-target="#resetPasswordModal">Tukar Kata Laluan</a>
-                </p>
-              </form>
-            </div>
-
-
-
+                          <div class="text-center">
+                              <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">Log Masuk</button>
+                          </div>
+                          <p class="text-sm mt-3 mb-0 text-center">Lupa Kata Laluan?
+                              <a href="#" class="text-dark font-weight-bolder" data-bs-toggle="modal" data-bs-target="#resetPasswordModal">Tukar Kata Laluan</a>
+                          </p>
+                      </form>
+                  </div>
+              </div>
           </div>
         </div>
-      </div>
+
+        <script>
+          // Check if there is a session flash message for success or error
+          @if(session('error'))
+              Swal.fire({
+                  title: 'Ralat!',
+                  text: '{{ session('error') }}',
+                  icon: 'error',
+                  confirmButtonText: 'Tutup'
+              });
+          @elseif(session('success'))
+              Swal.fire({
+                  title: 'Berjaya!',
+                  text: '{{ session('success') }}',
+                  icon: 'success',
+                  confirmButtonText: 'Okay'
+              }).then(() => {
+                  window.location.href = '{{ url('/') }}'; // Redirect to home after success
+              });
+          @endif
+
+          // Check if there are validation errors for specific fields
+          @if($errors->any())
+              Swal.fire({
+                  title: 'Ralat!',
+                  text: '{{ $errors->first() }}',  // Show the first error message
+                  icon: 'error',
+                  confirmButtonText: 'Tutup'
+              });
+          @endif
+        </script>
+
+
+      
+
     </div>
 
     <!-- Modal for Reset Password -->

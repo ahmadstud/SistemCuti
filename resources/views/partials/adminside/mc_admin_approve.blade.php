@@ -168,43 +168,129 @@
                                                                             </td>                                                                            
                                                                             <td style="background: white; border: 1px solid #dee2e6; padding: 8px;">
                                                                                 <div class="d-flex justify-content-start">
-
+                                                                                
                                                                                     <!-- Approve Button -->
-                                                                                    <form action="{{ route('admin.approve', $application->id) }}" method="POST" style="margin-right: 5px;">
+                                                                                    <form id="approve-form-{{ $application->id }}" action="{{ route('admin.approve', $application->id) }}" method="POST" style="margin-right: 5px;" onsubmit="return confirmApproval({{ $application->id }});">
                                                                                         @csrf
                                                                                         <button type="submit" class="btn btn-success">
                                                                                             <i class="fas fa-check"></i>
                                                                                         </button>
                                                                                     </form>
+                                                                            
                                                                                     <!-- Reject Button -->
                                                                                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectModal-{{ $application->id }}">
                                                                                         <i class="fas fa-times"></i>
                                                                                     </button>
-                                                                                </div>
-                                                                                <!-- Reject Modal -->
-                                                                                <div class="modal fade" id="rejectModal-{{ $application->id }}" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel" aria-hidden="true">
-                                                                                    <div class="modal-dialog" role="document">
-                                                                                        <div class="modal-content">
-                                                                                            <div class="modal-header">
-                                                                                                <h5 class="modal-title">Sebab Penolakan</h5>
-                                                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                                    <span aria-hidden="true">&times;</span>
-                                                                                                </button>
+                                                                            
+                                                                                    <!-- Reject Modal -->
+                                                                                    <div class="modal fade" id="rejectModal-{{ $application->id }}" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel" aria-hidden="true">
+                                                                                        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                                                                            <div class="modal-content">
+                                                                                                <div class="modal-header">
+                                                                                                    <h5 class="modal-title" id="rejectModalLabel">Sebab Penolakan</h5>
+                                                                                                </div>
+                                                                                                <form id="reject-form-{{ $application->id }}" action="{{ route('admin.reject', $application->id) }}" method="POST" onsubmit="return confirmRejection({{ $application->id }});">
+                                                                                                    @csrf
+                                                                                                    <div class="modal-body">
+                                                                                                        <label for="reason-{{ $application->id }}" class="font-weight-bold">
+                                                                                                            Sila nyatakan sebab <span style="color: red;">*</span>:
+                                                                                                        </label>
+                                                                                                        <textarea id="reason-{{ $application->id }}" name="reason" class="form-control" rows="5" placeholder="Tulis sebab penolakan..." required></textarea>
+                                                                                                        <div id="error-message-{{ $application->id }}" style="color: red; display: none;">Sebab Penolakan adalah wajib.</div>
+                                                                                                    </div>
+                                                                                                    <div class="modal-footer">
+                                                                                                        <button type="submit" class="btn btn-danger">Tolak</button>
+                                                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                                                                                    </div>
+                                                                                                </form>
                                                                                             </div>
-                                                                                            <form action="{{ route('admin.reject', $application->id) }}" method="POST">
-                                                                                                @csrf
-                                                                                                <div class="modal-body">
-                                                                                                    <label>Sila nyatakan sebab:</label>
-                                                                                                    <textarea name="reason" class="form-control" required></textarea>
-                                                                                                </div>
-                                                                                                <div class="modal-footer">
-                                                                                                    <button type="submit" class="btn btn-danger">Tolak</button>
-                                                                                                </div>
-                                                                                            </form>
                                                                                         </div>
                                                                                     </div>
+                                                                                    
+                                                                                    <!-- Scripts -->
+                                                                                    <script>
+                                                                                        // Function to confirm approval submission
+                                                                                        function confirmApproval(applicationId) {
+                                                                                            event.preventDefault(); // Prevent form submission to show confirmation dialog
+                                                                                            Swal.fire({
+                                                                                                title: 'Adakah anda pasti?',
+                                                                                                text: "Adakah anda ingin meluluskan permohonan ini?",
+                                                                                                icon: 'warning',
+                                                                                                showCancelButton: true,
+                                                                                                confirmButtonColor: '#3085d6',
+                                                                                                cancelButtonColor: '#d33',
+                                                                                                confirmButtonText: 'Ya, luluskan!',
+                                                                                                cancelButtonText: 'Batal'
+                                                                                            }).then((result) => {
+                                                                                                if (result.isConfirmed) {
+                                                                                                    document.getElementById('approve-form-' + applicationId).submit(); // Submit the form after confirmation
+                                                                                                }
+                                                                                            });
+                                                                                            return false;
+                                                                                        }
+                                                                            
+                                                                                        // Function to confirm rejection submission
+                                                                                        function confirmRejection(applicationId) {
+                                                                                            event.preventDefault(); // Prevent form submission to show confirmation dialog
+                                                                                            
+                                                                                            // Validate the rejection reason
+                                                                                            var reason = document.getElementById('reason-' + applicationId).value.trim();
+                                                                                            var errorMessage = document.getElementById('error-message-' + applicationId);
+                                                                            
+                                                                                            if (reason === "") {
+                                                                                                errorMessage.style.display = "block"; // Show error message
+                                                                                                return false; // Prevent form submission
+                                                                                            } else {
+                                                                                                errorMessage.style.display = "none"; // Hide error message
+                                                                                                
+                                                                                                // Show SweetAlert for rejection
+                                                                                                Swal.fire({
+                                                                                                    title: 'Adakah anda pasti?',
+                                                                                                    text: "Adakah anda ingin menolak permohonan ini?",
+                                                                                                    icon: 'warning',
+                                                                                                    showCancelButton: true,
+                                                                                                    confirmButtonColor: '#d33',
+                                                                                                    cancelButtonColor: '#3085d6',
+                                                                                                    confirmButtonText: 'Ya, tolak!',
+                                                                                                    cancelButtonText: 'Batal'
+                                                                                                }).then((result) => {
+                                                                                                    if (result.isConfirmed) {
+                                                                                                        document.getElementById('reject-form-' + applicationId).submit(); // Submit the form after confirmation
+                                                                                                    }
+                                                                                                });
+                                                                                                return false; // Prevent form submission
+                                                                                            }
+                                                                                        }
+                                                                                    </script>
+                                                                            
                                                                                 </div>
+                                                                            
+                                                                                <!-- SweetAlert for Success/Error Messages -->
+                                                                                @if(session('success'))
+                                                                                    <script>
+                                                                                        Swal.fire({
+                                                                                            icon: 'success',
+                                                                                            title: 'Berjaya',
+                                                                                            text: '{{ session('success') }}',
+                                                                                            confirmButtonText: 'OK'
+                                                                                        });
+                                                                                    </script>
+                                                                                @endif
+                                                                                
+                                                                                @if(session('error'))
+                                                                                    <script>
+                                                                                        Swal.fire({
+                                                                                            icon: 'error',
+                                                                                            title: 'Oops...',
+                                                                                            text: '{{ session('error') }}',
+                                                                                            confirmButtonText: 'OK'
+                                                                                        });
+                                                                                    </script>
+                                                                                @endif
+                                                                            
                                                                             </td>
+                                                                            
+
                                                                         </tr>
                                                                     @endforeach
                                                                 @endif

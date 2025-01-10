@@ -264,8 +264,8 @@
                                                                                 </p>
                                                                             </td>
                                                                             <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
-                                                                                <p class="text-m text-secondary">{{ $application->reason }}</p>
-                                                                            </td>
+                                                                                {!! $application->reason ?? '<p class="text-m text-secondary">Tiada ulasan</p>' !!}
+                                                                            </td> 
                                                                             <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                 <p class="text-m text-secondary">
                                                                                     @if($application->document_path)
