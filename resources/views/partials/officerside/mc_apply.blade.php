@@ -72,7 +72,7 @@
                                                             <h4 class="mb-2"></h4>
                                                             <!-- Add MC Application Modal -->
                                                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mcApplicationModal">
-                                                                Memohon Surat Cuti
+                                                                <i class="fas fa-plus"></i> Memohon Surat Cuti
                                                             </button>
                                                         </div>
                                                     </div>
@@ -211,7 +211,7 @@
                                                 </td>
                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                     @if($mcApplication->document_path)
-                                                        <a href="{{ Storage::url($mcApplication->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1"></i> PDF</a>
+                                                        <a href="{{ Storage::url($mcApplication->document_path) }}" target="_blank"><i class="fas fa-file-pdf text-lg me-1 text-primary"></i> PDF</a>
                                                     @else
                                                         <span>Tidak Ada Dokumen</span>
                                                     @endif

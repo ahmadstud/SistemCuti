@@ -158,7 +158,7 @@
                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                     @if($application->document_path)
                                                         <a href="{{ Storage::url($application->document_path) }}" target="_blank">
-                                                            <i class="fas fa-file-pdf text-lg me-1"></i> PDF <!-- Document icon -->
+                                                            <i class="fas fa-file-pdf text-lg me-1 text-primary"></i> PDF <!-- Document icon -->
                                                         </a>
                                                         @else
                                                         Tidak Ada Dokumen

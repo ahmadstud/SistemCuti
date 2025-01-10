@@ -20,7 +20,7 @@
         Staf - Bahagian Permohonan
         </title>
         <!--     Fonts and icons     -->
-        {{-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" /> --}}
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" /> 
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
         <!-- Nucleo Icons -->
         <link href="{{ asset('assets/css/nucleo-icons.css') }}" rel="stylesheet" />
@@ -222,7 +222,7 @@
                                                                                 <td style="background: white; z-index: 1; border: 1px solid #dee2e6; padding: 8px; overflow-wrap: break-word; word-wrap: break-word; white-space: normal;">
                                                                                     @if($mcApplication->document_path)
                                                                                         <a href="{{ Storage::url($mcApplication->document_path) }}" target="_blank" title="Download Dokumen">
-                                                                                            <i class="fas fa-file-pdf text-lg me-1"></i> PDF
+                                                                                            <i class="fas fa-file-pdf text-lg me-1 text-primary"></i> PDF
                                                                                         </a>
                                                                                     @else
                                                                                         <span class="text-danger">Tiada Dokumen</span>

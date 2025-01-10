@@ -102,7 +102,6 @@ class AdminController extends Controller
             ->where('mc_applications.start_date', '<=', $today)
             ->where('mc_applications.end_date', '>=', $today)
             ->where('mc_applications.status', 'approved') // Check for approved status
-            ->select('mc_applications.*', 'users.total_mc_days', 'users.total_annual', 'users.total_others') // Select fields from both tables
             ->get();
 
         // Fetch all officers

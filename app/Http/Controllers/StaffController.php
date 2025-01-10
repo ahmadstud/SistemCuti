@@ -26,7 +26,7 @@ class StaffController extends Controller
         'start_date' => 'required|date',
         'end_date' => 'required|date|after_or_equal:start_date',
         'document_path' => 'nullable|mimes:pdf,jpg,png|max:2048',
-        'reason' => 'nullable|string', // Changed 'required' to 'nullable'
+       'reason' => 'nullable|string',
         'leave_type' => 'required|string',
     ]);
 
@@ -76,10 +76,10 @@ class StaffController extends Controller
             'direct_admin_approval' => $request->input('direct_admin_approval', true),
         ]);
 
-        return redirect()->back()->with('success', 'Leave application submitted successfully! Waiting for admin approval.');
+        return redirect()->back()->with('success', 'Permohonan cuti berjaya dihantar! Menunggu kelulusan pentadbir.');
     } catch (\Exception $e) {
-        Log::error('Error Creating Leave Application:', ['message' => $e->getMessage()]);
-        return redirect()->back()->with('error', 'Failed to submit leave application. Please try again.');
+        Log::error('Ralat Membuat Permohonan Cuti:', ['message' => $e->getMessage()]);
+        return redirect()->back()->with('error', 'Gagal menghantar permohonan cuti. Sila cuba lagi.');
     }
 }
 

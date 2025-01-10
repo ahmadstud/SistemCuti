@@ -15,10 +15,11 @@ return new class extends Migration
             $table->date('end_date');
             $table->string('reason');
             $table->string('document_path')->nullable();  // Path to uploaded MC document
-            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');  // Status of the application
+            $table->string('leave_type')->nullable();
+            $table->string('status')->default('pending');  // Status of the application
+            $table->text('rejection_reason')->nullable();
             $table->boolean('admin_approved')->default(false);  // Indicates if admin approved
             $table->boolean('officer_approved')->default(false);  // Indicates if officer approved
-            $table->unsignedBigInteger('selected_officer_id')->nullable();  // Officer assigned to approve
             $table->boolean('direct_admin_approval')->default(false);  // Direct admin approval flag
             $table->timestamps();
 
@@ -28,7 +29,7 @@ return new class extends Migration
             // Foreign key to reference selected officer (optional, if needed)
             $table->foreign('selected_officer_id')->references('id')->on('users')->onDelete('set null');
         });
-    }      
+    }
 
     public function down(): void
     {

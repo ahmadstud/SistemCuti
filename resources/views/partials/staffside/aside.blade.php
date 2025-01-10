@@ -92,7 +92,7 @@
                     <form action="{{ route('logout') }}" method="POST" id="logout-form" style="display: none;">
                         @csrf
                     </form>
-                    <a class="nav-link" href="#" onclick="event.preventDefault(); confirmLogout();">
+                    <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="fas fa-sign-out-alt text-danger text-sm opacity-10"></i>
                         </div>
@@ -106,26 +106,4 @@
     </div>
 </aside>
 
-<!-- Include SweetAlert2 script -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<!-- JavaScript for SweetAlert confirmation -->
-<script>
-    function confirmLogout() {
-        Swal.fire({
-            title: 'Adakah anda ingin log keluar?',
-            text: "Anda akan log keluar dari sistem.",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Ya, Log Keluar',
-            cancelButtonText: 'Batal',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Submit the logout form if the user confirms
-                document.getElementById('logout-form').submit();
-            }
-        });
-    }
-</script>
 
