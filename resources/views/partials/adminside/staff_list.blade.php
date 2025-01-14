@@ -156,7 +156,7 @@
                                                                         <div class="row g-3">
                                                                             <div class="col-md-6 mb-3">
                                                                                 <label for="selected_officer_id" class="form-label">Ketua Bahagian/Pegawai <span class="text-danger">*</span></label>
-                                                                                <select class="form-select" id="selected_officer_id" name="selected_officer_id" required>
+                                                                                <select class="form-select" id="selected_officer_id" name="selected_officer_id" @if(Auth::user()->role == 'officer') required @endif>
                                                                                     <option selected disabled>--- Pilih Ketua Bahagian ---</option>
                                                                                     @foreach($officers as $officer)
                                                                                         <option value="{{ $officer->id }}">{{ $officer->name }}</option>
@@ -164,7 +164,7 @@
                                                                                     <option value="">Tiada Penyelia</option>
                                                                                 </select>
                                                                             </div>
-                                                                        </div>
+                                                                        </div>                                                                        
                                                                         <div class="row g-3">
                                                                             <h5 class="mt-4">Jenis Cuti</h5>
                                                                             @foreach ($notes as $note)

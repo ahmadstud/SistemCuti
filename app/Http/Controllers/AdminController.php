@@ -277,110 +277,196 @@ class AdminController extends Controller
     }
 
     // Store a new note
-public function storeNote(Request $request)
-{
-    $request->validate([
-        'title' => 'required|string|max:255',
-        'content' => 'required|string',
-    ]);
+    // public function storeNote(Request $request)
+    // {
+    //     $request->validate([
+    //         'title' => 'required|string|max:255',
+    //         'content' => 'required|string',
+    //     ]);
 
-    // Generate column names from the note title
-    $baseColumnName = Str::slug($request->title, '_');
-    $fixedColumnName = "total_{$baseColumnName}";
+    //     // Generate column names from the note title
+    //     $baseColumnName = Str::slug($request->title, '_');
+    //     $fixedColumnName = "total_{$baseColumnName}";
 
-    // Check if the columns already exist to avoid duplication
-    if (!Schema::hasColumn('users', $baseColumnName) && !Schema::hasColumn('users', $fixedColumnName)) {
-        // Alter the table to add new columns
-        Schema::table('users', function (Blueprint $table) use ($baseColumnName, $fixedColumnName) {
-            $table->integer($baseColumnName)->nullable()->default(0);
-            $table->integer($fixedColumnName)->nullable()->default(0);
-        });
+    //     // Check if the columns already exist to avoid duplication
+    //     if (!Schema::hasColumn('users', $baseColumnName) && !Schema::hasColumn('users', $fixedColumnName)) {
+    //         // Alter the table to add new columns
+    //         Schema::table('users', function (Blueprint $table) use ($baseColumnName, $fixedColumnName) {
+    //             $table->integer($baseColumnName)->nullable()->default(0);
+    //             $table->integer($fixedColumnName)->nullable()->default(0);
+    //         });
+    //     }
+
+    //     // Store the note content or other relevant information
+    //     Note::create([
+    //         'title' => $request->title,
+    //         'content' => $request->content,
+    //     ]);
+
+    //     return redirect()->back()->with('success', 'Nota berjaya ditambah!');
+    // }
+
+    // // Update an existing note
+    // public function updateNote(Request $request, $id)
+    // {
+    //     $note = Note::findOrFail($id); // Find note or fail
+
+    //     $request->validate([
+    //         'title' => 'required|string|max:255',
+    //         'content' => 'required|string',
+    //     ]);
+
+    //     // Get the old and new column names
+    //     $oldBaseColumnName = Str::slug($note->title, '_');
+    //     $oldFixedColumnName = "total_{$oldBaseColumnName}";
+    //     $newBaseColumnName = Str::slug($request->title, '_');
+    //     $newFixedColumnName = "total_{$newBaseColumnName}";
+
+    //     // If the title has changed, rename the columns
+    //     if ($oldBaseColumnName !== $newBaseColumnName) {
+    //         Schema::table('users', function (Blueprint $table) use ($oldBaseColumnName, $oldFixedColumnName, $newBaseColumnName, $newFixedColumnName) {
+    //             $table->renameColumn($oldBaseColumnName, $newBaseColumnName);
+    //             $table->renameColumn($oldFixedColumnName, $newFixedColumnName);
+    //         });
+    //     }
+
+    //     // Update the note's title and content
+    //     $note->update([
+    //         'title' => $request->title,
+    //         'content' => $request->content,
+    //     ]);
+
+    //     return redirect()->back()->with('success', 'Nota berjaya dikemaskini!');
+    // }
+
+    // // Delete a note
+    // public function deleteNote($id)
+    // {
+    //     $note = Note::findOrFail($id); // Find note or fail
+
+    //     // Get the column names
+    //     $baseColumnName = Str::slug($note->title, '_');
+    //     $fixedColumnName = "total_{$baseColumnName}";
+
+    //     // Drop the columns
+    //     Schema::table('users', function (Blueprint $table) use ($baseColumnName, $fixedColumnName) {
+    //         $table->dropColumn([$baseColumnName, $fixedColumnName]);
+    //     });
+
+    //     $note->delete();
+
+    //     return redirect()->back()->with('success', 'Nota berjaya dipadam!');
+    // }
+
+
+    // Store a new note
+    public function storeNote(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+        ]);
+
+        // Generate column names from the note title
+        $baseColumnName = Str::slug($request->title, '_');
+        $fixedColumnName = "total_{$baseColumnName}";
+
+        // Check if the columns already exist to avoid duplication
+        if (!Schema::hasColumn('users', $baseColumnName) && !Schema::hasColumn('users', $fixedColumnName)) {
+            // Alter the table to add new columns
+            Schema::table('users', function (Blueprint $table) use ($baseColumnName, $fixedColumnName) {
+                $table->integer($baseColumnName)->nullable()->default(0);
+                $table->integer($fixedColumnName)->nullable()->default(0);
+            });
+        }
+
+        // Store the note content or other relevant information
+        Note::create([
+            'title' => $request->title,
+            'content' => $request->content,
+        ]);
+
+        return redirect()->back()->with('success', 'Nota berjaya ditambah!');
     }
 
-    // Store the note content or other relevant information
-    Note::create([
-        'title' => $request->title,
-        'content' => $request->content,
-    ]);
+    // Update an existing note
+    public function updateNote(Request $request, $id)
+    {
+        $note = Note::findOrFail($id); // Find note or fail
 
-    return redirect()->back()->with('success', 'Nota berjaya ditambah!');
-}
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+        ]);
 
-// Update an existing note
-public function updateNote(Request $request, $id)
-{
-    $note = Note::findOrFail($id); // Find note or fail
+        // Get the old and new column names
+        $oldBaseColumnName = Str::slug($note->title, '_');
+        $oldFixedColumnName = "total_{$oldBaseColumnName}";
+        $newBaseColumnName = Str::slug($request->title, '_');
+        $newFixedColumnName = "total_{$newBaseColumnName}";
 
-    $request->validate([
-        'title' => 'required|string|max:255',
-        'content' => 'required|string',
-    ]);
+        // If the title has changed, rename the columns
+        if ($oldBaseColumnName !== $newBaseColumnName) {
+            Schema::table('users', function (Blueprint $table) use ($oldBaseColumnName, $oldFixedColumnName, $newBaseColumnName, $newFixedColumnName) {
+                $table->renameColumn($oldBaseColumnName, $newBaseColumnName);
+                $table->renameColumn($oldFixedColumnName, $newFixedColumnName);
+            });
+        }
 
-    // Get the old and new column names
-    $oldBaseColumnName = Str::slug($note->title, '_');
-    $oldFixedColumnName = "total_{$oldBaseColumnName}";
-    $newBaseColumnName = Str::slug($request->title, '_');
-    $newFixedColumnName = "total_{$newBaseColumnName}";
+        // Update the note's title and content
+        $note->update([
+            'title' => $request->title,
+            'content' => $request->content,
+        ]);
 
-    // If the title has changed, rename the columns
-    if ($oldBaseColumnName !== $newBaseColumnName) {
-        Schema::table('users', function (Blueprint $table) use ($oldBaseColumnName, $oldFixedColumnName, $newBaseColumnName, $newFixedColumnName) {
-            $table->renameColumn($oldBaseColumnName, $newBaseColumnName);
-            $table->renameColumn($oldFixedColumnName, $newFixedColumnName);
-        });
+        return redirect()->back()->with('success', 'Nota berjaya dikemaskini!');
     }
 
-    // Update the note's title and content
-    $note->update([
-        'title' => $request->title,
-        'content' => $request->content,
-    ]);
+    // Delete a note
+    public function deleteNote($id)
+    {
+        $note = Note::findOrFail($id); // Find note or fail
 
-    return redirect()->back()->with('success', 'Nota berjaya dikemaskini!');
-}
+        // Get the column names
+        $baseColumnName = Str::slug($note->title, '_');
+        // $fixedColumnName = "total_{$baseColumnName}";
 
-// Delete a note
-public function deleteNote($id)
-{
-    $note = Note::findOrFail($id); // Find note or fail
+        // Drop the columns
+        Schema::table('users', function (Blueprint $table) use ($baseColumnName) {
+            $table->dropColumn([$baseColumnName]);
+        });
 
-    // Get the column names
-    $baseColumnName = Str::slug($note->title, '_');
-    $fixedColumnName = "total_{$baseColumnName}";
+        $note->delete();
 
-    // Drop the columns
-    Schema::table('users', function (Blueprint $table) use ($baseColumnName, $fixedColumnName) {
-        $table->dropColumn([$baseColumnName, $fixedColumnName]);
-    });
+        return redirect()->back()->with('success', 'Nota berjaya dipadam!');
+    }
 
-    $note->delete();
 
-    return redirect()->back()->with('success', 'Nota berjaya dipadam!');
-}
+
 
     // SENARAI PEKERJA ROUTES
     public function staffList(Request $request)
     {
         // Initialize the query to fetch all users
         $usersQuery = User::query();
-
+    
         // Get filter inputs (Ensure the filter inputs are correctly named in your form)
         $roleFilter = $request->input('role'); // Filter for role
         $jobStatusFilter = $request->input('job_status');  // Filter for job status
-
+    
         // Apply role filter if provided
         if ($roleFilter) {
             $usersQuery->where('role', $roleFilter);
         }
-
+    
         // Apply job status filter if provided
         if ($jobStatusFilter) {
             $usersQuery->where('job_status', $jobStatusFilter);
         }
-
+    
         // Fetch users with pagination (10 users per page)
         $users = $usersQuery->paginate(10);
-
+    
         // Fetch all officers (users with 'officer' role)
         $officers = User::where('role', 'officer')->get();
         $totalUsers = User::where('role', '!=', 'admin')->count();
@@ -388,18 +474,20 @@ public function deleteNote($id)
         $acceptedMcApplications = McApplication::where('status', 'approved')->count();
         $rejectedMcApplications = McApplication::where('status', 'rejected')->count();
         $notes = Note::all(); // Adjust as necessary to fetch notes
-
-        // Pass the users and officers data to the view
+    
+        // Pass the users, officers, and current user's role to the view
         return view('partials.adminside.staff_list', [
-            'users' => $users, // Now using 'users' instead of 'staff'
+            'users' => $users,
             'officers' => $officers,
             'totalUsers' => $totalUsers,
             'totalMcApplications' => $totalMcApplications,
             'acceptedMcApplications' => $acceptedMcApplications,
             'rejectedMcApplications' => $rejectedMcApplications,
             'notes' => $notes,
+            'currentUserRole' => Auth::user()->role, // Pass the current logged-in user's role
         ]);
     }
+    
 
 
 
@@ -472,6 +560,57 @@ public function deleteNote($id)
     }
 
 
+    // public function storeUser(Request $request)
+    // {
+    //     // Validate the request data
+    //     $request->validate([
+    //         'name' => 'required|string|max:255',
+    //         'email' => 'required|string|email|max:255|unique:users',
+    //         'password' => 'required|string|min:8',
+    //         'ic' => 'nullable|string|max:255',
+    //         'phone_number' => 'nullable|string|max:255',
+    //         'role' => 'required|string',
+    //         'job_status' => 'required|string',
+    //         'address' => 'nullable|string|max:255',
+    //         'city' => 'nullable|string|max:255',
+    //         'postcode' => 'nullable|string|max:10',
+    //         'state' => 'nullable|string|max:255',
+    //         'fullname' => 'required|string|max:255',
+    //         'selected_officer_id' => 'nullable|integer',
+    //         // Removed duplicate fullname validation
+    //     ]);
+
+    //     // Create the new user
+    //     $user = User::create([
+    //         'name' => $request->name,
+    //         'fullname' => $request->fullname,
+    //         'email' => $request->email,
+    //         'ic' => $request->ic,
+    //         'phone_number' => $request->phone_number,
+    //         'role' => $request->role,
+    //         'job_status' => $request->job_status,
+    //         'password' => bcrypt($request->password),
+    //         'address' => $request->address,
+    //         'city' => $request->city,
+    //         'postcode' => $request->postcode,
+    //         'state' => $request->state,
+    //         'selected_officer_id' => $request->selected_officer_id,
+    //     ]);
+
+    //     // Handle notes
+    //     $notes = Note::all(); // Assuming you have a Note model to retrieve all notes
+    //     foreach ($notes as $note) {
+    //         $columnName = Str::slug($note->title, '_');
+    //         if ($request->has($columnName)) {
+    //             $user->$columnName = $request->input($columnName); // Set the note value
+    //         }
+    //     }
+
+    //     $user->save(); // Save the user with the notes
+
+    //     return redirect()->back()->with('success', 'Kakitangan/Pegawai baru berjaya ditambah!');
+    // }
+
     public function storeUser(Request $request)
     {
         // Validate the request data
@@ -489,7 +628,6 @@ public function deleteNote($id)
             'state' => 'nullable|string|max:255',
             'fullname' => 'required|string|max:255',
             'selected_officer_id' => 'nullable|integer',
-            // Removed duplicate fullname validation
         ]);
 
         // Create the new user
@@ -509,19 +647,34 @@ public function deleteNote($id)
             'selected_officer_id' => $request->selected_officer_id,
         ]);
 
-        // Handle notes
+        // Handle notes and dynamic fields
+        $this->handleNotes($user, $request);
+
+        return redirect()->back()->with('success', 'Kakitangan/Pegawai baru berjaya ditambah!');
+    }
+
+    private function handleNotes($user, $request)
+    {
         $notes = Note::all(); // Assuming you have a Note model to retrieve all notes
         foreach ($notes as $note) {
-            $columnName = Str::slug($note->title, '_');
-            if ($request->has($columnName)) {
-                $user->$columnName = $request->input($columnName); // Set the note value
+            $baseColumnName = Str::slug($note->title, '_');
+            $fixedColumnName = "total_{$baseColumnName}"; // Fixed column (e.g., total_cuti_harian)
+
+            // Set the dynamic column value if provided in the request
+            if ($request->has($baseColumnName)) {
+                $user->$baseColumnName = $request->input($baseColumnName);
+            }
+
+            // Set the fixed column value if provided in the request
+            if ($request->has($fixedColumnName)) {
+                $user->$fixedColumnName = $request->input($fixedColumnName);
             }
         }
 
         $user->save(); // Save the user with the notes
-
-        return redirect()->back()->with('success', 'Kakitangan/Pegawai baru berjaya ditambah!');
     }
+
+    
 
 
 
@@ -613,29 +766,6 @@ public function deleteNote($id)
         return redirect()->back()->with('success', 'Permohonan berjaya dipadam!');
     }
 
-    // public function generateStaffPdf(Request $request)
-    // {
-    //     // Fetch the filtered data, similar to the `staffList` function
-    //     $usersQuery = User::query();
-    //     $roleFilter = $request->input('role');
-    //     $jobStatusFilter = $request->input('job_status');
-
-    //     if ($roleFilter) {
-    //         $usersQuery->where('role', $roleFilter);
-    //     }
-
-    //     if ($jobStatusFilter) {
-    //         $usersQuery->where('job_status', $jobStatusFilter);
-    //     }
-
-    //     $users = $usersQuery->get();
-
-    //     // Pass the data to a dedicated Blade view for PDF
-    //     $pdf = Pdf::loadView('partials.adminside.staff_pdf', ['users' => $users]);
-
-    //     // Return the generated PDF for download
-    //     return $pdf->download('staff_list.pdf');
-    // }
 
     public function generateApplicationsPdf(Request $request)
     {
